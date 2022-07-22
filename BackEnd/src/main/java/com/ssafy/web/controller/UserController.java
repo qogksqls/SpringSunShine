@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.request.ParentRegisterRequest;
+import com.ssafy.web.request.TheraRegisterRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @Api(value="회원관리 API", tags={"User"})
@@ -22,17 +26,30 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin("*")
 public class UserController {
 
-	/*회원가입*/
-	@PostMapping
-	@ApiOperation(value="회원가입", notes="<strong>상담사 또는 사용자</strong> 로 회원가입한다")
+	/*상담사 회원가입*/
+	@PostMapping("/therapist")
+	@ApiOperation(value="상담사 회원가입", notes="<strong>상담사</strong> 로 회원가입한다")
 	@ApiResponses({
 		@ApiResponse(code=200, message="성공"),
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?>  userRegister(){
+	public ResponseEntity<?>  theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
+	
+	/*부모 회원가입*/
+	@PostMapping("/parent")
+	@ApiOperation(value="부모 회원가입", notes="<strong>사용자</strong> 로 회원가입한다")
+	@ApiResponses({
+		@ApiResponse(code=200, message="성공"),
+		@ApiResponse(code=401, message="실패"),
+		@ApiResponse(code=500, message="서버오류")
+	})
+	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	}
+	
 	
 	/*회원정보 조회*/
 	@GetMapping("/{user_id}")
