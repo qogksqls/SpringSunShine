@@ -6,7 +6,13 @@
       <h1>position : {{ position }}</h1>
       <h1>department : {{ department }}</h1>
     </div>
-    <h1>Home</h1>
+    <div>
+      <img id="background" src="@/assets/배경화면.png" alt="home_background">
+      <span class="imtext">
+        <p>안녕하세요.</p>
+        <p>봄날의 햇살입니다.</p>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -36,5 +42,17 @@ export default {
 </script>
 
 <style>
+#background {
+  margin: 10px 0 0 0;
+  left: 80%;
+}
 
+.imtext {
+  font-size: 25px;
+  font-family: 'GangwonEdu_OTFBoldA';
+  position: absolute;
+  top: 20%;
+  right: 15%;
+  z-index: 1;
+}
 </style>
