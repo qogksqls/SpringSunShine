@@ -1,5 +1,5 @@
 <template>
-  <v-carousel>
+  <v-carousel style="margin: 5rem;">
     <v-carousel-item
       v-for="(item,i) in items"
       :key="i"
@@ -49,5 +49,8 @@
   width:68px;
   top:calc(50% - 33px);
   margin-left:13%;
+}
+v-carousel {
+  margin: 1rem;
 }
 </style>
