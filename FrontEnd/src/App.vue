@@ -1,22 +1,23 @@
 <template>
   <div>
     <nav-bar-comp></nav-bar-comp>
-    <home-view></home-view>
-    <intro-view></intro-view>
+    <!-- <home-view></home-view>
+    <intro-view></intro-view> -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
   import NavBarComp from './components/NavBarComp.vue'
-  import HomeView from '@/views/HomeView.vue'
-  import IntroView from '@/views/IntroView.vue'
+  // import HomeView from '@/views/HomeView.vue'
+  // import IntroView from '@/views/IntroView.vue'
 
 
   export default {
     components: {
       NavBarComp,
-      HomeView,
-      IntroView,
+      // HomeView,
+      // IntroView,
     },
   }
 </script>
