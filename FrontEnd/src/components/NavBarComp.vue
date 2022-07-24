@@ -57,7 +57,8 @@
             <router-link to="/intro">소개</router-link>
           </li>
           <li>
-            <a href="">게시판</a>
+            <router-link to="/articles">게시판</router-link>
+            <!-- <a href="">게시판</a> -->
           </li>
           <li>
             <router-link to="/login">로그인</router-link>
