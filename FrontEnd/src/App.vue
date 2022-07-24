@@ -3,12 +3,14 @@
     <nav-bar-comp></nav-bar-comp>
     <!-- <home-view></home-view>
     <intro-view></intro-view> -->
+    <!-- <mypage-view></mypage-view> -->
     <router-view></router-view>
   </div>
 </template>
 
 <script>
   import NavBarComp from './components/NavBarComp.vue'
+  // import MypageView from './views/mypage/MypageView.vue'
   // import HomeView from '@/views/HomeView.vue'
   // import IntroView from '@/views/IntroView.vue'
 
@@ -16,6 +18,7 @@
   export default {
     components: {
       NavBarComp,
+      // MypageView,
       // HomeView,
       // IntroView,
     },

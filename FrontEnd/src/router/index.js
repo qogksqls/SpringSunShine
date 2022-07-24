@@ -11,6 +11,8 @@ import ArticleDetailView from '@/views/community/ArticleDetailView.vue'
 import ArticleNewView from '@/views/community/ArticleNewView'
 import ArticleEditView from '@/views/community/ArticleEditView'
 
+import MypageView from '../views/mypage/MypageView'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -54,6 +56,11 @@ const routes = [
     path: '/articles/:articlePk/edit',
     name: 'articleEdit',
     component: ArticleEditView,
+  },
+  {
+    path: '/mypages/:userPk',
+    name: 'mypage',
+    component: MypageView,
   },
 ]
 
