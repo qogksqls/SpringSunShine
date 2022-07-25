@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1 style="text-align: center;">New Article</h1>
+  <div style="margin-top: 10rem">
+    <!-- <h1 style="text-align: center;">New Article</h1> -->
     <article-form :article="article" action="create"></article-form>
   </div>
 </template>
