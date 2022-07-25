@@ -1,5 +1,6 @@
 package com.ssafy.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
+import com.ssafy.web.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +28,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RequestMapping("/user")
 @CrossOrigin("*")
 public class UserController {
+	
+	@Autowired
+	UserService userService;
 
 	/*상담사 회원가입*/
 	@PostMapping("/therapist")
@@ -49,6 +54,7 @@ public class UserController {
 	})
 	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
 //		System.out.println(parentInfo.getChildren());
+		userService.regist(parentInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	

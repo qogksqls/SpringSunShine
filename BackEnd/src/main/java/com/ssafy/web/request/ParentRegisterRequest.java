@@ -17,7 +17,7 @@ import lombok.Setter;
 public class ParentRegisterRequest {
 	// 부모정보 
 	@ApiModelProperty(name="아이디")
-	String id ;
+	String id;
 	@ApiModelProperty(name="비밀번호")
 	String password;
 	@ApiModelProperty(name="이름")
@@ -30,5 +30,5 @@ public class ParentRegisterRequest {
 	String address;
 	
 	//아동 정보 
-//	List<ChildRegisterRequest> children;
+	List<ChildRegisterRequest> children;
 }
