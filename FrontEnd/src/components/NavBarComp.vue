@@ -36,7 +36,7 @@
       </v-toolbar>
     </v-card>
   </div>
-  <div v-else>
+  <!-- <div v-else>
     <v-card
       color="grey lighten-4"
       flat
@@ -44,8 +44,6 @@
       tile
     >
       <v-toolbar dense>
-        <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
-
         <v-toolbar-title>
           <router-link to="/"><img src="@/assets/logo.png" style="margin: 19px 0 0 0;width: 50px; height: 50px;" alt=""></router-link>
         </v-toolbar-title>
@@ -58,19 +56,16 @@
           </li>
           <li>
             <router-link to="/articles">게시판</router-link>
-            <!-- <a href="">게시판</a> -->
           </li>
           <li>
             <router-link to="/login">로그인</router-link>
-            <!-- <a href="/login">로그인</a> -->
           </li>
           <li>
             <router-link to="/account">회원가입</router-link>
-            <!-- <a href="">회원가입</a> -->
           </li>
         </div>
 
-        <!-- <v-btn icon>
+        <v-btn icon>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
@@ -80,10 +75,31 @@
 
         <v-btn icon>
           <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn> -->
+        </v-btn>
       </v-toolbar>
     </v-card>
+  </div> -->
+  <div v-else class="nav">
+    <ul>
+      <li>
+        <router-link to="/intro">소개</router-link>
+      </li>
+      <li>
+        <router-link to="/articles">게시판</router-link>
+      </li>
+    </ul>
+    <router-link to="/"><img src="@/assets/logo.png" style="margin: 19px 0 0 0;width: 100px; height: 100px;" alt=""></router-link>
+    <ul>
+      <li>
+        <router-link to="/login">로그인</router-link>
+      </li>
+      <li>
+        <router-link to="/account">회원가입</router-link>
+      </li>
+    </ul>
   </div>
+
+
 </template>
 
 <script>
@@ -111,15 +127,29 @@ export default {
 <style scoped>
 .nav {
   display: flex;
+  justify-content: space-around;
+  align-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  margin-top: 1rem;
+  font-weight: bold;
 }
-
-a {
+.nav ul {
+  display: flex;
+  align-items: center;
+}
+.nav ul li a {
   text-decoration: none;
 }
 
-li {
-  list-style: none;
+.nav ul li {
   margin: 20px;
+  list-style: none;
+  background-color: #fffdd6c2;
+  font-size: 1.5rem;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .theme--light.v-toolbar.v-sheet {

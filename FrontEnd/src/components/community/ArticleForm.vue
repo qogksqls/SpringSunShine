@@ -57,7 +57,6 @@ import { mapActions } from 'vuex'
  *{ font-family: 'Noto Sans KR', sans-serif;}
  
 .form-box {
-  border: 1px solid rgb(245, 204, 204);
   margin-left: 32px;
   margin-right: 32px;
 }

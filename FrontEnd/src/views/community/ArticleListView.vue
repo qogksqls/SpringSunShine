@@ -1,6 +1,6 @@
 <template>
-  <div class="community-card">
-    <h1 style="padding: 1rem;">게시판</h1>
+  <div class="community-card" style="margin-top: 10rem; height: 30rem;">
+    <h1 style="padding: 1rem;">커뮤니티</h1>
 
     <ul>
       <li v-for="article in articles" :key="article.pk" class="article" style="list-style-type: none;">
@@ -66,7 +66,7 @@ h1 {
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	margin: 5px;
+	margin: 15px;
 	display: flex;
 	align-items: center;
 	width: 4rem;
