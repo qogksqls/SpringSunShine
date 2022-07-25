@@ -1,5 +1,7 @@
 package com.ssafy.web.request;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -27,6 +29,6 @@ public class ParentRegisterRequest {
 	@ApiModelProperty(name="주소")
 	String address;
 	
-	//아동정보 를 여기에다가 넣어야 할지 ? 
-	//아동 추가를 고려하여 ChildRegisterRequest 를 따로 만들어서 아동 정보를 따로 담아야할지 
+	//아동 정보 
+//	List<ChildRegisterRequest> children;
 }
