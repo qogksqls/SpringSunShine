@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,14 +65,14 @@ public class UserController {
 	}
 	
 	/*회원정보 수정*/
-	@PutMapping
+	@PutMapping("/{user_id}")
 	@ApiOperation(value="회원정보수정", notes="회원정보를 수정한다")
 	@ApiResponses({
 		@ApiResponse(code=200, message="성공"),
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?>  userModify(){
+	public ResponseEntity<?>  userModify(@PathVariable(name="user_id") @ApiParam(value="사용자아이디" , required=true) String user_id){
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
