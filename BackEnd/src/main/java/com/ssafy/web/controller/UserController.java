@@ -41,6 +41,7 @@ public class UserController {
 		@ApiResponse(code=500, message="서버오류")
 	})
 	public ResponseEntity<?>  theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
+		userService.theraRegist(theraInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
@@ -53,8 +54,7 @@ public class UserController {
 		@ApiResponse(code=500, message="서버오류")
 	})
 	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
-//		System.out.println(parentInfo.getChildren());
-		userService.regist(parentInfo);
+		userService.parentRegist(parentInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	

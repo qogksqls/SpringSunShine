@@ -29,6 +29,4 @@ public class ParentRegisterRequest {
 	@ApiModelProperty(name="주소")
 	String address;
 	
-	//아동 정보 
-	List<ChildRegisterRequest> children;
 }

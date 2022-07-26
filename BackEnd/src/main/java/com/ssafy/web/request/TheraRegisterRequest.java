@@ -24,7 +24,10 @@ public class TheraRegisterRequest {
 	String phone;
 	@ApiModelProperty(name="주소")
 	String address;
-	
-	// 프로필  , 첨부파일 
+	@ApiModelProperty(name="프로필url")
+	String profile_url;
+	@ApiModelProperty(name="첨부파일url")
+	String file_url;
+
 	
 }
