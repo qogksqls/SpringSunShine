@@ -87,6 +87,9 @@
       <li>
         <router-link to="/articles">게시판</router-link>
       </li>
+      <li>
+        <router-link to="/survey">설문조사</router-link>
+      </li>
     </ul>
     <router-link to="/"><img src="@/assets/logo.png" style="margin: 19px 0 0 0;width: 100px; height: 100px;" alt=""></router-link>
     <ul>

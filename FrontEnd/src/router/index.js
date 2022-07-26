@@ -11,6 +11,8 @@ import ArticleDetailView from '@/views/community/ArticleDetailView.vue'
 import ArticleNewView from '@/views/community/ArticleNewView'
 import ArticleEditView from '@/views/community/ArticleEditView'
 
+import SurveyView from '@/views/survey/SurveyView'
+
 import MypageView from '../views/mypage/MypageView'
 
 Vue.use(VueRouter)
@@ -61,6 +63,11 @@ const routes = [
     path: '/mypages/:userPk',
     name: 'mypage',
     component: MypageView,
+  },
+  {
+    path: '/survey',
+    name: 'survey',
+    component: SurveyView,
   },
 ]
 
