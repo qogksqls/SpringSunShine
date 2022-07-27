@@ -30,11 +30,4 @@ public class ParentRegisterRequest {
 	String address;
 	
 	
-	
-	@Override
-	public String toString() {
-		return "ParentRegisterRequest [id=" +id + ", password=" + password + ", name=" + name + ", email=" + email
-				+ ", phone=" + phone + ", address=" + address + "]";
-	}
-	
 }
