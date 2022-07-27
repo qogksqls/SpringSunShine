@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 10rem;">
+  <div class="survey">
     <survey-comp></survey-comp>
   </div>
 </template>
@@ -12,5 +12,15 @@ export default {
 </script>
 
 <style>
-
+.survey {
+  position: absolute;
+  top: 0;
+  margin-top: 15rem;
+  text-align: center;
+  /* left: 0;
+  transform: translate(-50%);
+  right: 0;
+  margin-left: auto;
+  margin-right: auto; */
+}
 </style>
