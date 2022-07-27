@@ -5,7 +5,7 @@
     </div>
     <div class="question-card" v-for="(question, i) in data" :key="i">
       <div class="question">
-        <h2>Q. {{ question.title }}</h2>
+        <h2>Q{{ question.number}}. {{ question.title }}</h2>
       </div>
       <div class="object_answer">
         <div v-for="(object_answer, j) in question.object_answers" :key="j">
