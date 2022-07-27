@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
@@ -54,8 +55,14 @@ public class UserController {
 		@ApiResponse(code=500, message="서버오류")
 	})
 	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
-		userService.parentRegist(parentInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		Parent parent = userService.parentRegist(parentInfo);
+		
+		if(parent != null ) {
+			//System.out.println("success");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		}else {
+			//System.out.println("success");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "fail"));}
 	}
 	
 	

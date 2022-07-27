@@ -30,6 +30,20 @@ public class Parent {
 	String phone;
 	@Column(name="address")
 	String address;
+	
+	//싱글톤
+	private Parent(String user_id, String name, String email,
+			String phone, String address) {
+		this.user_id = user_id;
+		this.name= name;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+	}
+	public static Parent createParent(String user_id, String name, String email,
+			String phone, String address) {
+		return new Parent(user_id, name, email, phone, address);
+	}
 
 	
 }
