@@ -24,14 +24,20 @@ export default {
 
 <style>
 #calanderDiv {
-  position: relative;
-  right: 18%;
+  position: absolute;
+  top: 0;
+  margin-top: 10rem;
+  left: 5%;
 }
-
+.theme--light.v-application {
+    background: #00000000;
+    color: rgba(0, 0, 0, 0.87);
+}
 #dayDiv {
   position: absolute;
+  top: 0;
+  margin-top: 10rem;
   width: 40%;
-  top: 25%;
-  left: 53%;
+  right: 5%;
 }
 </style>

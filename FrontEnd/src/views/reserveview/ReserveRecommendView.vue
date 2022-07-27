@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="therapist-recom">
     <reserve-recommend-comp></reserve-recommend-comp>
   </div>
 </template>
@@ -15,5 +15,10 @@ export default {
 </script>
 
 <style>
-
+.therapist-recom {
+  position: absolute;
+  top: 0;
+	margin-top: 8rem;
+  width: 100%;
+}
 </style>

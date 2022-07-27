@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <login-comp></login-comp>
   </div>
 </template>
@@ -14,5 +14,10 @@ import LoginComp from "../../components/basecomp/LoginComp.vue"
 </script>
 
 <style>
-
+.login {
+  position: absolute;
+  top: 0;
+	margin-top: 10rem;
+  width: 100%;
+}
 </style>

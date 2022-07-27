@@ -138,6 +138,7 @@ export default {
   z-index: 1;
   margin-top: 1rem;
   font-weight: bold;
+  background-color: #fffdd697;
 }
 .nav ul {
   display: flex;
@@ -150,7 +151,6 @@ export default {
 .nav ul li {
   margin: 20px;
   list-style: none;
-  background-color: #fffdd6c2;
   font-size: 1.5rem;
   font-family: 'GangwonEdu_OTFBoldA';
 }
