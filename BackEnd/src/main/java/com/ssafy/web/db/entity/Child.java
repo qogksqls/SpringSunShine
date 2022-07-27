@@ -37,6 +37,10 @@ public class Child {
 	@JoinColumn(name = "parent_no")
 	int parent_no;
 
+	public Child() {
+		super();
+	}
+	
 	private Child(int parent_no, String name, Date birth, int gender) {
 		this.parent_no = parent_no;
 		this.name = name;

@@ -1,10 +1,11 @@
 package com.ssafy.web.service.child;
 
+import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.request.child.ChildRegisterRequest;
 
 public interface ChildRegisterService {
 
 	// 아이 등록
-	void childRegist(ChildRegisterRequest childInfo);
+	void childRegist(ChildRegisterRequest childInfo, Parent parent);
 
 }
