@@ -3,6 +3,7 @@ package com.ssafy.web.db.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,7 +56,8 @@ public class Therapist {
 		return new Therapist(user_id, name, email, phone, address, profile_url, file_url);
 	}
 	
-//	@OneToOne(cascade =  CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY,cascade =  CascadeType.ALL)
 //	@JoinColumn(name="user_id")
-//	private User user;
+	@JoinColumn
+	private User user;
 }
