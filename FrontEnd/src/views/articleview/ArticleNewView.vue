@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import ArticleForm from '@/components/community/ArticleForm.vue'
+  import ArticleForm from '@/components/articlecomp/ArticleForm.vue'
   export default {
     name: 'AritcleNewView',
     components: { ArticleForm },

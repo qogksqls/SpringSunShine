@@ -1,14 +1,16 @@
 <template>
-<v-app class="carousel">
-  <v-carousel>
-    <v-carousel-item
-      v-for="(item,i) in items"
-      :key="i"
-      :src="item.src"
-      reverse-transition="fade-transition"
-      transition="fade-transition"
-    ></v-carousel-item>
-  </v-carousel>
+<v-app>
+  <div class="carousel">
+    <v-carousel>
+      <v-carousel-item
+        v-for="(item,i) in items"
+        :key="i"
+        :src="item.src"
+        reverse-transition="fade-transition"
+        transition="fade-transition"
+      ></v-carousel-item>
+    </v-carousel>
+  </div>
 </v-app>
 </template>
 
@@ -54,8 +56,8 @@
 } */
 .carousel {
   position: absolute;
-  top: 0;
-  margin: 15rem 15rem 0 15rem;
+  top: 20%;
+  width: 100%;
   height: 100%;
 }
 </style>

@@ -1,23 +1,32 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import AccountView from '../views/AccountView.vue'
-import IntroView from '@/views/IntroView.vue'
+// baseview
+import HomeView from '../views/baseview/HomeView.vue'
+import LoginView from '../views/baseview/LoginView.vue'
+import AccountView from '../views/baseview/AccountView.vue'
+import IntroView from '../views/baseview/IntroView.vue'
 
-import ArticleListView from '@/views/community/ArticleListView.vue'
-import ArticleDetailView from '@/views/community/ArticleDetailView.vue'
-import ArticleNewView from '@/views/community/ArticleNewView'
-import ArticleEditView from '@/views/community/ArticleEditView'
+// articleview
+import ArticleDetailView from '../views/articleview/ArticleDetailView'
+import ArticleEditView from '../views/articleview/ArticleEditView'
+import ArticleListView from '../views/articleview/ArticleListView'
+import ArticleNewView from '../views/articleview/ArticleNewView'
 
+// mypageview
+import MypageView from '../views/mypageview/MypageView'
+
+// reserveview
+import ReserveRecommendView from '../views/reserveview/ReserveRecommendView'
+import ReserveDateView from '../views/reserveview/ReserveDateView'
+
+// survey
 import SurveyView from '@/views/survey/SurveyView'
-
-import MypageView from '../views/mypage/MypageView'
 
 Vue.use(VueRouter)
 
 const routes = [
+  // baseview
   {
     path: '/',
     name: 'home',
@@ -38,7 +47,8 @@ const routes = [
     name: 'intro',
     component: IntroView
   },
-  
+
+  // articleview
   {
     path: '/articles',
     name: 'articles',
@@ -59,10 +69,24 @@ const routes = [
     name: 'articleEdit',
     component: ArticleEditView,
   },
+
+  // mypageview
   {
     path: '/mypages/:userPk',
     name: 'mypage',
     component: MypageView,
+  },
+  
+  // reserveview
+  {
+    path: '/reserve/recommend',
+    name: 'reserveRecommend',
+    component: ReserveRecommendView
+  },
+  {
+    path: '/reserve/date',
+    name: 'reserveDate',
+    component: ReserveDateView
   },
   {
     path: '/survey',

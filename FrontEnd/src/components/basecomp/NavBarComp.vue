@@ -91,7 +91,7 @@
         <router-link to="/survey">설문조사</router-link>
       </li>
     </ul>
-    <router-link to="/"><img src="@/assets/logo.png" style="margin: 19px 0 15px 0;width: 100px; height: 100px;" alt=""></router-link>
+    <router-link to="/"><img src="@/assets/logo.png" style="margin: 19px 0 0 0;width: 100px; height: 100px;" alt=""></router-link>
     <ul>
       <li>
         <router-link to="/login">로그인</router-link>
@@ -101,6 +101,8 @@
       </li>
     </ul>
   </div>
+
+
 </template>
 
 <script>
@@ -136,7 +138,6 @@ export default {
   z-index: 1;
   margin-top: 1rem;
   font-weight: bold;
-  background-color: #fcc46444;
 }
 .nav ul {
   display: flex;
@@ -149,7 +150,7 @@ export default {
 .nav ul li {
   margin: 20px;
   list-style: none;
-  /* background-color: #fffdd6c2; */
+  background-color: #fffdd6c2;
   font-size: 1.5rem;
   font-family: 'GangwonEdu_OTFBoldA';
 }

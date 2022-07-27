@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import NavBarComp from "../../components/NavBarComp.vue"
-import MypageComp from "../../components/mypage/MypageComp.vue"
+import NavBarComp from "../../components/basecomp/NavBarComp.vue"
+import MypageComp from "../../components/mypagecomp/MypageComp.vue"
 
 export default {
   components: {

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AccountComp from "../components/AccountComp.vue"
+import AccountComp from "../../components/basecomp/AccountComp.vue"
 export default {
   components: {
     AccountComp,

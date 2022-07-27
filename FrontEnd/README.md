@@ -1,4 +1,4 @@
-# subpjt1
+# frontend
 
 ## Project setup
 ```

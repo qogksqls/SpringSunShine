@@ -41,7 +41,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import CommentList from '@/components/community/CommentList.vue'
+  import CommentList from '@/components/articlecomp/CommentList.vue'
 
   export default {
     name: 'ArticleDetail',

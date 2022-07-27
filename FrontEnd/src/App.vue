@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import NavBarComp from './components/NavBarComp.vue'
+  import NavBarComp from './components/basecomp/NavBarComp.vue'
 
 
   export default {
