@@ -24,10 +24,11 @@ public class User {
 	@Column(name="password")
 	String password;
 
-//	@OneToOne(mappedBy="user")
-//	private Therapist therapist;
+	@OneToOne(mappedBy="user")
+	private Therapist therapist;
 	
 	//싱글톤
+	public User() {}
 	private User(String user_id, String id, String password) {
 		this.user_id = user_id;
 		this.id= id;
@@ -36,5 +37,6 @@ public class User {
 	public static User createUser(String user_id, String id, String password) {
 		return new User(user_id, id, password);
 	}
+	
 
 }

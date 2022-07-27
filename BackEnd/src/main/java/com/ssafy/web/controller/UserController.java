@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
@@ -21,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @Api(value="회원관리 API", tags={"User"})
@@ -54,8 +55,16 @@ public class UserController {
 		@ApiResponse(code=500, message="서버오류")
 	})
 	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
-		userService.parentRegist(parentInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		System.out.println(parentInfo.toString());
+		
+		Parent parent = userService.parentRegist(parentInfo);
+		
+		if(parent != null ) {
+			//System.out.println("success");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		}else {
+			//System.out.println("success");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "fail"));}
 	}
 	
 	
