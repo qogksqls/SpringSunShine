@@ -14,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("*");
+		configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
@@ -29,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
 	    public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**")
 	                .allowedOrigins("http://localhost:8080")
-	                .allowCredentials(true)
+//	                .allowCredentials(true)
 	                .allowedMethods("GET", "POST","PUT", "DELETE");
 	    }
 

@@ -11,10 +11,11 @@ import lombok.Setter;
  * "/user/parent" post 방식에서 사용 */
 @Getter
 @Setter
-
 @ApiModel("ParentRegisterRequest")
 public class ParentRegisterRequest {
-	// 부모정보 
+	
+	// 부모정보
+	
 	@ApiModelProperty(name="아이디")
 	String id;
 	@ApiModelProperty(name="비밀번호")
@@ -27,5 +28,13 @@ public class ParentRegisterRequest {
 	String phone;
 	@ApiModelProperty(name="주소")
 	String address;
+	
+	
+	
+	@Override
+	public String toString() {
+		return "ParentRegisterRequest [id=" +id + ", password=" + password + ", name=" + name + ", email=" + email
+				+ ", phone=" + phone + ", address=" + address + "]";
+	}
 	
 }
