@@ -15,12 +15,8 @@ export default {
 .survey {
   position: absolute;
   top: 0;
-  margin-top: 15rem;
-  text-align: center;
-  /* left: 0;
-  transform: translate(-50%);
-  right: 0;
-  margin-left: auto;
-  margin-right: auto; */
+  width: 100%;
+	margin-top: 15rem;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 </style>
