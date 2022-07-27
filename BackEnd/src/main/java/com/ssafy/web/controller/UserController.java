@@ -55,16 +55,10 @@ public class UserController {
 		@ApiResponse(code=500, message="서버오류")
 	})
 	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
-		System.out.println(parentInfo.toString());
 		
-		Parent parent = userService.parentRegist(parentInfo);
+		userService.parentRegist(parentInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 		
-		if(parent != null ) {
-			//System.out.println("success");
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-		}else {
-			//System.out.println("success");
-			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "fail"));}
 	}
 	
 	
