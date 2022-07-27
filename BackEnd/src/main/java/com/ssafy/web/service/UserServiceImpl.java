@@ -1,6 +1,7 @@
 package com.ssafy.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.web.RandomUserId;
@@ -19,14 +20,16 @@ public class UserServiceImpl implements UserService {
 	TheraRepository theraRepository;
 	@Autowired
 	ParentRepository parentRepository;
+
 	
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	//치료사 회원가입 
 	@Override
 	public void theraRegist(TheraRegisterRequest theraInfo) {
 		User user = new User();
 		user.setUser_id(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
-		user.setPassword(theraInfo.getPassword());
+		user.setPassword(encoder.encode(theraInfo.getPassword()));
 		
 		Therapist thera = new Therapist();
 		thera.setName(theraInfo.getName());
@@ -46,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		user.setUser_id(RandomUserId.makeParentId());
 		user.setId(parentInfo.getId());
-		user.setPassword(parentInfo.getPassword());
+		user.setPassword(encoder.encode(parentInfo.getPassword()));
 		
 		
 		Parent parent= new Parent();
