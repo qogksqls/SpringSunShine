@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <div v-if="login === true">
       <h1>hello {{ name }}</h1>
       <h1>id : {{ userId }}</h1>
@@ -7,9 +7,10 @@
       <h1>department : {{ department }}</h1>
     </div>
     <div>
-      <img id="background" src="@/assets/배경화면.png" alt="home_background">
-      <img id="background" src="@/assets/배경화면2.jpg" alt="home_background">
-      <img id="background" src="@/assets/배경화면2.jpg" alt="home_background">
+      <h1>home</h1>
+      <!-- <img id="background" src="@/assets/배경4.jpg" alt="home_background">
+      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
+      <img id="background" src="@/assets/배경4.jpg" alt="home_background"> -->
       <!-- <span class="imtext">
         <p>안녕하세요.</p>
         <p>봄날의 햇살입니다.</p>
@@ -44,9 +45,11 @@ export default {
 </script>
 
 <style>
-#background {
-  width: 100%;
-  left: 80%;
+.home {
+  position: absolute;
+  top: 0;
+  margin-top: 10rem;
+  margin-bottom: -5px;
 }
 
 .imtext {
