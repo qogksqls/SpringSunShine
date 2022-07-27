@@ -23,7 +23,7 @@ public class User {
 	
 	@Column(name="id")
 	String id;
-	@Column(name="password")
+	@Column(name="password", length = 10000)
 	String password;
 
 	@OneToOne(mappedBy="user")
