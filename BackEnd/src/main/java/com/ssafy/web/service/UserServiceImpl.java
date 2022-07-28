@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
 		user.setId(parentInfo.getId());
 		user.setPassword(encoder.encode(parentInfo.getPassword()));
 		
-		
 		Parent parent= new Parent();
 		parent.setName(parentInfo.getName());
 		parent.setEmail(parentInfo.getEmail());
