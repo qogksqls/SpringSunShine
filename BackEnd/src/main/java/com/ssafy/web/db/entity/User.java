@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +27,9 @@ public class User {
 	String id;
 	@Column(name="password", length = 10000)
 	String password;
+	@Column(name="withdraw_flag")
+	@ColumnDefault("0") // default 0
+	int withdraw_flag;
 
 	@OneToOne(mappedBy="user")
 	private Therapist therapist;

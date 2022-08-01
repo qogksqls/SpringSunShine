@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,11 +40,16 @@ public class Therapist {
 	String profile_url;
 	@Column(name="file_url")
 	String file_url;
+	@Column(name="thera_intro")
+	String thera_intro;
+	@Column(name="approve_flag")
+	@ColumnDefault("0")
+	int approve_flag;
 	
 	public Therapist() {}
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="user_id", referencedColumnName = "user_id")
+	@JoinColumn(name="thera_id", referencedColumnName = "user_id")
 	private User user;
 }

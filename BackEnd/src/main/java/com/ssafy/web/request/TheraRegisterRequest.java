@@ -29,7 +29,7 @@ public class TheraRegisterRequest {
 	@ApiModelProperty(name="첨부파일url")
 	String file_url;
 	@ApiModelProperty(name="자기소개")
-	String introduction;
+	String thera_intro;
 
 	
 }
