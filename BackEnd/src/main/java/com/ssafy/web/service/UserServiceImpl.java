@@ -8,6 +8,7 @@ import com.ssafy.web.RandomUserId;
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.Therapist;
 import com.ssafy.web.db.entity.User;
+import com.ssafy.web.db.repository.LoginRepository;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.TheraRepository;
 import com.ssafy.web.request.ParentRegisterRequest;
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	ParentRepository parentRepository;
 
+	@Autowired
+	LoginRepository l;
 	
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	//치료사 회원가입 
@@ -59,6 +62,12 @@ public class UserServiceImpl implements UserService {
 		parent.setUser(user);
 		parentRepository.save(parent);
 
+	}
+
+	@Override
+	public void selectLongin() {
+		System.out.println(l.findAll());
+		System.out.println(3245345);
 	}
  
 

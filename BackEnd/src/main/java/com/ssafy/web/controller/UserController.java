@@ -1,6 +1,7 @@
 package com.ssafy.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,7 +64,7 @@ public class UserController {
 	
 	
 	/*회원정보 조회*/
-	@GetMapping("/{user_id}")
+	@GetMapping("/{id}")
 	@ApiOperation(value="회원정보조회", notes="<strong>user_id</strong> 로 회원정보를 조회한다")
 	@ApiResponses({
 		@ApiResponse(code=200, message="성공"),
@@ -75,19 +76,19 @@ public class UserController {
 	}
 	
 	/*회원정보 수정*/
-	@PutMapping("/{user_id}")
+	@PutMapping("/{id}")
 	@ApiOperation(value="회원정보수정", notes="회원정보를 수정한다")
 	@ApiResponses({
 		@ApiResponse(code=200, message="성공"),
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?>  userModify(@PathVariable(name="user_id") @ApiParam(value="사용자아이디" , required=true) String user_id){
+	public ResponseEntity<?>  userModify(@PathVariable(name="user_id") @ApiParam(value="사용자아이디" , required=true) String id){
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
 	/**회원탈퇴*/
-	@DeleteMapping("/{user_id}")
+	@DeleteMapping("/{id}")
 	@ApiOperation(value="회원탈퇴",  notes="<strong>user_id</strong> 로 회원정보를 탈퇴한다")
 	@ApiResponses({
 		@ApiResponse(code=200, message="성공"),
@@ -96,5 +97,11 @@ public class UserController {
 	})
 	public ResponseEntity<?>  userDelete(){
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	}
+	
+	@GetMapping
+	public ResponseEntity<String> s(){
+		userService.selectLongin();
+		return new ResponseEntity<String>("sss",HttpStatus.ACCEPTED);
 	}
 }

@@ -39,16 +39,16 @@ public class AuthController {
 	}
 	
 
-	/* 로그아웃 */
-	@GetMapping("/logout")
-	@ApiOperation(value="일반 로그아웃", notes="로그아웃한다.")
-	@ApiResponses({
-		@ApiResponse(code=200, message="성공"),
-		@ApiResponse(code=401, message="실패"),
-		@ApiResponse(code=500, message="서버오류")
-	})
-	public ResponseEntity<?>  userLogout(){
-		/**추후에 토큰 발급해서 토믄도 같이 보내야 함 !! */
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-	}
+//	/* 로그아웃 */
+//	@GetMapping("/logout")
+//	@ApiOperation(value="일반 로그아웃", notes="로그아웃한다.")
+//	@ApiResponses({
+//		@ApiResponse(code=200, message="성공"),
+//		@ApiResponse(code=401, message="실패"),
+//		@ApiResponse(code=500, message="서버오류")
+//	})
+//	public ResponseEntity<?>  userLogout(){
+//		/**추후에 토큰 발급해서 토믄도 같이 보내야 함 !! */
+//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+//	}
 }
