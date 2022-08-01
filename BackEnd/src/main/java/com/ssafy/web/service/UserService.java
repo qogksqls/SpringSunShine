@@ -9,6 +9,4 @@ public interface UserService {
 	// 부모회원가입 
 	void parentRegist(ParentRegisterRequest parentInfo);
 
-	void selectLongin();
-
 }

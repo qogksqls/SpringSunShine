@@ -99,9 +99,4 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
-	@GetMapping
-	public ResponseEntity<String> s(){
-		userService.selectLongin();
-		return new ResponseEntity<String>("sss",HttpStatus.ACCEPTED);
-	}
 }
