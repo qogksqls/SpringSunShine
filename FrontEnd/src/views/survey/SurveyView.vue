@@ -6,8 +6,9 @@
 
 <script>
 import SurveyComp from '@/components/survey/SurveyComp.vue'
+
 export default {
-  components: { SurveyComp }
+  components: { SurveyComp },
 }
 </script>
 

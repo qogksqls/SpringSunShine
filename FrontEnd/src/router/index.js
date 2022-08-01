@@ -22,6 +22,7 @@ import ReserveDateView from '../views/reserveview/ReserveDateView'
 
 // survey
 import SurveyView from '@/views/survey/SurveyView'
+import SurveyResultView from '@/views/survey/SurveyResultView'
 
 Vue.use(VueRouter)
 
@@ -88,10 +89,17 @@ const routes = [
     name: 'reserveDate',
     component: ReserveDateView
   },
+  // survey
   {
     path: '/survey',
     name: 'survey',
     component: SurveyView,
+  },
+  {
+    path: '/survey/result',
+    name: 'surveyresult',
+    component: SurveyResultView,
+    props: true,
   },
 ]
 

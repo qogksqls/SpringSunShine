@@ -7,6 +7,8 @@
       <img id="background" src="@/assets/배경4.jpg" alt="home_background">
       <img id="background" src="@/assets/배경4.jpg" alt="home_background">
       <img id="background" src="@/assets/배경4.jpg" alt="home_background">
+      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
+      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
     </div>
     <router-view style="position: flex;"></router-view>
   </div>
