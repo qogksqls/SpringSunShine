@@ -28,22 +28,22 @@ public class Therapist {
 	
 //	@Column(name="user_id")
 //	String user_id;
-	@Column(name="name")
+	@Column(name="name", columnDefinition = "VARCHAR(20)", nullable=false)
 	String name;
-	@Column(name="email")
+	@Column(name="email" , columnDefinition = "VARCHAR(50)", nullable=false)
 	String email;
-	@Column(name="phone")
+	@Column(name="phone" , columnDefinition = "VARCHAR(20)", nullable=false)
 	String phone;
-	@Column(name="address")
+	@Column(name="address", columnDefinition = "VARCHAR(80)", nullable=false)
 	String address;
-	@Column(name="profile_url")
+	@Column(name="profile_url", columnDefinition = "VARCHAR(255)", nullable=false)
 	String profile_url;
-	@Column(name="file_url")
+	@Column(name="file_url", columnDefinition = "VARCHAR(255)", nullable=false)
 	String file_url;
-	@Column(name="thera_intro")
+	@Column(name="thera_intro", columnDefinition = "TEXT", nullable=false)
 	String thera_intro;
-	@Column(name="approve_flag")
-	@ColumnDefault("0")
+	@Column(name="approve_flag", columnDefinition = "int default 0", nullable=false)
+//	@ColumnDefault("0")
 	int approve_flag;
 	
 	public Therapist() {}

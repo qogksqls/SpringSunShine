@@ -1,5 +1,6 @@
 package com.ssafy.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.request.UserLoginRequest;
+import com.ssafy.web.service.AuthService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +27,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/auth")
 public class AuthController {
 
+	@Autowired
+	AuthService authService;
+	
+	
 	/* 일반로그인 */
 	@PostMapping("/login")
 	@ApiOperation(value="일반 로그인", notes="<strong>id와 password</strong>로 로그인한다.")
@@ -35,6 +41,7 @@ public class AuthController {
 	})
 	public ResponseEntity<?>  userLogin(@RequestBody @ApiParam(value="로그인 요청 정보", required=true) UserLoginRequest loginInfo){
 		/**추후에 토큰 발급해서 토믄도 같이 보내야 함 !! */
+//		authService.login(loginInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
