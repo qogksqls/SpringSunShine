@@ -19,13 +19,13 @@ import lombok.Setter;
 public class User {
 	
 	@Id
-	@Column(name="user_id")
+	@Column(name="user_id", columnDefinition = "CHAR(13)", nullable=false)
 	String user_id;
 	
 	
-	@Column(name="id")
+	@Column(name="id", columnDefinition = "VARCHAR(20)", nullable=false)
 	String id;
-	@Column(name="password", length = 10000)
+	@Column(name="password", columnDefinition = "VARCHAR(255)", nullable=false)
 	String password;
 	@Column(name="withdraw_flag")
 	@ColumnDefault("0") // default 0
