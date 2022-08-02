@@ -1,15 +1,6 @@
 <template>
   <section class="section section-shaped section-lg my-0">
-    <div class="shape shape-style-1 bg-gradient-default">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <div class="shape shape-style-1 bg-gradient-default"></div>
     <div class="container pt-lg-md">
       <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -33,12 +24,12 @@
                 <!--회원가입 폼 이름 작성 start-->
 
                 <div class="row col-lg-12 mb-2">
-                  <label for="name" class="col col-lg-2 mt-2">이름</label>
+                  <label for="name" class="col col-lg-4 mt-2">이름</label>
 
                   <input
                     type="text"
                     placeholder="이름을 적어주세요"
-                    class="col-lg-5  form-control"
+                    class="col-lg-8  form-control"
                     id="name"
                   />
                 </div>
@@ -46,15 +37,19 @@
 
                 <!--회원가입 폼 아이디 작성 start-->
                 <div class="col-lg-12 row mb-2">
-                  <label for="id" class="col col-lg-2 mt-2">아이디</label>
+                  <label for="id" class="col col-lg-4 mt-2">아이디</label>
                   <input
                     type="text"
-                    class="col-lg-4  form-control"
+                    class="col-lg-6  form-control"
                     id="id"
                     placeholder="아이디를 적어주세요"
                   />
-
-                  <base-button outline type="danger" size="sm" class=" m-2"
+                  <div class="col-lg-1"></div>
+                  <base-button
+                    outline
+                    type="primary"
+                    size="sm"
+                    class="my-1 col col-lg-1 p-1"
                     >중복검사</base-button
                   >
                 </div>
@@ -62,10 +57,10 @@
 
                 <!--회원가입 폼 비밀번호 start-->
                 <div class="col-lg-12 row mb-2">
-                  <label for="pw" class="col col-lg-2 mt-2">비밀번호</label>
+                  <label for="pw" class="col col-lg-4 mt-2">비밀번호</label>
                   <input
                     type="password"
-                    class="col-lg-5  form-control"
+                    class="col-lg-8  form-control"
                     id="pw"
                     placeholder="비밀번호를 적어주세요"
                   />
@@ -74,12 +69,12 @@
 
                 <!--회원가입 폼 비밀번호확인 start-->
                 <div class="col-lg-12 row mb-2">
-                  <label for="pw2" class="col col-lg-2 mt-2"
+                  <label for="pw2" class="col col-lg-4 mt-2"
                     >비밀번호확인</label
                   >
                   <input
                     type="password"
-                    class="col-lg-5  form-control"
+                    class="col-lg-8  form-control"
                     id="pw2"
                     placeholder="비밀번호를 확인해 주세요"
                   />
@@ -88,19 +83,19 @@
 
                 <!--회원가입 폼 이메일 start-->
                 <div class="col-lg-12 row mb-2">
-                  <label for="email" class="col col-lg-2 mt-2">이메일</label>
+                  <label for="email" class="col col-lg-4 mt-2">이메일</label>
                   <input
                     type="email"
-                    class="col-lg-5  form-control"
+                    class="col-lg-8 form-control"
                     id="email"
                     placeholder="이메일을 입력해 주세요"
                   />
                 </div>
                 <div class="col-lg-12 row mb-2">
-                  <label for="email" class="col col-lg-2 mt-2"></label>
+                  <label for="email" class="col col-lg-4 mt-2"></label>
                   <base-button
                     outline
-                    type="danger"
+                    type="primary"
                     size="sm"
                     class="mt-2 mr-0 col col-lg-1 p-1"
                     >인증받기</base-button
@@ -108,7 +103,7 @@
                   <div class="col-lg-1"></div>
                   <input
                     type="text"
-                    class="col-lg-3 form-control"
+                    class="col-lg-6 form-control"
                     id="email"
                     placeholder="인증번호 입력"
                   />
@@ -117,10 +112,10 @@
 
                 <!--회원가입 폼 연락처 start-->
                 <div class="col-lg-12 row mb-2">
-                  <label for="tel" class="col col-lg-2 mt-2">연락처</label>
+                  <label for="tel" class="col col-lg-4 mt-2">연락처</label>
                   <input
                     type="tel"
-                    class="col-lg-5 form-control"
+                    class="col-lg-8 form-control"
                     id="tel"
                     placeholder="연락처를 입력해 주세요"
                   />
@@ -129,10 +124,10 @@
 
                 <!--회원가입 폼 주소 start-->
                 <div class="col-lg-12 row  mb-2">
-                  <label for="address" class="col col-lg-2 mt-2">주소</label>
+                  <label for="address" class="col col-lg-4 mt-2">주소</label>
                   <input
                     type="text"
-                    class="col-lg-5 form-control"
+                    class="col-lg-8 form-control"
                     id="address"
                     placeholder="주소를 입력해 주세요"
                   />
@@ -300,7 +295,7 @@ export default {};
 <style scoped>
 input {
   height: 40px;
-  border: 0;
+  border: 1px solid #bebebe;
   border-radius: 15px;
   outline: none;
   padding-left: 10px;
