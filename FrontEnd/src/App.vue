@@ -1,39 +1,19 @@
 <template>
-  <div>
-    <nav-bar-comp></nav-bar-comp>
-    <div>
-      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
-      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
-      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
-      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
-      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
-      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
-      <img id="background" src="@/assets/배경4.jpg" alt="home_background">
-    </div>
-    <router-view style="position: flex;"></router-view>
+  <div id="app">
+    <router-view name="header"></router-view>
+    <main>
+      <fade-transition origin="center" mode="out-in" :duration="250">
+        <router-view />
+      </fade-transition>
+    </main>
   </div>
 </template>
-
 <script>
-  import NavBarComp from './components/basecomp/NavBarComp.vue'
+import { FadeTransition } from "vue2-transitions";
 
-
-  export default {
-    components: {
-      NavBarComp,
-    },
-  }
+export default {
+  components: {
+    FadeTransition,
+  },
+};
 </script>
-
-<style scoped>
-@font-face {
-    font-family: 'GangwonEdu_OTFBoldA';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-#background {
-  margin-bottom: -5px;
-  width: 100%;
-}
-</style>
