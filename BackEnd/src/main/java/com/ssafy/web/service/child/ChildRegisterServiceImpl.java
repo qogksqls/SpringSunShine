@@ -18,9 +18,8 @@ public class ChildRegisterServiceImpl implements ChildRegisterService {
 
 	// 아이 등록
 	@Override
-	public void childRegist(ChildRegisterRequest childInfo, Parent parent) {
+	public void childRegist(ChildRegisterRequest childInfo) {
 		Child child = new Child();
-
 		// parent_no 외래키
 //		int parent_no;
 //		child.setParent_no(parent.getParent_no());
