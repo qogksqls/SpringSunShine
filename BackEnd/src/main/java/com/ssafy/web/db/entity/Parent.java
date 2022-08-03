@@ -21,7 +21,7 @@ public class Parent {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int parent_no;
+	int parentNo;
 	
 //	@Column(name="user_id")
 //	String user_id;
@@ -40,6 +40,6 @@ public class Parent {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="parent_id", referencedColumnName = "user_id")
 	private User user;
-
+	
 	
 }

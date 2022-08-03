@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 @ApiModel("ChildRegisterRequest")
 public class ChildRegisterRequest {
+	@ApiModelProperty(name = "부모 아이디")
+	String parentId;
 	@ApiModelProperty(name = "아이 이름")
 	String name;
 	@ApiModelProperty(name = "아이 생년월일")
@@ -19,5 +21,5 @@ public class ChildRegisterRequest {
 	@ApiModelProperty(name = "아이 성별")
 	int gender;
 	@ApiModelProperty(name = "프로필 사진")
-	String profile_url;
+	String profileUrl;
 }

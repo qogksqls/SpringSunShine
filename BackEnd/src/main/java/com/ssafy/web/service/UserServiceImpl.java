@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void theraRegist(TheraRegisterRequest theraInfo) {
 		User user = new User();
-		user.setUser_id(RandomUserId.makeTheraId());
+		user.setUserId(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
 		user.setPassword(encoder.encode(theraInfo.getPassword()));
 		
@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService {
 		thera.setEmail(theraInfo.getEmail());
 		thera.setPhone(theraInfo.getPhone());
 		thera.setAddress(theraInfo.getAddress());
-		thera.setProfile_url(theraInfo.getProfile_url());
-		thera.setFile_url(theraInfo.getFile_url());
-		thera.setThera_intro(theraInfo.getThera_intro());
+		thera.setProfileUrl(theraInfo.getProfile_url());
+		thera.setFileUrl(theraInfo.getFile_url());
+		thera.setTheraIntro(theraInfo.getThera_intro());
 	
 		thera.setUser(user);
 		theraRepository.save(thera);
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void parentRegist(ParentRegisterRequest parentInfo) {
 		User user = new User();
-		user.setUser_id(RandomUserId.makeParentId());
+		user.setUserId(RandomUserId.makeParentId());
 		user.setId(parentInfo.getId());
 		user.setPassword(encoder.encode(parentInfo.getPassword()));
 		
