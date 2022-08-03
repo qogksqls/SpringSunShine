@@ -18,38 +18,39 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="therapist")
+@Table(name = "therapist")
 public class Therapist {
 
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ther_no")
-	int ther_no;
-	
+	@Column(name = "ther_no")
+	int therNo;
+
 //	@Column(name="user_id")
 //	String user_id;
-	@Column(name="name", columnDefinition = "VARCHAR(20)", nullable=false)
+	@Column(name = "name", columnDefinition = "VARCHAR(20)", nullable = false)
 	String name;
-	@Column(name="email" , columnDefinition = "VARCHAR(50)", nullable=false)
+	@Column(name = "email", columnDefinition = "VARCHAR(50)", nullable = false)
 	String email;
-	@Column(name="phone" , columnDefinition = "VARCHAR(20)", nullable=false)
+	@Column(name = "phone", columnDefinition = "VARCHAR(20)", nullable = false)
 	String phone;
-	@Column(name="address", columnDefinition = "VARCHAR(80)", nullable=false)
+	@Column(name = "address", columnDefinition = "VARCHAR(80)", nullable = false)
 	String address;
-	@Column(name="profile_url", columnDefinition = "VARCHAR(255)", nullable=false)
-	String profile_url;
-	@Column(name="file_url", columnDefinition = "VARCHAR(255)", nullable=false)
-	String file_url;
-	@Column(name="thera_intro", columnDefinition = "TEXT", nullable=false)
-	String thera_intro;
-	@Column(name="approve_flag", columnDefinition = "int default 0", nullable=false)
+	@Column(name = "profile_url", columnDefinition = "VARCHAR(255)", nullable = false)
+	String profileUrl;
+	@Column(name = "file_url", columnDefinition = "VARCHAR(255)", nullable = false)
+	String fileUrl;
+	@Column(name = "thera_intro", columnDefinition = "TEXT", nullable = false)
+	String theraIntro;
+	@Column(name = "approve_flag", columnDefinition = "int default 0", nullable = false)
 //	@ColumnDefault("0")
-	int approve_flag;
-	
-	public Therapist() {}
-	
-	
+	int approveFlag;
+
+	public Therapist() {
+	}
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="thera_id", referencedColumnName = "user_id")
+//	@JoinColumn(name="thera_id", referencedColumnName = "user_id")
+	@JoinColumn(name = "thera_id", referencedColumnName = "user_id", nullable = false)
 	private User user;
 }

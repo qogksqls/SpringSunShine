@@ -40,5 +40,7 @@ public class RandomUserId {
 		return "p"+RandomId()+getDate();	
 	}
 	
-	
+	public static String makeChildId() {
+		return "c" + RandomId() + getDate();
+	}
 }
