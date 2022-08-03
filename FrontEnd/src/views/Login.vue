@@ -52,7 +52,7 @@
                   </base-checkbox>
                 </div>
                 <div class="text-center mt-3">
-                  <router-link to="/register"
+                  <router-link to="/signinSelect"
                     ><base-button type="primary" class="col-lg-3 m-4"
                       >회원가입</base-button
                     ></router-link
