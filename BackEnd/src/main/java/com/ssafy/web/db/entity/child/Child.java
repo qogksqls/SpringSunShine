@@ -25,19 +25,9 @@ import lombok.Setter;
 @Table(name = "child")
 public class Child {
 
-	// 기본키 auto_increament
-	
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "child_no", nullable = false)
-//	int child_no;
-
-//	@Id
-//	@ManyToOne
-//	@JoinColumn(name = "parent_id", columnDefinition = "CHAR(13)")
-//	public Parent parent_id;
-
+	// 기본키 auto increament
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "child_no", nullable = false)
 	private int childNo;
 
@@ -51,21 +41,10 @@ public class Child {
 
 	@Column(name = "name", columnDefinition = "VARCHAR(20)", nullable = false, unique = true)
 	private String name;
-
-//	@Column(name = "name", columnDefinition = "CHAR(20)", nullable = false)
-//	String name;
 	
 	@Column(name = "birth", columnDefinition = "DATE", nullable = false)
 	Date birth;
 	
-//	int gender;
-	
-//	@Column(name = "profile_url", columnDefinition = "VARCHAR(255)", nullable=true)
-//	String profile_url;
-
-//	@ManyToOne(targetEntity = Parent.class) // 다대일 단방향
-//	@JoinColumn(name = "parent_no")
-//	int parent_no;
 	@Column(name = "gender", nullable = false)
 	private int gender;
 

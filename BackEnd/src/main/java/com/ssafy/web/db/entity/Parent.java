@@ -38,7 +38,7 @@ public class Parent {
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="parent_id", referencedColumnName = "user_id")
+	@JoinColumn(name="parent_id", referencedColumnName = "user_id", nullable = false)
 	private User user;
 	
 	

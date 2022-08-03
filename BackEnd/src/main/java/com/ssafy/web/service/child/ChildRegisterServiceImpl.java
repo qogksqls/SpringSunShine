@@ -36,14 +36,14 @@ public class ChildRegisterServiceImpl implements ChildRegisterService {
 //		Parent parent = parentRepository.findByUser(user).orElseThrow(() -> new RuntimeException());
 //		Parent parent = Parent.builder().user(user);
 
-		User user = userRepository.findByUserId(childInfo.getParentId());
+		User user = userRepository.findByUserId(childInfo.getParent_id());
 		Parent parent = parentRepository.findByUser(user);
 		child.setChildId(RandomUserId.makeChildId());
 		child.setParent(parent);
 		child.setName(childInfo.getName());
 		child.setBirth(childInfo.getBirth());
 		child.setGender(childInfo.getGender());
-		child.setProfileUrl(childInfo.getProfileUrl());
+		child.setProfileUrl(childInfo.getProfile_url());
 
 		childRepository.save(child);
 	}

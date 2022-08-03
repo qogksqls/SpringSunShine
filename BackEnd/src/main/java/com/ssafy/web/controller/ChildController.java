@@ -19,8 +19,8 @@ public class ChildController {
 	@Autowired
 	ChildRegisterService childService;
 
-	@PostMapping("/{id}")
-	public ResponseEntity<?> childRegist(@RequestBody ChildRegisterRequest childInfo, Parent parent) {
+	@PostMapping
+	public ResponseEntity<?> childRegist(@RequestBody ChildRegisterRequest childInfo) {
 		childService.childRegist(childInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 
