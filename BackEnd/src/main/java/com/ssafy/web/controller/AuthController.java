@@ -1,7 +1,13 @@
 package com.ssafy.web.controller;
 
+import java.time.Duration;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +18,9 @@ import com.ssafy.web.db.entity.User;
 import com.ssafy.web.jwt.JwtTokenUtil;
 import com.ssafy.web.model.response.UserLoginPostRes;
 import com.ssafy.web.request.UserLoginRequest;
+import com.ssafy.web.request.UserLogoutRequest;
 import com.ssafy.web.service.AuthService;
+import com.ssafy.web.service.RedisService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -39,6 +47,9 @@ public class AuthController {
 	
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	RedisService redis;
 
 
 	
@@ -70,10 +81,26 @@ public class AuthController {
 	
 
 	/* 로그아웃 */
-//	@GetMapping("/logout/{id}")
-//	public ResponseEntity<?>  userLogout(@PathVariable String id ){
-//		// redis 에서 refresh token 값 삭제 
-//		
-//		
-//	}
+	@PostMapping("/logout")
+	public ResponseEntity<?>  userLogout(@RequestBody UserLogoutRequest logoutInfo){
+		// redis 에서 refresh token 값 삭제 
+		String token = logoutInfo.getAccessToken();
+		log.debug("test: 컨트롤러2입니다");
+		JwtTokenUtil.handleError(token);
+		log.debug("test: 컨트롤러3입니다");
+		//토큰으로부터 얻은 사용자의 아이디
+		String id = jwtTokenUtil.getAuth(token);
+		
+		//redis에서 해당 아이디로 저장된 value 값이 있는지 검사 
+		if(redis.getValues(id) !=null) {
+			//redis 토큰 삭제 
+			redis.deleteValues(id);
+		}
+		
+		
+		Long expiration = jwtTokenUtil.getExpiration(token);
+		redis.setValues("logout",token, Duration.ofMillis(expiration));
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+		
+	}
 }

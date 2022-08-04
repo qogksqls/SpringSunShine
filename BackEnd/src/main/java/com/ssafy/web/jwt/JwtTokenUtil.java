@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
@@ -18,6 +19,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 import com.ssafy.web.service.RedisService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -41,24 +44,12 @@ public class JwtTokenUtil {
 
 	 }
 	 
-//	 public void setExpirationTime() {
-//		 JwtTokenUtil.expirationTime = expirationTime;
-//	 }
-	 
 	 //토큰 검증기  
 	 public static JWTVerifier getVerifier() {
 		 return JWT.require(Algorithm.HMAC512(secretKey.getBytes()))
 				 .withIssuer(ISSUER)
 				 .build();
 	 }
-	 
-//	 public String resolveToken(HttpServletRequest request) {
-//		 String bearerToken = request.getHeader(HEADER_STRING);
-//		 if(bearerToken !=null && bearerToken.startsWith(TOKEN_PREFIX)) {
-//			 return bearerToken.substring(7);
-//		 }
-//		 return null;
-//	 }
 	 
 	 
 	 //accessToken 설정 
@@ -110,6 +101,24 @@ public class JwtTokenUtil {
 		 Date now = new Date();
 		 return new Date(now.getTime() + tokenInvalidTime);
 	 }
+	 
+	 
+	 // ------------- ( 로그아웃 ) 
+	 //accessToken 에서 아이디 얻기  
+	 public String getAuth(String accessToken) {
+		 Claims claims = Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(accessToken)
+				 .getBody();
+		return  claims.getSubject();
+	 }
+	 
+	 //블랙리스트로 redis에 저장할 accessToken 의 남은 만료시간
+	 public Long getExpiration(String accessToken) {
+	        // accessToken 남은 유효시간
+	        Date expiration = Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(accessToken).getBody().getExpiration();
+	        // 현재 시간
+	        Long now = new Date().getTime();
+	        return (expiration.getTime() - now);
+	    }
 
 	 
 	 
@@ -118,7 +127,8 @@ public class JwtTokenUtil {
 		    JWTVerifier verifier = JWT
 		            .require(Algorithm.HMAC512(secretKey.getBytes()))
 		            .withIssuer(ISSUER)
-		            .build();
+		            .build(); 
+		   
 		
 		    try {
 		        verifier.verify(token.replace(TOKEN_PREFIX, ""));
