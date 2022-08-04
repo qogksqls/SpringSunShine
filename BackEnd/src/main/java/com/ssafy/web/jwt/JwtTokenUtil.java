@@ -1,10 +1,12 @@
 package com.ssafy.web.jwt;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,28 +14,35 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
+import com.ssafy.web.service.RedisService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 
 @Component
 public class JwtTokenUtil {
+	
+	@Autowired
+	RedisService redisService;
 
 	private static String secretKey;
-	private static Integer expirationTime;
-	
+
 	
 	 public static final String TOKEN_PREFIX = "Bearer ";
 	 public static final String HEADER_STRING = "Authorization";
 	 public static final String ISSUER = "sssa606.com";
 
 	 
-	 public JwtTokenUtil(@Value("${jwt.secret}")String secretKey, @Value("${jwt.expiration}")Integer expirationTime) {
+	 public JwtTokenUtil(@Value("${jwt.secret}")String secretKey) {
 		 this.secretKey = secretKey;
-		 this.expirationTime = expirationTime;
+
 	 }
 	 
-	 public void setExpirationTime() {
-		 JwtTokenUtil.expirationTime = expirationTime;
-	 }
+//	 public void setExpirationTime() {
+//		 JwtTokenUtil.expirationTime = expirationTime;
+//	 }
 	 
 	 public static JWTVerifier getVerifier() {
 		 return JWT.require(Algorithm.HMAC512(secretKey.getBytes()))
@@ -41,14 +50,37 @@ public class JwtTokenUtil {
 				 .build();
 	 }
 	 
-	 public static String getToken(String id) {
-		 Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
-		 return JWT.create()
-				 .withSubject(id)
-				 .withExpiresAt(expires)
-				 .withIssuer(ISSUER)
-				 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-				 .sign(Algorithm.HMAC512(secretKey.getBytes()));
+	 //accessToken 설정 
+	 public String createAccessToken(String id) {
+		 Long tokenInvalidTime = 1000L * 60 * 60; // 1시간 
+		 return this.getToken(id, tokenInvalidTime);
+	 }
+	 
+	 //refreshToken 설정
+	 public String createRefreshToken(String id) {
+		 Long tokenInvalidTime = 1000L * 60 * 60 * 24 * 3; // 3일
+		 String refreshToken = this.getToken(id, tokenInvalidTime);
+		 //redis 에 토큰을 저장 
+		 redisService.setValues(id, refreshToken, Duration.ofMillis(tokenInvalidTime));
+		 return refreshToken;
+	 }
+	 
+	private String getToken(String id, Long tokenInvalidTime) {
+//		 Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+//		 return JWT.create()
+//				 .withSubject(id)
+//				 .withExpiresAt(expires)
+//				 .withIssuer(ISSUER)
+//				 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+//				 .sign(Algorithm.HMAC512(secretKey.getBytes()));
+		 Claims claims = Jwts.claims().setSubject(id);
+		 Date date = new Date();
+		 return Jwts.builder()
+				 .setClaims(claims) // 발행 유저 정보 
+				 .setIssuedAt(date) // 발행 시간 
+				 .setExpiration(new Date(date.getTime()+tokenInvalidTime)) // 토큰 유효 시간 
+				 .signWith(SignatureAlgorithm.HS256, secretKey)// 해싱 알고리즘 + 키로 서명
+				 .compact();
 	}
 	 
 	public static String getToken(Instant expires, String id) {
@@ -66,6 +98,11 @@ public class JwtTokenUtil {
 		 return new Date(now.getTime() + expirationTime);
 	 }
 	 
+	 
+	 
+	 
+	 
+	 //================================================
 	 public static void handleError(String token) {
 		    JWTVerifier verifier = JWT
 		            .require(Algorithm.HMAC512(secretKey.getBytes()))

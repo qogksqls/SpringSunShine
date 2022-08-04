@@ -17,6 +17,7 @@ public class UserLoginPostRes {
 	@ApiModelProperty(name="응답 코드", example="200")
 	Integer statusCode= null;
 	String accessToken; // JWT 
+	String refreshToken; // 재발급을 위한 refresh 토큰 추가 
 	
 //	public static BaseResponseBody of(Integer statusCode, String message) {
 //		BaseResponseBody body = new BaseResponseBody();
@@ -24,11 +25,18 @@ public class UserLoginPostRes {
 //		body.message = message;
 //		return body;
 //	}
-	public static UserLoginPostRes of(Integer statusCode, String message, String accessToken) {
+	public static UserLoginPostRes offail(Integer statusCode, String message) {
+		UserLoginPostRes res= new UserLoginPostRes() ;
+		res.setStatusCode(statusCode);
+		res.setMessage(message);
+		return res;
+	}
+	public static UserLoginPostRes ofsuccess(Integer statusCode, String message, String accessToken, String refreshToken) {
 		UserLoginPostRes res= new UserLoginPostRes() ;
 		res.setStatusCode(statusCode);
 		res.setAccessToken(accessToken);
 		res.setMessage(message);
+		res.setRefreshToken(refreshToken);
 		return res;
 	}
 

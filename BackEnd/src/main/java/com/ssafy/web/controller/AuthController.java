@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.db.entity.User;
 import com.ssafy.web.jwt.JwtTokenUtil;
+import com.ssafy.web.jwt.SssUserDetails;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.UserLoginPostRes;
 import com.ssafy.web.request.UserLoginRequest;
@@ -37,6 +38,10 @@ public class AuthController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	JwtTokenUtil jwtTokenUtil;
+
 
 	
 	/* 일반로그인 */
@@ -55,9 +60,15 @@ public class AuthController {
 		System.out.println("아이디는 " + user.getId());
 //		authService.login(loginInfo);
 		if(passwordEncoder.matches(password, user.getPassword())) {
-			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(id)));
+			String accessToken = jwtTokenUtil.createAccessToken(id);
+			String refreshToken = jwtTokenUtil.createRefreshToken(id);
+			System.out.println("토큰값은 " + accessToken + " "+ refreshToken);
+			if(accessToken.equals("") || refreshToken.equals("")) {
+				return ResponseEntity.status(401).body(UserLoginPostRes.offail(401, "Token failed"));
+			}
+			return ResponseEntity.ok(UserLoginPostRes.ofsuccess(200, "success", accessToken, refreshToken));
 		}
-		return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
+		return ResponseEntity.status(401).body(UserLoginPostRes.offail(401, "invalid login"));
 		
 	}	
 

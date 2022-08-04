@@ -3,7 +3,6 @@ package com.ssafy.web.db.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.ssafy.web.db.entity.User;
 
