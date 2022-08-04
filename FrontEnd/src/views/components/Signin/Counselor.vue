@@ -18,7 +18,7 @@
     <!--상담사 폼 자격증 end-->
 
     <div class="col-lg-12 row m-0">
-      <label for="grade" class="col col-lg-1 mt-2">학력</label>
+      <label for="grade" class="col col-lg-2 mt-2">학력</label>
 
       <base-button type="secondary" class="ni ni-fat-add p-1"></base-button>
       <div class="col-lg-12 row teach py-3 m-0">
@@ -49,7 +49,7 @@
 
     <!--상담사 폼 경력 start-->
     <div class="col-lg-12 row m-0">
-      <label for="grade" class="col col-lg-1 mt-2">경력</label>
+      <label for="grade" class="col col-lg-2 mt-2">경력</label>
 
       <base-button type="secondary" class="ni ni-fat-add p-1"></base-button>
       <div class="col-lg-12 row teach py-3 m-0">
@@ -70,17 +70,23 @@
         />
         <label for="inyear" class="col col-lg-2 mt-3 ">재직기간</label>
         <!--<input type="date" class="col-lg-3 form-control mt-2" id="year" />-->
-        <base-input addon-left-icon="ni ni-calendar-grid-58">
-          <flat-picker
-            slot-scope="{ focus, blur }"
-            @on-open="focus"
-            @on-close="blur"
-            :config="{ allowInput: true, mode: 'range' }"
-            class="form-control datepicker col-lg-3"
-            v-model="dates.range"
-          >
-          </flat-picker>
-        </base-input>
+        <div
+          class="col-lg-9 input-daterange datepicker row align-items-center p-0 m-0"
+        >
+          <div class="col mt-2 p-0">
+            <base-input addon-left-icon="ni ni-calendar-grid-58">
+              <flat-picker
+                slot-scope="{ focus, blur }"
+                @on-open="focus"
+                @on-close="blur"
+                :config="{ allowInput: true, mode: 'range' }"
+                class="form-control datepicker"
+                v-model="dates.range"
+              >
+              </flat-picker>
+            </base-input>
+          </div>
+        </div>
         <div class="col-lg-1"></div>
         <label for="Responsibilities" class="col col-lg-2 mt-3 "
           >담당업무</label
@@ -97,7 +103,7 @@
 
     <!--상담사 폼 자격증 start-->
     <div class="col-lg-12 row m-0">
-      <label for="certificate" class="col col-lg-1 pr-1 mt-2">자격증</label>
+      <label for="certificate" class="col col-lg-2 pr-1 mt-2">자격증</label>
 
       <base-button type="secondary" class="ni ni-fat-add p-1"></base-button>
       <div class="col-lg-12 row teach py-3 m-0">
@@ -134,11 +140,16 @@
 </template>
 
 <script>
+import flatPicker from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
 export default {
+  components: {
+    flatPicker,
+  },
   data() {
     return {
       dates: {
-        range: "2018-07-17 to 2018-07-19",
+        simple: "2022-08-05",
       },
     };
   },
@@ -166,5 +177,11 @@ button {
 }
 input[type="file"] {
   line-height: 1em;
+}
+.input-group-text {
+  border-radius: 15px 0 0 15px;
+}
+.form-group {
+  margin-bottom: 0;
 }
 </style>
