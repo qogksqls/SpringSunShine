@@ -14,8 +14,8 @@ import lombok.Setter;
 public class UserLoginPostRes {
 	@ApiModelProperty(name="응답 메시지", example="정상")
 	String message =null;
-	@ApiModelProperty(name="응답 코드", example="200")
-	Integer statusCode= null;
+	@ApiModelProperty(name="사용자고유아이디", example="p/t+12")
+	String userid= null;
 	String accessToken; // JWT 
 	String refreshToken; // 재발급을 위한 refresh 토큰 추가 
 	
@@ -25,15 +25,15 @@ public class UserLoginPostRes {
 //		body.message = message;
 //		return body;
 //	}
-	public static UserLoginPostRes offail(Integer statusCode, String message) {
+	public static UserLoginPostRes offail(String userid, String message) {
 		UserLoginPostRes res= new UserLoginPostRes() ;
-		res.setStatusCode(statusCode);
+		res.setUserid(userid);
 		res.setMessage(message);
 		return res;
 	}
-	public static UserLoginPostRes ofsuccess(Integer statusCode, String message, String accessToken, String refreshToken) {
+	public static UserLoginPostRes ofsuccess(String userid, String message, String accessToken, String refreshToken) {
 		UserLoginPostRes res= new UserLoginPostRes() ;
-		res.setStatusCode(statusCode);
+		res.setUserid(userid);
 		res.setAccessToken(accessToken);
 		res.setMessage(message);
 		res.setRefreshToken(refreshToken);
