@@ -8,6 +8,8 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import SigninSelect from "./views/components/Signin/SigninSelect.vue";
+import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -64,6 +66,14 @@ export default new Router({
       components: {
         header: AppHeader,
         default: SigninSelect,
+      },
+    },
+    {
+      path: "/counselorRecommend",
+      name: "counselorRecommend",
+      components: {
+        header: AppHeader,
+        default: CounselorRecommend,
       },
     },
   ],

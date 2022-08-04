@@ -3,7 +3,7 @@
     <div class="shape shape-style-1 bg-gradient-default"></div>
     <div class="container pt-lg-md mt-5">
       <div class="row justify-content-center mt-5">
-        <div class="col-lg-7">
+        <div class="col-lg-6">
           <card
             type="secondary"
             shadow

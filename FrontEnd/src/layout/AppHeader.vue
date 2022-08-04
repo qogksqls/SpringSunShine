@@ -30,11 +30,11 @@
             <i class="ni ni-collection d-lg-none"></i>
             <span class="nav-link-inner--text">치료교육</span>
           </a>
-          <router-link to="/landing" class="dropdown-item"
+          <router-link to="/counselorRecommend" class="dropdown-item"
             >상담신청</router-link
           >
           <router-link to="/profile" class="dropdown-item"
-            >예약현황</router-link
+            >상담일지(확인)</router-link
           >
           <router-link to="/login" class="dropdown-item">혼자놀기</router-link>
         </base-dropdown>
@@ -49,16 +49,30 @@
             <i class="ni ni-collection d-lg-none"></i>
             <span class="nav-link-inner--text">프로필보기</span>
           </a>
-          <router-link to="/landing" class="dropdown-item">Landing</router-link>
-          <router-link to="/profile" class="dropdown-item">Profile</router-link>
-          <router-link to="/login" class="dropdown-item">Login</router-link>
+          <router-link to="/landing" class="dropdown-item"
+            >자녀관리</router-link
+          >
+          <router-link to="/profile" class="dropdown-item"
+            >내프로필</router-link
+          >
+          <router-link to="/" class="dropdown-item">로그아웃</router-link>
           <router-link to="/register" class="dropdown-item"
-            >Register</router-link
+            >회원가입</router-link
           >
         </base-dropdown>
+
+        <!--전문가는 해당 페이지만 보게함-->
+        <li class="nav-link">
+          <router-link to="/" class="nav-link-inner--text navbar p-0"
+            >예약관리</router-link
+          >
+        </li>
+
         <!-- 로그아웃 시 해당 메뉴만 보임-->
         <li class="nav-link">
-          <router-link to="/login" class="nav-link-inner--text navbar p-0"
+          <router-link
+            to="/counselorRecommend"
+            class="nav-link-inner--text navbar p-0"
             >상담사보기</router-link
           >
         </li>

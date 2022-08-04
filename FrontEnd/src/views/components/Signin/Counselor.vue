@@ -69,7 +69,18 @@
           placeholder="직급"
         />
         <label for="inyear" class="col col-lg-2 mt-3 ">재직기간</label>
-        <input type="date" class="col-lg-3 form-control mt-2" id="year" />
+        <!--<input type="date" class="col-lg-3 form-control mt-2" id="year" />-->
+        <base-input addon-left-icon="ni ni-calendar-grid-58">
+          <flat-picker
+            slot-scope="{ focus, blur }"
+            @on-open="focus"
+            @on-close="blur"
+            :config="{ allowInput: true, mode: 'range' }"
+            class="form-control datepicker col-lg-3"
+            v-model="dates.range"
+          >
+          </flat-picker>
+        </base-input>
         <div class="col-lg-1"></div>
         <label for="Responsibilities" class="col col-lg-2 mt-3 "
           >담당업무</label
@@ -123,7 +134,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      dates: {
+        range: "2018-07-17 to 2018-07-19",
+      },
+    };
+  },
+};
 </script>
 
 <style scoped>
