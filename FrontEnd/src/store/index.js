@@ -1,6 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import children from './modules/children'
+import memos from './modules/memos'
+import teacher from './modules/teacher'
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -8,5 +12,9 @@ export default new Vuex.Store({
   getters: {},
   mutations: {},
   actions: {},
-  modules: {},
+  modules: {
+    children,
+    memos,
+    teacher,
+  },
 });

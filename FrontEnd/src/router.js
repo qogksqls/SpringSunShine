@@ -10,6 +10,20 @@ import Profile from "./views/Profile.vue";
 import SigninSelect from "./views/components/Signin/SigninSelect.vue";
 import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
 
+// child
+import childList from '@/views/ChildList.vue'
+
+// survey
+import SurveyView from '@/views/survey/SurveyView'
+import SurveyResultView from '@/views/survey/SurveyResultView'
+
+// consult
+import memoView from '@/views/consult/MemoView.vue'
+
+// reserve
+import reserve from '@/views/Reserve/ReserveView'
+
+
 Vue.use(Router);
 
 export default new Router({
@@ -76,6 +90,51 @@ export default new Router({
         default: CounselorRecommend,
       },
     },
+    // child
+    {
+      path: "/child",
+      name: "child",
+      components: {
+        header: AppHeader,
+        default: childList,
+      },
+    },
+    // survey
+    {
+      path: "/question",
+      name: "question",
+      components: {
+        header: AppHeader,
+        default: SurveyView,
+      },
+    },
+    {
+      path: "/question/result",
+      name: "questionresult",
+      components: {
+        header: AppHeader,
+        default: SurveyResultView,
+      },
+    },
+    // consult
+    {
+      path: "/memo",
+      name: "memo",
+      components: {
+        header: AppHeader,
+        default: memoView,
+      },
+    },
+    // reserve
+    {
+      path: "/reserv-parent",
+      name: "reserv-parent",
+      components: {
+        header: AppHeader,
+        default: reserve,
+      },
+    },
+
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
