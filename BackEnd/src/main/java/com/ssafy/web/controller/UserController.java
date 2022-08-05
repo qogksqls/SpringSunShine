@@ -62,6 +62,18 @@ public class UserController {
 		
 	}
 	
+	/*아이디 중복검사*/
+	@GetMapping("/checkid/{id}")
+	public String checkId(@PathVariable String id) {
+		System.out.println(id);
+		int res = userService.checkId(id);
+		
+		if(res == 1 ) {
+			return "success";
+			
+		}
+		else return "fail";
+	}
 	
 	/*회원정보 조회*/
 	@GetMapping("/{id}")

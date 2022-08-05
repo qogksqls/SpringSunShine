@@ -1,5 +1,7 @@
 package com.ssafy.web.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,9 +12,13 @@ import com.ssafy.web.db.entity.Therapist;
 import com.ssafy.web.db.entity.User;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.TheraRepository;
+import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
  
@@ -20,6 +26,9 @@ public class UserServiceImpl implements UserService {
 	TheraRepository theraRepository;
 	@Autowired
 	ParentRepository parentRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	//치료사 회원가입 
@@ -60,6 +69,33 @@ public class UserServiceImpl implements UserService {
 		parent.setUser(user);
 		parentRepository.save(parent);
 
+	}
+
+	//아이디 중복검사 
+	@Override
+	public int checkId(String id) {
+		User user= userRepository.findUserById(id).orElse(null);
+		
+		if(user == null) {
+			//사용가능한 아이디
+			return 1;
+		}
+		return 0; 
+		
+	}
+
+	//이메일 중복검사 
+	@Override
+	public int checkEmail(String myemail) {
+		Parent p = parentRepository.findByEmail(myemail).orElse(null);
+		Therapist t = theraRepository.findByEmail(myemail).orElse(null);
+		if( p== null && t == null ) { // 해당 이메일을 사용하는 유저가 없음 
+			log.debug("사용가능한 이메일");
+			return 1;
+		}else {
+			log.debug("중복 이메일");
+			return 0;
+		}
 	}
 
 
