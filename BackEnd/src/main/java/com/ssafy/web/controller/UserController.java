@@ -97,7 +97,9 @@ public class UserController {
 	
 	/*부모 회원정보 수정*/
 	@PutMapping("/{user_id}")
-	public ResponseEntity<?>  parentModify(@PathVariable String user_id){
+	public ResponseEntity<?>  parentModify(@PathVariable String user_id, @RequestBody ParentRegisterRequest parentInfo){
+		//parentInfo : 수정할 부모 정보가 담겨진 객체 
+		userService.parentModify(user_id, parentInfo); 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
