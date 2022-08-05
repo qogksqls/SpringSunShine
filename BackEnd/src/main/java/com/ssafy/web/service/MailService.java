@@ -11,11 +11,29 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.web.db.entity.Parent;
+import com.ssafy.web.db.entity.Therapist;
+import com.ssafy.web.db.repository.ParentRepository;
+import com.ssafy.web.db.repository.TheraRepository;
+import com.ssafy.web.db.repository.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MailService {
 
 	@Autowired
 	JavaMailSender javaMailSender;
+	
+//	@Autowired
+//	ParentRepository parentRepository;
+//	
+//	@Autowired
+//	TheraRepository theraRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	
 //	public static final String ssspass = createKey(); 
@@ -101,6 +119,27 @@ public class MailService {
 			e.printStackTrace();
 			throw new IllegalArgumentException();
 		}
+	}
+
+	//중복 이메일 검사 
+	public boolean checkEmail(String myemail) {
+		// TODO Auto-generated method stub
+//		Parent p = parentRepository.findParentByEmail(myemail);
+//		Therapist t = theraRepository.findTherapistByEmail(myemail);
+		
+		
+		//해당 이메일을 사용하는 사람이 없으면 
+//		if(p == null && t==null) {
+//			log.debug("이메일 사용 가능 ");
+//			return true;
+//		}
+		
+		if(userRepository.findByEmail(myemail) ==null) {
+			System.out.println("hello");
+			return true;
+		}
+		else return false;
+		
 	}
 	
 	

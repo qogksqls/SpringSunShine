@@ -9,5 +9,7 @@ public interface ParentRepository extends JpaRepository<Parent, Integer> {
 
 	Parent findByUser(User user);
 //	Parent findByUser(String user_id);
+	
+//	Parent findParentByEmail(String email);
 
 }
