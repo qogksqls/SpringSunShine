@@ -31,7 +31,7 @@ public class Child {
 	@Column(name = "child_no", nullable = false)
 	private int childNo;
 
-	@Column(name = "child_id", columnDefinition = "CHAR(13)", nullable = false)
+	@Column(name = "child_id", columnDefinition = "CHAR(13)", nullable = false, unique = true)
 	private String childId;
 
 //	@ManyToOne(cascade = CascadeType.PERSIST)
