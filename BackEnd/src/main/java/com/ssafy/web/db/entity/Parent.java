@@ -27,9 +27,9 @@ public class Parent {
 //	String user_id;
 	@Column(name="name", columnDefinition = "VARCHAR(20)", nullable=false)
 	String name;
-	@Column(name="email", columnDefinition = "VARCHAR(50)", nullable=false)
+	@Column(name="email", columnDefinition = "VARCHAR(50)", nullable=false , unique = true)
 	String email;
-	@Column(name="phone", columnDefinition = "VARCHAR(20)", nullable=false, unique = true)
+	@Column(name="phone", columnDefinition = "VARCHAR(20)", nullable=false)
 	String phone;
 	@Column(name="address", columnDefinition = "VARCHAR(80)", nullable=false)
 	String address;
