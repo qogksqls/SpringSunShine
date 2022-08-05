@@ -13,7 +13,7 @@ import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.request.child.ChildRegisterRequest;
 
 @Service
-public class ChildRegisterServiceImpl implements ChildRegisterService {
+public class ChildServiceImpl implements ChildService {
 
 	@Autowired
 	ChildRepository childRepository;
@@ -22,7 +22,7 @@ public class ChildRegisterServiceImpl implements ChildRegisterService {
 	@Autowired
 	UserRepository userRepository;
 	
-	// 아이 등록
+	/** 아동 등록 */
 	@Override
 	public void childRegist(ChildRegisterRequest childInfo) {
 		Child child = new Child();
@@ -46,6 +46,14 @@ public class ChildRegisterServiceImpl implements ChildRegisterService {
 		child.setProfileUrl(childInfo.getProfile_url());
 
 		childRepository.save(child);
+	}
+
+	/** 아동 삭제 */
+	@Override
+	public void childDelete(String childId) {
+		Child child = childRepository.findByChildId(childId);
+		
+		childRepository.delete(child);
 	}
 
 }

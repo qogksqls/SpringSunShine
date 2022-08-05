@@ -1,61 +1,106 @@
 package com.ssafy.web.controller;
 
+import java.time.Duration;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.db.entity.User;
+import com.ssafy.web.jwt.JwtTokenUtil;
+import com.ssafy.web.model.response.UserLoginPostRes;
 import com.ssafy.web.request.UserLoginRequest;
+import com.ssafy.web.request.UserLogoutRequest;
 import com.ssafy.web.service.AuthService;
+import com.ssafy.web.service.RedisService;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 /*
- * *인증 ( 로그인 )*/
+ * *인증
+ * - 로그인 : accesstoken + refreshtoken 발급
+ * - 로그아웃 : accesstoken 유효성 확인 후, redis 에서 refreshtoken 삭제 */
 
 @Api(value="인증 API", tags= {"Auth"})
 @RestController
+@Slf4j
 @RequestMapping("/auth")
 public class AuthController {
 
 	@Autowired
 	AuthService authService;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	RedisService redis;
+
+
 	
 	/* 일반로그인 */
 	@PostMapping("/login")
-	@ApiOperation(value="일반 로그인", notes="<strong>id와 password</strong>로 로그인한다.")
-	@ApiResponses({
-		@ApiResponse(code=200, message="성공"),
-		@ApiResponse(code=401, message="실패"),
-		@ApiResponse(code=500, message="서버오류")
-	})
 	public ResponseEntity<?>  userLogin(@RequestBody @ApiParam(value="로그인 요청 정보", required=true) UserLoginRequest loginInfo){
-		/**추후에 토큰 발급해서 토믄도 같이 보내야 함 !! */
-//		authService.login(loginInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-	}
+		String id= loginInfo.getId();
+		String password = loginInfo.getPassword();
+		log.debug("test: 컨트롤러1입니다");
+
+		User user = authService.getUserById(id);
+		if(user==null) {
+			return ResponseEntity.status(401).body(UserLoginPostRes.offail(null, "fail"));
+		}
+		
+		if(passwordEncoder.matches(password, user.getPassword())) {
+			return authService.login(id, password);		
+		}
+		return ResponseEntity.status(401).body(UserLoginPostRes.offail(null, "fail"));
+		
+	}	
+
+
+	/**토큰 재발급 */
+	
+	
 	
 
-//	/* 로그아웃 */
-//	@GetMapping("/logout")
-//	@ApiOperation(value="일반 로그아웃", notes="로그아웃한다.")
-//	@ApiResponses({
-//		@ApiResponse(code=200, message="성공"),
-//		@ApiResponse(code=401, message="실패"),
-//		@ApiResponse(code=500, message="서버오류")
-//	})
-//	public ResponseEntity<?>  userLogout(){
-//		/**추후에 토큰 발급해서 토믄도 같이 보내야 함 !! */
-//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-//	}
+	
+
+	/* 로그아웃 */
+	@PostMapping("/logout")
+	public ResponseEntity<?>  userLogout(@RequestBody UserLogoutRequest logoutInfo){
+		// redis 에서 refresh token 값 삭제 
+		String token = logoutInfo.getAccessToken();
+		log.debug("test: 컨트롤러2입니다");
+		JwtTokenUtil.handleError(token);
+		log.debug("test: 컨트롤러3입니다");
+		//토큰으로부터 얻은 사용자의 아이디
+		String id = jwtTokenUtil.getAuth(token);
+		
+		//redis에서 해당 아이디로 저장된 value 값이 있는지 검사 
+		if(redis.getValues(id) !=null) {
+			//redis 토큰 삭제 
+			redis.deleteValues(id);
+		}
+		
+		
+		Long expiration = jwtTokenUtil.getExpiration(token);
+		redis.setValues("logout",token, Duration.ofMillis(expiration));
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+		
+	}
 }
