@@ -30,7 +30,7 @@ public class Therapist {
 //	String user_id;
 	@Column(name = "name", columnDefinition = "VARCHAR(20)", nullable = false)
 	String name;
-	@Column(name = "email", columnDefinition = "VARCHAR(50)", nullable = false,  unique = true)
+	@Column(name = "email", columnDefinition = "VARCHAR(50)", nullable = false)
 	String email;
 	@Column(name = "phone", columnDefinition = "VARCHAR(20)", nullable = false)
 	String phone;
