@@ -135,6 +135,13 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	//부모 회원정보 수정
+	@Override
+	public void parentModify(String user_id, ParentRegisterRequest parentInfo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

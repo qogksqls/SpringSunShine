@@ -95,15 +95,9 @@ public class UserController {
 			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 	
-	/*회원정보 수정*/
-	@PutMapping("/{id}")
-	@ApiOperation(value="회원정보수정", notes="회원정보를 수정한다")
-	@ApiResponses({
-		@ApiResponse(code=200, message="성공"),
-		@ApiResponse(code=401, message="실패"),
-		@ApiResponse(code=500, message="서버오류")
-	})
-	public ResponseEntity<?>  userModify(@PathVariable(name="user_id") @ApiParam(value="사용자아이디" , required=true) String id){
+	/*부모 회원정보 수정*/
+	@PutMapping("/{user_id}")
+	public ResponseEntity<?>  parentModify(@PathVariable String user_id){
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	

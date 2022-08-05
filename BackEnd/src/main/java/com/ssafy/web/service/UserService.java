@@ -24,5 +24,8 @@ public interface UserService {
 	
 	//치료사 회원정보 조회 
 	TherapistResponse getTheraInfo(String user_id);
+	
+	//아이디가 user_id인 사람의 회원 정보를 parentInfo 로 교체 
+	void parentModify(String user_id, ParentRegisterRequest parentInfo);
 
 }
