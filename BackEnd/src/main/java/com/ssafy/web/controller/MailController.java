@@ -26,10 +26,6 @@ public class MailController {
 		System.out.println("메일 보낼 이메일 : "+myemail);
 		String re ="fail";
 		
-		//해당 이메일을 사용하는 사람이 있음 
-		if(!mailService.checkEmail(myemail))
-			return new ResponseEntity<String>(re,  HttpStatus.NO_CONTENT);
-		
 		
 		try{
 			re = mailService.sendSimpleMessage(myemail);
