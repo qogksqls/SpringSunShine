@@ -30,6 +30,13 @@ public class TheraRegisterRequest {
 	String file_url;
 	@ApiModelProperty(name="자기소개")
 	String thera_intro;
+	@Override
+	public String toString() {
+		return "TheraRegisterRequest [id=" + id + ", password=" + password + ", name=" + name + ", email=" + email
+				+ ", phone=" + phone + ", address=" + address + ", profile_url=" + profile_url + ", file_url="
+				+ file_url + ", thera_intro=" + thera_intro + "]";
+	}
 
+	
 	
 }

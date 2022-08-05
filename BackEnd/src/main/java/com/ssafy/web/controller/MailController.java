@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.request.EmailRequest;
 import com.ssafy.web.service.MailService;
+import com.ssafy.web.service.UserService;
 
 @RestController
 @RequestMapping("/mail")
@@ -20,12 +21,20 @@ public class MailController {
 	@Autowired
 	MailService mailService;
 	
+	@Autowired
+	UserService userService;
+	
 	@PostMapping
 	public ResponseEntity<?> sendEmail(@RequestBody EmailRequest email) throws Exception{
 		String myemail = email.getEmail();
 		System.out.println("메일 보낼 이메일 : "+myemail);
 		String re ="fail";
 		
+		//이메일 중복 검사 하기 
+		int isEmail = userService.checkEmail(myemail);
+		if(isEmail == 0) {
+			return new ResponseEntity<String>(re, HttpStatus.OK);
+		}
 		
 		try{
 			re = mailService.sendSimpleMessage(myemail);
