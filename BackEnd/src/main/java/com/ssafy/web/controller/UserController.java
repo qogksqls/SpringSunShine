@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 import com.ssafy.web.service.UserService;
@@ -76,15 +78,21 @@ public class UserController {
 	}
 	
 	/*회원정보 조회*/
-	@GetMapping("/{id}")
-	@ApiOperation(value="회원정보조회", notes="<strong>user_id</strong> 로 회원정보를 조회한다")
-	@ApiResponses({
-		@ApiResponse(code=200, message="성공"),
-		@ApiResponse(code=401, message="실패"),
-		@ApiResponse(code=500, message="서버오류")
-	})
-	public ResponseEntity<?> userInfo(){
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	@GetMapping("/{user_id}")
+	public ResponseEntity<?> userInfo(@PathVariable String user_id){
+		/*부모 회원정보 조회*/
+		if(user_id.charAt(0)=='p'){
+			ParentResponse presult = userService.getParentInfo(user_id);	
+			return new ResponseEntity<ParentResponse>(presult, HttpStatus.OK);		
+			
+			
+		}
+		/*치료사 회원정보 조회*/
+		else if(user_id.charAt(0)=='t'){
+			TherapistResponse tresult= userService.getTheraInfo(user_id);
+			return new ResponseEntity<TherapistResponse>(tresult, HttpStatus.OK);
+		}
+			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 	
 	/*회원정보 수정*/

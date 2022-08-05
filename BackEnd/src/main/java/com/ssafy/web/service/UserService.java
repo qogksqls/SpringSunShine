@@ -1,6 +1,9 @@
 package com.ssafy.web.service;
 
+import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.User;
+import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 
@@ -15,5 +18,11 @@ public interface UserService {
 	
 	//이메일 중복검사
 	int checkEmail(String myemail);
+	
+	//부모 회원정보 조회
+	ParentResponse getParentInfo(String user_id);
+	
+	//치료사 회원정보 조회 
+	TherapistResponse getTheraInfo(String user_id);
 
 }

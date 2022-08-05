@@ -14,4 +14,5 @@ public interface ParentRepository extends JpaRepository<Parent, Integer> {
 	
 	Optional<Parent> findByEmail(String email);
 
+
 }

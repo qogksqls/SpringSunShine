@@ -13,6 +13,8 @@ import com.ssafy.web.db.entity.User;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.TheraRepository;
 import com.ssafy.web.db.repository.UserRepository;
+import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 
@@ -96,6 +98,41 @@ public class UserServiceImpl implements UserService {
 			log.debug("중복 이메일");
 			return 0;
 		}
+	}
+
+	//부모 회원정보 조회 
+	@Override
+	public ParentResponse getParentInfo(String user_id) {
+		User u = userRepository.findByUserId(user_id); 
+		Parent p = parentRepository.findByUser(u);
+		
+		ParentResponse pr = new ParentResponse();
+		pr.setId(u.getId());
+		pr.setName(p.getName());
+		pr.setPhone(p.getPhone());
+		pr.setEmail(p.getEmail());
+		pr.setAddress(p.getAddress());
+		
+		return pr;
+	}
+
+	//치료사 정보 조회
+	@Override
+	public TherapistResponse getTheraInfo(String user_id) {
+		User u = userRepository.findByUserId(user_id); 
+		Therapist t = theraRepository.findByUser(u);
+		
+		TherapistResponse tr= new TherapistResponse();
+		tr.setId(u.getId());
+		tr.setName(t.getName());
+		tr.setEmail(t.getEmail());
+		tr.setPhone(t.getPhone());
+		tr.setAddress(t.getAddress());
+		tr.setProfile_url(t.getProfileUrl());
+		tr.setThera_intro(t.getTheraIntro());
+		
+		return tr;
+		
 	}
 
 
