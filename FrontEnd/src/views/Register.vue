@@ -31,6 +31,7 @@
                     placeholder="이름을 적어주세요"
                     class="col-lg-8  form-control"
                     id="name"
+                    v-model="name"
                   />
                 </div>
                 <!--회원가입 폼 이름 작성 end-->
@@ -43,6 +44,7 @@
                     class="col-lg-6  form-control"
                     id="id"
                     placeholder="아이디를 적어주세요"
+                    v-model="id"
                   />
                   <div class="col-lg-1"></div>
                   <base-button
@@ -63,6 +65,7 @@
                     class="col-lg-8  form-control"
                     id="pw"
                     placeholder="비밀번호를 적어주세요"
+                    v-model="password"
                   />
                 </div>
                 <!--회원가입 폼 비밀번호 end-->
@@ -89,6 +92,7 @@
                     class="col-lg-8 form-control"
                     id="email"
                     placeholder="이메일을 입력해 주세요"
+                    v-model="email"
                   />
                 </div>
                 <div class="col-lg-12 row mb-2">
@@ -118,6 +122,7 @@
                     class="col-lg-8 form-control"
                     id="tel"
                     placeholder="연락처를 입력해 주세요"
+                    v-model="phone"
                   />
                 </div>
                 <!--회원가입 폼 연락처 end-->
@@ -130,16 +135,18 @@
                     class="col-lg-8 form-control"
                     id="address"
                     placeholder="주소를 입력해 주세요"
+                    v-model="address"
                   />
                 </div>
                 <!--회원가입 폼 연락처 end-->
-
-                <counselor />
+                <div v-if="$route.query.isTherapist">
+                  <counselor />
+                </div>
 
                 <!--회원가입 폼 학력 end-->
               </div>
               <div class="mt-2 text-center">
-                <base-button type="primary" class="py-1">회원가입</base-button>
+                <base-button type="primary" class="py-1" @click="signinSubmit">회원가입</base-button>
               </div>
             </template>
           </card>
@@ -152,8 +159,43 @@
 import Counselor from "./components/Signin/Counselor.vue";
 export default {
   components: { Counselor },
+  data() {
+    return {
+      name: '',
+      id: '',
+      password: '',
+      email: '',
+      phone: '',
+      address: '',
+      profile_url: '',
+      file_url: '',
+      thera_intro: ''
+    }
+  },
+  methods: {
+    signinSubmit: function() {
+      console.log('회원가입')
+      this.$axios.post(`${this.$store.state.accounts.host}/auth-api/user/parent`, {
+        id: this.id,
+        password: this.password,
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        address: this.address,
+        profile_url: this.profile_url,
+        file_url: this.file_url,
+        thera_intro: this.thera_intro
+      }).then(
+        res => {
+          console.log(res.data);
+          this.$router.push("/login");
+        }
+      )
+    },
+  }
 };
 </script>
+
 <style scoped>
 input {
   height: 40px;

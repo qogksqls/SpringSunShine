@@ -32,7 +32,10 @@
                   <div class="p-0 my-3 col-lg-12">
                     <small><strong>서비스를 의뢰하고 싶다면</strong></small>
                     <!--링크 넘어가기-->
-                    <router-link to="/register">
+                    <router-link :to="{
+                      name: 'register',
+                      query: { isTherapist: false}
+                    }">
                       <div class="mt-2 p-3 parents_form go_to">
                         <i class="ni ni-check-bold"></i>
                         <small class="my-3 p-2"
@@ -45,7 +48,10 @@
                   <div class="p-0 my-3 col-lg-12">
                     <small><strong>상담사로 가입하고 싶다면</strong></small>
                     <!--링크 넘어가기-->
-                    <router-link to="/register">
+                    <router-link :to="{
+                      name: 'register',
+                      query: { isTherapist: true}
+                    }">
                       <div class="mt-2 p-3 couns_form go_to">
                         <i class="ni ni-check-bold"></i>
                         <small class="my-3 p-2"
@@ -68,7 +74,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  
+};
 </script>
 
 <style lang="css" scoped>
