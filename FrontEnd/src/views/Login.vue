@@ -3,7 +3,7 @@
     <div class="shape shape-style-1 bg-gradient-default"></div>
     <div class="container pt-lg-md mt-5">
       <div class="row justify-content-center mt-5">
-        <div class="col-lg-7">
+        <div class="col-lg-6">
           <card
             type="secondary"
             shadow
@@ -30,6 +30,7 @@
                     placeholder="아이디를 적어주세요"
                     class="col-lg-8  form-control"
                     id="name"
+                    v-model="id"
                   />
                 </div>
                 <div
@@ -44,6 +45,7 @@
                     placeholder="비밀번호를 적어주세요"
                     class="col-lg-8  form-control"
                     id="pw"
+                    v-model="password"
                   />
                 </div>
                 <div class="text-right mt-3">
@@ -52,12 +54,12 @@
                   </base-checkbox>
                 </div>
                 <div class="text-center mt-3">
-                  <router-link to="/register"
+                  <router-link to="/signinSelect"
                     ><base-button type="primary" class="col-lg-3 m-4"
                       >회원가입</base-button
                     ></router-link
                   >
-                  <base-button type="primary" class="col-lg-3 m-4"
+                  <base-button type="primary" class="col-lg-3 m-4" @click="loginSubmit"
                     >로그인</base-button
                   >
                 </div>
@@ -79,8 +81,42 @@
     </div>
   </section>
 </template>
+
 <script>
-export default {};
+import { mapActions } from 'vuex'
+
+export default {
+  data() {
+    return {
+      id: null,
+      password: null,
+    }
+  },
+  computed: {
+    methods: {
+      ...mapActions(['login'])
+    }
+  },
+  created() {
+    this.$store.commit('logout')
+  },
+  methods: {
+    loginSubmit: function() {
+      console.log('로그인')
+      this.$axios.post(`${this.$store.state.accounts.host}/auth-api/auth/login`, { id: this.id, password: this.password}).then(
+        res => {
+          console.log(res.data);
+          this.$store.commit('loginToken', res.data)
+          this.$router.push("/");
+        }
+      )
+    },
+    showLogin() {
+      this.isLogin = true
+      this.isRegister = false
+    }
+  }
+};
 </script>
 <style scoped>
 html,
