@@ -28,12 +28,12 @@
             role="button"
           >
             <i class="ni ni-collection d-lg-none"></i>
-            <span class="nav-link-inner--text">치료교육</span>
+            <span class="nav-link-inner--text"><b>치료교육</b></span>
           </a>
           <router-link to="/counselorRecommend" class="dropdown-item"
             >상담신청</router-link
           >
-          <router-link to="/profile" class="dropdown-item"
+          <router-link to="/childReserveShow" class="dropdown-item"
             >상담일지(확인)</router-link
           >
           <router-link to="/login" class="dropdown-item">혼자놀기</router-link>
@@ -47,9 +47,9 @@
             role="button"
           >
             <i class="ni ni-collection d-lg-none"></i>
-            <span class="nav-link-inner--text">프로필보기</span>
+            <span class="nav-link-inner--text"><b>프로필보기</b></span>
           </a>
-          <router-link to="/landing" class="dropdown-item"
+          <router-link to="/children" class="dropdown-item"
             >자녀관리</router-link
           >
           <router-link to="/profile" class="dropdown-item"
@@ -64,7 +64,7 @@
         <!--전문가는 해당 페이지만 보게함-->
         <li class="nav-link">
           <router-link to="/" class="nav-link-inner--text navbar p-0"
-            >예약관리</router-link
+            ><b>예약관리</b></router-link
           >
         </li>
 
@@ -73,12 +73,12 @@
           <router-link
             to="/counselorRecommend"
             class="nav-link-inner--text navbar p-0"
-            >상담사보기</router-link
+            ><b>상담사보기</b></router-link
           >
         </li>
         <li class="nav-link">
           <router-link to="/login" class="nav-link-inner--text navbar p-0"
-            >로그인</router-link
+            ><b>로그인</b></router-link
           >
         </li>
       </ul>
@@ -100,9 +100,13 @@ export default {
 </script>
 <style>
 .navbar {
-  color: #fff;
+  color: rgba(0, 0, 0, 0.5);
 }
 .navbar:hover {
-  color: #acacac;
+  color: rgba(0, 0, 0, 0.7);
+}
+.navbar:focus {
+  color: rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 1px 1px #fff;
 }
 </style>

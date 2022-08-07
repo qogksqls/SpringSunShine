@@ -9,6 +9,14 @@ import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import SigninSelect from "./views/components/Signin/SigninSelect.vue";
 import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
+import WebRtcStudent from "./views/WebRtcView/WebrtcViewStudent.vue";
+import ChildReserveShow from "./views/ReserveView/ChildReserveShowView.vue";
+
+//아동추가 목록
+import ChildListView from "./views/ChildPlusView/ChildListView.vue";
+//문진표
+import SurveyView from "./views/survey/SurveyView";
+import SurveyResultView from "./views/survey/SurveyResultView";
 
 Vue.use(Router);
 
@@ -75,6 +83,48 @@ export default new Router({
         header: AppHeader,
         default: CounselorRecommend,
       },
+    },
+    {
+      path: "/webrtcStudent",
+      name: "webrtcStudent",
+      components: {
+        default: WebRtcStudent,
+      },
+    },
+    {
+      path: "/childReserveShow",
+      name: "childReserveShow",
+      components: {
+        header: AppHeader,
+        default: ChildReserveShow,
+      },
+    },
+    //아동추가페이지
+    {
+      path: "/children",
+      name: "children",
+      components: {
+        header: AppHeader,
+        default: ChildListView,
+      },
+    },
+    //문단표
+    {
+      path: "/survey",
+      name: "survey",
+      components: {
+        header: AppHeader,
+        default: SurveyView,
+      },
+    },
+    {
+      path: "/survey/result",
+      name: "surveyresult",
+      components: {
+        header: AppHeader,
+        default: SurveyResultView,
+      },
+      props: true,
     },
   ],
   scrollBehavior: (to) => {

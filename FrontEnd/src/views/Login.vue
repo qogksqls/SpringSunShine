@@ -26,6 +26,8 @@
                   >
 
                   <input
+                    v-model="id"
+                    required
                     type="text"
                     placeholder="아이디를 적어주세요"
                     class="col-lg-8  form-control"
@@ -40,6 +42,8 @@
                   >
 
                   <input
+                    v-model="password"
+                    required
                     type="password"
                     placeholder="비밀번호를 적어주세요"
                     class="col-lg-8  form-control"
@@ -57,7 +61,10 @@
                       >회원가입</base-button
                     ></router-link
                   >
-                  <base-button type="primary" class="col-lg-3 m-4"
+                  <base-button
+                    type="primary"
+                    class="col-lg-3 m-4"
+                    @click="login"
                     >로그인</base-button
                   >
                 </div>
@@ -80,7 +87,39 @@
   </section>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      id: null,
+      password: null,
+    };
+  },
+
+  methods: {
+    login() {
+      let saveData = {};
+      saveData.id = this.id;
+      saveData.password = this.password;
+
+      try {
+        this.$axios
+          .post(HOST + "/signin", JSON.stringify(saveData), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              this.$store.commit("login", res.data);
+              //다음페이지로 이동 -> 어디로 가나?
+            }
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
 </script>
 <style scoped>
 html,

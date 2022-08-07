@@ -1,0 +1,136 @@
+<template>
+  <div class="profile-page">
+    <section class="section-profile-cover section-shaped my-0">
+      <div class="shape shape-style-1 shape-primary shape-skew alpha-4"></div>
+    </section>
+    <section class="section section-skew">
+      <div class="container">
+        <card shadow class="px-5 px-lg-5 card-profile mt--300" no-body>
+          <!--상담일지목록 시작-->
+          <div class="wrap_content col col-lg-12 p-5">
+            <div class="survey-card">
+              <h3 class="col-lg-10">
+                <div class="text-muted text-left mb-3">
+                  <b>문진표</b>
+                </div>
+              </h3>
+
+              <!--문단표 start-->
+              <div class="question-card" v-for="(question, i) in data" :key="i">
+                <div class="question">
+                  <b> Q{{ question.number }}. {{ question.title }} </b>
+                </div>
+                <div class="object_answer row col-lg-12 mt-3 py-3">
+                  <div
+                    v-for="(object_answer, j) in question.object_answers"
+                    :key="j"
+                  >
+                    <div class="row mx-3">
+                      <p class="lead">
+                        <input
+                          type="radio"
+                          id="radio"
+                          v-model="answer[i]"
+                          :value="[
+                            question.title,
+                            object_answer[0],
+                            object_answer[1],
+                          ]"
+                        />
+                        <label for="radio" class="score">
+                          {{ object_answer[1] }}</label
+                        >
+                      </p>
+                      <label class="lead">{{ object_answer[0] }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--문단표 end-->
+              <div class="justify-content-center text-center my-5">
+                <base-button block type="default" @click="onSubmit">
+                  <b class="submit">완료</b>
+                </base-button>
+              </div>
+            </div>
+          </div>
+        </card>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+import survey from "./survey.json";
+
+const data = survey;
+const answer = [];
+for (let index = 0; index < survey.length; index++) {
+  answer.push([]);
+}
+
+export default {
+  data() {
+    return {
+      data,
+      answer,
+    };
+  },
+  methods: {
+    onSubmit() {
+      alert("문진표가 제출되었습니다.");
+      console.log(answer);
+      this.$router.push({ name: "surveyresult", params: { answer } });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.lead {
+  margin: 0;
+  font-size: 1rem;
+}
+.score {
+  visibility: hidden;
+}
+.question-card {
+  padding: 15px 10px;
+}
+.object_answer {
+  border: 1px solid #dcdcdc;
+}
+.submit {
+  font-size: 1.5rem;
+}
+/* .survey-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.survey-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.question {
+  background-color: rgb(255, 189, 83);
+  padding: 2rem 0 2rem 2rem;
+  width: 80rem;
+}
+.object_answer {
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(255, 233, 172);
+  padding: 1rem 0 1rem 0;
+}
+.submit {
+  background-color: rgb(255, 111, 0);
+  border-radius: 10px;
+  font-size: 2rem;
+  margin-top: 1rem;
+  position: absolute;
+  left: 85%;
+  padding: 4px;
+} */
+</style>

@@ -151,6 +151,12 @@ export default {
       dates: {
         simple: "2022-08-05",
       },
+      // config: {
+      //   altFormat: "M j, Y",
+      //   altInput: true,
+      //   dateFormat: "Y-m-d",
+      //   locale: Hindi, // locale for this instance only
+      // },
     };
   },
 };

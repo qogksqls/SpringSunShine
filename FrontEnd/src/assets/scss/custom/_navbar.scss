@@ -184,14 +184,14 @@
     .navbar-transparent {
         .navbar-nav {
             .nav-link {
-                color: $navbar-dark-color;
+                color: $navbar-light-color;
 
                 @include hover-focus {
-                    color: $navbar-dark-hover-color;
+                    color: $navbar-light-hover-color;
                 }
 
                 &.disabled {
-                    color: $navbar-dark-disabled-color;
+                    color: $navbar-light-disabled-color;
                 }
             }
 
@@ -199,15 +199,15 @@
             .active > .nav-link,
             .nav-link.show,
             .nav-link.active {
-                color: $navbar-dark-active-color;
+                color: $navbar-light-active-color;
             }
         }
 
         .navbar-brand {
-            color: $navbar-dark-color; 
+            color: $navbar-light-color; 
 
             @include hover-focus {
-                color: $navbar-dark-color;
+                color: $navbar-light-color;
             }
         }
     }
