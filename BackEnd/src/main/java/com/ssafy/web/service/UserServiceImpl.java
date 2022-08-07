@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.web.RandomUserId;
 import com.ssafy.web.db.entity.Parent;
@@ -15,7 +16,9 @@ import com.ssafy.web.db.repository.TheraRepository;
 import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistResponse;
+import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
+import com.ssafy.web.request.TheraModifyRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -133,6 +136,36 @@ public class UserServiceImpl implements UserService {
 		
 		return tr;
 		
+	}
+
+	//부모 회원정보 수정
+	@Override
+	@Transactional
+	public int parentModify(String user_id, ParentModifyRequest parentInfo) {
+		User user = userRepository.findByUserId(user_id);
+		if(user == null) return 0; 
+		// 정보를 수정하려는 부모 회원 
+		Parent parent = parentRepository.findByUser(user);
+		
+		user.update(parentInfo.getId(), encoder.encode(parentInfo.getPassword()));
+		parent.update(parentInfo.getName(), parentInfo.getEmail(), parentInfo.getPhone(),
+				parentInfo.getAddress(), user);
+		return 1;
+		
+	}
+
+	//치료사 회원정보 수정 
+	@Override
+	@Transactional
+	public int theraModify(String user_id, TheraModifyRequest theraInfo) {
+		User user = userRepository.findByUserId(user_id);
+		if(user == null) return 0;
+		//정보수정하려는 치료사 회원 
+		Therapist thera = theraRepository.findByUser(user);
+		user.update(theraInfo.getId(),  encoder.encode(theraInfo.getPassword()));
+		thera.update(theraInfo.getName(), theraInfo.getEmail(), theraInfo.getPhone(), theraInfo.getAddress(), 
+				theraInfo.getProfile_url(), theraInfo.getThera_intro(), user);
+		return 1;
 	}
 
 
