@@ -5,5 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.ssafy.web.db.entity.Reservation;
 
 public interface ReservRepository extends JpaRepository<Reservation, Integer> {
+	
+//	@Query(value = "select * from reservation where thera_id = ?")
+//	List<Reservation>
 
 }

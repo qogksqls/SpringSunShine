@@ -15,14 +15,14 @@ public class ReserveServiceImpl implements ReservService {
 
 	@Override
 	public void reservRegist(ReservRequest reservInfo) {
-		Reservation reserv = new Reservation();
-
-		reserv.setChildId(reservInfo.getChild_id());
-		reserv.setParentId(reservInfo.getParent_id());
-		reserv.setTheraId(reservInfo.getThera_id());
-		reserv.setReservTime(reservInfo.getReserv_time());
-
-		reservRepository.save(reserv);
+//		Reservation reserv = new Reservation();
+//
+//		reserv.setChildId(reservInfo.getChild_id());
+//		reserv.setParentId(reservInfo.getParent_id());
+//		reserv.setTheraId(reservInfo.getThera_id());
+//		reserv.setReservTime(reservInfo.getReserv_time());
+//
+//		reservRepository.save(reserv);
 	}
 
 	@Override
