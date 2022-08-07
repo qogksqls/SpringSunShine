@@ -37,5 +37,10 @@ public class User {
 
 	public User() {
 	}
+	
+	public void update(String id, String password) {
+		this.id = id;
+		this.password= password;
+	}
 
 }

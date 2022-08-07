@@ -17,7 +17,9 @@ import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistResponse;
+import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
+import com.ssafy.web.request.TheraModifyRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 import com.ssafy.web.service.UserService;
 
@@ -96,10 +98,29 @@ public class UserController {
 	}
 	
 	/*부모 회원정보 수정*/
-	@PutMapping("/{user_id}")
-	public ResponseEntity<?>  parentModify(@PathVariable String user_id, @RequestBody ParentRegisterRequest parentInfo){
+	@PutMapping("/parent/{user_id}")
+	public ResponseEntity<?>  parentModify(@PathVariable String user_id, @RequestBody ParentModifyRequest parentInfo){
 		//parentInfo : 수정할 부모 정보가 담겨진 객체 
-		userService.parentModify(user_id, parentInfo); 
+		//부모 아이디가 아닐때 
+		if(user_id.charAt(0) != 'p') 
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		int res = userService.parentModify(user_id, parentInfo); 
+		if(res==0) {
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		}
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	}
+	
+	/*치료사 회원정보 수정*/
+	@PutMapping("/therapist/{user_id}")
+	public ResponseEntity<?> theraModify(@PathVariable String user_id, @RequestBody TheraModifyRequest theraInfo){
+		//theraInfo : 수정할 치료사 정보 
+		if(user_id.charAt(0) != 't') 
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		int res = userService.theraModify(user_id, theraInfo);
+		if(res==0) {
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
