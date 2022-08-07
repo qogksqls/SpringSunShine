@@ -10,18 +10,20 @@ import lombok.Setter;
 /** 보호자가 상담 예약 시 들어오는 정보 */
 @Getter
 @Setter
-@ApiModel("ReservRegisterRequest")
+//@ApiModel("ReservRegisterRequest")
 public class ReservRequest {
 
-	@ApiModelProperty(name = "부모 아이디")
+//	@ApiModelProperty(name = "부모 아이디")
 	String parent_id;
 
-	@ApiModelProperty(name = "아동 아이디")
+//	@ApiModelProperty(name = "아동 아이디")
 	String child_id;
 
-	@ApiModelProperty(name = "상담사 아이디")
+//	@ApiModelProperty(name = "상담사 아이디")
 	String thera_id;
 
-	@ApiModelProperty(name = "예약시간")
+//	@ApiModelProperty(name = "예약시간")
 	Date reserv_time;
+	
+	
 }
