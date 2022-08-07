@@ -25,4 +25,10 @@ public class ReserveServiceImpl implements ReservService {
 		reservRepository.save(reserv);
 	}
 
+	@Override
+	public Reservation getReservByThera(String theraId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
