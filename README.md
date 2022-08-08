@@ -14,4 +14,22 @@
 ## 진행상황
 
 ### 배포
-- [임시 배포](https://a606.shop/#/)
+- [배포 완료](https://a606.shop/#/)
+    - 회원가입
+    - 로그인
+
+### 미배포
+- [인증 Swagger](http://a606.shop:8090/auth-api/swagger-ui/index.html)
+- 예약 아동 정보 보기
+![예약_아동_정보_보기](/uploads/09a72194b5ab8f4b10a8b3a71ae93230/예약_아동_정보_보기.png)
+
+- 아동 추가
+![아동_추가](/uploads/d523c1f8ca3ff1d38c2b6c8393045d39/아동_추가.png)
+
+- 문진표 작성
+![문진표_작성](/uploads/dc3e95a8553338d6b77938e2ef5823b2/문진표_작성.png)
+
+![문진표_작성_2](/uploads/868587de964203f8d83eec7450449a9a/문진표_작성_2.png)
+
+- WebRTC 기능 구현
+![WebRTC](/uploads/2286271a51287eb072c3ae62e4afb085/WebRTC.png)
