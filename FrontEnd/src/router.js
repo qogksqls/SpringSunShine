@@ -17,6 +17,9 @@ import ChildListView from "./views/ChildPlusView/ChildListView.vue";
 //문진표
 import SurveyView from "./views/survey/SurveyView";
 import SurveyResultView from "./views/survey/SurveyResultView";
+//webRTC
+import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
+import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
 
 Vue.use(Router);
 
@@ -125,6 +128,17 @@ export default new Router({
         default: SurveyResultView,
       },
       props: true,
+    },
+    //webRTC
+    {
+      path: "/webStudent",
+      name: "webStudent",
+      component: WebStudent,
+    },
+    {
+      path: "/webCounselor",
+      name: "webCounselor",
+      component: WebCounselor,
     },
   ],
   scrollBehavior: (to) => {
