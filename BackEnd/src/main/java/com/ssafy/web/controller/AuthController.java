@@ -9,9 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.db.entity.User;
@@ -74,6 +78,17 @@ public class AuthController {
 
 
 	/**토큰 재발급 */
+	// front 에서는 기존 accessToken 을 버리고 새로 발급받아준걸로 사용해야함 
+	@GetMapping("/refresh/{id}")
+	public ResponseEntity<?> refreshToken(@PathVariable String id, 
+			@RequestHeader("Authorization") String refreshToken){
+		// id : 사용자 아이디 
+		String refreshTokens = refreshToken.replace("Bearer ", "");
+		log.debug("리프레시토큰 : " + refreshTokens);
+
+		//리프레시 토큰을 재발급 받는다 .
+		return authService.refreshToken(id, refreshTokens); 	
+	}
 	
 	
 	
