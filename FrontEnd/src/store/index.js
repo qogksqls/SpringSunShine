@@ -2,16 +2,23 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import children from "./modules/children";
-import userStore from "./modules/userStore";
 import memos from "./modules/memos";
+import teacher from "./modules/teacher";
+import accounts from "./modules/accounts";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    host: "https://i7a606.q.ssafy.io",
+  },
   getters: {},
   mutations: {},
   actions: {},
-  modules: { userStore, memos, children },
-  plugins: [],
+  modules: {
+    children,
+    memos,
+    teacher,
+    accounts,
+  },
 });

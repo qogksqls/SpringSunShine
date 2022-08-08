@@ -26,12 +26,12 @@
                   >
 
                   <input
-                    v-model="id"
-                    required
                     type="text"
                     placeholder="아이디를 적어주세요"
                     class="col-lg-8  form-control"
                     id="name"
+                    v-model="credentials.id"
+                    @keyup.enter="loginSubmit"
                   />
                 </div>
                 <div
@@ -42,12 +42,12 @@
                   >
 
                   <input
-                    v-model="password"
-                    required
                     type="password"
                     placeholder="비밀번호를 적어주세요"
                     class="col-lg-8  form-control"
                     id="pw"
+                    v-model="credentials.password"
+                    @keyup.enter="loginSubmit"
                   />
                 </div>
                 <div class="text-right mt-3">
@@ -86,37 +86,45 @@
     </div>
   </section>
 </template>
+
 <script>
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
-      id: null,
-      password: null,
+      credentials: {
+        id: null,
+        password: null,
+      },
     };
   },
-
+  computed: {
+    methods: {
+      ...mapActions(["login"]),
+    },
+  },
+  created() {
+    this.$store.commit("logout");
+  },
   methods: {
-    login() {
-      let saveData = {};
-      saveData.id = this.id;
-      saveData.password = this.password;
-
-      try {
-        this.$axios
-          .post(HOST + "/signin", JSON.stringify(saveData), {
-            headers: {
-              "Content-Type": `application/json`,
-            },
-          })
-          .then((res) => {
-            if (res.status === 200) {
-              this.$store.commit("login", res.data);
-              //다음페이지로 이동 -> 어디로 가나?
-            }
-          });
-      } catch (error) {
-        console.error(error);
-      }
+    ...mapActions(["login"]),
+    loginSubmit: function() {
+      console.log("로그인");
+      this.$axios
+        .post(`${this.$store.state.host}/auth-api/auth/login`, {
+          id: this.id,
+          password: this.password,
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.$store.commit("loginToken", res.data);
+          this.$router.push(`/auth-api/auth/${res.data.userid}`);
+        });
+    },
+    showLogin() {
+      this.isLogin = true;
+      this.isRegister = false;
     },
   },
 };
