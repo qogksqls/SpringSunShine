@@ -69,12 +69,23 @@ export default {
   },
   methods: {
     ...mapMutations(['ADD_CHILD']),
-    addChild(){
+    addChild() {
+      console.log('아동추가')
       if(this.name.length == 0 || this.birth.length == 0 || this.gender.length == 0){
         alert("Fill in the blank!")
         return
       }
       this.ADD_CHILD([this.name, this.birth, this.gender])
+      
+      // this.$axios.post(`${this.$store.state.host}/child`, {
+      //   name: this.name,
+      //   birth: this.birth,
+      //   gender: this.gender
+      // }).then(
+      //   res => {
+      //     console.log(res.data);
+      //     this.$router.push("/login");
+      // })
       this.name = ''
       this.birth = ''
       this.gender = ''

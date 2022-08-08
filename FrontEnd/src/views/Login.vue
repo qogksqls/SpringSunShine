@@ -30,7 +30,8 @@
                     placeholder="아이디를 적어주세요"
                     class="col-lg-8  form-control"
                     id="name"
-                    v-model="id"
+                    v-model="credentials.id"
+                    @keyup.enter="loginSubmit"
                   />
                 </div>
                 <div
@@ -45,7 +46,8 @@
                     placeholder="비밀번호를 적어주세요"
                     class="col-lg-8  form-control"
                     id="pw"
-                    v-model="password"
+                    v-model="credentials.password"
+                    @keyup.enter="loginSubmit"
                   />
                 </div>
                 <div class="text-right mt-3">
@@ -59,7 +61,7 @@
                       >회원가입</base-button
                     ></router-link
                   >
-                  <base-button type="primary" class="col-lg-3 m-4" @click="loginSubmit"
+                  <base-button type="primary" class="col-lg-3 m-4" @click="login"
                     >로그인</base-button
                   >
                 </div>
@@ -88,8 +90,10 @@ import { mapActions } from 'vuex'
 export default {
   data() {
     return {
-      id: null,
-      password: null,
+      credentials: {
+        id: null,
+        password: null,
+      }
     }
   },
   computed: {
@@ -101,13 +105,14 @@ export default {
     this.$store.commit('logout')
   },
   methods: {
+    ...mapActions(['login']),
     loginSubmit: function() {
       console.log('로그인')
-      this.$axios.post(`${this.$store.state.accounts.host}/auth-api/auth/login`, { id: this.id, password: this.password}).then(
+      this.$axios.post(`${this.$store.state.host}/auth-api/auth/login`, { id: this.id, password: this.password}).then(
         res => {
           console.log(res.data);
           this.$store.commit('loginToken', res.data)
-          this.$router.push("/");
+          this.$router.push(`/auth-api/auth/${res.data.userid}`);
         }
       )
     },
