@@ -25,7 +25,7 @@
       <div class="wrap_content row col-md-12 p-4">
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
-          <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
+          <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
         </div>
         <!--학생 얼굴 들어갈 자리 end-->
 
@@ -101,7 +101,7 @@
 
           <!--상담사 얼굴 들어갈 자리 start-->
           <div class="col-md-2 counselorFace">
-            <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
+            <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
           </div>
           <!--상담사 얼굴 들어갈 자리 end-->
         </div>
@@ -196,7 +196,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
+							resolution: '320x240',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not
