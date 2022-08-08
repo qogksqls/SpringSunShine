@@ -4,7 +4,9 @@ import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.User;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistResponse;
+import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
+import com.ssafy.web.request.TheraModifyRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 
 public interface UserService {
@@ -24,5 +26,11 @@ public interface UserService {
 	
 	//치료사 회원정보 조회 
 	TherapistResponse getTheraInfo(String user_id);
+	
+	//부모 회원정보 수정 
+	int parentModify(String user_id, ParentModifyRequest parentInfo);
+	
+	//치료사 회원정보 수정 
+	int theraModify(String user_id, TheraModifyRequest theraInfo);
 
 }

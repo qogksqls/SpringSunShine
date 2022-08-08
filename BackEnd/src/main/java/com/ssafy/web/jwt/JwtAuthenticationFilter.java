@@ -70,8 +70,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter{
 			if(token != null) {
 				//토큰 검증기 받아오기 
 				JWTVerifier verifier = JwtTokenUtil.getVerifier();
-				//토큰에 이상이 있는지 ? 있으면 예외
-				
+				//토큰에 이상이 있는지 ? 있으면 예외 ------> 유효기간 만료시 , 토큰 재발급 하기 위한 리프레시 토큰 받아야함 
 				JwtTokenUtil.handleError(token);
 				//실제 검증 + 복호화(내부적으로 복호화도 해줌)
 				DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
