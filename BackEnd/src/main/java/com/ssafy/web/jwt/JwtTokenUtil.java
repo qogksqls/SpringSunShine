@@ -20,6 +20,7 @@ import com.auth0.jwt.exceptions.*;
 import com.ssafy.web.service.RedisService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 
@@ -138,7 +139,7 @@ public class JwtTokenUtil {
 		        throw ex;
 		    } catch (SignatureVerificationException ex) {
 		        throw ex;
-		    } catch (TokenExpiredException ex) {
+		    } catch (ExpiredJwtException ex) {
 		        throw ex;
 		    } catch (JWTCreationException ex) {
 		        throw ex;
