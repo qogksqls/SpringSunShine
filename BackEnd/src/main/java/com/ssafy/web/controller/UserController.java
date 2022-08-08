@@ -68,6 +68,12 @@ public class UserController {
 	
 	/*아이디 중복검사*/
 	@GetMapping("/checkid/{id}")
+	@ApiOperation(value="아이디 중복검사", notes="<strong>아이디 중복검사</strong> 를 한다")
+	@ApiResponses({
+		@ApiResponse(code=200, message="성공"),
+		@ApiResponse(code=401, message="실패"),
+		@ApiResponse(code=500, message="서버오류")
+	})
 	public String checkId(@PathVariable String id) {
 		System.out.println(id);
 		int res = userService.checkId(id);
