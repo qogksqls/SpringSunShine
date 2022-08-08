@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 .csrf().disable()
 		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용 X 
 		 .and()
-		 .addFilter(new JwtAuthenticationFilter(authenticationManager(), authService))
+//		 .addFilter(new JwtAuthenticationFilter(authenticationManager(), authService))
 		 .authorizeRequests()
 		 .antMatchers("/server/**").authenticated()
 		 .anyRequest().permitAll().and().cors();
