@@ -9,7 +9,6 @@ import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import SigninSelect from "./views/components/Signin/SigninSelect.vue";
 import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
-import WebRtcStudent from "./views/WebRtcView/WebrtcViewStudent.vue";
 import ChildReserveShow from "./views/ReserveView/ChildReserveShowView.vue";
 
 //아동추가 목록
@@ -85,13 +84,6 @@ export default new Router({
       components: {
         header: AppHeader,
         default: CounselorRecommend,
-      },
-    },
-    {
-      path: "/webrtcStudent",
-      name: "webrtcStudent",
-      components: {
-        default: WebRtcStudent,
       },
     },
     {
