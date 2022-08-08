@@ -53,4 +53,16 @@ public class Therapist {
 //	@JoinColumn(name="thera_id", referencedColumnName = "user_id")
 	@JoinColumn(name = "thera_id", referencedColumnName = "user_id", nullable = false)
 	private User user;
+	
+	
+	// 영속성 컨텍스트가 유지되어있기 때문에 Entity의 데이터 값이 변경 되면 자동으로 update 
+		public void update(String name, String email, String phone, String address , String profileUrl, String theraIntro, User user) {
+			this.name= name ;
+			this.email=email;
+			this.phone= phone;
+			this.address=address;
+			this.profileUrl = profileUrl;
+			this.theraIntro = theraIntro;
+			this.user=user;	
+		}
 }
