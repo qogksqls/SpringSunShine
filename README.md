@@ -10,6 +10,7 @@
 ## 산출물
 - [기능명세서](https://gyurania.notion.site/36905c82843d46c495bf43bd3968b5cd)
 - [API 명세서](https://gyurania.notion.site/API-329f211d53d344babc3094d3e8ea6638)
+- [서버 논리 구성도](https://gyurania.notion.site/ab663afb2fcd489eb37c803417569d19)
 
 ## 진행상황
 
