@@ -49,7 +49,7 @@
             <i class="ni ni-collection d-lg-none"></i>
             <span class="nav-link-inner--text">프로필보기</span>
           </a>
-          <router-link to="/landing" class="dropdown-item"
+          <router-link to="/child" class="dropdown-item"
             >자녀관리</router-link
           >
           <router-link to="/profile" class="dropdown-item"

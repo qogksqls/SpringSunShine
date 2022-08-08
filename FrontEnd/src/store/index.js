@@ -9,7 +9,9 @@ import accounts from './modules/accounts'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    host: 'https://i7a606.q.ssafy.io',
+  },
   getters: {},
   mutations: {},
   actions: {},
