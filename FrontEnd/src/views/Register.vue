@@ -88,7 +88,17 @@
                     v-model="password2"
                   />
                 </div>
+<<<<<<< HEAD
                 <h6 v-if="password1 !== password2 || password1 === '' || password2 === ''">
+=======
+                <h6
+                  v-if="
+                    password1 !== password2 ||
+                      password1 === '' ||
+                      password2 === ''
+                  "
+                >
+>>>>>>> FE_child
                   비밀번호 값이 다릅니다.
                 </h6>
                 <h6 v-else>
@@ -265,13 +275,13 @@ export default {
       }
     },
     counselor_data(inputDatas) {
-      this.profile_url = inputDatas.profile_url
-      this.expertise_no = inputDatas.expertise_no
-      this.academicCareers = inputDatas.academicCareers
-      this.careers = inputDatas.careers
-      this.licences = inputDatas.licences
-    }
-  }
+      this.profile_url = inputDatas.profile_url;
+      this.expertise_no = inputDatas.expertise_no;
+      this.academicCareers = inputDatas.academicCareers;
+      this.careers = inputDatas.careers;
+      this.licences = inputDatas.licences;
+    },
+  },
 };
 </script>
 

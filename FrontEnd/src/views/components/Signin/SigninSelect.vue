@@ -50,7 +50,6 @@
                           ><strong>보호자로 가입</strong></small
                         >
                       </div>
-
                     </div>
                   </div>
 
@@ -61,12 +60,6 @@
                       name: 'register',
                       query: { isTherapist: true}
                     }">
-                      <div class="mt-2 p-3 couns_form go_to">
-                        <i class="ni ni-check-bold"></i>
-                        <small class="my-3 p-2"
-                          ><strong>상담사로 가입</strong></small
-                        >
-                      </div>
                     </router-link> -->
                     <div @click="clickTeacher">
                       <div class="mt-2 p-3 couns_form go_to">
@@ -75,7 +68,6 @@
                           ><strong>상담사로 가입</strong></small
                         >
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -95,12 +87,12 @@
 export default {
   methods: {
     clickParent() {
-      this.$router.push({name: 'register', params: { isTherapist: false }})
+      this.$router.push({ name: "register", params: { isTherapist: false } });
     },
     clickTeacher() {
-      this.$router.push({name: 'register', params: { isTherapist: true }})
-    }
-  }
+      this.$router.push({ name: "register", params: { isTherapist: true } });
+    },
+  },
 };
 </script>
 
