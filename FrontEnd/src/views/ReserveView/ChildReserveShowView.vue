@@ -52,7 +52,9 @@
                 </thead>
                 <tbody>
                   <tr v-for="play in care" v-bind:key="care">
-                    <td v-for="item in play" v-bind:key="play">{{ item }}</td>
+                    <td v-for="item in play" v-bind:key="play" @click="Modal">
+                      {{ item }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -87,5 +89,8 @@ export default {
 }
 th {
   height: 14px;
+}
+tr {
+  cursor: pointer;
 }
 </style>
