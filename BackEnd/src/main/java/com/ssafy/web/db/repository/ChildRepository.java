@@ -9,6 +9,6 @@ public interface ChildRepository extends JpaRepository<Child, Integer> {
 	Child findByChildId(String childId);
 
 	/** child_id 반환 */
-//	Child findByChildNameAndParentId(String childName, String parentId);
+	Child findByChildNameAndParentId(String childName, String parentId);
 
 }

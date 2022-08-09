@@ -149,9 +149,4 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
-	/**치료사 학력,경력,자격사항 조회*/
-	@GetMapping
-	public ResponseEntity<?> getTheraCareer(){
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-	}
 }

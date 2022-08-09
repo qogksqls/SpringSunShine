@@ -19,6 +19,7 @@ import com.ssafy.web.dto.Academy;
 import com.ssafy.web.dto.Career;
 import com.ssafy.web.dto.Licence;
 import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistCareer;
 import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
@@ -216,6 +217,7 @@ public class UserServiceImpl implements UserService {
 				theraInfo.getProfile_url(), theraInfo.getThera_intro(), user);
 		return 1;
 	}
+
 
 
 
