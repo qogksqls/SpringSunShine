@@ -15,6 +15,9 @@ import com.ssafy.web.db.entity.User;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.TheraRepository;
 import com.ssafy.web.db.repository.UserRepository;
+import com.ssafy.web.dto.Academy;
+import com.ssafy.web.dto.Career;
+import com.ssafy.web.dto.Licence;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentModifyRequest;
@@ -53,22 +56,57 @@ public class UserServiceImpl implements UserService {
 		thera.setProfileUrl(theraInfo.getProfile_url());
 		thera.setTheraIntro(theraInfo.getThera_intro());
 		//파일 넣기
-		thera.setAcademicCareers(getFile(theraInfo.getAcademicCareers()));
-		thera.setCareers(getFile(theraInfo.getCareers()));
-		thera.setLicences(getFile(theraInfo.getLicences()));
-	
+		
+		List<Academy> academy = theraInfo.getAcademicCareers();
+		List<Career> career = theraInfo.getCareers();
+		List<Licence> licence = theraInfo.getLicences();
+		thera.setAcademicCareers(getAcademy(academy));
+		thera.setCareers(getCareer(career));
+		thera.setLicences(getLicence(licence));
+		
 		thera.setUser(user);
 		theraRepository.save(thera);
 		
+	
 	}
-	public String getFile(List<String> list) {
-		String str = "";
-		for(String item : list) {
-			str+=item+",";
+	
+	public String getAcademy(List<Academy> academy) {
+		int size = academy.size(); // 몇개의 학력 
+		String str=""; 
+		for(int i=0; i<size; i++) {
+			str+="[";
+			str+=academy.get(i).getName()+",";
+			str+=academy.get(i).getMajor()+",";
+			str+=academy.get(i).getAdmin()+",";
+			str+=academy.get(i).getGradu()+"] ";
 		}
 		return str;
 	}
-
+	public String getCareer(List<Career> career) {
+		int size = career.size(); // 몇개의 학력 
+		String str=""; 
+		for(int i=0; i<size; i++) {
+			str+="[";
+			str+=career.get(i).getName()+",";
+			str+=career.get(i).getLevel()+",";
+			str+=career.get(i).getDate()+",";
+			str+=career.get(i).getRole()+"] ";
+		}
+		return str;	
+	}
+	public String getLicence(List<Licence> licence) {
+		int size = licence.size(); // 몇개의 학력 
+		String str=""; 
+		for(int i=0; i<size; i++) {
+			str+="[";
+			str+=licence.get(i).getName()+",";
+			str+=licence.get(i).getPlace()+",";
+			str+=licence.get(i).getDate()+",";
+			str+=licence.get(i).getFile()+"] ";
+		}
+		return str;	
+	}
+	
 	//부모 회원가입 
 	@Override
 	public void parentRegist(ParentRegisterRequest parentInfo) {
