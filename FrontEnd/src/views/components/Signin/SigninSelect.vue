@@ -32,33 +32,43 @@
                   <div class="p-0 my-3 col-lg-12">
                     <small><strong>서비스를 의뢰하고 싶다면</strong></small>
                     <!--링크 넘어가기-->
-                    <router-link :to="{
+                    <!-- <router-link :to="{
                       name: 'register',
                       query: { isTherapist: false}
                     }">
                       <div class="mt-2 p-3 parents_form go_to">
                         <i class="ni ni-check-bold"></i>
                         <small class="my-3 p-2"
-                          ><strong>학부모로 가입</strong></small
+                          ><strong>보호자로 가입</strong></small
                         >
                       </div>
-                    </router-link>
+                    </router-link> -->
+                    <div @click="clickParent">
+                      <div class="mt-2 p-3 parents_form go_to">
+                        <i class="ni ni-check-bold"></i>
+                        <small class="my-3 p-2"
+                          ><strong>보호자로 가입</strong></small
+                        >
+                      </div>
+                    </div>
                   </div>
 
                   <div class="p-0 my-3 col-lg-12">
                     <small><strong>상담사로 가입하고 싶다면</strong></small>
                     <!--링크 넘어가기-->
-                    <router-link :to="{
+                    <!-- <router-link :to="{
                       name: 'register',
                       query: { isTherapist: true}
                     }">
+                    </router-link> -->
+                    <div @click="clickTeacher">
                       <div class="mt-2 p-3 couns_form go_to">
                         <i class="ni ni-check-bold"></i>
                         <small class="my-3 p-2"
                           ><strong>상담사로 가입</strong></small
                         >
                       </div>
-                    </router-link>
+                    </div>
                   </div>
                 </div>
                 <!--회원가입 폼 이름 작성 end-->
@@ -75,7 +85,14 @@
 
 <script>
 export default {
-  
+  methods: {
+    clickParent() {
+      this.$router.push({ name: "register", params: { isTherapist: false } });
+    },
+    clickTeacher() {
+      this.$router.push({ name: "register", params: { isTherapist: true } });
+    },
+  },
 };
 </script>
 
