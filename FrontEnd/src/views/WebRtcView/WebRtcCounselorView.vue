@@ -103,7 +103,7 @@
           </div>
 
           <!--상담사 얼굴 들어갈 자리 start-->
-          <div class="col-md-2 counselorFace">
+          <div class="counselorFace">
             <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
           </div>
           <!--상담사 얼굴 들어갈 자리 end-->
@@ -370,6 +370,7 @@ textarea::-webkit-scrollbar-thumb {
   top: -85px;
   height: 140px;
   border-radius: 15px;
+  width: 1000px;
 }
 .iconbtn {
   text-align: center;
