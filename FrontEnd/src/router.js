@@ -19,10 +19,11 @@ import SurveyResultView from "./views/survey/SurveyResultView";
 //webRTC
 import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
 import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
+//cardGame
+import playAlone from "./views/playAloneView/playAlone.vue"
 
+import reserve from "./views/Reserve/ReserveView.vue"
 
-// reserve
-import reserve from "@/views/Reserve/ReserveView";
 
 Vue.use(Router);
 
@@ -135,6 +136,16 @@ export default new Router({
       path: "/webCounselor",
       name: "webCounselor",
       component: WebCounselor,
+    },
+    //reserve
+    {
+      path: "/resev-parent",
+      name: "reserve",
+      components: {
+        header: AppHeader,
+        default: reserve,
+      },
+      props: true,
     },
   ],
   scrollBehavior: (to) => {

@@ -1,5 +1,6 @@
 package com.ssafy.web.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +51,22 @@ public class UserServiceImpl implements UserService {
 		thera.setPhone(theraInfo.getPhone());
 		thera.setAddress(theraInfo.getAddress());
 		thera.setProfileUrl(theraInfo.getProfile_url());
-		thera.setFileUrl(theraInfo.getFile_url());
 		thera.setTheraIntro(theraInfo.getThera_intro());
+		//파일 넣기
+		thera.setAcademicCareers(getFile(theraInfo.getAcademicCareers()));
+		thera.setCareers(getFile(theraInfo.getCareers()));
+		thera.setLicences(getFile(theraInfo.getLicences()));
 	
 		thera.setUser(user);
 		theraRepository.save(thera);
 		
+	}
+	public String getFile(List<String> list) {
+		String str = "";
+		for(String item : list) {
+			str+=item+",";
+		}
+		return str;
 	}
 
 	//부모 회원가입 

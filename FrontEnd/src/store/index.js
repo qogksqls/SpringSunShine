@@ -3,8 +3,13 @@ import Vuex from "vuex";
 
 import children from "./modules/children";
 import memos from "./modules/memos";
+
+import cardGame from "./modules/cardGame"
+
 import teacher from "./modules/teacher";
 import accounts from "./modules/accounts";
+
+import webRTC from "./modules/webRTC"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -19,5 +24,7 @@ export default new Vuex.Store({
     memos,
     teacher,
     accounts,
+    cardGame,
+    webRTC,
   },
 });

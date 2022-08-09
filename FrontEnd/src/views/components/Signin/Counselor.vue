@@ -60,6 +60,7 @@
         placeholder="담당업무"
         :v-model="datas.profile_url"
       />
+      asdf: {{datas.profile_url}}
     </div>
     <!--상담사 폼 학력 start-->
     <hr />
