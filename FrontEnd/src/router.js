@@ -19,6 +19,8 @@ import SurveyResultView from "./views/survey/SurveyResultView";
 //webRTC
 import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
 import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
+//cardGame
+import playAlone from "./views/playAloneView/playAlone.vue"
 
 Vue.use(Router);
 
@@ -132,6 +134,12 @@ export default new Router({
       name: "webCounselor",
       component: WebCounselor,
     },
+    //cardGame
+    {
+      path: "/playAlone",
+      name: "playAlone",
+      component: playAlone,
+    }
   ],
   scrollBehavior: (to) => {
     if (to.hash) {

@@ -71,24 +71,26 @@
           class="col-md-12 row RtcFunction justify-content-start m-0 p-0 align-self-center"
         >
           <class class="col-md-3"></class>
+          <!-- @click="ShowCardGame" -->
           <base-button
             type="success"
-            @click="ShowCardGame"
+            
             class="col-md-1 align-self-center"
             >사물게임</base-button
           ><base-button
             type="success"
-            @click="ShowMe"
+
             class="col-md-1 align-self-center"
             >피아노게임</base-button
           >
+          <!--             @click="ShowMe" -->
           <!--소리-->
           <div class="iconbtn">
-            <i class="fa fa-volume-up fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-volume-up fa-2x" aria-hidden="true" @click="muteMySound"></i>
           </div>
           <!--카메라-->
           <div class="iconbtn">
-            <i class="fa fa-video-camera fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-video-camera fa-2x" aria-hidden="true" @click="openCamera"></i>
           </div>
           <!--닫기-->
           <div class="iconbtn2">
@@ -96,6 +98,7 @@
               class="fa fa-times fa-2x"
               aria-hidden="true"
               style="color:#fff"
+              @click="leaveSession"
             ></i>
           </div>
 
@@ -127,6 +130,10 @@ const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   data() {
     return {
+      // videoDiv: document.querySelector('template'),
+      // widthOfDiv: null,
+      // heightOfDiv: null,
+
       newMemo: "",
       isCardGame: false,
 
@@ -141,10 +148,17 @@ export default {
 
 			mute: false,
 			closecamera: false,
-      active: false,
     };
   },
-
+  // watch: {
+  //   videoDiv () {
+  //     this.videoDiv = document.querySelector('template')
+  //     this.widthOfDiv = this.videoDiv.offsetWidth
+  //     this.heightOfDiv = this.videoDiv.offsetheight
+  //     // this.publisher.resolution = `${widthOfDiv}x${heightOfDiv}`
+  //     // this.publisher.resolution = `${widthOfDiv}x${heightOfDiv}`
+  //   },
+  // },
   components: {
 		MainVideoComp,
 		SubVideoComp,
@@ -196,7 +210,8 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '320x240',  // The resolution of your video
+							resolution: '640x480', // The resolution// The resolution of your video
+							// resolution: `${widthOfDiv}x${heightOfDiv}`,  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not
@@ -280,34 +295,15 @@ export default {
 			});
 		},
 
-		hoverToolbar () {
-			this.active = true
-		},
-
-		leaveToolbar () {
-			this.active = false
-		},
-
 		muteMySound () {
-			this.publisher.publishAudio(false)
-			this.mute = !this.mute
-		},
-
-		unmuteMySound () {
-			this.publisher.publishAudio(true)
-			this.mute = !this.mute
+      this.publisher.publishAudio(this.mute)
+      this.mute = !this.mute
 		},
 
 		openCamera () {
-			this.publisher.publishVideo(true)
-			this.closecamera = !this.closecamera
+			this.publisher.publishVideo(this.closecamera)
+      this.closecamera = !this.closecamera
 		},
-
-		closeCamera () {
-			this.publisher.publishVideo(false)
-			this.closecamera = !this.closecamera
-		},
-
   },
 };
 </script>
@@ -395,4 +391,5 @@ textarea::-webkit-scrollbar-thumb {
   padding: 4px;
   color: rgb(255, 255, 255);
 }
+
 </style>
