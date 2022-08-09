@@ -22,6 +22,8 @@ import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
 //cardGame
 import playAlone from "./views/playAloneView/playAlone.vue"
 
+import reserve from "./views/Reserve/ReserveView.vue"
+
 Vue.use(Router);
 
 export default new Router({
@@ -134,12 +136,16 @@ export default new Router({
       name: "webCounselor",
       component: WebCounselor,
     },
-    //cardGame
+    //reserve
     {
-      path: "/playAlone",
-      name: "playAlone",
-      component: playAlone,
-    }
+      path: "/resev-parent",
+      name: "reserve",
+      components: {
+        header: AppHeader,
+        default: reserve,
+      },
+      props: true,
+    },
   ],
   scrollBehavior: (to) => {
     if (to.hash) {

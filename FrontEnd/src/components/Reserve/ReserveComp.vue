@@ -9,66 +9,16 @@
             @on-close="blur"
             :config="{allowInput: true}"
             class="form-control datepicker"
-            v-model="dates.simple">
+            v-model="date">
           </flat-picker>
         </base-input>
-        <!-- <b-calendar
-          v-model="value"
-          :hide-header="hideHeader"
-          :show-decade-nav="showDecadeNav"
-          @context="pickDate"
-        ></b-calendar> -->
-        <!-- <b-col>
-          <p>Value: <b>'{{ value }}'</b></p>
-          <p class="mb-0">Context:</p>
-          <pre class="small">{{ context }}</pre>
-        </b-col> -->
-        <!-- <v-app>
-          <div>
-            <v-sheet
-              tile
-              class="d-flex"
-            >
-              <v-btn
-                icon
-                class="ma-2"
-                @click="$refs.calendar.prev()"
-              >
-                <v-icon>mdi-chevron-left</v-icon>
-              </v-btn>
-              <v-spacer></v-spacer>
-              <v-toolbar-title v-if="$refs.calendar" class="toolbar-title">
-                {{ $refs.calendar.title }}
-              </v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn
-                icon
-                class="ma-2"
-                @click="$refs.calendar.next()"
-              >
-                <v-icon>mdi-chevron-right</v-icon>
-              </v-btn>
-            </v-sheet>
-            <v-sheet>
-              <v-calendar
-                ref="calendar"
-                v-model="value"
-                @click:date="pickDate"
-              ></v-calendar>
-            </v-sheet>
-          </div>
-        </v-app> -->
-        <!-- <h2 style="margin: 0 0 5px 0">예약</h2>
-        <v-calendar
-            ref="calendar"
-            @click:date="pickDate"
-        ></v-calendar> -->
       </div>
       <div class="schedule123">
         <div id="schdule_card">
-          <h2 style="margin: 10px 0 10px 30px;">
-            <h1>{{ month }}월 {{ day }}일 {{ hour }} 시</h1>
-          </h2>
+          <h1 style="margin: 10px 0 10px 30px;">
+            {{ date.slice(5, 7) }}월 {{ date.slice(8, 10) }}일 {{ hour }} 시
+            <h3><button @click="dateSelected">조회</button></h3>
+          </h1>
           <hr>
           <div class="schdule_buttons">
             <div class="container">
@@ -76,12 +26,6 @@
                 <div v-for="(time, i) in possibleTimes" :key="i">
                   <div v-if="time[1] === 1">
                     <button class="possible_buttons" @click="possibleButton(time[0])">{{ time[0] }}:00</button>
-                    <!-- <div v-if="flag">
-                      <button class="possible_buttons_click" @click="possibleButton(time[0])">{{ time[0] }}:00</button>
-                    </div>
-                    <div v-else>
-                      <button class="possible_buttons" @click="possibleButton(time[0])">{{ time[0] }}:00</button>
-                    </div> -->
                   </div>
                   <div v-else>
                     <button class="impossible_buttons" @click="impossibleButton">{{ time[0] }}:00</button>
@@ -90,7 +34,14 @@
               </div>
             </div>
           </div>
-          <button class="reserve_confirm">예약완료</button>
+          <div v-if="문진표유무">
+            <div v-if="hour !== '몇'">
+              <ReserveConfirm />
+            </div>
+          </div>
+          <div v-else>
+            <GoToSurvey />
+          </div>
         </div>
       </div>
     </div>
@@ -99,8 +50,12 @@
 
 <script>
 import { mapState } from 'vuex'
+
+import ReserveConfirm from './ReserveConform.vue'
+import GoToSurvey from './GoToSurvey.vue'
 import flatPicker from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+
 
 var today = new Date();
 var year = today.getFullYear();
@@ -110,37 +65,43 @@ var dateString = year + '-' + month  + '-' + day;
 
 export default {
   components: {
-    flatPicker,
+    flatPicker, ReserveConfirm, GoToSurvey
   },
   data() {
     return {
-      dates: {
-        simple: dateString
-      },
+      date: dateString,
       now: [],
       times: [9, 10, 11, 13, 14, 15, 16, 17],
       possibleTimes: [],
+      impossibleTimes: [],
 
       hour: '몇',
-      year: year,
-      month: month,
-      day: day,
       value: dateString,
       context: null,
       showDecadeNav: false,
       hideHeader: true,
+
+      isCompleteSurvey: '',
+      문진표유무: ''
     }
   },
   computed: {
     ...mapState({
-      teacher: state => state.teacher.teacher
+      teacher: state => state.teacher.teacher,
+      children: state => state.children.children
     }),
+    asdf() {
+      return this.possibleTimes
+    }
+  },
+  created() {
+    this.문진표유무 = this.children[1]['문진표']
   },
   methods: {
-    pickDate(date) {
-      console.log(date)
+    dateSelected() {
+      console.log(this.date)
       let impossibleTimes = []
-      this.value = this.dates.simple
+      this.value = this.date
       this.month = this.value.slice(5, 7)
       this.day = this.value.slice(8, 10)
       if (this.teacher.reserveTime[this.value]) {
@@ -161,6 +122,7 @@ export default {
           this.possibleTimes.push([time, 0])
         }
       }
+      this.hour = '몇'
       return this.possibleTimes
     },
     impossibleButton() {
@@ -169,9 +131,6 @@ export default {
     possibleButton(t) {
       this.hour = t
     },
-    // onContext(ctx) {
-    //   this.context = ctx
-    // }
   },
 }
 </script>

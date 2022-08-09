@@ -64,7 +64,7 @@
                   <base-button
                     type="primary"
                     class="col-lg-3 m-4"
-                    @click="login"
+                    @click="loginSubmit"
                     >로그인</base-button
                   >
                 </div>
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -99,27 +99,27 @@ export default {
       },
     };
   },
-  computed: {
-    methods: {
-      ...mapActions(["login"]),
-    },
-  },
+  // computed: {
+  //   methods: {
+  //     ...mapActions(["login"]),
+  //   },
+  // },
   created() {
     this.$store.commit("logout");
   },
   methods: {
-    ...mapActions(["login"]),
+    // ...mapActions(["login"]),
     loginSubmit: function() {
       console.log("로그인");
       this.$axios
         .post(`${this.$store.state.host}/auth-api/auth/login`, {
-          id: this.id,
-          password: this.password,
+          id: this.credentials.id,
+          password: this.credentials.password,
         })
         .then((res) => {
           console.log(res.data);
           this.$store.commit("loginToken", res.data);
-          this.$router.push(`/auth-api/auth/${res.data.userid}`);
+          this.$router.push(`/`);
         });
     },
     showLogin() {
