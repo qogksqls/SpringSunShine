@@ -392,4 +392,8 @@ textarea::-webkit-scrollbar-thumb {
   color: rgb(255, 255, 255);
 }
 
+video {
+  width: 100%;
+  height: 100%;
+}
 </style>
