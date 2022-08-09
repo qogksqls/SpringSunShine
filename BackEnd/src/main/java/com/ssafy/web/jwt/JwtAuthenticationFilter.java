@@ -22,6 +22,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.web.db.entity.User;
 import com.ssafy.web.service.AuthService;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,21 +41,25 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 					throws ServletException, IOException{
-		//요청 헤더에서 JWT 토큰 찾기 
+		//요청 헤더에서 값 찾기 
 		String header =request.getHeader(JwtTokenUtil.HEADER_STRING);
-		log.debug("test: filter-doFilter입니다");
-		//헤더가 비어있거나 token 값이 아니면, 그냥 넘겨버리기 
+		log.debug("test: filter-토큰찾기");
+		//올바른 토큰 형태의 값인지 확인하기 ( 토큰이 아니라면 ? -> 그냥 넘겨 )
 		if(header == null || !header.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 	
+		
+		//토큰의 형식을 가지고 있는 값이라면, 
 		try {
-			//토큰의 형식을 가지고 있는 헤더라면, 앞부분을 떼어내고 토큰값 추출, 인증정보얻어오기
+			//앞부분을 떼어내고 토큰값 추출, 인증정보얻어오기
             Authentication authentication = getAuthentication(request);
             // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        }catch (Exception ex) {
+        }catch(ExpiredJwtException e){ 
+        	throw new JwtException("토큰기한 만료되었습니다.");
+        }catch(Exception ex) {
             ResponseBodyWriteUtil.sendError(request, response, ex);
             return;
         }
@@ -65,8 +71,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter{
 		@Transactional(readOnly = true)
 		public Authentication getAuthentication(HttpServletRequest request) throws Exception{
 			String token = request.getHeader(JwtTokenUtil.HEADER_STRING);
-			log.debug("test: filter-getAuthentication입니다");
-			//요청 헤더에 jwt 토큰이 포함된 경우, 토큰 검증 및 인증 처리 진행 
+			log.debug("test: filter-토큰검사 및 인증정보 추출");
+			//헤더에 토큰 형식의 값이 있을 경우
 			if(token != null) {
 				//토큰 검증기 받아오기 
 				JWTVerifier verifier = JwtTokenUtil.getVerifier();
