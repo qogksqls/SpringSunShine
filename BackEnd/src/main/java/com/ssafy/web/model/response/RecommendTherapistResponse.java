@@ -1,6 +1,5 @@
 package com.ssafy.web.model.response;
 
-import com.ssafy.web.db.entity.Therapist;
 
 import lombok.Data;
 
@@ -11,7 +10,4 @@ public class RecommendTherapistResponse {
 		String email;
 		String profile_url;
 		String thera_intro;
-		
-		
-		
 }
