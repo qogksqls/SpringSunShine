@@ -1,5 +1,6 @@
 package com.ssafy.web.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +44,19 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
 		user.setPassword(encoder.encode(theraInfo.getPassword()));
-		
+		List<String> fileList= theraInfo.getFile_url();
+		System.out.println(fileList.get(0) +" " + fileList.get(1) + " " + fileList.get(2));
 		Therapist thera = new Therapist();
 		thera.setName(theraInfo.getName());
 		thera.setEmail(theraInfo.getEmail());
 		thera.setPhone(theraInfo.getPhone());
 		thera.setAddress(theraInfo.getAddress());
 		thera.setProfileUrl(theraInfo.getProfile_url());
-		thera.setFileUrl(theraInfo.getFile_url());
 		thera.setTheraIntro(theraInfo.getThera_intro());
+		//파일 넣기
+		thera.setFileUrl1(fileList.get(0));
+		thera.setFileUrl2(fileList.get(1));
+		thera.setFileUrl3(fileList.get(2));
 	
 		thera.setUser(user);
 		theraRepository.save(thera);

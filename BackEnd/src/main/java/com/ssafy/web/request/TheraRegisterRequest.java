@@ -1,5 +1,7 @@
 package com.ssafy.web.request;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -27,7 +29,7 @@ public class TheraRegisterRequest {
 	@ApiModelProperty(name="프로필url")
 	String profile_url;
 	@ApiModelProperty(name="첨부파일url")
-	String file_url;
+	List<String> file_url;
 	@ApiModelProperty(name="자기소개")
 	String thera_intro;
 	@Override

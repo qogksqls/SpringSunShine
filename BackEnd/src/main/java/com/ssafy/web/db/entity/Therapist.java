@@ -1,5 +1,7 @@
 package com.ssafy.web.db.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,8 +40,12 @@ public class Therapist {
 	String address;
 	@Column(name = "profile_url", columnDefinition = "VARCHAR(255)", nullable = false)
 	String profileUrl;
-	@Column(name = "file_url", columnDefinition = "VARCHAR(255)", nullable = false)
-	String fileUrl;
+	@Column(name = "file_url1", columnDefinition = "VARCHAR(255)", nullable = false)
+	String fileUrl1;
+	@Column(name = "file_url2", columnDefinition = "VARCHAR(255)", nullable = false)
+	String fileUrl2;
+	@Column(name = "file_url3", columnDefinition = "VARCHAR(255)", nullable = false)
+	String fileUrl3;
 	@Column(name = "thera_intro", columnDefinition = "TEXT", nullable = false)
 	String theraIntro;
 	@Column(name = "approve_flag", columnDefinition = "int default 0", nullable = false)
@@ -53,8 +59,7 @@ public class Therapist {
 //	@JoinColumn(name="thera_id", referencedColumnName = "user_id")
 	@JoinColumn(name = "thera_id", referencedColumnName = "user_id", nullable = false)
 	private User user;
-	
-	
+
 	// 영속성 컨텍스트가 유지되어있기 때문에 Entity의 데이터 값이 변경 되면 자동으로 update 
 		public void update(String name, String email, String phone, String address , String profileUrl, String theraIntro, User user) {
 			this.name= name ;
