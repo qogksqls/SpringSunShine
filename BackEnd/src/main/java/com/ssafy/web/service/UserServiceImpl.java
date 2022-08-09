@@ -42,6 +42,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	MailService mailService;
+	
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	//치료사 회원가입 
 	@Override
@@ -269,6 +272,34 @@ public class UserServiceImpl implements UserService {
 		thera.update(theraInfo.getName(), theraInfo.getPhone(), theraInfo.getAddress(), 
 				theraInfo.getProfile_url(), theraInfo.getThera_intro(), user);
 		return 1;
+	}
+
+	@Override
+	public int findPass(String id, String email) throws Exception {
+		User user = userRepository.findUserById(id).orElse(null); 
+		if(user == null) {
+			System.out.println("user--null");
+			return 0; //id 오류 
+		}
+	
+		Parent p = parentRepository.findByUser(user);
+		if(p!=null) { // 이사람은 부모 
+			if(!p.getEmail().equals(email)) {
+				System.out.println("이메일없음");
+				return 0;
+			}
+			//이메일 발송 
+			mailService.sendPwMessage(email);
+			return 1;
+		}
+		else { // 이사람은 치료사
+			Therapist t = theraRepository.findByUser(user);
+			if(!t.getEmail().equals(email)) return 0;
+			//이메일 발송 
+			mailService.sendPwMessage(email);
+			return 1;
+		}
+	
 	}
 
 

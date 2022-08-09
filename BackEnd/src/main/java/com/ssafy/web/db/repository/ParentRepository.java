@@ -13,6 +13,8 @@ public interface ParentRepository extends JpaRepository<Parent, Integer> {
 //	Parent findByUser(String user_id);
 	
 	Optional<Parent> findByEmail(String email);
+	
+
 
 
 }
