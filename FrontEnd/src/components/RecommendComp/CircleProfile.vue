@@ -6,7 +6,7 @@
         class="rounded-circle img-fluid shadow-lg"
       />
       <div class="card_about text-center">
-        <p>상담사 이름</p>
+        <p>상담사 이름12341234</p>
         <p>전문분야</p>
       </div>
     </a>
