@@ -20,6 +20,8 @@ import SurveyResultView from "./views/survey/SurveyResultView";
 import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
 import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
 
+import reserve from "./views/Reserve/ReserveView.vue"
+
 Vue.use(Router);
 
 export default new Router({
@@ -131,6 +133,12 @@ export default new Router({
       path: "/webCounselor",
       name: "webCounselor",
       component: WebCounselor,
+    },
+    //reserve
+    {
+      path: "/resev-parent",
+      name: "reserve",
+      component: reserve,
     },
   ],
   scrollBehavior: (to) => {
