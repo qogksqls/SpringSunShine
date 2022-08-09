@@ -44,8 +44,7 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
 		user.setPassword(encoder.encode(theraInfo.getPassword()));
-		List<String> fileList= theraInfo.getFile_url();
-		System.out.println(fileList.get(0) +" " + fileList.get(1) + " " + fileList.get(2));
+		
 		Therapist thera = new Therapist();
 		thera.setName(theraInfo.getName());
 		thera.setEmail(theraInfo.getEmail());
@@ -54,13 +53,20 @@ public class UserServiceImpl implements UserService {
 		thera.setProfileUrl(theraInfo.getProfile_url());
 		thera.setTheraIntro(theraInfo.getThera_intro());
 		//파일 넣기
-		thera.setFileUrl1(fileList.get(0));
-		thera.setFileUrl2(fileList.get(1));
-		thera.setFileUrl3(fileList.get(2));
+		thera.setAcademicCareers(getFile(theraInfo.getAcademicCareers()));
+		thera.setCareers(getFile(theraInfo.getCareers()));
+		thera.setLicences(getFile(theraInfo.getLicences()));
 	
 		thera.setUser(user);
 		theraRepository.save(thera);
 		
+	}
+	public String getFile(List<String> list) {
+		String str = "";
+		for(String item : list) {
+			str+=item+",";
+		}
+		return str;
 	}
 
 	//부모 회원가입 

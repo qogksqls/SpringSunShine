@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,12 +39,19 @@ public class Therapist {
 	String address;
 	@Column(name = "profile_url", columnDefinition = "VARCHAR(255)", nullable = false)
 	String profileUrl;
-	@Column(name = "file_url1", columnDefinition = "VARCHAR(255)", nullable = false)
-	String fileUrl1;
-	@Column(name = "file_url2", columnDefinition = "VARCHAR(255)", nullable = false)
-	String fileUrl2;
-	@Column(name = "file_url3", columnDefinition = "VARCHAR(255)", nullable = false)
-	String fileUrl3;
+	
+	
+	@Column(name = "academicCareers", columnDefinition = "VARCHAR(255)", nullable = false)
+	String academicCareers;
+	
+	@Column(name = "careers", columnDefinition = "VARCHAR(255)", nullable = false)
+	String careers;
+	
+	@Column(name = "licences", columnDefinition = "VARCHAR(255)", nullable = false)
+	String licences;
+	
+	
+	
 	@Column(name = "thera_intro", columnDefinition = "TEXT", nullable = false)
 	String theraIntro;
 	@Column(name = "approve_flag", columnDefinition = "int default 0", nullable = false)

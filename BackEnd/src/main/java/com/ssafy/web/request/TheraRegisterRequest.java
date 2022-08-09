@@ -28,15 +28,24 @@ public class TheraRegisterRequest {
 	String address;
 	@ApiModelProperty(name="프로필url")
 	String profile_url;
-	@ApiModelProperty(name="첨부파일url")
-	List<String> file_url;
+	
+	
+	@ApiModelProperty(name="첨부파일_학력")
+	List<String> academicCareers;
+	
+	@ApiModelProperty(name="첨부파일_경력")
+	List<String> careers;
+	
+	@ApiModelProperty(name="첨부파일_자격증")
+	List<String> licences;
+	
+	
 	@ApiModelProperty(name="자기소개")
 	String thera_intro;
 	@Override
 	public String toString() {
 		return "TheraRegisterRequest [id=" + id + ", password=" + password + ", name=" + name + ", email=" + email
-				+ ", phone=" + phone + ", address=" + address + ", profile_url=" + profile_url + ", file_url="
-				+ file_url + ", thera_intro=" + thera_intro + "]";
+				+ ", phone=" + phone + ", address=" + address + ", profile_url=" + profile_url + " thera_intro=" + thera_intro + "]";
 	}
 
 	
