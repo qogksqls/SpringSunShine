@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 .and()
 		 .addFilter(new JwtAuthenticationFilter(authenticationManager(), authService))
 		 .authorizeRequests() // 인증절차에 대한 설정 시작 
-		 .antMatchers("/auth-api/user/**").authenticated() // 특정 url 에 대하여 인증이 완료되어야 api 사용 가능
+		 .antMatchers("/server/**").authenticated() // 특정 url 에 대하여 인증이 완료되어야 api 사용 가능
 		 .anyRequest().permitAll().and().cors();
 	    }
 	 
