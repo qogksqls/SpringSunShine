@@ -30,12 +30,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Api(value="회원관리 API", tags={"User"})
 @RequestMapping("/user")
 @CrossOrigin("*")
+@Slf4j
 public class UserController {
+	
+
 	
 	@Autowired
 	UserService userService;
@@ -49,6 +53,7 @@ public class UserController {
 		@ApiResponse(code=500, message="서버오류")
 	})
 	public ResponseEntity<?>  theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
+		log.debug("user controller-상담사회원가입");
 		userService.theraRegist(theraInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
@@ -144,4 +149,9 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
+	/**치료사 학력,경력,자격사항 조회*/
+	@GetMapping
+	public ResponseEntity<?> getTheraCareer(){
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	}
 }
