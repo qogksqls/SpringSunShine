@@ -33,6 +33,9 @@ public interface UserService {
 	
 	//치료사 회원정보 수정 
 	int theraModify(String user_id, TheraModifyRequest theraInfo);
+	
+	//비밀번호 찾기 (아이디, 이메일)
+	int findPass(String id, String email) throws Exception;
 
 
 }

@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.db.entity.Parent;
+import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistResponse;
+import com.ssafy.web.request.FindPwRequest;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraModifyRequest;
@@ -145,6 +147,24 @@ public class UserController {
 	})
 	public ResponseEntity<?>  userDelete(){
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	}
+	
+	/**비밀번호 찾기*/
+	@PostMapping("/findpw")
+	public ResponseEntity<?> findPass(@RequestBody FindPwRequest findpw){
+		String id = findpw.getId();
+		String email = findpw.getEmail();
+		try {
+			int res = userService.findPass(id, email);
+			if(res==0) {
+				return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+			//프론트와 상의 후 어떻게 할건지 결정 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		} 
 	}
 	
 }
