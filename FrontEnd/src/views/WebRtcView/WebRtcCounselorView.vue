@@ -104,7 +104,7 @@
 
           <!--상담사 얼굴 들어갈 자리 start-->
           <div class="counselorFace">
-            <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
+            <main-video-comp :widthOfVideo="widthOfVideo" :heightOfVideo="heightOfVideo" :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
           </div>
           <!--상담사 얼굴 들어갈 자리 end-->
         </div>
@@ -122,17 +122,31 @@ import SubVideoComp from './SubVideoComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://a606.shop:8443" ;
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://a606.shop:8443" ;
 
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
+  watch: {
+    widthOfVideo () {
+      if (this.widthOfVideo) {
+        widthOfVideo = window.outerWidth
+      }
+      console.log(this.widthOfVideo)
+    },
+    heightOfVideo () {
+      if (this.heightOfVideo) {
+        heightOfVideo = window.outerHeight
+      }
+      console.log(this.heightOfVideo)
+    }
+  },
   data() {
     return {
-      // videoDiv: document.querySelector('template'),
-      // widthOfDiv: null,
-      // heightOfDiv: null,
+      widthOfVideo: window.outerWidth,
+      heightOfVideo: window.outerHeight,
+
 
       newMemo: "",
       isCardGame: false,
