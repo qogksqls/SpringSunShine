@@ -21,7 +21,7 @@ public class ChildServiceImpl implements ChildService {
 	ParentRepository parentRepository;
 	@Autowired
 	UserRepository userRepository;
-	
+
 	/** 아동 등록 */
 	@Override
 	public void childRegist(ChildRegisterRequest childInfo) {
@@ -52,8 +52,15 @@ public class ChildServiceImpl implements ChildService {
 	@Override
 	public void childDelete(String childId) {
 		Child child = childRepository.findByChildId(childId);
-		
+
 		childRepository.delete(child);
+	}
+
+	@Override
+	public String getChildId(String childName, String parentId) {
+		Child child = childRepository.findByChildNameAndParentId(childName, parentId);
+
+		return child.getChildId();
 	}
 
 }
