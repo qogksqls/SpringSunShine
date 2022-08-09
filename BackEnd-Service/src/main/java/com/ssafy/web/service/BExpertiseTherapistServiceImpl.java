@@ -21,11 +21,11 @@ public class BExpertiseTherapistServiceImpl implements BExpertiseTherapistServic
 
 	@Override
 	public List<RecommendTherapistResponse> recommendTherapistList(int expertise_no) {
-//		List<String> betmList = BETRepo.findByExpertiseNo(expertise_no);
-//		String apiList = webClient.post().uri("/therapist/recommed").syncBody(betmList).retrieve()
-//				.bodyToMono(String.class).block();
-//		System.out.println(apiList);
-//		System.out.println(betmList);
+		List<String> betmList = BETRepo.findByExpertiseNo(expertise_no);
+		String apiList = webClient.post().uri("/therapist/recommed").syncBody(betmList).retrieve()
+				.bodyToMono(String.class).block();
+		System.out.println(apiList);
+		System.out.println(betmList);
 		return null;
 	}
 }

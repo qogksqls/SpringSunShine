@@ -21,9 +21,9 @@ public class RecommendTherapistController {
 	private final RecommendService recoService;
 	
 	@PostMapping("/recommed")
-	public List<RecommendTherapistResponse> recommendTherapist(){
-//		
-//		System.out.println(betmList);
+	public List<RecommendTherapistResponse> recommendTherapist(List<String> betmList){
+		
+		System.out.println(betmList);
 		System.out.println(13213);
 		List<RecommendTherapistResponse> list = recoService.findByUser_UserIdIn("pLQDOys220805","po46qFg220805");
 		return list;

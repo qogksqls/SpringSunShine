@@ -7,12 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name="b_expertise_therapist")
 public class BExpertiseTherapist {
 	
@@ -26,5 +28,7 @@ public class BExpertiseTherapist {
 	
 	@Column(name="expertise_no", nullable = false)
 	private int expertiseNo;
+	
+	
 	
 }

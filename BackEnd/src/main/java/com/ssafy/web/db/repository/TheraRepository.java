@@ -3,7 +3,6 @@ package com.ssafy.web.db.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ssafy.web.db.entity.Therapist;
@@ -16,7 +15,7 @@ public interface TheraRepository extends JpaRepository<Therapist, Integer> {
 	
 	Therapist findByUser(User user);
 	
-	@Query(value =" select t.thera_id thera_id, t.name name, t.email email, t.profile_url profile_url, t.thera_intro thera_intro from therapist t"
-			+ "+where thera_id in(?1)")
-	List<RecommendTherapistResponse> findByUser_UserIdIn(String... user_id);
+//	@Query(value =" select t.thera_id thera_id, t.name name, t.email email, t.profile_url profile_url, t.thera_intro thera_intro from therapist t"
+//			+ "+where thera_id in(?1)")
+//	List<RecommendTherapistResponse> findByUser_UserIdIn(String... user_id);
 }

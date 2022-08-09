@@ -18,8 +18,8 @@ public class RecommendServiceImpl implements RecommendService{
 	
 	@Override
 	public List<RecommendTherapistResponse> findByUser_UserIdIn(String... user_id) {
-		List<RecommendTherapistResponse> list = threpo.findByUser_UserIdIn(user_id);
-		return list;
+//		List<RecommendTherapistResponse> list = threpo.findByUser_UserIdIn(user_id);
+		return null;
 	}
 
 }
