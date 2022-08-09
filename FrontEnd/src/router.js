@@ -20,19 +20,6 @@ import SurveyResultView from "./views/survey/SurveyResultView";
 import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
 import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
 
-// child
-import childList from "@/views/ChildList.vue";
-
-// survey
-import SurveyView from "@/views/survey/SurveyView";
-import SurveyResultView from "@/views/survey/SurveyResultView";
-
-// consult
-import memoView from "@/views/consult/MemoView.vue";
-
-// reserve
-import reserve from "@/views/Reserve/ReserveView";
-
 Vue.use(Router);
 
 export default new Router({
