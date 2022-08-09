@@ -11,4 +11,6 @@ public interface AuthService {
 
 	public ResponseEntity<UserLoginPostRes> login(String id, String password);
 
+	public ResponseEntity<UserLoginPostRes> refreshToken(String id, String refreshToken);
+
 }

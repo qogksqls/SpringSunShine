@@ -41,4 +41,25 @@ public class AuthServiceImpl implements AuthService {
 		
 	}
 
+	// 리프레시 토큰 재발급 
+	@Override
+	public ResponseEntity<UserLoginPostRes> refreshToken(String id, String refreshToken) {
+		User user= userRepository.findUserById(id).orElse(null);
+		
+		if(user == null) {
+			System.out.println("유효하지 않은 id 입니다. ");
+			return ResponseEntity.status(401).body(UserLoginPostRes.offail(null, "fail"));
+		}
+		int res= jwtTokenUtil.checkRefreshToken(id, refreshToken);
+		if (res==0) {
+			//유효하지 않은 토큰 -> 리프레시 토큰을 재발급 하거나 , 실패 신호 보내기 
+			return ResponseEntity.status(401).body(UserLoginPostRes.offail(null, "fail"));
+			
+		}
+		// 다시 accessToken 재발급 
+		String reaccessToken = jwtTokenUtil.createAccessToken(id);
+		
+		return ResponseEntity.ok(UserLoginPostRes.ofrefresh(reaccessToken, refreshToken));
+	}
+
 }
