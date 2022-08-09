@@ -1,6 +1,7 @@
 <template>
 <div v-if="streamManager">
-	<ov-video :widthOfVideo="widthOfVideo" :heightOfVideo="heightOfVideo" :stream-manager="streamManager"/>
+	<!-- <ov-video :widthOfVideo="widthOfVideo" :heightOfVideo="heightOfVideo" :stream-manager="streamManager"/> -->
+	<ov-video :stream-manager="streamManager"/>
 </div>
 </template>
 
@@ -16,8 +17,8 @@ export default {
 
 	props: {
 		streamManager: Object,
-    widthOfVideo: Number,
-    heightOfVideo: Number,
+    // widthOfVideo: Number,
+    // heightOfVideo: Number,
 	},
 
 	computed: {

@@ -104,7 +104,8 @@
 
           <!--상담사 얼굴 들어갈 자리 start-->
           <div class="counselorFace">
-            <main-video-comp :widthOfVideo="widthOfVideo" :heightOfVideo="heightOfVideo" :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
+            <!-- <main-video-comp :widthOfVideo="widthOfVideo" :heightOfVideo="heightOfVideo" :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp> -->
+            <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
           </div>
           <!--상담사 얼굴 들어갈 자리 end-->
         </div>
@@ -122,30 +123,31 @@ import SubVideoComp from './SubVideoComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_URL = "https://a606.shop:8443" ;
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://a606.shop:8443" ;
 
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
-  watch: {
-    widthOfVideo () {
-      if (this.widthOfVideo) {
-        widthOfVideo = window.outerWidth
-      }
-      console.log(this.widthOfVideo)
-    },
-    heightOfVideo () {
-      if (this.heightOfVideo) {
-        heightOfVideo = window.outerHeight
-      }
-      console.log(this.heightOfVideo)
-    }
-  },
+  name: 'CounselorView',
+  // watch: {
+  //   widthOfVideo () {
+  //     if (this.widthOfVideo) {
+  //       widthOfVideo = window.outerWidth
+  //     }
+  //     console.log(this.widthOfVideo)
+  //   },
+  //   heightOfVideo () {
+  //     if (this.heightOfVideo) {
+  //       heightOfVideo = window.outerHeight
+  //     }
+  //     console.log(this.heightOfVideo)
+  //   }
+  // },
   data() {
     return {
-      widthOfVideo: window.outerWidth,
-      heightOfVideo: window.outerHeight,
+      // widthOfVideo: window.outerWidth,
+      // heightOfVideo: window.outerHeight,
 
 
       newMemo: "",
@@ -384,7 +386,7 @@ textarea::-webkit-scrollbar-thumb {
   top: -85px;
   height: 140px;
   border-radius: 15px;
-  width: 1000px;
+  width: 200px;
 }
 .iconbtn {
   text-align: center;
@@ -407,8 +409,4 @@ textarea::-webkit-scrollbar-thumb {
   color: rgb(255, 255, 255);
 }
 
-video {
-  width: 100%;
-  height: 100%;
-}
 </style>
