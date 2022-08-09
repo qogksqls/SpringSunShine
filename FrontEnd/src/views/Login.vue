@@ -113,13 +113,13 @@ export default {
       console.log("로그인");
       this.$axios
         .post(`${this.$store.state.host}/auth-api/auth/login`, {
-          id: this.id,
-          password: this.password,
+          id: this.credentials.id,
+          password: this.credentials.password,
         })
         .then((res) => {
           console.log(res.data);
           this.$store.commit("loginToken", res.data);
-          this.$router.push(`/auth-api/user/${res.data.userid}`);
+          this.$router.push(`/`);
         });
     },
     showLogin() {

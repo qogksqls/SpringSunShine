@@ -88,18 +88,14 @@
                     v-model="password2"
                   />
                 </div>
-                <h6
-                  v-if="
-                    password1 !== password2 ||
-                      password1 === '' ||
-                      password2 === ''
-                  "
-                >
-                  비밀번호 값이 다릅니다.
-                </h6>
-                <h6 v-else>
-                  확인되었습니다.
-                </h6>
+                <div v-if="password1 !== '' || password2 !== ''">
+                  <div v-if="password2 !== password1">
+                    <h6>비밀번호 값이 다릅니다.</h6>
+                  </div>
+                  <div v-else>
+                    확인되었습니다.
+                  </div>
+                </div>
                 <!--회원가입 폼 비밀번호확인 end-->
 
                 <!--회원가입 폼 이메일 start-->
@@ -196,9 +192,9 @@ export default {
       thera_intro: "",
       profile_url: "",
       expertise_no: [],
-      academicCareers: [],
-      careers: [],
-      licences: [],
+      academicCareers: {},
+      careers: {},
+      licences: {},
     };
   },
   methods: {

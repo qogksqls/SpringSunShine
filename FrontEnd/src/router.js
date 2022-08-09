@@ -138,7 +138,11 @@ export default new Router({
     {
       path: "/resev-parent",
       name: "reserve",
-      component: reserve,
+      components: {
+        header: AppHeader,
+        default: reserve,
+      },
+      props: true,
     },
   ],
   scrollBehavior: (to) => {
