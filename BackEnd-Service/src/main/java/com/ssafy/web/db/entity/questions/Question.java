@@ -23,8 +23,8 @@ public class Question {
 	@Column(name = "question_no", nullable = false)
 	private int questionNo;
 
-	@Column(name = "question_id", nullable = false, unique = true)
-	private int questionId;
+//	@Column(name = "question_id", nullable = false, unique = true)
+//	private int questionId;
 
 	@Column(name = "question_context", columnDefinition = "VARCHAR(255)", nullable = false)
 	private String questionContext;

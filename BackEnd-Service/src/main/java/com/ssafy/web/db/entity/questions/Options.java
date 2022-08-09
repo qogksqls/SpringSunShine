@@ -25,8 +25,8 @@ public class Options {
 	@Column(name = "options_no")
 	private int optionNo;
 	
-	@Column(name = "option_id", nullable = false, unique = true)
-	private int optionId;
+	@Column(name = "option_number", nullable = false)
+	private int optionNumber;
 	
 	@Column(name = "option_context", nullable = false, columnDefinition = "VARCHAR(255)")
 	private String optionContext;
@@ -34,8 +34,12 @@ public class Options {
 	@Column(name = "option_score", nullable = false)
 	private int optionScore;
 	
+//	@ManyToOne
+//	@JoinColumn(name = "question_id", referencedColumnName = "question_id", nullable = false)
+//	private Question question;
+	
 	@ManyToOne
-	@JoinColumn(name = "question_id", referencedColumnName = "question_id", nullable = false)
+	@JoinColumn(name="question_no", referencedColumnName = "question_no", nullable=false)      
 	private Question question;
 	
 	
