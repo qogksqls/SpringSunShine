@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistResponse;
+import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
+import com.ssafy.web.request.TheraModifyRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 import com.ssafy.web.service.UserService;
 
@@ -62,28 +66,67 @@ public class UserController {
 		
 	}
 	
-	
-	/*회원정보 조회*/
-	@GetMapping("/{id}")
-	@ApiOperation(value="회원정보조회", notes="<strong>user_id</strong> 로 회원정보를 조회한다")
+	/*아이디 중복검사*/
+	@GetMapping("/checkid/{id}")
+	@ApiOperation(value="아이디 중복검사", notes="<strong>아이디 중복검사</strong> 를 한다")
 	@ApiResponses({
 		@ApiResponse(code=200, message="성공"),
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?> userInfo(){
+	public String checkId(@PathVariable String id) {
+		System.out.println(id);
+		int res = userService.checkId(id);
+		
+		if(res == 1 ) {
+			return "success";
+			
+		}
+		else return "fail";
+	}
+	
+	/*회원정보 조회*/
+	@GetMapping("/{user_id}")
+	public ResponseEntity<?> userInfo(@PathVariable String user_id){
+		/*부모 회원정보 조회*/
+		if(user_id.charAt(0)=='p'){
+			ParentResponse presult = userService.getParentInfo(user_id);	
+			return new ResponseEntity<ParentResponse>(presult, HttpStatus.OK);		
+			
+			
+		}
+		/*치료사 회원정보 조회*/
+		else if(user_id.charAt(0)=='t'){
+			TherapistResponse tresult= userService.getTheraInfo(user_id);
+			return new ResponseEntity<TherapistResponse>(tresult, HttpStatus.OK);
+		}
+			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+	}
+	
+	/*부모 회원정보 수정*/
+	@PutMapping("/parent/{user_id}")
+	public ResponseEntity<?>  parentModify(@PathVariable String user_id, @RequestBody ParentModifyRequest parentInfo){
+		//parentInfo : 수정할 부모 정보가 담겨진 객체 
+		//부모 아이디가 아닐때 
+		if(user_id.charAt(0) != 'p') 
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		int res = userService.parentModify(user_id, parentInfo); 
+		if(res==0) {
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	
-	/*회원정보 수정*/
-	@PutMapping("/{id}")
-	@ApiOperation(value="회원정보수정", notes="회원정보를 수정한다")
-	@ApiResponses({
-		@ApiResponse(code=200, message="성공"),
-		@ApiResponse(code=401, message="실패"),
-		@ApiResponse(code=500, message="서버오류")
-	})
-	public ResponseEntity<?>  userModify(@PathVariable(name="user_id") @ApiParam(value="사용자아이디" , required=true) String id){
+	/*치료사 회원정보 수정*/
+	@PutMapping("/therapist/{user_id}")
+	public ResponseEntity<?> theraModify(@PathVariable String user_id, @RequestBody TheraModifyRequest theraInfo){
+		//theraInfo : 수정할 치료사 정보 
+		if(user_id.charAt(0) != 't') 
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		int res = userService.theraModify(user_id, theraInfo);
+		if(res==0) {
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	

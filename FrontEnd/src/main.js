@@ -23,9 +23,9 @@ import axios from "axios";
 import Argon from "./plugins/argon-kit";
 import "./registerServiceWorker";
 
-Vue.prototype.$http = axios;
-
+Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
+
 Vue.use(Argon);
 new Vue({
   router,

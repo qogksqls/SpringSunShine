@@ -65,9 +65,9 @@ import survey from "./survey.json";
 
 const data = survey;
 const answer = [];
-for (let index = 0; index < survey.length; index++) {
-  answer.push([]);
-}
+// for (let index = 0; index < survey.length; index++) {
+//   answer.push([])
+// }
 
 export default {
   data() {
@@ -78,9 +78,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      alert("문진표가 제출되었습니다.");
-      console.log(answer);
-      this.$router.push({ name: "surveyresult", params: { answer } });
+      if (answer.length === 23) {
+        alert("문진표가 제출되었습니다.");
+        this.$router.push({ name: "surveyresult", params: { answer } });
+      } else {
+        alert("작성 안된 항목이 있습니다.");
+      }
     },
   },
 };

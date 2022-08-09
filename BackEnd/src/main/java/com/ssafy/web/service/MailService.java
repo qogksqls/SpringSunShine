@@ -11,7 +11,17 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.web.db.entity.Parent;
+import com.ssafy.web.db.entity.Therapist;
+import com.ssafy.web.db.entity.User;
+import com.ssafy.web.db.repository.ParentRepository;
+import com.ssafy.web.db.repository.TheraRepository;
+import com.ssafy.web.db.repository.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MailService {
 
 	@Autowired
@@ -102,7 +112,7 @@ public class MailService {
 			throw new IllegalArgumentException();
 		}
 	}
-	
+
 	
 	
 	

@@ -12,9 +12,14 @@
             class="border-0"
           >
             <template>
-              <h3>
+              <h3 v-if="$route.params.isTherapist">
                 <div class="text-muted text-left mb-3">
-                  <b>회원가입</b>
+                  <b>상담사 회원가입</b>
+                </div>
+              </h3>
+              <h3 v-else>
+                <div class="text-muted text-left mb-3">
+                  <b>보호자 회원가입</b>
                 </div>
               </h3>
               <br /><br />
@@ -31,6 +36,7 @@
                     placeholder="이름을 적어주세요"
                     class="col-lg-8  form-control"
                     id="name"
+                    v-model="name"
                   />
                 </div>
                 <!--회원가입 폼 이름 작성 end-->
@@ -43,6 +49,7 @@
                     class="col-lg-6  form-control"
                     id="id"
                     placeholder="아이디를 적어주세요"
+                    v-model="id"
                   />
                   <div class="col-lg-1"></div>
                   <base-button
@@ -63,6 +70,7 @@
                     class="col-lg-8  form-control"
                     id="pw"
                     placeholder="비밀번호를 적어주세요"
+                    v-model="password1"
                   />
                 </div>
                 <!--회원가입 폼 비밀번호 end-->
@@ -77,8 +85,21 @@
                     class="col-lg-8  form-control"
                     id="pw2"
                     placeholder="비밀번호를 확인해 주세요"
+                    v-model="password2"
                   />
                 </div>
+                <h6
+                  v-if="
+                    password1 !== password2 ||
+                      password1 === '' ||
+                      password2 === ''
+                  "
+                >
+                  비밀번호 값이 다릅니다.
+                </h6>
+                <h6 v-else>
+                  확인되었습니다.
+                </h6>
                 <!--회원가입 폼 비밀번호확인 end-->
 
                 <!--회원가입 폼 이메일 start-->
@@ -89,6 +110,7 @@
                     class="col-lg-8 form-control"
                     id="email"
                     placeholder="이메일을 입력해 주세요"
+                    v-model="email"
                   />
                 </div>
                 <div class="col-lg-12 row mb-2">
@@ -118,6 +140,7 @@
                     class="col-lg-8 form-control"
                     id="tel"
                     placeholder="연락처를 입력해 주세요"
+                    v-model="phone"
                   />
                 </div>
                 <!--회원가입 폼 연락처 end-->
@@ -130,16 +153,25 @@
                     class="col-lg-8 form-control"
                     id="address"
                     placeholder="주소를 입력해 주세요"
+                    v-model="address"
                   />
                 </div>
                 <!--회원가입 폼 연락처 end-->
-
-                <counselor />
+                <div v-if="$route.params.isTherapist">
+                  <counselor @counselor="counselor_data" />
+                </div>
 
                 <!--회원가입 폼 학력 end-->
               </div>
-              <div class="mt-2 text-center">
-                <base-button type="primary" class="py-1">회원가입</base-button>
+              <div v-if="$route.params.isTherapist" class="mt-2 text-center">
+                <base-button type="primary" class="py-1" @click="signinTeacher"
+                  >상담사 회원가입</base-button
+                >
+              </div>
+              <div v-else class="mt-2 text-center">
+                <base-button type="primary" class="py-1" @click="signinParent"
+                  >보호자 회원가입</base-button
+                >
               </div>
             </template>
           </card>
@@ -152,8 +184,123 @@
 import Counselor from "./components/Signin/Counselor.vue";
 export default {
   components: { Counselor },
+  data() {
+    return {
+      name: "",
+      id: "",
+      password1: "",
+      password2: "",
+      email: "",
+      phone: "",
+      address: "",
+      thera_intro: "",
+      profile_url: "",
+      expertise_no: [],
+      academicCareers: [],
+      careers: [],
+      licences: [],
+    };
+  },
+  methods: {
+    signinTeacher() {
+      console.log("상담사 회원가입");
+      if (
+        this.id &&
+        this.password1 &&
+        this.password2 &&
+        this.name &&
+        this.phone &&
+        this.address &&
+        this.email
+      ) {
+        this.$axios
+          .post(`${this.$store.state.host}/auth-api/user/therapist`, {
+            id: this.id,
+            password: this.password1,
+            name: this.name,
+            email: this.email,
+            phone: this.phone,
+            address: this.address,
+            profile_url: this.profile_url,
+            file_url: this.file_url,
+            thera_intro: this.thera_intro,
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.$router.push("/login");
+          });
+      } else {
+        if (!this.name) {
+          alert("성함을 입력해주세요.");
+        } else if (!this.id) {
+          alert("아이디를 입력해주세요.");
+        } else if (!this.password1) {
+          alert("비밀번호를 입력해주세요.");
+        } else if (!this.password2) {
+          alert("비밀번호 확인을 진행해주세요.");
+        } else if (!this.email) {
+          alert("이메일을 입력해주세요.");
+        } else if (!this.phone) {
+          alert("연락처를 입력해주세요.");
+        } else if (!this.address) {
+          alert("주소를 입력해주세요.");
+        }
+      }
+    },
+    signinParent() {
+      console.log("보호자 회원가입");
+      if (
+        this.id &&
+        this.password1 &&
+        this.password2 &&
+        this.name &&
+        this.phone &&
+        this.address &&
+        this.email
+      ) {
+        this.$axios
+          .post(`${this.$store.state.host}/auth-api/user/parent`, {
+            id: this.id,
+            password: this.password1,
+            name: this.name,
+            email: this.email,
+            phone: this.phone,
+            address: this.address,
+            expertise_no: [],
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.$router.push("/login");
+          });
+      } else {
+        if (!this.name) {
+          alert("보호자님의 성함을 입력해주세요.");
+        } else if (!this.id) {
+          alert("아이디를 입력해주세요.");
+        } else if (!this.password1) {
+          alert("비밀번호를 입력해주세요.");
+        } else if (!this.password2) {
+          alert("비밀번호 확인을 진행해주세요.");
+        } else if (!this.email) {
+          alert("이메일을 입력해주세요.");
+        } else if (!this.phone) {
+          alert("연락처를 입력해주세요.");
+        } else if (!this.address) {
+          alert("주소를 입력해주세요.");
+        }
+      }
+    },
+    counselor_data(inputDatas) {
+      this.profile_url = inputDatas.profile_url;
+      this.expertise_no = inputDatas.expertise_no;
+      this.academicCareers = inputDatas.academicCareers;
+      this.careers = inputDatas.careers;
+      this.licences = inputDatas.licences;
+    },
+  },
 };
 </script>
+
 <style scoped>
 input {
   height: 40px;

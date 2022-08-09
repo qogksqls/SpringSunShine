@@ -21,13 +21,13 @@ public class Parent {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int parent_no;
+	int parentNo;
 	
 //	@Column(name="user_id")
 //	String user_id;
 	@Column(name="name", columnDefinition = "VARCHAR(20)", nullable=false)
 	String name;
-	@Column(name="email", columnDefinition = "VARCHAR(50)", nullable=false)
+	@Column(name="email", columnDefinition = "VARCHAR(50)", nullable=false )
 	String email;
 	@Column(name="phone", columnDefinition = "VARCHAR(20)", nullable=false)
 	String phone;
@@ -38,8 +38,19 @@ public class Parent {
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="parent_id", referencedColumnName = "user_id")
+	@JoinColumn(name="parent_id", referencedColumnName = "user_id", nullable = false)
 	private User user;
-
+	
+	
+	
+	// 영속성 컨텍스트가 유지되어있기 때문에 Entity의 데이터 값이 변경 되면 자동으로 update 
+	public void update(String name, String email, String phone, String address ,User user) {
+		this.name= name ;
+		this.email=email;
+		this.phone= phone;
+		this.address=address;
+		this.user=user;
+		
+	}
 	
 }

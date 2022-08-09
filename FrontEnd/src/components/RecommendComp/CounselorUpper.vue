@@ -4,7 +4,7 @@
       <div class="top_naming text-left mb-5">
         <b>추천</b>
         <b id="disease_name">"병명"</b>
-        <b>증상분야전문가</b>
+        <b>증상분야상담사</b>
       </div>
     </h3>
     <div class="row justify-content-center mt-4 text-center">
