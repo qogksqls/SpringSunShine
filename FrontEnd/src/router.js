@@ -19,6 +19,8 @@ import SurveyResultView from "./views/survey/SurveyResultView";
 //webRTC
 import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
 import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
+//cardGame
+import playAlone from "./views/playAloneView/playAlone.vue"
 
 import reserve from "./views/Reserve/ReserveView.vue"
 
