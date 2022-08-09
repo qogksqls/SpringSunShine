@@ -1,6 +1,6 @@
 <template>
   <div class="m-3">
-    <a href="#" @click="modals.modal1 = true">
+    <a href="#/resev-parent" @click="modals.modal1 = true">
       <div class="card_about text-center">
         <p class="reserve_confirm">예약완료</p>
       </div>

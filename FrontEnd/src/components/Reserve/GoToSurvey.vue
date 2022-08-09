@@ -1,6 +1,6 @@
 <template>
   <div class="m-3">
-    <a href="#" @click="modals.modal1 = true">
+    <a href="#/resev-parent" @click="modals.modal1 = true">
       <div class="card_about text-center">
         <p class="reserve_confirm">예약완료</p>
       </div>
@@ -12,7 +12,9 @@
             <h4>문진표 작성 후 예약해주세요</h4> 
         </h4>
       </h6>
-        <base-button type="primary">작성하러 가기</base-button>
+      <router-link to="/survey" class="col-lg-6 px-0">
+        <base-button type="primary" class="childbutton">문진표작성</base-button>
+      </router-link>
     </modal>
   </div>
 </template>
