@@ -8,15 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TheraModifyRequest {
-	String id ;
-	
+public class TheraModifyRequest {	
 	String password;
 
 	String name;
-
-	String email;
-
+	
 	String phone;
 
 	String address;

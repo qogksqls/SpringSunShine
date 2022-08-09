@@ -1,5 +1,7 @@
 package com.ssafy.web.controller;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +30,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Api(value="회원관리 API", tags={"User"})
 @RequestMapping("/user")
 @CrossOrigin("*")
+@Slf4j
 public class UserController {
+	
+
 	
 	@Autowired
 	UserService userService;
@@ -47,7 +53,7 @@ public class UserController {
 		@ApiResponse(code=500, message="서버오류")
 	})
 	public ResponseEntity<?>  theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
-		System.out.println(theraInfo.getAcademicCareers());
+		log.debug("user controller-상담사회원가입");
 		userService.theraRegist(theraInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}

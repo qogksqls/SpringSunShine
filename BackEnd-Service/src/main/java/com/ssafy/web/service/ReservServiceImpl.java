@@ -1,5 +1,7 @@
 package com.ssafy.web.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +10,7 @@ import com.ssafy.web.db.repository.ReservRepository;
 import com.ssafy.web.request.ReservRequest;
 
 @Service
-public class ReserveServiceImpl implements ReservService {
+public class ReservServiceImpl implements ReservService {
 
 	@Autowired
 	ReservRepository reservRepository;
@@ -17,7 +19,7 @@ public class ReserveServiceImpl implements ReservService {
 	public void reservRegist(ReservRequest reservInfo) {
 		Reservation reserv = new Reservation();
 
-		reserv.setChildId(reservInfo.getChild_id());
+//		reserv.setChildId(reservInfo.getChild_name());
 		reserv.setParentId(reservInfo.getParent_id());
 		reserv.setTheraId(reservInfo.getThera_id());
 		reserv.setReservTime(reservInfo.getReserv_time());
@@ -26,9 +28,8 @@ public class ReserveServiceImpl implements ReservService {
 	}
 
 	@Override
-	public Reservation getReservByThera(String theraId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Reservation> getReservByThera(String theraId) {
+		return reservRepository.selectAllSQL(theraId);
 	}
 
 }

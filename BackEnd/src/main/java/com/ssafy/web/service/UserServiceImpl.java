@@ -1,7 +1,9 @@
 package com.ssafy.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +17,11 @@ import com.ssafy.web.db.entity.User;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.TheraRepository;
 import com.ssafy.web.db.repository.UserRepository;
+import com.ssafy.web.dto.Academy;
+import com.ssafy.web.dto.Career;
+import com.ssafy.web.dto.Licence;
 import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistCareer;
 import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
@@ -53,22 +59,57 @@ public class UserServiceImpl implements UserService {
 		thera.setProfileUrl(theraInfo.getProfile_url());
 		thera.setTheraIntro(theraInfo.getThera_intro());
 		//파일 넣기
-		thera.setAcademicCareers(getFile(theraInfo.getAcademicCareers()));
-		thera.setCareers(getFile(theraInfo.getCareers()));
-		thera.setLicences(getFile(theraInfo.getLicences()));
-	
+		
+		List<Academy> academy = theraInfo.getAcademicCareers();
+		List<Career> career = theraInfo.getCareers();
+		List<Licence> licence = theraInfo.getLicences();
+		thera.setAcademicCareers(getAcademy(academy));
+		thera.setCareers(getCareer(career));
+		thera.setLicences(getLicence(licence));
+		
 		thera.setUser(user);
 		theraRepository.save(thera);
 		
+	
 	}
-	public String getFile(List<String> list) {
-		String str = "";
-		for(String item : list) {
-			str+=item+",";
+	
+	public String getAcademy(List<Academy> academy) {
+		int size = academy.size(); // 몇개의 학력 
+		String str=""; 
+		for(int i=0; i<size; i++) {
+			str+="[";
+			str+=academy.get(i).getName()+",";
+			str+=academy.get(i).getMajor()+",";
+			str+=academy.get(i).getAdmin()+",";
+			str+=academy.get(i).getGradu()+"] ";
 		}
 		return str;
 	}
-
+	public String getCareer(List<Career> career) {
+		int size = career.size(); // 몇개의 학력 
+		String str=""; 
+		for(int i=0; i<size; i++) {
+			str+="[";
+			str+=career.get(i).getName()+",";
+			str+=career.get(i).getLevel()+",";
+			str+=career.get(i).getDate()+",";
+			str+=career.get(i).getRole()+"] ";
+		}
+		return str;	
+	}
+	public String getLicence(List<Licence> licence) {
+		int size = licence.size(); // 몇개의 학력 
+		String str=""; 
+		for(int i=0; i<size; i++) {
+			str+="[";
+			str+=licence.get(i).getName()+",";
+			str+=licence.get(i).getPlace()+",";
+			str+=licence.get(i).getDate()+",";
+			str+=licence.get(i).getFile()+"] ";
+		}
+		return str;	
+	}
+	
 	//부모 회원가입 
 	@Override
 	public void parentRegist(ParentRegisterRequest parentInfo) {
@@ -137,6 +178,47 @@ public class UserServiceImpl implements UserService {
 		Therapist t = theraRepository.findByUser(u);
 		
 		TherapistResponse tr= new TherapistResponse();
+		String[] acaList = getString(t.getAcademicCareers()); //a,b,c,d+e,f,g,h
+		String[] carList= getString(t.getCareers());
+		String[] licList= getString(t.getLicences());
+		//-----------경력 불러와서 리스트 설정 
+		List<Academy> acalist= new ArrayList<Academy>();
+		for(int i=0; i<acaList.length; i++) {
+			StringTokenizer st= new StringTokenizer(acaList[i], ",");
+			Academy academy = new Academy();
+			academy.setName(st.nextToken());
+			academy.setMajor(st.nextToken());
+			academy.setAdmin(st.nextToken());
+			academy.setGradu(st.nextToken());
+			acalist.add(academy);
+		}
+		tr.setAcademy(acalist);
+		//------------------------ 
+		List<Career> carlist = new ArrayList<Career>();
+		for(int i=0; i<carList.length; i++) {
+			StringTokenizer st= new StringTokenizer(carList[i], ",");
+			Career career = new Career();
+			career.setName(st.nextToken());
+			career.setLevel(st.nextToken());
+			career.setDate(st.nextToken());
+			career.setRole(st.nextToken());
+			carlist.add(career);
+		}
+		tr.setCareers(carlist);
+		//-------------------------
+		List<Licence> liclist= new ArrayList<Licence>();
+		for(int i=0; i<licList.length; i++) {
+			StringTokenizer st= new StringTokenizer(licList[i], ",");
+			Licence licence = new Licence();
+			licence.setName(st.nextToken());
+			licence.setPlace(st.nextToken());
+			licence.setDate(st.nextToken());
+			licence.setFile(st.nextToken());
+			liclist.add(licence);
+		}
+		tr.setLicence(liclist);
+	
+		
 		tr.setId(u.getId());
 		tr.setName(t.getName());
 		tr.setEmail(t.getEmail());
@@ -148,6 +230,16 @@ public class UserServiceImpl implements UserService {
 		return tr;
 		
 	}
+	
+	//약력 : 띄어쓰기 분리하고, [ ] 빼는 과정 
+	public String[] getString(String data) {
+		String[] list= data.split(" ");
+		String [] res = new String[list.length];
+		for(int i=0; i<list.length; i++) {
+			res[i]=list[i].replace("[", "").replace("]", "");
+		}
+		return res;
+	}
 
 	//부모 회원정보 수정
 	@Override
@@ -158,8 +250,8 @@ public class UserServiceImpl implements UserService {
 		// 정보를 수정하려는 부모 회원 
 		Parent parent = parentRepository.findByUser(user);
 		
-		user.update(parentInfo.getId(), encoder.encode(parentInfo.getPassword()));
-		parent.update(parentInfo.getName(), parentInfo.getEmail(), parentInfo.getPhone(),
+		user.update(encoder.encode(parentInfo.getPassword()));
+		parent.update(parentInfo.getName(),  parentInfo.getPhone(),
 				parentInfo.getAddress(), user);
 		return 1;
 		
@@ -173,11 +265,12 @@ public class UserServiceImpl implements UserService {
 		if(user == null) return 0;
 		//정보수정하려는 치료사 회원 
 		Therapist thera = theraRepository.findByUser(user);
-		user.update(theraInfo.getId(),  encoder.encode(theraInfo.getPassword()));
-		thera.update(theraInfo.getName(), theraInfo.getEmail(), theraInfo.getPhone(), theraInfo.getAddress(), 
+		user.update(encoder.encode(theraInfo.getPassword()));
+		thera.update(theraInfo.getName(), theraInfo.getPhone(), theraInfo.getAddress(), 
 				theraInfo.getProfile_url(), theraInfo.getThera_intro(), user);
 		return 1;
 	}
+
 
 
 
