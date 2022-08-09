@@ -48,12 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception{
 		 http.httpBasic().disable()
-		 .csrf().disable()
+		 .csrf().disable() // 세션 사용하지 않고 jwt 토큰 사용함 
 		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용 X 
 		 .and()
 		 .addFilter(new JwtAuthenticationFilter(authenticationManager(), authService))
-		 .authorizeRequests()
-		 .antMatchers("/server/**").authenticated()
+		 .authorizeRequests() // 인증절차에 대한 설정 시작 
+		 .antMatchers("/server/**").authenticated() // 특정 url 에 대하여 인증이 완료되어야 api 사용 가능
 		 .anyRequest().permitAll().and().cors();
 	    }
 	 
