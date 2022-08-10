@@ -36,7 +36,9 @@
           <router-link to="/childReserveShow" class="dropdown-item"
             >상담일지(확인)</router-link
           >
-          <router-link to="/login" class="dropdown-item">혼자놀기</router-link>
+          <router-link to="/playAlone" class="dropdown-item"
+            >혼자놀기</router-link
+          >
         </base-dropdown>
         <base-dropdown tag="li" class="nav-item">
           <a

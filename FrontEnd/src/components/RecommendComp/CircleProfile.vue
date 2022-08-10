@@ -40,7 +40,9 @@
         <base-button type="link" class="ml-auto" @click="modals.modal1 = false"
           >닫기
         </base-button>
-        <base-button type="primary">예약하기</base-button>
+        <router-link to="/resev-parent"
+          ><base-button type="primary">예약하기</base-button></router-link
+        >
       </template>
     </modal>
   </div>

@@ -23,10 +23,9 @@ import SurveyResultView from "./views/survey/SurveyResultView";
 import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
 import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
 //cardGame
-import playAlone from "./views/playAloneView/playAlone.vue"
+import playAlone from "./views/playAloneView/playAlone.vue";
 
-import reserve from "./views/Reserve/ReserveView.vue"
-
+import reserve from "./views/Reserve/ReserveView.vue";
 
 Vue.use(Router);
 
@@ -151,6 +150,17 @@ export default new Router({
       name: "webCounselor",
       component: WebCounselor,
     },
+
+    //혼자놀기
+    {
+      path: "/playAlone",
+      name: "playAlone",
+      components: {
+        header: AppHeader,
+        default: playAlone,
+      },
+    },
+
     //reserve
     {
       path: "/resev-parent",
