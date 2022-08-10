@@ -75,19 +75,22 @@ import { OpenVidu } from 'openvidu-browser';
 
 import MainVideoComp from './MainVideoComp.vue'
 import SubVideoComp from './SubVideoComp.vue'
+// import ScreenShareComp from './ScreenShareComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://a606.shop:8443" ;
+// const OPENVIDU_SERVER_URL = "i7a606.q.ssafy.io:8443" ;
 
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
 
   components: {
 		MainVideoComp,
 		SubVideoComp,
+		// ScreenShareComp,
 	},
 
   data() {
@@ -99,6 +102,7 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
+			sessionScreen: undefined,
 
 			mySessionId: 'SessionA',
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
@@ -112,7 +116,6 @@ export default {
     ShowMe: function() {
       this.isFaceShow = !this.isFaceShow;
     },
-
     joinSession () {
 			this.OV = new OpenVidu();
 
@@ -158,6 +161,29 @@ export default {
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
+			});
+
+			var sessionScreen = OV.initSession();
+			getToken().then((token) => {
+				sessionScreen.connect(token).then(() => {
+						var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
+
+						publisher.once('accessAllowed', (event) => {
+								publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+										console.log('User pressed the "Stop sharing" button');
+									});
+									sessionScreen.publish(publisher);
+
+							});
+
+							publisher.once('accessDenied', (event) => {
+									console.warn('ScreenShare: Access Denied');
+							});
+
+					}).catch((error => {
+							console.warn('There was an error connecting to the session:', error.code, error.message);
+
+					}));
 			});
 
 			window.addEventListener('beforeunload', this.leaveSession)
