@@ -22,10 +22,14 @@ public class QuestionServiceImpl implements QuestionService{
 	// 질문 얻어오기 
 	@Override
 	public List<Question> getQuestions() {
-		//레디스에 저장되있으면, 레디스에서 가지고 오고 
+		//레디스에 저장되어있지 않다면, db에서 불러와서 레디스에 저장 
+		//if문
+		List<Question> queList = questionRepo.findAll();
 		
-		//레디스에 저장되있지 않다면, db에서 불러와서 레디스에 저장 
-		List<Question> queList = questionRepo.findAll();	
+		
+		//레디스에 있는 값 반환
+		
+		
 		
 		return queList;
 	}
