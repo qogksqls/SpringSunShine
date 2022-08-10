@@ -26,15 +26,6 @@ public class ChildServiceImpl implements ChildService {
 	@Override
 	public void childRegist(ChildRegisterRequest childInfo) {
 		Child child = new Child();
-		// parent_no 외래키
-//		int parent_no;
-//		child.setParent_no(parent.getParent_no());
-//		child.setName(childInfo.getName());
-//		child.setBirth(childInfo.getBirth());
-//		child.setGender(childInfo.getGender());
-//		user.setUser_id(childInfo.getParent_id());
-//		Parent parent = parentRepository.findByUser(user).orElseThrow(() -> new RuntimeException());
-//		Parent parent = Parent.builder().user(user);
 
 		User user = userRepository.findByUserId(childInfo.getParent_id());
 		Parent parent = parentRepository.findByUser(user);
@@ -48,19 +39,15 @@ public class ChildServiceImpl implements ChildService {
 		childRepository.save(child);
 	}
 
-	/** 아동 삭제 */
 	@Override
-	public void childDelete(String childId) {
-		Child child = childRepository.findByChildId(childId);
-
-		childRepository.delete(child);
-	}
-
-	@Override
-	public String getChildId(String childName, String parentId) {
-		Child child = childRepository.findByChildNameAndParentId(childName, parentId);
+	public String getChildId(String parentId, String childName) {
+		User user = userRepository.findByUserId(parentId);
+		Parent parent = parentRepository.findByUser(user);
+		
+		Child child = childRepository.findByParentAndChildId(parent, childName);
 
 		return child.getChildId();
 	}
 
 }
+
