@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.ssafy.web.db.entity.BaseTimeEntity;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "answer")
-public class Answer {
+public class Answer extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +36,13 @@ public class Answer {
 	
 	@Column(name = "answer", nullable = false)
 	private String answer;
-	
+	/**전체총점*/
 	@Column(name = "score1", nullable = false)
 	private int score1;
-	
+	/**13~20번 점수*/
 	@Column(name = "score2", nullable = false)
 	private int score2;
-	
+	/**21~23번 점수*/
 	@Column(name = "score3", nullable = false)
 	private int score3;
 	
