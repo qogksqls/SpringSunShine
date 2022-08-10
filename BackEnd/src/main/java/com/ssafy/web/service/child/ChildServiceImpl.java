@@ -44,7 +44,7 @@ public class ChildServiceImpl implements ChildService {
 		User user = userRepository.findByUserId(parentId);
 		Parent parent = parentRepository.findByUser(user);
 		
-		Child child = childRepository.findByParentAndChildId(parent, childName);
+		Child child = childRepository.findByParentAndName(parent, childName);
 
 		return child.getChildId();
 	}

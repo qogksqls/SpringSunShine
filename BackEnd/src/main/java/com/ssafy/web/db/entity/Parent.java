@@ -1,5 +1,7 @@
 package com.ssafy.web.db.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name="parent")
-public class Parent {
+public class Parent implements Serializable {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
