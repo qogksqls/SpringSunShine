@@ -25,9 +25,18 @@
         <div class="col-sm-4 text-muted">성별</div>
         <div class="col-sm-8 text-muted">"여"</div>
       </div>
-      <div class="col-sm-5"></div>
+    </div>
+    <div class="col-sm-12 text-right col">
       <router-link to="/survey/result" class="col-sm-2">
         <base-button type="primary">문단표 보기</base-button></router-link
+      >
+      <!--학생일 시 student-->
+      <router-link to="/webStudent" class="col-sm-2" v-if="parent">
+        <base-button type="primary">상담방가기</base-button></router-link
+      >
+      <!--상담사일 시 counselor-->
+      <router-link to="/webCounselor" class="col-sm-2" v-else>
+        <base-button type="primary">상담방가기</base-button></router-link
       >
     </div>
   </div>

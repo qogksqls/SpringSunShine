@@ -4,7 +4,7 @@
       <h3><b>상담일지</b></h3>
 
       <info />
-      <div class="col-md-12 takecare">
+      <div class="col-sm-12 takecare">
         <table class="table table-hover">
           <thead>
             <th v-for="item in header" v-bind:key="header">{{ item }}</th>
@@ -26,7 +26,7 @@
           <h6 slot="header" class="modal-title" id="modal-title-default">
             <h4 class="display-4"><b id="date">"2022-08-09"</b>상담일지</h4>
           </h6>
-          <div class="col-lg-12 row">
+          <div class="col-sm-12 row">
             <!--상담일지 저장공간-->
             <div>
               여기에 상담사가 상담일지 적은걸 보여줍니다~~~
