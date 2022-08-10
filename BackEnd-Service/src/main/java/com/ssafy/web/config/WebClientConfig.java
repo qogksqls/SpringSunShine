@@ -9,6 +9,6 @@ public class WebClientConfig {
 	
 	@Bean
 	public WebClient webClient() {
-		return WebClient.create("https://i7a606.q.ssafy.io/auth-api");
+		return WebClient.create("http://localhost:8090/auth-api");
 	}
 }

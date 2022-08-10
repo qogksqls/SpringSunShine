@@ -92,22 +92,18 @@ public class UserController {
 		else return "fail";
 	}
 	
-	/*회원정보 조회*/
-	@GetMapping("/{user_id}")
-	public ResponseEntity<?> userInfo(@PathVariable String user_id){
-		/*부모 회원정보 조회*/
-		if(user_id.charAt(0)=='p'){
-			ParentResponse presult = userService.getParentInfo(user_id);	
-			return new ResponseEntity<ParentResponse>(presult, HttpStatus.OK);		
-			
-			
-		}
-		/*치료사 회원정보 조회*/
-		else if(user_id.charAt(0)=='t'){
-			TherapistResponse tresult= userService.getTheraInfo(user_id);
-			return new ResponseEntity<TherapistResponse>(tresult, HttpStatus.OK);
-		}
-			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+	/*치료사 회원정보 조회*/
+	@GetMapping("theraInfo/{user_id}")
+	public ResponseEntity<?> theraInfo(@PathVariable String user_id){
+		TherapistResponse tresult= userService.getTheraInfo(user_id);
+		return new ResponseEntity<TherapistResponse>(tresult, HttpStatus.OK);
+	}
+	
+	/*부모 회원정보 조회*/
+	@GetMapping("parentInfo/{user_id}")
+	public ResponseEntity<?> parentInfo(@PathVariable String user_id){
+		ParentResponse presult = userService.getParentInfo(user_id);	
+		return new ResponseEntity<ParentResponse>(presult, HttpStatus.OK);		
 	}
 	
 	/*부모 회원정보 수정*/
