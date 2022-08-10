@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ssafy.web.db.entity.BExpertiseTherapist;
+import com.ssafy.web.db.entity.Expertise;
 
 public interface BExpertiseTherapistRepository extends JpaRepository<BExpertiseTherapist, Integer>{
 	

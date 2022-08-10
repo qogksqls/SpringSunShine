@@ -21,13 +21,13 @@ public class Expertise {
 	@Column(name ="expertise_no")
 	private int expertiseNo;
 	
-	@Column(name="kind", nullable=false)
-	private String kind;
+	@Column(name="is_kind", nullable=false)
+	private String isKind;
 
 	@Builder
-	public Expertise(int expertiseNo, String kind) {
+	public Expertise(int expertiseNo, String isKind) {
 		this.expertiseNo = expertiseNo;
-		this.kind = kind;
+		this.isKind = isKind;
 	}
 	
 	

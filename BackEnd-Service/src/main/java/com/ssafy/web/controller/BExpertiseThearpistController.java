@@ -1,7 +1,5 @@
 package com.ssafy.web.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +17,14 @@ public class BExpertiseThearpistController {
 	private final BExpertiseTherapistService BETService;
 	
 	@GetMapping("/{expertise_no}")
-	public ResponseEntity<?> recommed(@PathVariable int expertise_no){
-		RecommendTherapistResponse[] rtrArr = BETService.recommendTherapistList(expertise_no);
-		return new ResponseEntity<RecommendTherapistResponse[]>(rtrArr,HttpStatus.OK);
+	public RecommendTherapistResponse[] recommed(@PathVariable int expertise_no){
+		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistList(expertise_no);
+		return recommedTheraArr;
+	}
+	
+	@GetMapping("/all")
+	public RecommendTherapistResponse[] recommedAll(){
+		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistAll();
+		return recommedTheraArr;
 	}
 }

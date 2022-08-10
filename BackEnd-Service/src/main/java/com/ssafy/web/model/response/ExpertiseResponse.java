@@ -13,11 +13,11 @@ public class ExpertiseResponse {
 	private String kind;
 	
 	public Expertise toEntity() {
-		return Expertise.builder().expertiseNo(expertise_no).kind(kind).build();
+		return Expertise.builder().expertiseNo(expertise_no).isKind(kind).build();
 	}
 
 	public static ExpertiseResponse fromEntity(Expertise expertise) {
-		return ExpertiseResponse.builder().expertise_no(expertise.getExpertiseNo()).kind(expertise.getKind()).build();
+		return ExpertiseResponse.builder().expertise_no(expertise.getExpertiseNo()).kind(expertise.getIsKind()).build();
 	}
 
 	@Builder

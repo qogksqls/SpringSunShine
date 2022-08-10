@@ -23,4 +23,12 @@ public interface TheraRepository extends JpaRepository<Therapist, Integer> {
             + "from Therapist t "
             + "where t.user.userId in :thera_id")
     List<RecommendTherapistResponse> findByUser_UserIdIn(@Param(value = "thera_id") String[] thera_id);
+
+    @Query(value = "select "
+    		+ "new com.ssafy.web.model.response.RecommendTherapistResponse"
+    		+ "(t.user.userId as thera_id, t.name as name, t.email as email, t.profileUrl as profile_url, t.theraIntro as thera_intro) "
+    		+ "from Therapist t ")
+    List<RecommendTherapistResponse> findAlljpql();
+
+    
 }
