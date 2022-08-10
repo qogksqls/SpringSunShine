@@ -22,7 +22,7 @@ public class ReservServiceImpl implements ReservService {
 	@Override
 	public void reservRegist(ReservRequest reservInfo) {
 		Reservation reserv = new Reservation();
-
+// git 충돌 해결???
 		// auth-api에서 아동 아이디 가져오기
 		String childName = reservInfo.getChild_name();
 		String parentId = reservInfo.getParent_id();
