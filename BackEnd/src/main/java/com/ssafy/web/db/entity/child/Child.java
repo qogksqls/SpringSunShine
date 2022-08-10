@@ -40,6 +40,7 @@ public class Child {
 	@Column(name = "name", columnDefinition = "VARCHAR(20)", nullable = false, unique = true)
 	private String name;
 
+	
 	@Column(name = "birth", columnDefinition = "DATE", nullable = false)
 	Date birth;
 
