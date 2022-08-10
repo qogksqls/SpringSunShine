@@ -29,7 +29,7 @@ public class ReservServiceImpl implements ReservService {
 
 		String childId = webClient.get().uri("/child/" + parentId + "/" + childName).retrieve().bodyToMono(String.class)
 				.block();
-		System.out.println("childId: " + childId);
+		System.out.println("아동 아이디: " + childId);
 
 		reserv.setChildId(childId);
 		reserv.setParentId(reservInfo.getParent_id());
