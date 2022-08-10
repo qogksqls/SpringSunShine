@@ -1,17 +1,14 @@
 package com.ssafy.web.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.web.db.entity.Expertise;
-import com.ssafy.web.service.BExpertiseTherapistService;
-import com.ssafy.web.service.ExpertiseService;
+import com.ssafy.web.service.UserInfoService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,25 +16,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("user")
 public class UserController {
-	
-	private final ExpertiseService experService;
+	private final UserInfoService userInfoService;
 	
 	
 	@GetMapping("/{user_id}")
-	public List<Expertise> userInfo(@PathVariable("user_id") String user_id) {
-		List<Expertise> list=null;
+	public Map<String,Object> userInfo(@PathVariable("user_id") String user_id) {
+		Map<String,Object> data = new HashMap<String, Object>();
 		
+		/*부모 회원정보 조회*/
 		if(user_id.charAt(0)=='p'){
-			
-			
+			data = userInfoService.parentInfo(user_id);
+			return data;
 		}
 		
 		/*치료사 회원정보 조회*/
 		else if(user_id.charAt(0)=='t'){
-			list = experService.findByTheraId(user_id);
-			System.out.println("sdf");
+			data = userInfoService.theraInfo(user_id);
+			return data;
 		}
 		
-		return list;
+		data.put("message","fail");
+		return null;
 	}
 }
