@@ -3,6 +3,7 @@ package com.ssafy.web.service;
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.User;
 import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistCareer;
 import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
@@ -32,5 +33,9 @@ public interface UserService {
 	
 	//치료사 회원정보 수정 
 	int theraModify(String user_id, TheraModifyRequest theraInfo);
+	
+	//비밀번호 찾기 (아이디, 이메일)
+	int findPass(String id, String email) throws Exception;
+
 
 }

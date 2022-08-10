@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.web.db.entity.Expertise;
 import com.ssafy.web.db.repository.ExpertiseRepository;
 import com.ssafy.web.model.response.ExpertiseResponse;
+import com.ssafy.web.model.response.RecommendTherapistResponse;
 
 import lombok.RequiredArgsConstructor;
 

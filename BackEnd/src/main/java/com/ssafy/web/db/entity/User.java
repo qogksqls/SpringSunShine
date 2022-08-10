@@ -38,8 +38,7 @@ public class User {
 	public User() {
 	}
 	
-	public void update(String id, String password) {
-		this.id = id;
+	public void update(String password) {
 		this.password= password;
 	}
 
