@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -33,14 +31,6 @@ public class Options {
 
 	@Column(name = "option_score", nullable = false)
 	private int optionScore;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "question_id", referencedColumnName = "question_id", nullable = false)
-//	private Question question;
-	
-//	@ManyToOne
-//	@JoinColumn(name="question_no", referencedColumnName = "question_no", nullable=false)      
-//	private Question question;
-//	
+
 	
 }
