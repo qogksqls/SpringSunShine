@@ -16,13 +16,18 @@ import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.request.ReservRequest;
 import com.ssafy.web.service.ReservService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value = "상담 예약 API", tags = {"Reservation"})
 public class ReservationController {
 
 	@Autowired
 	ReservService reservService;
 
 	@PostMapping("/reserv-parent")
+	@ApiOperation(value = "상담 예약")
 	public ResponseEntity<?> reservRegist(@RequestBody ReservRequest reservInfo) {
 		reservService.reservRegist(reservInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));

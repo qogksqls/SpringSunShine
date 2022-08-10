@@ -9,20 +9,18 @@ import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import SigninSelect from "./views/components/Signin/SigninSelect.vue";
 import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
+import ChildReserveShow from "./views/ReserveView/ChildReserveShowView.vue";
 
-// child
-import childList from '@/views/ChildList.vue'
-
-// survey
-import SurveyView from '@/views/survey/SurveyView'
-import SurveyResultView from '@/views/survey/SurveyResultView'
-
-// consult
-import memoView from '@/views/consult/MemoView.vue'
-
-// reserve
-import reserve from '@/views/Reserve/ReserveView'
-
+//아동추가 목록
+import ChildListView from "./views/ChildPlusView/ChildListView.vue";
+//문진표
+import SurveyView from "./views/survey/SurveyView";
+import SurveyResultView from "./views/survey/SurveyResultView";
+//webRTC
+import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
+import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
+//cardGame
+import playAlone from "./views/playAloneView/playAlone.vue"
 
 Vue.use(Router);
 
@@ -90,51 +88,58 @@ export default new Router({
         default: CounselorRecommend,
       },
     },
-    // child
     {
-      path: "/child",
-      name: "child",
+      path: "/childReserveShow",
+      name: "childReserveShow",
       components: {
         header: AppHeader,
-        default: childList,
+        default: ChildReserveShow,
       },
     },
-    // survey
+    //아동추가페이지
     {
-      path: "/question",
-      name: "question",
+      path: "/children",
+      name: "children",
+      components: {
+        header: AppHeader,
+        default: ChildListView,
+      },
+    },
+    //문단표
+    {
+      path: "/survey",
+      name: "survey",
       components: {
         header: AppHeader,
         default: SurveyView,
       },
     },
     {
-      path: "/question/result",
-      name: "questionresult",
+      path: "/survey/result",
+      name: "surveyresult",
       components: {
         header: AppHeader,
         default: SurveyResultView,
       },
+      props: true,
     },
-    // consult
+    //webRTC
     {
-      path: "/memo",
-      name: "memo",
-      components: {
-        header: AppHeader,
-        default: memoView,
-      },
+      path: "/webStudent",
+      name: "webStudent",
+      component: WebStudent,
     },
-    // reserve
     {
-      path: "/reserv-parent",
-      name: "reserv-parent",
-      components: {
-        header: AppHeader,
-        default: reserve,
-      },
+      path: "/webCounselor",
+      name: "webCounselor",
+      component: WebCounselor,
     },
-
+    //cardGame
+    {
+      path: "/playAlone",
+      name: "playAlone",
+      component: playAlone,
+    }
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
