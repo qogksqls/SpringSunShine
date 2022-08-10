@@ -48,8 +48,8 @@ public class ChildController {
 
 		System.out.println(parentId);
 		System.out.println(childName);
+		
 		String childId = childService.getChildId(parentId, childName);
-
 		return childId;
 	}
 
