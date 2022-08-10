@@ -38,9 +38,9 @@ public class Options {
 //	@JoinColumn(name = "question_id", referencedColumnName = "question_id", nullable = false)
 //	private Question question;
 	
-	@ManyToOne
-	@JoinColumn(name="question_no", referencedColumnName = "question_no", nullable=false)      
-	private Question question;
-	
+//	@ManyToOne
+//	@JoinColumn(name="question_no", referencedColumnName = "question_no", nullable=false)      
+//	private Question question;
+//	
 	
 }
