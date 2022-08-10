@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Answerlist {
-	int question; //질문번호
-	int answer; // 답 
+	String options; // 답
+	int score; // 점수
 
 }
