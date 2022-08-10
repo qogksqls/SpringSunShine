@@ -1,8 +1,9 @@
 package com.ssafy.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.child.ChildRegisterRequest;
 import com.ssafy.web.service.child.ChildService;
 
@@ -34,22 +36,23 @@ public class ChildController {
 
 	}
 
-	/** 아동 정보 조회 */
+	/** 아동 목록 조회 */
 	@GetMapping("/{parent_id}")
-	public ResponseEntity<?> getChildList() {
-		return null;
+	@ApiOperation(value = "아동 목록 조회")
+	public List<ChildResponse> getChildList(@PathVariable(value = "parent_id") String parentId) {
+		return childService.getChildList(parentId);
 	}
 
 	/** 난수화된 아동 아이디 반환 API */
 	@GetMapping("/{parent_id}/{child_name}")
-	@ApiOperation(value = "아동 아이디 난수값 반환")
+	@ApiOperation(value = "아동 아이디 난수값 반환 API")
 	public String getChildId(@PathVariable(value = "parent_id") String parentId,
 			@PathVariable(value = "child_name") String childName) {
 
 		System.out.println(parentId);
 		System.out.println(childName);
-		String childId = childService.getChildId(parentId, childName);
 
+		String childId = childService.getChildId(parentId, childName);
 		return childId;
 	}
 
