@@ -16,7 +16,7 @@ public class RecommendServiceImpl implements RecommendService{
 	private final TheraRepository threpo;
 	
 	@Override
-	public List<RecommendTherapistResponse> findByUser_UserIdIn(List<String> thera_id) {
+	public List<RecommendTherapistResponse> findByUser_UserIdIn(String[] thera_id) {
 		List<RecommendTherapistResponse> list = threpo.findByUser_UserIdIn(thera_id);
 		return list;
 	}

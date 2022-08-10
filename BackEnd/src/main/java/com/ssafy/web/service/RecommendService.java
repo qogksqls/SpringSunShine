@@ -6,5 +6,5 @@ import com.ssafy.web.model.response.RecommendTherapistResponse;
 
 
 public interface RecommendService {
-	List<RecommendTherapistResponse> findByUser_UserIdIn(List<String> thera_id);
+	List<RecommendTherapistResponse> findByUser_UserIdIn(String[] thera_id);
 }
