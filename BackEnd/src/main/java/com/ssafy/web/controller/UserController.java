@@ -1,7 +1,5 @@
 package com.ssafy.web.controller;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.web.db.entity.Parent;
-import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistResponse;
@@ -92,22 +88,19 @@ public class UserController {
 		else return "fail";
 	}
 	
-	/*회원정보 조회*/
-	@GetMapping("/{user_id}")
-	public ResponseEntity<?> userInfo(@PathVariable String user_id){
-		/*부모 회원정보 조회*/
-		if(user_id.charAt(0)=='p'){
-			ParentResponse presult = userService.getParentInfo(user_id);	
-			return new ResponseEntity<ParentResponse>(presult, HttpStatus.OK);		
-			
-			
-		}
-		/*치료사 회원정보 조회*/
-		else if(user_id.charAt(0)=='t'){
-			TherapistResponse tresult= userService.getTheraInfo(user_id);
-			return new ResponseEntity<TherapistResponse>(tresult, HttpStatus.OK);
-		}
-			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+	/*치료사 회원정보 조회*/
+	@GetMapping("/therainfo/{user_id}")
+	public TherapistResponse theraInfo(@PathVariable String user_id){
+		TherapistResponse tresult= userService.getTheraInfo(user_id);
+		return tresult;
+	}
+	
+	/*부모 회원정보 조회*/
+	@GetMapping("/parentinfo/{user_id}")
+	public ParentResponse parentInfo(@PathVariable String user_id){
+		
+		ParentResponse presult = userService.getParentInfo(user_id);	
+		return presult;
 	}
 	
 	/*부모 회원정보 수정*/

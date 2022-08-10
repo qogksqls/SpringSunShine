@@ -21,4 +21,10 @@ public class RecommendServiceImpl implements RecommendService{
 		return list;
 	}
 
+	@Override
+	public List<RecommendTherapistResponse> findAlljpql() {
+		List<RecommendTherapistResponse> list = threpo.findAlljpql();
+		return list;
+	}
+
 }

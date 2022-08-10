@@ -34,10 +34,12 @@ CREATE TABLE IF NOT exists sss_auth.`therapist` (
 	`phone`	VARCHAR(20)	NOT NULL,
 	`address`	VARCHAR(80)	NOT NULL,
 	`profile_url`	VARCHAR(255)	NOT NULL,
-	`file_url`	VARCHAR(255)	NOT NULL,
 	`thera_id`	CHAR(13)	NOT NULL,
 	`thera_intro`	TEXT	NOT NULL,
-	`approve_flag`	INT	NOT NULL	DEFAULT 0
+	`approve_flag`	INT	NOT NULL	DEFAULT 0,
+    `academic_careers`	VARCHAR(255)	NOT NULL,
+	`careers`	VARCHAR(255)	NOT NULL,
+	`licences`	VARCHAR(255)	NOT NULL
 );
 
 -- 부모 정보
@@ -157,13 +159,16 @@ CREATE TABLE IF NOT exists sss_service.`survery_response` (
 CREATE TABLE IF NOT exists sss_service.`b_expertise_therapist` (
 	`b_expertise_therapist_no`	INT auto_increment	NOT NULL PRIMARY KEY,
 	`thera_id`	CHAR(13) NOT NULL,
-	`expertise_no`	INT NOT NULL
+	`expertise_no`	INT NOT NULL,
+    foreign key(expertise_no)
+    references expertise(expertise_no) on update cascade on delete cascade
 );
 
 -- 전문성 정보
 CREATE TABLE IF NOT exists sss_service.`expertise` (
 	`expertise_no`	INT auto_increment	NOT NULL PRIMARY KEY,
-	`kind`	VARCHAR(255)	NOT NULL
+	`is_kind`	VARCHAR(255)	NOT NULL
+    
 );
 
 -- *** [schema] sss_service end ***
@@ -182,53 +187,55 @@ values
 ('p9wj92M220803','parent003','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
 ('pcdHKGY220804','parent004','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
 ('pDj2dJd220805','parent005','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pLQDOys220805','therapist001','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('po46qFg220805','therapist002','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('poqyD0t220805','therapist003','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pQ33VQz220805','therapist004','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('psCvksB220804','therapist005','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tLQDOys220805','therapist001','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('to46qFg220805','therapist002','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('toqyD0t220805','therapist003','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tQ33VQz220805','therapist004','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tsCvksB220804','therapist005','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
 ('tlAN5Qf220805','therapist006','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI220804','therapist007','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2a0804','therapist008','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2b0804','therapist009','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2c0804','therapist010','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2d0804','therapist011','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2e0804','therapist012','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2f0804','therapist013','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2g0804','therapist014','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2h0804','therapist015','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2i0804','therapist016','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2j0804','therapist017','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2k0804','therapist018','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2l0804','therapist019','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pvSV0xI2n0804','therapist020','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pWYjC7k2m0804','therapist999','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',1);
+('tvSV0xI220804','therapist007','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2a0804','therapist008','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2b0804','therapist009','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2c0804','therapist010','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2d0804','therapist011','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2e0804','therapist012','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2f0804','therapist013','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2g0804','therapist014','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2h0804','therapist015','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2i0804','therapist016','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2j0804','therapist017','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2k0804','therapist018','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2l0804','therapist019','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tvSV0xI2n0804','therapist020','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
+('tWYjC7k2m0804','therapist999','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',1);
 
 
 -- 치료사 정보
-INSERT INTO sss_auth.therapist(address, email, file_url, name, phone, profile_url, thera_intro, thera_id)
+INSERT INTO sss_auth.therapist(address, email,name, phone, profile_url, thera_intro, thera_id, academic_careers, careers, licences)
 values
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist001@gmail.com', '첨부파일명', '권혜수', '010-1111-1111', '프로필명', '자기소개', 'pLQDOys220805'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist002@gmail.com', '첨부파일명', '윤광환', '010-1111-1112', '프로필명', '자기소개', 'po46qFg220805'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist003@gmail.com', '첨부파일명', '추민용', '010-1111-1113', '프로필명', '자기소개', 'poqyD0t220805'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist004@gmail.com', '첨부파일명', '황경태', '010-1111-1114', '프로필명', '자기소개', 'pQ33VQz220805'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist005@gmail.com', '첨부파일명', '하병곤', '010-1111-1115', '프로필명', '자기소개', 'psCvksB220804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist006@gmail.com', '첨부파일명', '남한결', '010-1111-1116', '프로필명', '자기소개', 'tlAN5Qf220805'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist007@gmail.com', '첨부파일명', '백현식', '010-1111-1117', '프로필명', '자기소개', 'pvSV0xI220804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist008@gmail.com', '첨부파일명', '조희아', '010-1111-1118', '프로필명', '자기소개', 'pvSV0xI2a0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist009@gmail.com', '첨부파일명', '하준호', '010-1111-1119', '프로필명', '자기소개', 'pvSV0xI2b0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist010@gmail.com', '첨부파일명', '성우희', '010-1111-1110', '프로필명', '자기소개', 'pvSV0xI2c0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist011@gmail.com', '첨부파일명', '예수혁', '010-1111-1121', '프로필명', '자기소개', 'pvSV0xI2d0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist012@gmail.com', '첨부파일명', '정종남', '010-1111-1131', '프로필명', '자기소개', 'pvSV0xI2e0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist013@gmail.com', '첨부파일명', '조영욱', '010-1111-1141', '프로필명', '자기소개', 'pvSV0xI2f0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist014@gmail.com', '첨부파일명', '예동철', '010-1111-1151', '프로필명', '자기소개', 'pvSV0xI2g0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist015@gmail.com', '첨부파일명', '예효은', '010-1111-1161', '프로필명', '자기소개', 'pvSV0xI2h0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist016@gmail.com', '첨부파일명', '설승용', '010-1111-1171', '프로필명', '자기소개', 'pvSV0xI2i0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist017@gmail.com', '첨부파일명', '송해영', '010-1111-1181', '프로필명', '자기소개', 'pvSV0xI2j0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist018@gmail.com', '첨부파일명', '하태훈', '010-1111-1191', '프로필명', '자기소개', 'pvSV0xI2k0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist019@gmail.com', '첨부파일명', '심정현', '010-1111-1101', '프로필명', '자기소개', 'pvSV0xI2l0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist020@gmail.com', '첨부파일명', '오한결', '010-1111-1011', '프로필명', '자기소개', 'pvSV0xI2n0804'),
-('서울특별시 강남구 역삼동 테헤란로 212', 'therapist999@gmail.com', '첨부파일명', '권미르', '010-1111-1211', '프로필명', '자기소개', 'pWYjC7k2m0804');
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist001@gmail.com', '권혜수', '010-1111-1111', '프로필명', '자기소개', 'tLQDOys220805', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist002@gmail.com', '윤광환', '010-1111-1112', '프로필명', '자기소개', 'to46qFg220805', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist003@gmail.com', '추민용', '010-1111-1113', '프로필명', '자기소개', 'toqyD0t220805', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist004@gmail.com', '황경태', '010-1111-1114', '프로필명', '자기소개', 'tQ33VQz220805', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist005@gmail.com', '하병곤', '010-1111-1115', '프로필명', '자기소개', 'tsCvksB220804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist006@gmail.com', '남한결', '010-1111-1116', '프로필명', '자기소개', 'tlAN5Qf220805', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist007@gmail.com', '백현식', '010-1111-1117', '프로필명', '자기소개', 'tvSV0xI220804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist008@gmail.com', '조희아', '010-1111-1118', '프로필명', '자기소개', 'tvSV0xI2a0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist009@gmail.com', '하준호', '010-1111-1119', '프로필명', '자기소개', 'tvSV0xI2b0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist010@gmail.com', '성우희', '010-1111-1110', '프로필명', '자기소개', 'tvSV0xI2c0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist011@gmail.com', '예수혁', '010-1111-1121', '프로필명', '자기소개', 'tvSV0xI2d0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist012@gmail.com', '정종남', '010-1111-1131', '프로필명', '자기소개', 'tvSV0xI2e0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist013@gmail.com', '조영욱', '010-1111-1141', '프로필명', '자기소개', 'tvSV0xI2f0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist014@gmail.com', '예동철', '010-1111-1151', '프로필명', '자기소개', 'tvSV0xI2g0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist015@gmail.com', '예효은', '010-1111-1161', '프로필명', '자기소개', 'tvSV0xI2h0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist016@gmail.com', '설승용', '010-1111-1171', '프로필명', '자기소개', 'tvSV0xI2i0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist017@gmail.com', '송해영', '010-1111-1181', '프로필명', '자기소개', 'tvSV0xI2j0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist018@gmail.com', '하태훈', '010-1111-1191', '프로필명', '자기소개', 'tvSV0xI2k0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist019@gmail.com', '심정현', '010-1111-1101', '프로필명', '자기소개', 'tvSV0xI2l0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist020@gmail.com', '오한결', '010-1111-1011', '프로필명', '자기소개', 'tvSV0xI2n0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
+('서울특별시 강남구 역삼동 테헤란로 212', 'therapist999@gmail.com', '권미르', '010-1111-1211', '프로필명', '자기소개', 'tWYjC7k2m0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] ');
+
+
 
 -- 부모 정보
 insert into sss_auth.parent(name, phone, email, address, parent_id)
