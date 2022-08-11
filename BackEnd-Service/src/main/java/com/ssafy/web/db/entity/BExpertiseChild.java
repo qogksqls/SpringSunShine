@@ -31,7 +31,7 @@ public class BExpertiseChild {
 	@Column(name="child_id", nullable = false)
 	private String childId;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="expertise_no", referencedColumnName = "expertise_no", nullable = false)
 	private Expertise expertise;
 }

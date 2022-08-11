@@ -18,4 +18,6 @@ public interface ExpertiseRepository extends JpaRepository<Expertise, Integer>{
 			+ "where e.expertise_no =b.expertise_no "
 			+ "and b.thera_id = :thera_id ", nativeQuery = true)
 	List<Expertise> findByTheraIdjpql(@Param("thera_id") String thera_id);
+	
+	Expertise findByExpertiseNo(int expertise_no);
 }
