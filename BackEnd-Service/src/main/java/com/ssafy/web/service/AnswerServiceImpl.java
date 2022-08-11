@@ -38,10 +38,10 @@ public class AnswerServiceImpl implements AnswerService{
 	RedisService redisService;
 	
 	@Autowired
-	BExpertiseChildRepository childExp;
+	ExpertiseRepository expertise;
 	
-//	@Autowired
-//	ExpertiseRepository expertise;
+	@Autowired
+	BExpertiseChildRepository childExp;
 	
 	@Override
 	public int registAnswer(AnswerRequest answerReq) {
@@ -83,11 +83,19 @@ public class AnswerServiceImpl implements AnswerService{
 		
 		//점수 합산하여, b_expertise_child 테이블에 데이터 저장 
 		int expNo = registChildExp(childId, score1, score2, score3);
-		BExpertiseChild childexp = new BExpertiseChild();
+		Expertise childE = expertise.findByExpertiseNo(expNo);
 		Expertise exp = new Expertise(); 
+		exp.setExpertiseNo(expNo);
+		exp.setIsKind(childE.getIsKind());
 		
+		
+		BExpertiseChild childexp = new BExpertiseChild();
 		childexp.setChildId(childId);
-//		childexp.setExpertise(expertise);
+		childexp.setExpertise(exp);
+		
+		childExp.save(childexp);
+		
+		
 		return 1;
 	}
 	
@@ -97,7 +105,7 @@ public class AnswerServiceImpl implements AnswerService{
 				.block();
 		int age= res.getAge(); // 아이 나이 
 		int gender=  res.getGender(); // 아이 성별 
-
+		System.out.println("나이 : "+age+" , 성별 :"+gender);
 		//치료사 추천을 위한 점수 로직 
 		if(score1 > 60) {
 			return 1; // 60점 이상, 자폐증 
@@ -112,7 +120,7 @@ public class AnswerServiceImpl implements AnswerService{
 			}
 			else return 3; //전반적 발달장애 
 		}
-		else return 6; //특이사항 없음 컬럼 추가 
+		else return 3; //특이사항 없음 컬럼 추가 
 		
 		
 	}
