@@ -7,4 +7,5 @@ import com.ssafy.web.db.entity.Expertise;
 
 public interface BExpertiseChildRepository extends JpaRepository<BExpertiseChild, Integer> {
 
+	BExpertiseChild findByChildId(String childId);
 }
