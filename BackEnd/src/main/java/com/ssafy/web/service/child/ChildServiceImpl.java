@@ -54,6 +54,7 @@ public class ChildServiceImpl implements ChildService {
 		for(Child child : list) {
 			ChildResponse childResponse = new ChildResponse();
 			
+			childResponse.setChildId(child.getChildId());
 			childResponse.setName(child.getName());
 			childResponse.setBirth(child.getBirth());
 			childResponse.setGender(child.getGender());
