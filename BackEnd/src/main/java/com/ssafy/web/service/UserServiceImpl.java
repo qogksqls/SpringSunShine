@@ -309,6 +309,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public int findPass(String id, String email) throws Exception {
 		User user = userRepository.findUserById(id).orElse(null);
 		if (user == null) {
@@ -322,17 +323,19 @@ public class UserServiceImpl implements UserService {
 				System.out.println("이메일없음");
 				return 0;
 			}
-			// 이메일 발송
-			mailService.sendPwMessage(email);
-			return 1;
 		} else { // 이사람은 치료사
 			Therapist t = theraRepository.findByUser(user);
 			if (!t.getEmail().equals(email))
 				return 0;
-			// 이메일 발송
-			mailService.sendPwMessage(email);
-			return 1;
 		}
+		log.debug("임시비밀번호 이메일 발송 및 업데이트");
+		// 이메일 발송
+		String code=mailService.sendPwMessage(email);
+		//임시 비밀번호로 비밀번호 업데이트
+		user.update(encoder.encode(code));
+		return 1;
+		
+		
 
 	}
 
