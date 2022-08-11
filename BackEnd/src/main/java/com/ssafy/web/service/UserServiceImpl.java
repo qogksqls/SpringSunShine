@@ -2,7 +2,6 @@ package com.ssafy.web.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import com.ssafy.web.dto.Academy;
 import com.ssafy.web.dto.Career;
 import com.ssafy.web.dto.Licence;
 import com.ssafy.web.model.response.ParentResponse;
-import com.ssafy.web.model.response.TherapistCareer;
 import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
@@ -300,6 +298,15 @@ public class UserServiceImpl implements UserService {
 			return 1;
 		}
 	
+	}
+
+	/** 보호자 이름 반환 */
+	@Override
+	public String getParentName(String parentId) {
+		User user = userRepository.findByUserId(parentId);
+		Parent parent = parentRepository.findByUser(user);
+		
+		return parent.getName();
 	}
 
 

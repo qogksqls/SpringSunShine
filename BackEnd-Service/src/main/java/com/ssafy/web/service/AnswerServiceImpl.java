@@ -1,6 +1,8 @@
 package com.ssafy.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.ssafy.web.db.entity.questions.Answer;
 import com.ssafy.web.db.repository.AnswerRepository;
 import com.ssafy.web.dto.Answerlist;
+import com.ssafy.web.dto.Question;
 import com.ssafy.web.request.AnswerRequest;
+import com.ssafy.web.request.GetAnswerRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +27,9 @@ public class AnswerServiceImpl implements AnswerService{
 	
 	@Autowired
 	WebClient webClient; 
+	
+	@Autowired
+	RedisService redisService;
 	
 	@Override
 	public int registAnswer(AnswerRequest answerReq) {
@@ -62,6 +69,43 @@ public class AnswerServiceImpl implements AnswerService{
 		
 		answerRepo.save(ans);
 		return 1;
+	}
+
+	@Override
+	public List<Question> getAnswer(GetAnswerRequest getAnsReq) {
+		String childName= getAnsReq.getChild_name();
+		String parentId= getAnsReq.getParent_id();
+		String childId = webClient.get().uri("/child/"+parentId +"/"+childName).retrieve().bodyToMono(String.class)
+				.block();
+		log.debug("문진표 응답 아동 아이디 : "+childId);
+		
+		
+		//레디스에 질문 저장되있는가 ? 
+		//레디스에 질문 저장 안되있으면 , 저장해주어야 해 
+		if(redisService.getQuestions().size() == 0) {
+			log.debug("redis에 질문 저장");
+			// 저장해주고, 
+			redisService.setQuestions();
+		}
+		List<String> questions = redisService.getQuestions();
+		
+		Answer ans = answerRepo.findAnswerByChildId(childId);
+		StringTokenizer st= new StringTokenizer(ans.getAnswer(),",");
+		
+		//질문(questions) 과, 응답(st.nextToken) 담을 리스트 
+		List<Question> answer = new ArrayList<Question>();
+		
+		for(int i =0 ; i<questions.size(); i++) {
+			Question q = new Question();
+			q.setQuestion(questions.get(i));
+			q.setAnswer(st.nextToken());
+			answer.add(q);
+		}
+		
+		return answer;
+		
+		
+		
 	}
 
 	

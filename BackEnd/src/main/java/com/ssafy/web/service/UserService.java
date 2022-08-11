@@ -37,5 +37,7 @@ public interface UserService {
 	//비밀번호 찾기 (아이디, 이메일)
 	int findPass(String id, String email) throws Exception;
 
+	// 보호자 이름 반환
+	String getParentName(String parentId);
 
 }

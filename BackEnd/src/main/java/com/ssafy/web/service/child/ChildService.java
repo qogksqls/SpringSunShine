@@ -15,5 +15,8 @@ public interface ChildService {
 	
 	// 아동 아이디 찾기
 	String getChildId(String parentId, String childName);
+	
+	// 아동 이름 반환
+	String getChildName(String childId);
 }
 

@@ -5,23 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.web.db.entity.questions.Question;
+import com.ssafy.web.db.repository.QuestionRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class RedisService {
+	@Autowired
+	QuestionRepository ques;
 	private final RedisTemplate<String, String> redisTemplate;
 	String key = "questions";
 	//문단표 질문 레디스에 저장 
-	public void setQuestions(List<Question> list) {
-	
+	public void setQuestions() {
+		List<Question> list = ques.findAll();
+		
 		ListOperations<String, String> stringOperations = redisTemplate.opsForList();
 		
 		for(int i=0; i<list.size(); i++) {
