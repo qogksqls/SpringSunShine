@@ -1,6 +1,8 @@
 package com.ssafy.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.child.ChildRegisterRequest;
@@ -56,4 +59,10 @@ public class ChildController {
 		return childId;
 	}
 
+	/** 아동 나이, 성별 조회 : 문진표 진단위한 데이터 */
+	@GetMapping("/getchild/{child_id}")
+	public ChildData getChildData(@PathVariable String child_id){
+		return childService.getChildData(child_id);
+	
+	}
 }
