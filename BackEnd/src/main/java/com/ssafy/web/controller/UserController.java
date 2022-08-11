@@ -144,7 +144,7 @@ public class UserController {
 	/**비밀번호 찾기*/
 	@PostMapping("/findpw")
 	public ResponseEntity<?> findPass(@RequestBody FindPwRequest findpw){
-		String id = findpw.getId();
+		String id = findpw.getId(); //13자리 난수 아님 
 		String email = findpw.getEmail();
 		try {
 			int res = userService.findPass(id, email);
