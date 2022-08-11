@@ -57,7 +57,7 @@ public class ReservServiceImpl implements ReservService {
 
 			String childName = webClient.get().uri("/info/child/" + childId).retrieve().bodyToMono(String.class)
 					.block();
-			String theraName = webClient.get().uri("/into/thera/" + theraId).retrieve().bodyToMono(String.class)
+			String theraName = webClient.get().uri("/info/thera/" + theraId).retrieve().bodyToMono(String.class)
 					.block();
 			
 			ParentReservResponse pReservResponse = new ParentReservResponse();
