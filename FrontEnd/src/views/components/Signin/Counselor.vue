@@ -9,10 +9,7 @@
       <input
         type="checkbox"
         id="자폐증"
-        :value="{
-          'expertiseNo': '1',
-          'isKind': '자폐증'
-        }"
+        :value=1
         v-model="datas.expertise_no"
         @change="counselor"
       />
@@ -21,10 +18,7 @@
       <input
         type="checkbox"
         id="아스퍼거"
-        :value="{
-          'expertiseNo': '2',
-          'isKind': '아스퍼거'
-        }"
+        :value=2
         v-model="datas.expertise_no"
         @change="counselor"
       />
@@ -33,10 +27,7 @@
       <input
         type="checkbox"
         id="전반적 발달 장애"
-        :value="{
-          'expertiseNo': '3',
-          'isKind': '전반적 발달 장애'
-        }"
+        :value=3
         v-model="datas.expertise_no"
         @change="counselor"
       />
@@ -45,10 +36,7 @@
       <input
         type="checkbox"
         id="레트 증후군"
-        :value="{
-          'expertiseNo': '4',
-          'isKind': '레트 증후군'
-        }"
+        :value=4
         v-model="datas.expertise_no"
         @change="counselor"
       />
@@ -57,10 +45,7 @@
       <input
         type="checkbox"
         id="아동기 붕괴성 장애"
-        :value="{
-          'expertiseNo': '5',
-          'isKind': '아동기 붕괴성 장애'
-        }"
+        :value=5
         v-model="datas.expertise_no"
         @change="counselor"
       />
