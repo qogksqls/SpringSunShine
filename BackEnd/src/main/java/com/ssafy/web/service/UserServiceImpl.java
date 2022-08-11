@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 	// 치료사 회원가입
 	@Override
-	public void theraRegist(TheraRegisterRequest theraInfo) {
+	public String theraRegist(TheraRegisterRequest theraInfo) {
 		User user = new User();
 		user.setUserId(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
@@ -75,6 +75,8 @@ public class UserServiceImpl implements UserService {
 
 		thera.setUser(user);
 		theraRepository.save(thera);
+		
+		return user.getUserId();
 
 	}
 
@@ -225,11 +227,17 @@ public class UserServiceImpl implements UserService {
 			String[] licList = getString(t.getLicences());
 			for (int i = 0; i < licList.length; i++) {
 				StringTokenizer st = new StringTokenizer(licList[i], ",");
+				//[asdf,null,2022-08-23,220720_출결확인서_배한빈[서울_6반]-1.pdf] 
 				Licence licence = new Licence();
+				System.out.println(1);
 				licence.setName(st.nextToken());
+				System.out.println(2);
 				licence.setPlace(st.nextToken());
+				System.out.println(3);
 				licence.setDate(st.nextToken());
+				System.out.println(4);
 				licence.setFile(st.nextToken());
+				System.out.println(5);
 				liclist.add(licence);
 			}
 		}
