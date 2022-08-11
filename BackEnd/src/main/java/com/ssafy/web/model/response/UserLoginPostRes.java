@@ -39,5 +39,13 @@ public class UserLoginPostRes {
 		res.setRefreshToken(refreshToken);
 		return res;
 	}
+	
+	// 재발급 할 때 줄 정보 
+	public static UserLoginPostRes ofrefresh(String accessToken, String refreshToken) {
+		UserLoginPostRes res= new UserLoginPostRes();
+		res.setAccessToken(accessToken);
+		res.setRefreshToken(refreshToken);
+		return res; 
+	}
 
 }

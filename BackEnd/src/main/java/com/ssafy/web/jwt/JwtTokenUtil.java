@@ -20,6 +20,7 @@ import com.auth0.jwt.exceptions.*;
 import com.ssafy.web.service.RedisService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,15 +77,6 @@ public class JwtTokenUtil {
 				.withIssuer(ISSUER) // 발행정보
 				.withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
 				.sign(Algorithm.HMAC512(secretKey.getBytes()));
-//		 Claims claims = Jwts.claims().setSubject(id);
-//		 Date date = new Date();
-//		 return Jwts.builder()
-//				 .setClaims(claims) // 발행 유저 정보 
-//				 .setIssuedAt(date) // 발행 시간 
-//				 .setIssuer(ISSUER)
-//				 .setExpiration(new Date(date.getTime()+tokenInvalidTime)) // 토큰 유효 시간 
-//				 .signWith(SignatureAlgorithm.HS256, secretKey)// 해싱 알고리즘 + 키로 서명
-//				 .compact();
 	}
 	 
 	public static String getToken(Instant expires, String id) {
@@ -95,6 +87,13 @@ public class JwtTokenUtil {
 		         .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
 		         .sign(Algorithm.HMAC512(secretKey.getBytes()));
 		}
+	
+	//AccessToken 재발급을 위한 refresh Token 체크 
+	public int checkRefreshToken(String id, String refreshToken) {
+		String redisRT = redisService.getValues(id);
+		if(!refreshToken.equals(redisRT)) return 0; // 유효하지 않은 리프레시 토큰 
+		return 1; 
+	}
 
 	 // 만료 날짜 : 현재시간 + 유효기간 
 	 public static Date getTokenExpiration(Long tokenInvalidTime) {
@@ -140,7 +139,7 @@ public class JwtTokenUtil {
 		        throw ex;
 		    } catch (SignatureVerificationException ex) {
 		        throw ex;
-		    } catch (TokenExpiredException ex) {
+		    } catch (ExpiredJwtException ex) {
 		        throw ex;
 		    } catch (JWTCreationException ex) {
 		        throw ex;
