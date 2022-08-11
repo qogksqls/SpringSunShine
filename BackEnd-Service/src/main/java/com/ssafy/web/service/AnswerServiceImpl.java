@@ -85,7 +85,6 @@ public class AnswerServiceImpl implements AnswerService{
 		int expNo = registChildExp(childId, score1, score2, score3);
 		BExpertiseChild childexp = new BExpertiseChild();
 		Expertise exp = new Expertise(); 
-		Expertise childex= childExp.findExpertiseByExpertiseNo(expNo);
 		
 		childexp.setChildId(childId);
 //		childexp.setExpertise(expertise);
