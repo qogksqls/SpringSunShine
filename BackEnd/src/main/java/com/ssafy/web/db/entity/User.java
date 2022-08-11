@@ -28,6 +28,8 @@ public class User {
 	@Column(name = "withdraw_flag")
 	@ColumnDefault("0") // default 0
 	int withdrawFlag;
+	@Column(name = "role", columnDefinition = "VARCHAR(20)", nullable = true)
+	String role;
 
 	@OneToOne(mappedBy = "user")
 	private Therapist therapist;
