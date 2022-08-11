@@ -204,7 +204,7 @@ export default {
       address: "",
       thera_intro: "",
       profile_url: "",
-      expertise: [],
+      expertises: [],
       academicCareers: [],
       careers: [],
       licences: [],
@@ -253,7 +253,7 @@ export default {
     counselor_data(inputDatas) {
       // console.log(inputDatas)
       this.profile_url = inputDatas.profile_url;
-      this.expertise = inputDatas.expertise_no;
+      this.expertises = inputDatas.expertise_no;
       this.academicCareers = inputDatas.academicCareers;
       this.careers = inputDatas.careers;
       this.licences = inputDatas.licences;
@@ -288,7 +288,7 @@ export default {
             phone: this.phone,
             address: this.address,
             profile_url: this.profile_url,
-            expertise: this.expertise,
+            expertises: this.expertises,
             academicCareers: this.academicCareers,
             careers: this.careers,
             licences: this.licences,
