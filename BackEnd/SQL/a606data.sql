@@ -182,32 +182,32 @@ CREATE TABLE IF NOT exists sss_service.`expertise` (
 -- 유저 통합 아이디
 INSERT  INTO sss_auth.user  
 values
-('p0SAddT220804', 'parent001', '$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u', default),
-('p3IsNnN220804','parent002','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u', default),
-('p9wj92M220803','parent003','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pcdHKGY220804','parent004','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('pDj2dJd220805','parent005','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tLQDOys220805','therapist001','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('to46qFg220805','therapist002','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('toqyD0t220805','therapist003','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tQ33VQz220805','therapist004','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tsCvksB220804','therapist005','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tlAN5Qf220805','therapist006','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI220804','therapist007','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2a0804','therapist008','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2b0804','therapist009','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2c0804','therapist010','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2d0804','therapist011','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2e0804','therapist012','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2f0804','therapist013','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2g0804','therapist014','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2h0804','therapist015','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2i0804','therapist016','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2j0804','therapist017','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2k0804','therapist018','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2l0804','therapist019','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tvSV0xI2n0804','therapist020','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default),
-('tWYjC7k2m0804','therapist999','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',1);
+('p0SAddT220804', 'parent001', '$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u', default,null),
+('p3IsNnN220804','parent002','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u', default ,null),
+('p9wj92M220803','parent003','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('pcdHKGY220804','parent004','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('pDj2dJd220805','parent005','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tLQDOys220805','therapist001','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('to46qFg220805','therapist002','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('toqyD0t220805','therapist003','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tQ33VQz220805','therapist004','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tsCvksB220804','therapist005','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tlAN5Qf220805','therapist006','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tvSV0xI220804','therapist007','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tvSV0xI2a0804','therapist008','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tvSV0xI2b0804','therapist009','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tvSV0xI2c0804','therapist010','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tvSV0xI2d0804','therapist011','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tvSV0xI2e0804','therapist012','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default ,null),
+('tvSV0xI2f0804','therapist013','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tvSV0xI2g0804','therapist014','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tvSV0xI2h0804','therapist015','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tvSV0xI2i0804','therapist016','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tvSV0xI2j0804','therapist017','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tvSV0xI2k0804','therapist018','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tvSV0xI2l0804','therapist019','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tvSV0xI2n0804','therapist020','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',default,null),
+('tWYjC7k2m0804','therapist999','$2a$10$8XFG9jG4dtHwseg/liZFreGGm1GCL4E1paqm3r1UaAxZ1jcHdrf/u',1,null);
 
 
 -- 치료사 정보
@@ -234,7 +234,6 @@ values
 ('서울특별시 강남구 역삼동 테헤란로 212', 'therapist019@gmail.com', '심정현', '010-1111-1101', '프로필명', '자기소개', 'tvSV0xI2l0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
 ('서울특별시 강남구 역삼동 테헤란로 212', 'therapist020@gmail.com', '오한결', '010-1111-1011', '프로필명', '자기소개', 'tvSV0xI2n0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] '),
 ('서울특별시 강남구 역삼동 테헤란로 212', 'therapist999@gmail.com', '권미르', '010-1111-1211', '프로필명', '자기소개', 'tWYjC7k2m0804', '[경희대학교,생체의공학과,2016,2022] [서울대학교,컴퓨터공학과,2017,2022]', '[삼성,대리,2017-2018,프론트앤드] ', '[컴활,한국,2016,첨부파일] ');
-
 
 
 -- 부모 정보

@@ -41,18 +41,18 @@ public class Therapist {
 	String profileUrl;
 	
 	
-	@Column(name = "academicCareers", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "academicCareers", columnDefinition = "VARCHAR(255) ")
 	String academicCareers;
 	
-	@Column(name = "careers", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "careers", columnDefinition = "VARCHAR(255)")
 	String careers;
 	
-	@Column(name = "licences", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "licences", columnDefinition = "VARCHAR(255)")
 	String licences;
 	
 	
 	
-	@Column(name = "thera_intro", columnDefinition = "TEXT", nullable = false)
+	@Column(name = "thera_intro", columnDefinition = "TEXT")
 	String theraIntro;
 	@Column(name = "approve_flag", columnDefinition = "int default 0", nullable = false)
 //	@ColumnDefault("0")
