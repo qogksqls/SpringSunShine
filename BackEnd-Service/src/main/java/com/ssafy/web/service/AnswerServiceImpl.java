@@ -40,8 +40,8 @@ public class AnswerServiceImpl implements AnswerService{
 	@Autowired
 	BExpertiseChildRepository childExp;
 	
-	@Autowired
-	ExpertiseRepository expertise;
+//	@Autowired
+//	ExpertiseRepository expertise;
 	
 	@Override
 	public int registAnswer(AnswerRequest answerReq) {
@@ -84,6 +84,8 @@ public class AnswerServiceImpl implements AnswerService{
 		//점수 합산하여, b_expertise_child 테이블에 데이터 저장 
 		int expNo = registChildExp(childId, score1, score2, score3);
 		BExpertiseChild childexp = new BExpertiseChild();
+		Expertise exp = new Expertise(); 
+		Expertise childex= childExp.findExpertiseByExpertiseNo(expNo);
 		
 		childexp.setChildId(childId);
 //		childexp.setExpertise(expertise);
