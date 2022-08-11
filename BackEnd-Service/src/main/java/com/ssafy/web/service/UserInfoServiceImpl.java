@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.ssafy.web.db.entity.Expertise;
 import com.ssafy.web.db.repository.ExpertiseRepository;
 import com.ssafy.web.model.response.ParentResponse;
+import com.ssafy.web.model.response.TherapistInfoResopnse;
 import com.ssafy.web.model.response.TherapistResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -43,9 +44,9 @@ public class UserInfoServiceImpl implements UserInfoService{
 				.uri("/user/therainfo/"+thera_id)
 				.retrieve()
 				.bodyToMono(TherapistResponse.class).block();
+		TherapistInfoResopnse therapistInfo = new TherapistInfoResopnse(theraInfo, list);
 		Map<String,Object> data = new HashMap<String, Object>();
-		data.put("expertises", list);
-		data.put("theraInfo", theraInfo);
+		data.put("theraInfo", therapistInfo);
 		return data;
 	}
 
