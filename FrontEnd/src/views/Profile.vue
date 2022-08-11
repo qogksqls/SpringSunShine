@@ -70,7 +70,17 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+  created() {
+    console.log("프로필 페이지")
+    // console.log(`${this.$store.state.host}/service-api/user/tGQp7sM220811`)
+    this.$axios
+      .get(`${this.$store.state.host}/service-api/user/tGQp7sM220811`)
+      .then((res) => {
+        console.log(res.data)
+      });
+  }
+};
 </script>
 <style>
 </style>
