@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ssafy.web.model.response.ChildResponse;
+import com.ssafy.web.request.ChildRegisterRequest;
+
+import reactor.core.publisher.Mono;
 
 @Service
 public class ChildManagementServiceImpl implements ChildManagementService {
@@ -21,6 +24,19 @@ public class ChildManagementServiceImpl implements ChildManagementService {
 		List<ChildResponse> childList = webClient.get().uri("/child/" + parentId).retrieve()
 				.bodyToFlux(ChildResponse.class).collectList().block();
 		return childList;
+	}
+
+	/** 아동 등록 
+	 * @return */
+	@Override
+	public Mono<ChildRegisterRequest> childRegist(ChildRegisterRequest childInfo) {
+		System.out.println("어디에 저장???");
+		System.out.println(childInfo.getName());
+
+		return webClient.post().uri("/child/register").body(Mono.just(childInfo), ChildRegisterRequest.class).retrieve()
+				.bodyToMono(ChildRegisterRequest.class);
+
+
 	}
 
 }
