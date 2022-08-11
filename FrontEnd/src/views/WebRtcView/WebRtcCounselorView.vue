@@ -26,6 +26,7 @@
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
           <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
+          <!-- <screen-share-comp v-if="sessionScreen" :sessionScreen="sessionScreen"></screen-share-comp> -->
         </div>
         <!--학생 얼굴 들어갈 자리 end-->
 
@@ -124,9 +125,10 @@ import SubVideoComp from './SubVideoComp.vue'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://a606.shop:8443" ;
+// const OPENVIDU_SERVER_URL = "i7a606.q.ssafy.io:8443" ;
 
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
   name: 'CounselorView',
@@ -158,6 +160,7 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
+      // sessionScreen: undefined,
 
 			mySessionId: 'SessionA',
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
@@ -200,6 +203,7 @@ export default {
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
+      // this.sessionScreen = this.OV.initSession();
 
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
@@ -226,8 +230,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480', // The resolution// The resolution of your video
-							// resolution: `${widthOfDiv}x${heightOfDiv}`,  // The resolution of your video
+							resolution: '640x480',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not
@@ -239,12 +242,33 @@ export default {
 
 						this.session.publish(this.publisher);
 					})
+          // .then(() => {
+          //   let publisher = this.OV.initPublisher("html-element-id", { 
+          //     videoSource: "screen" 
+          //   });
+          //   this.sessionScreen = publisher
+            
+          //   this.sessionScreen.once('accessAllowed', (event) => {
+          //       this.sessionScreen.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+          //           console.log('User pressed the "Stop sharing" button');
+          //         });
+          //         this.session.publish(this.sessionScreen);
+
+          //     });
+
+          //   publisher.once('accessDenied', (event) => {
+          //       console.warn('ScreenShare: Access Denied');
+          //   });
+
+          // })
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
 
-			window.addEventListener('beforeunload', this.leaveSession)
+    window.addEventListener('beforeunload', this.leaveSession)
+			
+
 		},
 
 		leaveSession () {
