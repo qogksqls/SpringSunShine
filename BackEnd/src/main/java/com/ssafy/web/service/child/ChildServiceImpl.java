@@ -1,7 +1,11 @@
 package com.ssafy.web.service.child;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import com.ssafy.web.db.entity.child.Child;
 import com.ssafy.web.db.repository.ChildRepository;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.UserRepository;
+import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.child.ChildRegisterRequest;
 
@@ -83,5 +88,30 @@ public class ChildServiceImpl implements ChildService {
 		Child child = childRepository.findByChildId(childId);
 		return child.getName();
 	}
+
+	/**아동 성별, 나이  조회 */
+	@Override
+	public ChildData getChildData(String child_id) {
+		Child child = childRepository.findByChildId(child_id);
+		int gender = child.getGender();//아이 성별 
+		// 아이가 태어난 년도 
+		String date = child.getBirth().toString().substring(0,4);
+		
+		 // 현재 년도 
+		LocalDate now = LocalDate.now();
+		String no = now.toString().substring(0,4);
+		
+		int age= Integer.parseInt(no)-Integer.parseInt(date) + 1 ;//현재 나이 
+		
+		ChildData data  = new ChildData();
+		data.setAge(age);
+		data.setGender(gender);
+		
+		return data;
+	
+	}
+	
+	
+	
 
 }
