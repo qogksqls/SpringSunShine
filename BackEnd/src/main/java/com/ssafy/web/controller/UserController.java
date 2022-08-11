@@ -50,10 +50,10 @@ public class UserController {
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?>  theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
+	public String theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
 		log.debug("user controller-상담사회원가입");
-		userService.theraRegist(theraInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		String userId =userService.theraRegist(theraInfo);
+		return userId;
 	}
 	
 	/*부모 회원가입*/
@@ -64,9 +64,8 @@ public class UserController {
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
+	public void parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
 		userService.parentRegist(parentInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));	
 	}
 	
 	/*아이디 중복검사*/
