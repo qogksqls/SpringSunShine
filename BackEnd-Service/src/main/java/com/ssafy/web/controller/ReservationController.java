@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.web.db.entity.Reservation;
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.TheraReservResponse;
 import com.ssafy.web.request.ReservRequest;
 import com.ssafy.web.service.ReservService;
 
@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(value = "상담 예약 API", tags = {"Reservation"})
+@Api(value = "상담 예약 API", tags = { "Reservation" })
 public class ReservationController {
 
 	@Autowired
@@ -34,9 +34,10 @@ public class ReservationController {
 
 	}
 
-	@GetMapping("/resev-therapist/{thera_id}")
-	public ResponseEntity<List<Reservation>> getReservation(@PathVariable(value = "thera_id") String theraId) {
-		return new ResponseEntity<List<Reservation>>(reservService.getReservByThera(theraId), HttpStatus.OK);
+	@GetMapping("/reserv-therapist/{thera_id}")
+	@ApiOperation(value = "상담사에게 예약된 상담 내역 조회")
+	public ResponseEntity<List<TheraReservResponse>> getReservation(@PathVariable(value = "thera_id") String theraId) {
+		return new ResponseEntity<List<TheraReservResponse>>(reservService.getReservByThera(theraId), HttpStatus.OK);
 	}
 
 }

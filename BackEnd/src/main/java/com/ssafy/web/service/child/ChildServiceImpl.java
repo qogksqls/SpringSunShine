@@ -76,4 +76,11 @@ public class ChildServiceImpl implements ChildService {
 		return child.getChildId();
 	}
 
+	/** 아동 이름 반환 */
+	@Override
+	public String getChildName(String childId) {
+		Child child = childRepository.findByChildId(childId);
+		return child.getName();
+	}
+
 }
