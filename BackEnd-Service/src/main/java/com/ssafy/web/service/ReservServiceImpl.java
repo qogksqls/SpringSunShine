@@ -47,23 +47,16 @@ public class ReservServiceImpl implements ReservService {
 	@Override
 	public List<TheraReservResponse> getReservByThera(String theraId) {
 		List<Reservation> list = reservRepository.findByTheraId(theraId);
+//		System.out.println("상담사 테이블 조회");
 		List<TheraReservResponse> reservList = new ArrayList<TheraReservResponse>();
 
 		for (Reservation reserv : list) {
-			System.out.println("상담사 테이블 조회");
-			System.out.println(reserv.getChildId());
-			
-			
 			String childId = reserv.getChildId();
 			String parentId = reserv.getParentId();
 			Date reservTime = reserv.getReservTime();
 
 			String childName = webClient.get().uri("/info/child/" + childId).retrieve().bodyToMono(String.class).block();
 			String parentName = webClient.get().uri("/info/parent/" + parentId).retrieve().bodyToMono(String.class).block();
-			
-			System.out.println(childId);
-			System.out.println(childName);
-			System.out.println(parentName);
 			
 			TheraReservResponse tReservResponse = new TheraReservResponse();
 			tReservResponse.setChildId(childId);
