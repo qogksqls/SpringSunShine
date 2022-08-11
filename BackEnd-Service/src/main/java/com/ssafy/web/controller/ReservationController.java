@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.ParentReservResponse;
 import com.ssafy.web.model.response.TheraReservResponse;
 import com.ssafy.web.request.ReservRequest;
 import com.ssafy.web.service.ReservService;
@@ -32,6 +33,13 @@ public class ReservationController {
 		reservService.reservRegist(reservInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 
+	}
+
+	@GetMapping("/reserv-parent/{parent_id}")
+	@ApiOperation(value = "보호자가 예약한 전체 아동의 상담 날짜 조회")
+	public ResponseEntity<List<ParentReservResponse>> getParentReservation(
+			@PathVariable(value = "parent_id") String parentId) {
+		return new ResponseEntity<List<ParentReservResponse>>(reservService.getReservByParent(parentId), HttpStatus.OK);
 	}
 
 	@GetMapping("/reserv-therapist/{thera_id}")

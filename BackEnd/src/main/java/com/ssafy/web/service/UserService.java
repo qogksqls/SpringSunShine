@@ -39,5 +39,8 @@ public interface UserService {
 
 	// 보호자 이름 반환
 	String getParentName(String parentId);
+	
+	// 상담사 이름 반환
+	String getTheraName(String theraId);
 
 }

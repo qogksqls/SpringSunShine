@@ -309,6 +309,15 @@ public class UserServiceImpl implements UserService {
 		return parent.getName();
 	}
 
+	/** 상담사 이름 반환 */
+	@Override
+	public String getTheraName(String theraId) {
+		User user = userRepository.findByUserId(theraId);
+		Therapist thera = theraRepository.findByUser(user);
+		
+		return thera.getName();
+	}
+
 
 
 
