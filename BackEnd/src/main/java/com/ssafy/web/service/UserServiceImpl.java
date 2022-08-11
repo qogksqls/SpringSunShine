@@ -31,95 +31,104 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
- 
+
 	@Autowired
 	TheraRepository theraRepository;
 	@Autowired
 	ParentRepository parentRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	MailService mailService;
-	
+
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-	//치료사 회원가입 
+
+	// 치료사 회원가입
 	@Override
 	public void theraRegist(TheraRegisterRequest theraInfo) {
 		User user = new User();
 		user.setUserId(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
 		user.setPassword(encoder.encode(theraInfo.getPassword()));
-		
+
 		Therapist thera = new Therapist();
 		thera.setName(theraInfo.getName());
 		thera.setEmail(theraInfo.getEmail());
 		thera.setPhone(theraInfo.getPhone());
 		thera.setAddress(theraInfo.getAddress());
 		thera.setProfileUrl(theraInfo.getProfile_url());
-		thera.setTheraIntro(theraInfo.getThera_intro());
-		//파일 넣기
-		
+		if(theraInfo.getThera_intro().isEmpty()) {
+			thera.setTheraIntro(null);
+		}else {
+			thera.setTheraIntro(theraInfo.getThera_intro());
+		}
+		// 파일 넣기
+
 		List<Academy> academy = theraInfo.getAcademicCareers();
 		List<Career> career = theraInfo.getCareers();
 		List<Licence> licence = theraInfo.getLicences();
 		thera.setAcademicCareers(getAcademy(academy));
 		thera.setCareers(getCareer(career));
 		thera.setLicences(getLicence(licence));
-		
+
 		thera.setUser(user);
 		theraRepository.save(thera);
-		
-	
+
 	}
-	
+
 	public String getAcademy(List<Academy> academy) {
-		int size = academy.size(); // 몇개의 학력 
-		String str=""; 
-		for(int i=0; i<size; i++) {
-			str+="[";
-			str+=academy.get(i).getName()+",";
-			str+=academy.get(i).getMajor()+",";
-			str+=academy.get(i).getAdmin()+",";
-			str+=academy.get(i).getGradu()+"] ";
+		int size = academy.size(); // 몇개의 학력
+		if(size==0) return null;
+		String str = "";
+		for (int i = 0; i < size; i++) {
+			str += "[";
+			str += academy.get(i).getName() + ",";
+			str += academy.get(i).getMajor() + ",";
+			str += academy.get(i).getAdmin() + ",";
+			str += academy.get(i).getGradu() + "] ";
 		}
 		return str;
 	}
+
 	public String getCareer(List<Career> career) {
-		int size = career.size(); // 몇개의 학력 
-		String str=""; 
-		for(int i=0; i<size; i++) {
-			str+="[";
-			str+=career.get(i).getName()+",";
-			str+=career.get(i).getLevel()+",";
-			str+=career.get(i).getDate()+",";
-			str+=career.get(i).getRole()+"] ";
+		int size = career.size(); // 몇개의 학력
+		if(size==0) return null;
+		String str = "";
+		for (int i = 0; i < size; i++) {
+			str += "[";
+			str += career.get(i).getName() + ",";
+			str += career.get(i).getLevel() + ",";
+			str += career.get(i).getDate() + ",";
+			str += career.get(i).getRole() + "] ";
 		}
-		return str;	
+		return str;
 	}
+
 	public String getLicence(List<Licence> licence) {
-		int size = licence.size(); // 몇개의 학력 
-		String str=""; 
-		for(int i=0; i<size; i++) {
-			str+="[";
-			str+=licence.get(i).getName()+",";
-			str+=licence.get(i).getPlace()+",";
-			str+=licence.get(i).getDate()+",";
-			str+=licence.get(i).getFile()+"] ";
+		int size = licence.size(); // 몇개의 학력
+		if(size==0) return null;
+		String str = "";
+		for (int i = 0; i < size; i++) {
+			str += "[";
+			str += licence.get(i).getName() + ",";
+			str += licence.get(i).getPlace() + ",";
+			str += licence.get(i).getDate() + ",";
+			str += licence.get(i).getFile() + "] ";
 		}
-		return str;	
+		return str;
 	}
-	
-	//부모 회원가입 
+
+	// 부모 회원가입
 	@Override
 	public void parentRegist(ParentRegisterRequest parentInfo) {
 		User user = new User();
 		user.setUserId(RandomUserId.makeParentId());
 		user.setId(parentInfo.getId());
 		user.setPassword(encoder.encode(parentInfo.getPassword()));
-		
-		Parent parent= new Parent();
+
+		Parent parent = new Parent();
 		parent.setName(parentInfo.getName());
 		parent.setEmail(parentInfo.getEmail());
 		parent.setPhone(parentInfo.getPhone());
@@ -129,175 +138,194 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	//아이디 중복검사 
+	// 아이디 중복검사
 	@Override
 	public int checkId(String id) {
-		User user= userRepository.findUserById(id).orElse(null);
-		
-		if(user == null) {
-			//사용가능한 아이디
+		User user = userRepository.findUserById(id).orElse(null);
+
+		if (user == null) {
+			// 사용가능한 아이디
 			return 1;
 		}
-		return 0; 
-		
+		return 0;
+
 	}
 
-	//이메일 중복검사 
+	// 이메일 중복검사
 	@Override
 	public int checkEmail(String myemail) {
 		Parent p = parentRepository.findByEmail(myemail).orElse(null);
 		Therapist t = theraRepository.findByEmail(myemail).orElse(null);
-		if( p== null && t == null ) { // 해당 이메일을 사용하는 유저가 없음 
+		if (p == null && t == null) { // 해당 이메일을 사용하는 유저가 없음
 			log.debug("사용가능한 이메일");
 			return 1;
-		}else {
+		} else {
 			log.debug("중복 이메일");
 			return 0;
 		}
 	}
 
-	//부모 회원정보 조회 
+	// 부모 회원정보 조회
 	@Override
 	public ParentResponse getParentInfo(String user_id) {
-		User u = userRepository.findByUserId(user_id); 
+		User u = userRepository.findByUserId(user_id);
 		Parent p = parentRepository.findByUser(u);
-		
+
 		ParentResponse pr = new ParentResponse();
 		pr.setId(u.getId());
 		pr.setName(p.getName());
 		pr.setPhone(p.getPhone());
 		pr.setEmail(p.getEmail());
 		pr.setAddress(p.getAddress());
-		
+
 		return pr;
 	}
 
-	//치료사 정보 조회
+	// 치료사 정보 조회
 	@Override
 	public TherapistResponse getTheraInfo(String user_id) {
-		User u = userRepository.findByUserId(user_id); 
+		User u = userRepository.findByUserId(user_id);
 		Therapist t = theraRepository.findByUser(u);
-		
-		TherapistResponse tr= new TherapistResponse();
-		String[] acaList = getString(t.getAcademicCareers()); //a,b,c,d+e,f,g,h
-		String[] carList= getString(t.getCareers());
-		String[] licList= getString(t.getLicences());
-		//-----------경력 불러와서 리스트 설정 
-		List<Academy> acalist= new ArrayList<Academy>();
-		for(int i=0; i<acaList.length; i++) {
-			StringTokenizer st= new StringTokenizer(acaList[i], ",");
-			Academy academy = new Academy();
-			academy.setName(st.nextToken());
-			academy.setMajor(st.nextToken());
-			academy.setAdmin(st.nextToken());
-			academy.setGradu(st.nextToken());
-			acalist.add(academy);
+
+		TherapistResponse tr = new TherapistResponse();
+
+		// -----------경력 불러와서 리스트 설정
+		List<Academy> acalist = new ArrayList<Academy>();
+		if (stringCheck(t.getAcademicCareers())) {
+			String[] acaList = getString(t.getAcademicCareers()); // a,b,c,d+e,f,g,h
+			for (int i = 0; i < acaList.length; i++) {
+				StringTokenizer st = new StringTokenizer(acaList[i], ",");
+				Academy academy = new Academy();
+				academy.setName(st.nextToken());
+				academy.setMajor(st.nextToken());
+				academy.setAdmin(st.nextToken());
+				academy.setGradu(st.nextToken());
+				acalist.add(academy);
+			}
 		}
 		tr.setAcademy(acalist);
-		//------------------------ 
+		// ------------------------
 		List<Career> carlist = new ArrayList<Career>();
-		for(int i=0; i<carList.length; i++) {
-			StringTokenizer st= new StringTokenizer(carList[i], ",");
-			Career career = new Career();
-			career.setName(st.nextToken());
-			career.setLevel(st.nextToken());
-			career.setDate(st.nextToken());
-			career.setRole(st.nextToken());
-			carlist.add(career);
+		if (stringCheck(t.getCareers())) {
+			String[] carList = getString(t.getCareers());
+			for (int i = 0; i < carList.length; i++) {
+				StringTokenizer st = new StringTokenizer(carList[i], ",");
+				Career career = new Career();
+				career.setName(st.nextToken());
+				career.setLevel(st.nextToken());
+				career.setDate(st.nextToken());
+				career.setRole(st.nextToken());
+				carlist.add(career);
+			}
 		}
 		tr.setCareers(carlist);
-		//-------------------------
-		List<Licence> liclist= new ArrayList<Licence>();
-		for(int i=0; i<licList.length; i++) {
-			StringTokenizer st= new StringTokenizer(licList[i], ",");
-			Licence licence = new Licence();
-			licence.setName(st.nextToken());
-			licence.setPlace(st.nextToken());
-			licence.setDate(st.nextToken());
-			licence.setFile(st.nextToken());
-			liclist.add(licence);
+		// -------------------------
+		List<Licence> liclist = new ArrayList<Licence>();
+		if (stringCheck(t.getLicences())) {
+			String[] licList = getString(t.getLicences());
+			for (int i = 0; i < licList.length; i++) {
+				StringTokenizer st = new StringTokenizer(licList[i], ",");
+				Licence licence = new Licence();
+				licence.setName(st.nextToken());
+				licence.setPlace(st.nextToken());
+				licence.setDate(st.nextToken());
+				licence.setFile(st.nextToken());
+				liclist.add(licence);
+			}
 		}
 		tr.setLicence(liclist);
-	
-		
+
 		tr.setId(u.getId());
 		tr.setName(t.getName());
 		tr.setEmail(t.getEmail());
 		tr.setPhone(t.getPhone());
 		tr.setAddress(t.getAddress());
 		tr.setProfile_url(t.getProfileUrl());
-		tr.setThera_intro(t.getTheraIntro());
+		if(stringCheck(t.getTheraIntro())){
+			tr.setThera_intro(t.getTheraIntro());
+		}else {
+			tr.setThera_intro("");
+		}
 		
+		System.out.println("12332");
 		return tr;
-		
+
 	}
-	
-	//약력 : 띄어쓰기 분리하고, [ ] 빼는 과정 
+
+	// 약력 : 띄어쓰기 분리하고, [ ] 빼는 과정
 	public String[] getString(String data) {
-		String[] list= data.split(" ");
-		String [] res = new String[list.length];
-		for(int i=0; i<list.length; i++) {
-			res[i]=list[i].replace("[", "").replace("]", "");
+		String[] list = data.split(" ");
+		String[] res = new String[list.length];
+		for (int i = 0; i < list.length; i++) {
+			res[i] = list[i].replace("[", "").replace("]", "");
 		}
 		return res;
 	}
 
-	//부모 회원정보 수정
+	public boolean stringCheck(String data) {
+		if (data != null) {
+			return true;
+		}
+		return false;
+	}
+
+	// 부모 회원정보 수정
 	@Override
 	@Transactional
 	public int parentModify(String user_id, ParentModifyRequest parentInfo) {
 		User user = userRepository.findByUserId(user_id);
-		if(user == null) return 0; 
-		// 정보를 수정하려는 부모 회원 
+		if (user == null)
+			return 0;
+		// 정보를 수정하려는 부모 회원
 		Parent parent = parentRepository.findByUser(user);
-		
+
 		user.update(encoder.encode(parentInfo.getPassword()));
-		parent.update(parentInfo.getName(),  parentInfo.getPhone(),
-				parentInfo.getAddress(), user);
+		parent.update(parentInfo.getName(), parentInfo.getPhone(), parentInfo.getAddress(), user);
 		return 1;
-		
+
 	}
 
-	//치료사 회원정보 수정 
+	// 치료사 회원정보 수정
 	@Override
 	@Transactional
 	public int theraModify(String user_id, TheraModifyRequest theraInfo) {
 		User user = userRepository.findByUserId(user_id);
-		if(user == null) return 0;
-		//정보수정하려는 치료사 회원 
+		if (user == null)
+			return 0;
+		// 정보수정하려는 치료사 회원
 		Therapist thera = theraRepository.findByUser(user);
 		user.update(encoder.encode(theraInfo.getPassword()));
-		thera.update(theraInfo.getName(), theraInfo.getPhone(), theraInfo.getAddress(), 
-				theraInfo.getProfile_url(), theraInfo.getThera_intro(), user);
+		thera.update(theraInfo.getName(), theraInfo.getPhone(), theraInfo.getAddress(), theraInfo.getProfile_url(),
+				theraInfo.getThera_intro(), user);
 		return 1;
 	}
 
 	@Override
 	public int findPass(String id, String email) throws Exception {
-		User user = userRepository.findUserById(id).orElse(null); 
-		if(user == null) {
+		User user = userRepository.findUserById(id).orElse(null);
+		if (user == null) {
 			System.out.println("user--null");
-			return 0; //id 오류 
+			return 0; // id 오류
 		}
-	
+
 		Parent p = parentRepository.findByUser(user);
-		if(p!=null) { // 이사람은 부모 
-			if(!p.getEmail().equals(email)) {
+		if (p != null) { // 이사람은 부모
+			if (!p.getEmail().equals(email)) {
 				System.out.println("이메일없음");
 				return 0;
 			}
-			//이메일 발송 
+			// 이메일 발송
 			mailService.sendPwMessage(email);
 			return 1;
-		}
-		else { // 이사람은 치료사
+		} else { // 이사람은 치료사
 			Therapist t = theraRepository.findByUser(user);
-			if(!t.getEmail().equals(email)) return 0;
-			//이메일 발송 
+			if (!t.getEmail().equals(email))
+				return 0;
+			// 이메일 발송
 			mailService.sendPwMessage(email);
 			return 1;
 		}
-	
+
 	}
 
 	/** 보호자 이름 반환 */
@@ -305,11 +333,8 @@ public class UserServiceImpl implements UserService {
 	public String getParentName(String parentId) {
 		User user = userRepository.findByUserId(parentId);
 		Parent parent = parentRepository.findByUser(user);
-		
+
 		return parent.getName();
 	}
-
-
-
 
 }

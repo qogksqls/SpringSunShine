@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.relational.core.mapping.Embedded.Nullable;
 import org.springframework.data.repository.query.Param;
 
 import com.ssafy.web.db.entity.Therapist;
@@ -15,6 +16,7 @@ public interface TheraRepository extends JpaRepository<Therapist, Integer> {
 
 	Optional<Therapist> findByEmail(String email);
 	
+	@Nullable
 	Therapist findByUser(User user);
 	
     @Query(value = "select "
