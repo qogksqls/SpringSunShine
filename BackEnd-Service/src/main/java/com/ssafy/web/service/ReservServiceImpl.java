@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ssafy.web.db.entity.Reservation;
 import com.ssafy.web.db.repository.ReservRepository;
+import com.ssafy.web.model.response.ParentReservResponse;
 import com.ssafy.web.model.response.TheraReservResponse;
 import com.ssafy.web.request.ReservRequest;
 
@@ -43,6 +44,35 @@ public class ReservServiceImpl implements ReservService {
 		reservRepository.save(reserv);
 	}
 
+	/** 보호자가 예약한 상담 리스트 조회 */
+	@Override
+	public List<ParentReservResponse> getReservByParent(String parentId) {
+		List<Reservation> list = reservRepository.findByParentId(parentId);
+		List<ParentReservResponse> reservList = new ArrayList<ParentReservResponse>();
+
+		for (Reservation reserv : list) {
+			String childId = reserv.getChildId();
+			String theraId = reserv.getTheraId();
+			Date reservTime = reserv.getReservTime();
+
+			String childName = webClient.get().uri("/info/child/" + childId).retrieve().bodyToMono(String.class)
+					.block();
+			String theraName = webClient.get().uri("/into/thera/" + theraId).retrieve().bodyToMono(String.class)
+					.block();
+			
+			ParentReservResponse pReservResponse = new ParentReservResponse();
+			pReservResponse.setChildId(childId);
+			pReservResponse.setChildName(childName);
+			pReservResponse.setTheraId(theraId);
+			pReservResponse.setTheraName(theraName);
+			pReservResponse.setReservTime(reservTime);
+			
+			reservList.add(pReservResponse);
+		}
+		
+		return reservList;
+	}
+
 	/** 상담사에게 예약된 리스트 조회 */
 	@Override
 	public List<TheraReservResponse> getReservByThera(String theraId) {
@@ -55,15 +85,17 @@ public class ReservServiceImpl implements ReservService {
 			String parentId = reserv.getParentId();
 			Date reservTime = reserv.getReservTime();
 
-			String childName = webClient.get().uri("/info/child/" + childId).retrieve().bodyToMono(String.class).block();
-			String parentName = webClient.get().uri("/info/parent/" + parentId).retrieve().bodyToMono(String.class).block();
-			
+			String childName = webClient.get().uri("/info/child/" + childId).retrieve().bodyToMono(String.class)
+					.block();
+			String parentName = webClient.get().uri("/info/parent/" + parentId).retrieve().bodyToMono(String.class)
+					.block();
+
 			TheraReservResponse tReservResponse = new TheraReservResponse();
 			tReservResponse.setChildId(childId);
 			tReservResponse.setChildName(childName);
 			tReservResponse.setParentName(parentName);
 			tReservResponse.setReservTime(reservTime);
-					
+
 			reservList.add(tReservResponse);
 		}
 

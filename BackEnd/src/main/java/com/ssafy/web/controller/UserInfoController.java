@@ -36,4 +36,12 @@ public class UserInfoController {
 
 		return parentName;
 	}
+
+	/** 상담사 이름 반환 */
+	@GetMapping("/thera/{thera_id}")
+	public String getTheraName(@PathVariable(value = "thera_id") String theraId) {
+		String theraName = userService.getTheraName(theraId);
+
+		return theraName;
+	}
 }
