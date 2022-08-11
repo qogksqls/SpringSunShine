@@ -73,9 +73,9 @@
 export default {
   created() {
     console.log("프로필 페이지")
-    console.log(`${this.$store.state.host}/service-api/user/t2jWBJt220811`)
+    // console.log(`${this.$store.state.host}/service-api/user/tGQp7sM220811`)
     this.$axios
-      .get(`${this.$store.state.host}/service-api/user/t2jWBJt220811`)
+      .get(`${this.$store.state.host}/service-api/user/tGQp7sM220811`)
       .then((res) => {
         console.log(res.data)
       });

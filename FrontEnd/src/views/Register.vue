@@ -211,7 +211,7 @@ export default {
 
       checkid: false,
 
-      checkEmail: true,  // 원래는  false
+      checkEmail: false,
       emailCode1: '',
       emailCode2: ''
     };
@@ -251,7 +251,7 @@ export default {
       }
     },
     counselor_data(inputDatas) {
-      console.log(inputDatas)
+      // console.log(inputDatas)
       this.profile_url = inputDatas.profile_url;
       this.expertise = inputDatas.expertise_no;
       this.academicCareers = inputDatas.academicCareers;
