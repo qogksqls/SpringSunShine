@@ -26,7 +26,7 @@
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
           <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
-          <screen-share-comp v-if="sessionScreen.length > 0" :sessionScreen="sessionScreen"></screen-share-comp>
+          <!-- <screen-share-comp v-if="sessionScreen" :sessionScreen="sessionScreen"></screen-share-comp> -->
         </div>
         <!--학생 얼굴 들어갈 자리 end-->
 
@@ -121,12 +121,10 @@ import { OpenVidu } from 'openvidu-browser';
 
 import MainVideoComp from './MainVideoComp.vue'
 import SubVideoComp from './SubVideoComp.vue'
-import ScreenShareComp from './ScreenShareComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const OPENVIDU_SERVER_URL = "https://192.168.219.104" + ":4443";
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 // const OPENVIDU_SERVER_URL = "i7a606.q.ssafy.io:8443" ;
 
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -162,7 +160,7 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-      sessionScreen: undefined,
+      // sessionScreen: undefined,
 
 			mySessionId: 'SessionA',
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
@@ -183,7 +181,6 @@ export default {
   components: {
 		MainVideoComp,
 		SubVideoComp,
-    ScreenShareComp,
   },
   methods: {
     ShowCardGame: function() {
@@ -206,6 +203,7 @@ export default {
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
+      // this.sessionScreen = this.OV.initSession();
 
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
@@ -244,39 +242,33 @@ export default {
 
 						this.session.publish(this.publisher);
 					})
+          // .then(() => {
+          //   let publisher = this.OV.initPublisher("html-element-id", { 
+          //     videoSource: "screen" 
+          //   });
+          //   this.sessionScreen = publisher
+            
+          //   this.sessionScreen.once('accessAllowed', (event) => {
+          //       this.sessionScreen.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+          //           console.log('User pressed the "Stop sharing" button');
+          //         });
+          //         this.session.publish(this.sessionScreen);
+
+          //     });
+
+          //   publisher.once('accessDenied', (event) => {
+          //       console.warn('ScreenShare: Access Denied');
+          //   });
+
+          // })
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
 
-			this.sessionScreen = this.OV.initSession();
+    window.addEventListener('beforeunload', this.leaveSession)
+			
 
-			this.getToken().then(token => {
-				this.sessionScreen.connect(token)
-        .then(() => {
-						let publisher = this.OV.initPublisher("html-element-id", { 
-              videoSource: "screen" 
-            });
-
-						publisher.once('accessAllowed', (event) => {
-								publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
-										console.log('User pressed the "Stop sharing" button');
-									});
-									sessionScreen.publish(publisher);
-
-							});
-
-							publisher.once('accessDenied', (event) => {
-									console.warn('ScreenShare: Access Denied');
-							});
-
-					}).catch((error => {
-							console.warn('There was an error connecting to the session:', error.code, error.message);
-
-					}));
-			});
-
-			window.addEventListener('beforeunload', this.leaveSession)
 		},
 
 		leaveSession () {

@@ -34,13 +34,13 @@
 
           <!--소리-->
           <div class="iconbtn">
-            <i class="fa fa-volume-up fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-volume-up fa-2x" aria-hidden="true" @click="muteMySound"></i>
           </div>
           <!--카메라-->
-
           <div class="iconbtn">
-            <i class="fa fa-video-camera fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-video-camera fa-2x" aria-hidden="true" @click="openCamera"></i>
           </div>
+
           <!--버튼 누르고 닫으면 학생(본인)얼굴 보였다가 안보였다가~-->
           <base-button
             type="primary"
@@ -54,13 +54,16 @@
               class="fa fa-times fa-2x"
               aria-hidden="true"
               style="color:#fff"
+              @click="leaveSession"
             ></i>
           </div>
           <!--걍 빈공간 제공한거-->
-          <div class="col-md-1"></div>
+          <div class="col-md-1">
+						<button @click="shareScreen">ShareScreen</button>
+					</div>
 
           <!--학생 얼굴 들어갈 자리 start-->
-          <div class="col-md-3 studentFace" v-if="!isFaceShow">
+          <div class="col-md-3 studentFace" v-if="isFaceShow">
           <main-video-comp :mainStreamManager="mainStreamManager"></main-video-comp></div>
           <!--학생 얼굴 들어갈 자리 end-->
         </div>
@@ -75,7 +78,6 @@ import { OpenVidu } from 'openvidu-browser';
 
 import MainVideoComp from './MainVideoComp.vue'
 import SubVideoComp from './SubVideoComp.vue'
-// import ScreenShareComp from './ScreenShareComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -90,12 +92,11 @@ export default {
   components: {
 		MainVideoComp,
 		SubVideoComp,
-		// ScreenShareComp,
 	},
 
   data() {
     return {
-      isFaceShow: false,
+      isFaceShow: true,
 
       OV: undefined,
 			session: undefined,
@@ -109,10 +110,43 @@ export default {
 
 			mute: false,
 			closecamera: false,
-      active: false,
+
+			sharedScreen: false,
     };
   },
   methods: {
+		shareScreen () {
+			if (this.sharedScreen) {
+				this.session.unpublish(this.sessionScreen);
+				this.session.publish(this.publisher);
+			} else {
+				this.isFaceShow = false
+				let publisher = this.OV.initPublisher("html-element-id", {
+							audioSource: undefined, // The source of audio. If undefined default microphone // The source of video. If undefined default webcam
+							publishAudio: !this.mute,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: !this.closecamera,  	// Whether you want to start publishing with your video enabled or not
+							resolution: '640x480',  // The resolution of your video
+							frameRate: 30,			// The frame rate of your video
+							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+							mirror: false,       	// Whether to mirror your local video or not 
+              videoSource: "screen" 
+            });
+            this.sessionScreen = publisher
+            
+            this.sessionScreen.once('accessAllowed', (event) => {
+                this.sessionScreen.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+                    console.log('User pressed the "Stop sharing" button');
+                  });
+              });
+
+            publisher.once('accessDenied', (event) => {
+                console.warn('ScreenShare: Access Denied');
+            });
+				this.session.unpublish(this.publisher);
+				this.session.publish(this.sessionScreen);
+			}
+			this.sharedScreen = !this.sharedScreen
+		},
     ShowMe: function() {
       this.isFaceShow = !this.isFaceShow;
     },
@@ -120,6 +154,7 @@ export default {
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
+      this.sessionScreen = this.OV.initSession();
 
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
@@ -163,30 +198,7 @@ export default {
 					});
 			});
 
-			var sessionScreen = OV.initSession();
-			getToken().then((token) => {
-				sessionScreen.connect(token).then(() => {
-						var publisher = OV.initPublisher("html-element-id", { videoSource: "screen" });
-
-						publisher.once('accessAllowed', (event) => {
-								publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
-										console.log('User pressed the "Stop sharing" button');
-									});
-									sessionScreen.publish(publisher);
-
-							});
-
-							publisher.once('accessDenied', (event) => {
-									console.warn('ScreenShare: Access Denied');
-							});
-
-					}).catch((error => {
-							console.warn('There was an error connecting to the session:', error.code, error.message);
-
-					}));
-			});
-
-			window.addEventListener('beforeunload', this.leaveSession)
+    window.addEventListener('beforeunload', this.leaveSession)
 		},
 
 		leaveSession () {
@@ -253,33 +265,25 @@ export default {
 			});
 		},
 
-		hoverToolbar () {
-			this.active = true
-		},
-
-		leaveToolbar () {
-			this.active = false
-		},
-
 		muteMySound () {
-			this.publisher.publishAudio(false)
-			this.mute = !this.mute
-		},
-
-		unmuteMySound () {
-			this.publisher.publishAudio(true)
-			this.mute = !this.mute
+			if (this.sharedScreen) {
+				this.sessionScreen.publishAudio(this.mute)
+				this.mute = !this.mute
+			} else {
+				this.publisher.publishAudio(this.mute)
+				this.mute = !this.mute
+			}
 		},
 
 		openCamera () {
-			this.publisher.publishVideo(true)
-			this.closecamera = !this.closecamera
+			if (this.sharedScreen) {
+				this.sessionScreen.publishVideo(this.closecamera)
+				this.closecamera = !this.closecamera
+			} else {
+				this.publisher.publishVideo(this.closecamera)
+				this.closecamera = !this.closecamera
+			}
 		},
-
-		closeCamera () {
-			this.publisher.publishVideo(false)
-			this.closecamera = !this.closecamera
-		},    
   },
 
   
