@@ -22,7 +22,7 @@ public class UserInfoController {
 	UserService userService;
 
 	/** 아동 이름 반환 */
-	@GetMapping("/{child_id}")
+	@GetMapping("/child/{child_id}")
 	public String getChildName(@PathVariable(value = "child_id") String childId) {
 		String childName = childService.getChildName(childId);
 
@@ -30,7 +30,7 @@ public class UserInfoController {
 	}
 
 	/** 보호자 이름 반환 */
-	@GetMapping("/{parent_id}")
+	@GetMapping("/parent/{parent_id}")
 	public String getParentName(@PathVariable(value = "parent_id") String parentId) {
 		String parentName = userService.getParentName(parentId);
 
