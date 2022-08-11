@@ -29,6 +29,11 @@ public class BExpertiseTherapist {
 	@Column(name="expertise_no", nullable = false)
 	private int expertiseNo;
 	
+	public BExpertiseTherapist(String theraId, int expertiseNo){
+		this.theraId = theraId;
+		this.expertiseNo =expertiseNo;
+	}
+	
 	
 	
 }
