@@ -5,6 +5,7 @@ import java.util.Map;
 import com.ssafy.web.request.FindPwRequest;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
+import com.ssafy.web.request.TheraModifyTotalRequest;
 import com.ssafy.web.request.TheraRegisterInfo;
 
 public interface UserInfoService {
@@ -15,4 +16,5 @@ public interface UserInfoService {
 	String checkId(String id);
 	String findPass(FindPwRequest findpw);
 	String parentModify(String parent_id, ParentModifyRequest parentInfo);
+	void theraModify(String thera_id, TheraModifyTotalRequest tmtr);
 }
