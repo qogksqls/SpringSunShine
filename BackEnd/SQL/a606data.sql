@@ -8,6 +8,7 @@ drop table sss_service.`feeling_card` cascade;
 drop table sss_service.`answer` cascade;
 drop table sss_service.`options` cascade;
 drop table sss_service.`consult` cascade;
+drop table sss_service.`consult_person_name` cascade;
 drop table sss_service.`reservation` cascade;
 drop table sss_service.`question` cascade;
 drop table sss_service.`survery_question` cascade;
@@ -130,6 +131,17 @@ CREATE TABLE IF NOT exists sss_service.`consult` (
 	`parent_id`	CHAR(13)	NOT NULL,
 	`memo`	TEXT	NULL,
 	`record`	VARCHAR(255)	NULL
+);
+
+-- 상담방 사용자 이름 정보
+CREATE TABLE sss_service.`consult_person_name`(
+    consult_person_name_no INT auto_increment not null primary key,
+    consult_no int not null,
+    thera_name varchar(255) not null,
+    child_name varchar(255) not null,
+    parent_name varchar(255) not null,
+    foreign key(consult_no)
+    references consult(consult_no) on update cascade on delete cascade
 );
 
 -- 상담 예약 정보
