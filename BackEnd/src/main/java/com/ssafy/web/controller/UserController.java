@@ -103,17 +103,17 @@ public class UserController {
 	}
 	
 	/*부모 회원정보 수정*/
-	@PutMapping("/parent/{user_id}")
-	public ResponseEntity<?>  parentModify(@PathVariable String user_id, @RequestBody ParentModifyRequest parentInfo){
+	@PutMapping("/parent/{parent_id}")
+	public String parentModify(@PathVariable String parent_id, @RequestBody ParentModifyRequest parentInfo){
 		//parentInfo : 수정할 부모 정보가 담겨진 객체 
 		//부모 아이디가 아닐때 
-		if(user_id.charAt(0) != 'p') 
-			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
-		int res = userService.parentModify(user_id, parentInfo); 
+		if(parent_id.charAt(0) != 'p') 
+			return "fail";
+		int res = userService.parentModify(parent_id, parentInfo); 
 		if(res==0) {
-			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+			return "fail";
 		}
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		return "success";
 	}
 	
 	/*치료사 회원정보 수정*/

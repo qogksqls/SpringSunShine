@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.web.db.entity.Expertise;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.request.FindPwRequest;
+import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterInfo;
 import com.ssafy.web.request.TheraRegisterRequest;
@@ -54,6 +56,15 @@ public class UserController {
 		return null;
 	}
 	
+	/**부모 회원정보 수정 */
+	@PutMapping("/parent/{parent_id}")
+	public ResponseEntity<?> parentModify(@PathVariable String parent_id , @RequestBody ParentModifyRequest parentInfo){
+		String res= userInfoService.parentModify(parent_id, parentInfo);
+		return new ResponseEntity<String>(res, HttpStatus.OK);
+	}
+	
+	
+	/*상담사 회원가입*/
 	@PostMapping("/therapist")
 	public ResponseEntity<?>  theraRegist(@RequestBody TheraRegisterInfo theraInfo){
 		userInfoService.theraJoin(theraInfo);
