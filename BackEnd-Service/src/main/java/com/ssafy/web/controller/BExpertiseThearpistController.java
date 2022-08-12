@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/therapist/recommed")
+@RequestMapping("/therapist/recommend")
 public class BExpertiseThearpistController {
 	private final BExpertiseTherapistService BETService;
 	
