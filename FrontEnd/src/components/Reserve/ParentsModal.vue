@@ -1,19 +1,6 @@
 <template>
   <div class="m-3">
-    <a href="#" @click="modals.modal1 = true">
-      <img
-        v-lazy="'img/theme/team-4-800x800.jpg'"
-        class="rounded-circle img-fluid shadow-lg"
-      />
-      <div class="card_about text-center">
-        <p>상담사 이름</p>
-        <p>전문분야</p>
-      </div>
-    </a>
     <modal :show.sync="modals.modal1">
-      <!--추후 유지보수 내용
-      <CounselorInfo />
-      내용-->
       <h6 slot="header" class="modal-title" id="modal-title-default">
         <h4 class="display-4"><b id="counselor_name">"이름"</b>상담사</h4>
       </h6>
@@ -36,13 +23,12 @@
           <p>싸피대통합</p>
         </div>
       </div>
+
       <template slot="footer">
         <base-button type="link" class="ml-auto" @click="modals.modal1 = false"
           >닫기
         </base-button>
-        <router-link to="/resev-parent"
-          ><base-button type="primary">예약하기</base-button></router-link
-        >
+        <base-button type="primary">예약하기</base-button>
       </template>
     </modal>
   </div>
@@ -50,11 +36,9 @@
 
 <script>
 import Modal from "@/components/Modal.vue";
-import CounselorInfo from "./AboutCounselorModal.vue";
 export default {
   components: {
     Modal,
-    CounselorInfo,
   },
   data() {
     return {

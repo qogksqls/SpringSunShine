@@ -44,6 +44,7 @@
                       성별: 남자
                     </p>
                     <p v-else>성별: 여자</p>
+                    <input type="file" />
                   </h4>
                   <div
                     class="row text-center justify-content-center col-lg-12 mx-0"

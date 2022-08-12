@@ -31,7 +31,7 @@
                     class="col-lg-8  form-control"
                     id="name"
                     v-model="credentials.id"
-                    @keyup.enter="loginSubmit"
+                    @keyup.enter="login(credentials)"
                   />
                 </div>
                 <div
@@ -47,11 +47,11 @@
                     class="col-lg-8  form-control"
                     id="pw"
                     v-model="credentials.password"
-                    @keyup.enter="loginSubmit"
+                    @keyup.enter="login(credentials)"
                   />
                 </div>
                 <div class="text-right mt-3">
-                  <base-checkbox>
+                  <base-checkbox v-model="credentials.saveId">
                     아이디 저장
                   </base-checkbox>
                 </div>
@@ -64,7 +64,7 @@
                   <base-button
                     type="primary"
                     class="col-lg-3 m-4"
-                    @click="loginSubmit"
+                    @click="login(credentials)"
                     >로그인</base-button
                   >
                 </div>
@@ -88,44 +88,20 @@
 </template>
 
 <script>
-// import { mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   data() {
     return {
       credentials: {
-        id: null,
+        id: '',
         password: null,
+        saveId: false,
       },
     };
   },
-  // computed: {
-  //   methods: {
-  //     ...mapActions(["login"]),
-  //   },
-  // },
-  created() {
-    this.$store.commit("logout");
-  },
   methods: {
-    // ...mapActions(["login"]),
-    loginSubmit: function() {
-      console.log("로그인");
-      this.$axios
-        .post(`${this.$store.state.host}/auth-api/auth/login`, {
-          id: this.credentials.id,
-          password: this.credentials.password,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.$store.commit("loginToken", res.data);
-          this.$router.push(`/`);
-        });
-    },
-    showLogin() {
-      this.isLogin = true;
-      this.isRegister = false;
-    },
+    ...mapActions(["login"]),
   },
 };
 </script>
