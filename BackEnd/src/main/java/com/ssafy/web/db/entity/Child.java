@@ -47,7 +47,7 @@ public class Child {
 	@Column(name = "profile_url", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String profileUrl;
 
-	@Column(name = "survey_flag", columnDefinition = "BOOLEAN")
+	@Column(name = "survey_flag", columnDefinition = "int default 0")
 	private int surveyFlag;
 
 }
