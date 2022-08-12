@@ -18,4 +18,5 @@ public class ChildResponse {
 
 	String profileUrl;
 
+	int surveyFlag;
 }

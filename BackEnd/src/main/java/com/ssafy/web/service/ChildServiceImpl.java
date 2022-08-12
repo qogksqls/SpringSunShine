@@ -1,4 +1,4 @@
-package com.ssafy.web.service.child;
+package com.ssafy.web.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.web.RandomUserId;
+import com.ssafy.web.db.entity.Child;
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.User;
-import com.ssafy.web.db.entity.child.Child;
 import com.ssafy.web.db.repository.ChildRepository;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.model.response.ChildResponse;
-import com.ssafy.web.request.child.ChildRegisterRequest;
+import com.ssafy.web.request.ChildRegisterRequest;
 
 @Service
 public class ChildServiceImpl implements ChildService {
@@ -44,6 +44,7 @@ public class ChildServiceImpl implements ChildService {
 		child.setBirth(childInfo.getBirth());
 		child.setGender(childInfo.getGender());
 		child.setProfileUrl(childInfo.getProfile_url());
+		child.setSurveyFlag(childInfo.getSurvey_flag());
 
 		childRepository.save(child);
 	}
@@ -64,6 +65,7 @@ public class ChildServiceImpl implements ChildService {
 			childResponse.setBirth(child.getBirth());
 			childResponse.setGender(child.getGender());
 			childResponse.setProfileUrl(child.getProfileUrl());
+			childResponse.setSurveyFlag(child.getSurveyFlag());
 			
 			childList.add(childResponse);
 		}

@@ -17,5 +17,7 @@ public class ChildResponse {
 	int gender;
 
 	String profileUrl;
+	
+	int surveyFlag;
 
 }
