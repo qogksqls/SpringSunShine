@@ -26,8 +26,7 @@ public class ChildManagementServiceImpl implements ChildManagementService {
 		return childList;
 	}
 
-	/** 아동 등록 
-	 * @return */
+	/** 아동 등록 */
 	@Override
 	public Mono<ChildRegisterRequest> childRegist(ChildRegisterRequest childInfo) {
 		System.out.println("어디에 저장???");
