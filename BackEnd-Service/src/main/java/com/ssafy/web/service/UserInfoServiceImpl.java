@@ -33,8 +33,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	/* 부모 정보 조회 */
 	@Override
-	public Map<String, Object> parentInfo(String parent_id) {
-		ParentResponse parentInfo = webClient.get().uri("/user/parentinfo/" + parent_id).retrieve()
+	public Map<String, Object> parentInfo(String header, String parent_id) {
+		ParentResponse parentInfo = webClient.get().uri("/authentication/parentinfo/" + parent_id).header("Authorization", header).retrieve()
 				.bodyToMono(ParentResponse.class).block();
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("parentInfo", parentInfo);
@@ -43,10 +43,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	/* 치료사 정보 조회 */
 	@Override
-	public Map<String, Object> theraInfo(String thera_id) {
+	public Map<String, Object> theraInfo(String header, String thera_id) {
 
 		List<Expertise> list = expertiseRep.findByTheraIdjpql(thera_id);
-		TherapistResponse theraInfo = webClient.get().uri("/user/therainfo/" + thera_id).retrieve()
+		TherapistResponse theraInfo = webClient.get().uri("/authentication/therainfo/" + thera_id).header("Authorization", header).retrieve()
 				.bodyToMono(TherapistResponse.class).block();
 		TherapistInfoResopnse therapistInfo = new TherapistInfoResopnse(theraInfo, list);
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -54,6 +54,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return data;
 	}
 
+	/** 치료사 회원가입 */
 	@Override
 	public void theraJoin(TheraRegisterInfo info) {
 		TheraRegisterRequest theraInfo = info.makeTheraRegisterRequest();
@@ -68,9 +69,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		bexpertiseRep.saveAll(bextList);
 	}
 
+	/** 부모 회원가입 */
 	@Override
-	public void parentJoin(String header, ParentRegisterRequest parentInfo) {
-		webClient.post().uri("/user/parent").bodyValue(parentInfo).header("Authorization", header).retrieve()
+	public void parentJoin(ParentRegisterRequest parentInfo) {
+		webClient.post().uri("/user/parent").bodyValue(parentInfo).retrieve()
 				.bodyToMono(String.class).block();
 	}
 
@@ -83,23 +85,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public String findPass(FindPwRequest findpw) {
-		String res = webClient.post().uri("/user/findpw").bodyValue(findpw).retrieve().bodyToMono(String.class).block();
+	public String findPass(String header, FindPwRequest findpw) {
+		String res = webClient.post().uri("/authentication/findpw").bodyValue(findpw).header("Authorization", header).retrieve().bodyToMono(String.class).block();
 		return res;
 	}
 
 	// 부모 정보 수정
 	@Override
-	public String parentModify(String parent_id, ParentModifyRequest parentInfo) {
-		String res = webClient.put().uri("/user/parent/" + parent_id).bodyValue(parentInfo).retrieve()
+	public String parentModify(String header, String parent_id, ParentModifyRequest parentInfo) {
+		String res = webClient.put().uri("/authentication/parent/" + parent_id).bodyValue(parentInfo).header("Authorization", header).retrieve()
 				.bodyToMono(String.class).block();
 
 		return res;
 	}
 
+	// 치료사 정보 수정 
 	@Override
-	public void theraModify(String thera_id, TheraModifyTotalRequest tmtr) {
-		webClient.put().uri("/user/parent/" + thera_id).bodyValue(tmtr.makeTMR()).retrieve()
+	public void theraModify(String header, String thera_id, TheraModifyTotalRequest tmtr) {
+		webClient.put().uri("/authentication/parent/" + thera_id).bodyValue(tmtr.makeTMR()).header("Authorization", header).retrieve()
 				.bodyToMono(String.class).block();
 		
 		bexpertiseRep.deleteByTheraId(thera_id);
