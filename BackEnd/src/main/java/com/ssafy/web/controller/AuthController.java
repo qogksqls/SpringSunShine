@@ -61,20 +61,19 @@ public class AuthController {
 	
 	/* 일반로그인 */
 	@PostMapping("/login")
-	public ResponseEntity<?>  userLogin(@RequestBody @ApiParam(value="로그인 요청 정보", required=true) UserLoginRequest loginInfo){
+	public UserLoginPostRes  userLogin(@RequestBody @ApiParam(value="로그인 요청 정보", required=true) UserLoginRequest loginInfo){
 		String id= loginInfo.getId();
 		String password = loginInfo.getPassword();
-		log.debug("test: 컨트롤러1입니다");
-
 		User user = authService.getUserById(id);
 		if(user==null) {
-			return ResponseEntity.status(401).body(UserLoginPostRes.offail(null, "fail"));
+//			return ResponseEntity.status(401).body(UserLoginPostRes.offail(null, "fail"));
+			return new UserLoginPostRes("fail", null, null, null);
 		}
 		
 		if(passwordEncoder.matches(password, user.getPassword())) {
 			return authService.login(id, password);		
 		}
-		return ResponseEntity.status(401).body(UserLoginPostRes.offail(null, "fail"));
+		return new UserLoginPostRes("fail", null, null, null);
 		
 	}	
 
@@ -99,15 +98,17 @@ public class AuthController {
 
 	/* 로그아웃 */
 	@PostMapping("/logout")
-	public ResponseEntity<?>  userLogout(@RequestBody UserLogoutRequest logoutInfo) throws Exception{
+	public String  userLogout(@RequestBody UserLogoutRequest logoutInfo) throws Exception{
 		// redis 에서 refresh token 값 삭제 
 		String token = logoutInfo.getAccessToken();
 		log.debug("test: 컨트롤러2입니다");
 		try{
 			JwtTokenUtil.handleError(token);
 		}catch(ExpiredJwtException e) {
+			log.debug("토큰만료");
 			throw new JwtException("토큰기한이 만료되었습니다.");
 		}catch(Exception e) {
+			log.debug("토큰 x");
 			throw new Exception("올바르지 않은 토큰 입니다.");
 		}
 		//토큰으로부터 얻은 사용자의 아이디
@@ -122,7 +123,7 @@ public class AuthController {
 		
 		Long expiration = jwtTokenUtil.getExpiration(token);
 		redis.setValues("logout",token, Duration.ofMillis(expiration));
-		return new ResponseEntity<String>("success", HttpStatus.OK);
+		return "success";
 		
 	}
 }
