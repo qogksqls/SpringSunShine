@@ -23,7 +23,7 @@
     <div class="container" v-if="session">
       <div class="wrap_content row col-md-12 p-4">
         <!--상담사 얼굴 들어갈 자리 start-->
-        <div class="col-md-12 counselorFace">
+        <div class="col-md-12 counselorFace" v-if="!playingNow">
           <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
         </div>
         <!--상담사 얼굴 들어갈 자리 end-->
@@ -59,7 +59,7 @@
           </div>
           <!--걍 빈공간 제공한거-->
           <div class="col-md-1">
-						<button @click="shareScreen">ShareScreen</button>
+						<button @click="shareScreen">playing game</button>
 					</div>
 
           <!--학생 얼굴 들어갈 자리 start-->
@@ -67,6 +67,13 @@
           <main-video-comp :mainStreamManager="mainStreamManager"></main-video-comp></div>
           <!--학생 얼굴 들어갈 자리 end-->
         </div>
+				
+				<div id='cardGameDiv' v-if="playingNow">
+
+						<cards-comp></cards-comp>
+
+				</div>
+
       </div>
     </div>
   </div>
@@ -78,6 +85,8 @@ import { OpenVidu } from 'openvidu-browser';
 
 import MainVideoComp from './MainVideoComp.vue'
 import SubVideoComp from './SubVideoComp.vue'
+
+import CardsComp from '@/components/webRtcComp/CardsComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -92,8 +101,35 @@ export default {
   components: {
 		MainVideoComp,
 		SubVideoComp,
+		CardsComp,
 	},
+	computed: {
+		changePlayingNow () {
+			let playingNow = this.playingNow
+			if (this.$store.state.cardGame.playingNow !== playingNow) {
+				playingNow = this.$store.state.cardGame.playingNow
+			}
+			return playingNow
+		},
 
+		changeEndGame () {
+			let endGame = this.endGame
+			if (this.$store.state.cardGame.endGame !== endGame) {
+				endGame = this.$store.state.cardGame.endGame
+			}
+			return endGame
+		}
+	},
+	watch: {
+		changePlayingNow (val) {
+			this.playingNow = val
+		},
+		changeEndGame (val) {
+			if (!val) return;
+			this.shareScreen()
+			this.$store.state.cardGame.endGame = false
+		}
+	},
   data() {
     return {
       isFaceShow: true,
@@ -112,14 +148,20 @@ export default {
 			closecamera: false,
 
 			sharedScreen: false,
+
+			playingNow: false,
+			endGame: false,
     };
   },
   methods: {
 		shareScreen () {
 			if (this.sharedScreen) {
+				this.$store.state.cardGame.playingNow = false
 				this.session.unpublish(this.sessionScreen);
 				this.session.publish(this.publisher);
 			} else {
+				this.$store.state.cardGame.playingNow = true
+
 				this.isFaceShow = false
 				let publisher = this.OV.initPublisher("html-element-id", {
 							audioSource: undefined, // The source of audio. If undefined default microphone // The source of video. If undefined default webcam
@@ -129,7 +171,8 @@ export default {
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not 
-              videoSource: "screen" 
+              videoSource: "screen" ,
+							//openCard: false,
             });
             this.sessionScreen = publisher
             
@@ -345,5 +388,19 @@ button {
 .fa {
   padding: 4px;
   color: rgb(255, 255, 255);
+}
+
+#cardGameDiv {
+	position: absolute;
+	width: 100%;
+	height: 80%;
+	bottom: 40%;
+}
+
+#cardGameInnerDiv {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #dcdcdc;
 }
 </style>

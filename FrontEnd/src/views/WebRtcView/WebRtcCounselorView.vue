@@ -22,6 +22,7 @@
 		</div>
 
     <div class="container" v-if="session">
+
       <div class="wrap_content row col-md-12 p-4">
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
@@ -62,7 +63,7 @@
                 <b class="col-sm-4">게임결과</b>
               </div>
             </h3>
-            <div class="game_result col-md-12" v-if="!isCardGame">
+            <div class="game_result col-md-12" v-if="isCardGame">
               클릭시에 나오게 할껀가여 아니면 걍 계속 보이게 할껀가여
             </div>
           </div>
@@ -72,10 +73,12 @@
           class="col-md-12 row RtcFunction justify-content-start m-0 p-0 align-self-center"
         >
           <class class="col-md-3"></class>
-          <!-- @click="ShowCardGame" -->
+         
           <base-button
+            data-toggle="modal"
+            data-target="#exampleModal"
             type="success"
-            
+            @click="ShowCardGame"
             class="col-md-1 align-self-center"
             >사물게임</base-button
           ><base-button
@@ -114,6 +117,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { mapMutations } from "vuex";
 import axios from 'axios';
@@ -151,7 +155,6 @@ export default {
       // widthOfVideo: window.outerWidth,
       // heightOfVideo: window.outerHeight,
 
-
       newMemo: "",
       isCardGame: false,
 
@@ -185,6 +188,8 @@ export default {
   methods: {
     ShowCardGame: function() {
       this.isCardGame = !this.isCardGame;
+      this.publisher.openCard = !this.publisher.openCard
+      console.log(this.publisher.openCard);
     },
     ...mapMutations(["ADD_MEMO"]),
     addMemo() {
@@ -234,7 +239,7 @@ export default {
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not
-						});
+            });
 
 						this.mainStreamManager = publisher;
 						this.publisher = publisher;
