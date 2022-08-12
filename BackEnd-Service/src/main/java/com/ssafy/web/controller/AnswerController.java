@@ -44,7 +44,7 @@ public class AnswerController {
 	}
 	
 	//아동의 문진표 응답 불러오기 
-	@PostMapping("/getAnswer/{child_id}")
+	@GetMapping("/getAnswer/{child_id}")
 	public ResponseEntity<?> getAnswer(@PathVariable("child_id") String child_id){
 		List<Question> childAns = answerService.getAnswer(child_id);
 		ChildAnswerResponse car = new ChildAnswerResponse();
