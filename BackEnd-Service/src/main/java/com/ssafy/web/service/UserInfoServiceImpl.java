@@ -15,6 +15,7 @@ import com.ssafy.web.db.repository.ExpertiseRepository;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistInfoResopnse;
 import com.ssafy.web.model.response.TherapistResponse;
+import com.ssafy.web.request.FindPwRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterInfo;
 import com.ssafy.web.request.TheraRegisterRequest;
@@ -76,12 +77,35 @@ public class UserInfoServiceImpl implements UserInfoService{
 	}
 
 	@Override
-	public void parentJoin(ParentRegisterRequest parentInfo) {
+	public void parentJoin(String header , ParentRegisterRequest parentInfo) {
 		webClient.post()
 		.uri("/user/parent")
 		.bodyValue(parentInfo)
+		.header("Authorization",header )
 		.retrieve()
 		.bodyToMono(String.class).block();
+	}
+
+	//아이디 중복검사
+	@Override
+	public String checkId(String id) {
+		String res = webClient.get()
+		.uri("/user/checkid/"+id)
+		.retrieve()
+		.bodyToMono(String.class).block();
+		
+		return res;
+	}
+
+	@Override
+	public String findPass(FindPwRequest findpw) {
+		String res = 
+				webClient.post()
+				.uri("/user/findpw")
+				.bodyValue(findpw)
+				.retrieve()
+				.bodyToMono(String.class).block();
+		return res;
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.ssafy.web.model.response;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,14 +8,12 @@ import lombok.Setter;
  * 메세지 , 응답 코드*/
 @Getter
 @Setter
-@ApiModel("BaseResponseBody")
 public class UserLoginPostRes {
-	@ApiModelProperty(name="응답 메시지", example="정상")
+
 	String message =null;
-	@ApiModelProperty(name="사용자고유아이디", example="p/t+12")
 	String userid= null;
-	String accessToken; // JWT 
-	String refreshToken; // 재발급을 위한 refresh 토큰 추가 
+	String accessToken; 
+	String refreshToken; 
 
 	public UserLoginPostRes() {}
 	
