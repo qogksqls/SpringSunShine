@@ -3,7 +3,6 @@ package com.ssafy.web.controller;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.web.model.response.ConsultResponse;
 import com.ssafy.web.model.response.ConsultTotalResponse;
 import com.ssafy.web.request.ConsultRequest;
 import com.ssafy.web.service.ConsultService;
@@ -42,7 +40,7 @@ public class ConsultController {
 	/*일지 수정*/
 	@PutMapping("/record")
 	public String updateRecord(@RequestBody ConsultRequest conreq) {
-		conService.updateMemo(conreq);
+		conService.updateRecord(conreq);
 		return "success";
 	}
 	
@@ -71,7 +69,17 @@ public class ConsultController {
 			@PathVariable("parentId") String parentId ,@PathVariable("childId") String childId,
 			@PathVariable("page") int page, @PathVariable("size") int size){
 		PageRequest pr = PageRequest.of(page-1, size);
-		List<ConsultTotalResponse> list = conService.findByChildId(childId, pr);
+		List<ConsultTotalResponse> list = conService.findByParentIdAndChildId(parentId,childId, pr);
+		return list;
+	}
+	
+	/* 해당 부모가 모든 아이의 상담 기록 보고 싶은 경우 */
+	@GetMapping("/parent/{parentId}/{page}/{size}")
+	public List<ConsultTotalResponse> findByParentId(
+			@PathVariable("parentId") String parentId,
+			@PathVariable("page") int page, @PathVariable("size") int size){
+		PageRequest pr = PageRequest.of(page-1, size);
+		List<ConsultTotalResponse> list = conService.findByParentId(parentId, pr);
 		return list;
 	}
 	

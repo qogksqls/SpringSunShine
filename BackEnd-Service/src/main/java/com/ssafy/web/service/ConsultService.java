@@ -15,5 +15,6 @@ public interface ConsultService {
 	ConsultResponse findByConsultNo(int ConsultNo);
 	List<ConsultTotalResponse> findByTheraIdAndChildId(String theraId, String childid, Pageable pageable);
 	List<ConsultTotalResponse> findByTheraId(String theraId, Pageable pageable);
-	List<ConsultTotalResponse> findByChildId(String childId, Pageable pageable);
+	List<ConsultTotalResponse> findByParentIdAndChildId(String parentId, String childId, Pageable pageable);
+	List<ConsultTotalResponse> findByParentId(String parentId, Pageable pageable);
 }

@@ -88,8 +88,19 @@ public class ConsultServiceImpl implements ConsultService{
 	}
 
 	@Override
-	public List<ConsultTotalResponse> findByChildId(String childId, Pageable pageable) {
-		List<ConsultResponse> list = conrepo.findByChildIdjpql(childId, pageable);
+	public List<ConsultTotalResponse> findByParentIdAndChildId(String parentId, String childId, Pageable pageable) {
+		List<ConsultResponse> list = conrepo.findByParentIdAndChildIdjpql(parentId, childId,pageable);
+		List<ConsultTotalResponse> ctrList = new ArrayList<ConsultTotalResponse>();
+		for(int i=0; i<list.size(); i++) {
+			ConsultResponse cr = list.get(i);
+			ctrList.add(new ConsultTotalResponse(cr,cpnamerepo.findByConsult_ConsultNo(cr.getConsultNo())));
+		}
+		return ctrList;
+	}
+	
+	@Override
+	public List<ConsultTotalResponse> findByParentId(String parentId, Pageable pageable) {
+		List<ConsultResponse> list = conrepo.findByParentIdjpql(parentId, pageable);
 		List<ConsultTotalResponse> ctrList = new ArrayList<ConsultTotalResponse>();
 		for(int i=0; i<list.size(); i++) {
 			ConsultResponse cr = list.get(i);

@@ -43,9 +43,20 @@ public interface ConsultRepository extends JpaRepository<Consult , Integer>{
 			+ "c.childId as childId, c.parentId as parentId, "
 			+ "c.memo as memo, c.record as record)"
 			+ "from Consult c "
-			+ "where c.childId = :childId")
-	List<ConsultResponse> findByChildIdjpql(
-			@Param("childId") String childId,
+			+ "where c.childId = :childId and c.parentId = :parentId")
+	List<ConsultResponse> findByParentIdAndChildIdjpql(
+			@Param("parentId") String parentId, @Param("childId") String childId, 
+			Pageable pageable);
+	
+	@Query(value="select new com.ssafy.web.model.response.ConsultResponse"
+			+ "(c.consultNo as consultNo, c.startedTime as startedTime, "
+			+ "c.closedTime as closedTime, c.theraId as theraId, "
+			+ "c.childId as childId, c.parentId as parentId, "
+			+ "c.memo as memo, c.record as record)"
+			+ "from Consult c "
+			+ "where c.parentId = :parentId")
+	List<ConsultResponse> findByParentIdjpql(
+			@Param("parentId") String parentId,
 			Pageable pageable);
 	
 	
