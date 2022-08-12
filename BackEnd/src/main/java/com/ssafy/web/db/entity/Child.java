@@ -41,8 +41,8 @@ public class Child {
 	@Column(name = "birth", columnDefinition = "DATE", nullable = false)
 	Date birth;
 
-	@Column(name = "gender", nullable = false)
-	private int gender;
+	@Column(name = "gender", columnDefinition = "VARCHAR(10)", nullable = false)
+	private String gender;
 
 	@Column(name = "profile_url", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String profileUrl;

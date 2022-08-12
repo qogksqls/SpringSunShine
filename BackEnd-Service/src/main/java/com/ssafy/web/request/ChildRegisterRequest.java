@@ -23,7 +23,7 @@ public class ChildRegisterRequest {
 	Date birth;
 	
 	@ApiModelProperty(name = "아동 성별")
-	int gender;
+	String gender;
 	
 	@ApiModelProperty(name = "아동 프로필 사진")
 	String profile_url;
