@@ -55,12 +55,10 @@ public class BExpertiseTherapistServiceImpl implements BExpertiseTherapistServic
 
 	//아동의 증상번호 불러오기
 	@Override
-	public int getChildExp(String parent_id, String child_name) {
-		String childId= webClient.get().uri("/child/" + parent_id + "/" + child_name).retrieve().
-				bodyToMono(String.class).block();
-		BExpertiseChild childEx = BECRepo.findByChildId(childId);
+	public int getChildExp(String child_id) {
+		BExpertiseChild childEx = BECRepo.findByChildId(child_id);
 		int expno = childEx.getExpertise().getExpertiseNo();
-		System.out.println(childId+"의 증상 : "+expno);
+		System.out.println(child_id+"의 증상 : "+expno);
 		return expno;
 	}
 
