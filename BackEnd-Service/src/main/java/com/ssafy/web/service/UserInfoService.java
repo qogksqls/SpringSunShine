@@ -3,6 +3,7 @@ package com.ssafy.web.service;
 import java.util.Map;
 
 import com.ssafy.web.request.FindPwRequest;
+import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterInfo;
 
@@ -13,4 +14,5 @@ public interface UserInfoService {
 	void parentJoin(String header, ParentRegisterRequest parentInfo);
 	String checkId(String id);
 	String findPass(FindPwRequest findpw);
+	String parentModify(String parent_id, ParentModifyRequest parentInfo);
 }

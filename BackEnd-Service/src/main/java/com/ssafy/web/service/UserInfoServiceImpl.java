@@ -16,6 +16,7 @@ import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistInfoResopnse;
 import com.ssafy.web.model.response.TherapistResponse;
 import com.ssafy.web.request.FindPwRequest;
+import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterInfo;
 import com.ssafy.web.request.TheraRegisterRequest;
@@ -105,6 +106,18 @@ public class UserInfoServiceImpl implements UserInfoService{
 				.bodyValue(findpw)
 				.retrieve()
 				.bodyToMono(String.class).block();
+		return res;
+	}
+
+	//부모 정보 수정 
+	@Override
+	public String parentModify(String parent_id, ParentModifyRequest parentInfo) {
+		String res= webClient.put()
+				.uri("/user/parent/"+parent_id)
+				.bodyValue(parentInfo)
+				.retrieve()
+				.bodyToMono(String.class).block();
+		
 		return res;
 	}
 
