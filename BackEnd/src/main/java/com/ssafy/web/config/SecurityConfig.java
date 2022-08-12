@@ -59,9 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 .csrf().disable()
 		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		 .and()
-		 .addFilter(corsFilter());		 
-//		 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepo)).authorizeRequests() // 인증절차에 대한 설정 시작 
-//		 .antMatchers("/auth/login","/user/therapist" , "/user/parent" ).permitAll() // 로그인, 회원가입은 누구나 접근 가능 
+		 .addFilter(corsFilter())		 
+		 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepo)).authorizeRequests() // 인증절차에 대한 설정 시작 
+//		 .antMatchers("/auth/login","/user/therapist" , "/user/parent" ).permitAll(); // 로그인, 회원가입은 누구나 접근 가능 
+		 .antMatchers("/auth-api/**").permitAll();
 //		 .anyRequest().authenticated();
 //		 .anyRequest().permitAll();
 	    }
