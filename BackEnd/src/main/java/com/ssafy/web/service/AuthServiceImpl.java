@@ -31,14 +31,15 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public ResponseEntity<UserLoginPostRes> login(String id, String password) {
+	public UserLoginPostRes login(String id, String password) {
 		log.debug("test: service-login입니다");
 			String accessToken = jwtTokenUtil.createAccessToken(id);
 			String refreshToken = jwtTokenUtil.createRefreshToken(id);
 			User user= userRepository.findUserById(id).orElse(null);
 			
-			return ResponseEntity.ok(UserLoginPostRes.ofsuccess(user.getUserId(), "success", accessToken, refreshToken));
-		
+			UserLoginPostRes loginRes= new UserLoginPostRes("success", user.getUserId(), accessToken, refreshToken);
+//			return ResponseEntity.ok(UserLoginPostRes.ofsuccess(user.getUserId(), "success", accessToken, refreshToken));
+			return loginRes; 
 	}
 
 	// 리프레시 토큰 재발급 

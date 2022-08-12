@@ -143,19 +143,19 @@ public class UserController {
 	
 	/**비밀번호 찾기*/
 	@PostMapping("/findpw")
-	public ResponseEntity<?> findPass(@RequestBody FindPwRequest findpw){
+	public String findPass(@RequestBody FindPwRequest findpw){
 		String id = findpw.getId(); //13자리 난수 아님 
 		String email = findpw.getEmail();
 		try {
 			int res = userService.findPass(id, email);
 			if(res==0) {
-				return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+				return "fail";
 			}
-			return new ResponseEntity<String>("success", HttpStatus.OK);
+			return "success";
 			//프론트와 상의 후 어떻게 할건지 결정 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			return "fail";
 		} 
 	}
 	

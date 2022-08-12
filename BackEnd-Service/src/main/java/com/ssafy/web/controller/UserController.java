@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.db.entity.Expertise;
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.request.FindPwRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraRegisterInfo;
 import com.ssafy.web.request.TheraRegisterRequest;
@@ -24,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("user")
+/**SERVICE SERVER*/
 public class UserController {
 	private final UserInfoService userInfoService;
 	
@@ -56,9 +62,31 @@ public class UserController {
 	
 	/*부모 회원가입*/
 	@PostMapping("/parent")
-	public ResponseEntity<?>  parentRegist(@RequestBody ParentRegisterRequest parentInfo){
-		userInfoService.parentJoin(parentInfo);
+	public ResponseEntity<?>  parentRegist(HttpServletRequest request, @RequestBody ParentRegisterRequest parentInfo){
+		System.out.println(request.getHeader("Authorization"));
+		String header= request.getHeader("Authorization");
+		userInfoService.parentJoin(header, parentInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));	
 	}
+	
+	/**비밀번호 찾기*/
+	@PostMapping("/findpw")
+	public ResponseEntity<?> findPass(@RequestBody FindPwRequest findpw){
+		String res = userInfoService.findPass(findpw);
+		return new ResponseEntity<String>(res, HttpStatus.OK);
+	}
+	
+	/**아이디 중복검사 */
+	@GetMapping("/checkid/{id}")
+	public ResponseEntity<String> checkid(@PathVariable String id) {
+		if(id == null) {
+			return new ResponseEntity<String>("null" , HttpStatus.NO_CONTENT);
+		}
+		String res = userInfoService.checkId(id);
+		return new ResponseEntity<String>(res, HttpStatus.OK);
+		
+	}
+	
+	
 	
 }
