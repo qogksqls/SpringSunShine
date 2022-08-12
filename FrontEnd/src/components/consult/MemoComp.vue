@@ -1,40 +1,44 @@
 <template>
   <div class="memocard">
     <h1>메모장</h1>
-    <hr style="margin: 10px">
+    <hr style="margin: 10px" />
     <p>
-      <textarea id="memo" v-model="newMemo" placeholder="메모하세요."></textarea>
+      <textarea
+        id="memo"
+        v-model="newMemo"
+        placeholder="메모하세요."
+      ></textarea>
     </p>
     <button class="savebutton" @click="addMemo">저장</button>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 
 export default {
   data() {
     return {
       newMemo: "",
-    }
+    };
   },
   methods: {
-    ...mapMutations(['ADD_MEMO']),
-    addMemo(){
-      if(this.newMemo.length == 0){
-        alert("Fill in the blank!")
-        return
+    ...mapMutations(["ADD_MEMO"]),
+    addMemo() {
+      if (this.newMemo.length == 0) {
+        alert("Fill in the blank!");
+        return;
       }
-      const memo = this.newMemo.replace(/\n|\r\n/g,'<br>')
+      const memo = this.newMemo.replace(/\n|\r\n/g, "<br>");
       // this.$store._modules.root.state.memos.list.push(memo)
-      this.ADD_MEMO(memo)
-      this.newMemo = ''
+      this.ADD_MEMO(memo);
+      this.newMemo = "";
     },
   },
-}
+};
 </script>
 
-<style>
+<style scoped>
 .memocard {
   padding: 20px;
 }

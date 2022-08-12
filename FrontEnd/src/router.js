@@ -13,7 +13,8 @@ import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
 //상담관련
 import ChildReserveShow from "./views/ReserveView/ChildReserveShowView.vue";
 import CounSchedule from "./views/ReserveView/ConsultationSchedule.vue";
-
+//상담 후기 작성
+import CounReview from "./views/ConsultReview/MemoReview.vue";
 //아동추가 목록
 import ChildListView from "./views/ChildPlusView/ChildListView.vue";
 //문진표
@@ -27,9 +28,15 @@ import playAlone from "./views/playAloneView/playAlone.vue";
 
 import reserve from "./views/Reserve/ReserveView.vue";
 
+import memo from "./views/consult/MemoView.vue";
+
+//마이페이지 _ 해당페이지에서 회원정보수정도 가능하게 ㅇㅇ
+import update from "./views/UserInfoView/UserUpdateForm.vue";
+
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   linkExactActiveClass: "active",
   routes: [
     {
@@ -47,7 +54,6 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Landing,
-        footer: AppFooter,
       },
     },
     {
@@ -56,16 +62,24 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Login,
-        footer: AppFooter,
       },
     },
+    //회원가입
     {
       path: "/register",
       name: "register",
       components: {
         header: AppHeader,
         default: Register,
-        footer: AppFooter,
+      },
+    },
+    //회원정보수정
+    {
+      path: "/update",
+      name: "update",
+      components: {
+        header: AppHeader,
+        default: update,
       },
     },
     {
@@ -74,7 +88,6 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Profile,
-        footer: AppFooter,
       },
     },
     {
@@ -103,6 +116,16 @@ export default new Router({
         default: ChildReserveShow,
       },
     },
+    //상담사 상담 후기 작성하는 곳
+    {
+      path: "/counReview",
+      name: "counReview",
+      components: {
+        header: AppHeader,
+        default: CounReview,
+      },
+    },
+    //상담사 예약 일정
     {
       path: "/counSchedule",
       name: "counSchedule",
@@ -170,6 +193,16 @@ export default new Router({
         default: reserve,
       },
       props: true,
+    },
+
+    //메모
+    {
+      path: "/memo",
+      name: "memo",
+      components: {
+        header: AppHeader,
+        default: memo,
+      },
     },
   ],
   scrollBehavior: (to) => {

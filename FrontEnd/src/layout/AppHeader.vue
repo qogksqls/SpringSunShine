@@ -54,18 +54,15 @@
           <router-link to="/children" class="dropdown-item"
             >자녀관리</router-link
           >
-          <router-link to="/profile" class="dropdown-item"
-            >내프로필</router-link
-          >
+          <router-link to="/update" class="dropdown-item">내프로필</router-link>
           <router-link to="/" class="dropdown-item">로그아웃</router-link>
-          <router-link to="/register" class="dropdown-item"
-            >회원가입</router-link
-          >
         </base-dropdown>
 
         <!--전문가는 해당 페이지만 보게함-->
         <li class="nav-link">
-          <router-link to="/" class="nav-link-inner--text navbar p-0"
+          <router-link
+            to="/counSchedule"
+            class="nav-link-inner--text navbar p-0"
             ><b>예약관리</b></router-link
           >
         </li>

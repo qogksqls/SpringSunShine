@@ -39,4 +39,27 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+@media (max-width: 767px) {
+  .card {
+    height: 100vh;
+  }
+  .profile-page {
+    height: 100%;
+  }
+  .profile-page .card-profile {
+    margin-top: -400px;
+    height: 100vh;
+  }
+  .card {
+    height: 100%;
+  }
+  .section-profile-cover {
+    height: 150px !important;
+  }
+  .wrap_content {
+    height: 100%;
+    padding: 8px !important;
+  }
+}
+</style>
