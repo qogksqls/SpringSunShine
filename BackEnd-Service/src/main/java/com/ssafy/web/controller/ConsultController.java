@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("consult")
+@RequestMapping("/consult")
 public class ConsultController {
 	private final ConsultService conService;
 

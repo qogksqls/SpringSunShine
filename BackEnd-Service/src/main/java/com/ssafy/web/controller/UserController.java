@@ -22,6 +22,8 @@ import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.request.FindPwRequest;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
+import com.ssafy.web.request.TheraModifyRequest;
+import com.ssafy.web.request.TheraModifyTotalRequest;
 import com.ssafy.web.request.TheraRegisterInfo;
 import com.ssafy.web.request.TheraRegisterRequest;
 import com.ssafy.web.service.UserInfoService;
@@ -30,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("user")
+@RequestMapping("/user")
 /**SERVICE SERVER*/
 public class UserController {
 	private final UserInfoService userInfoService;
@@ -61,6 +63,13 @@ public class UserController {
 	public ResponseEntity<?> parentModify(@PathVariable String parent_id , @RequestBody ParentModifyRequest parentInfo){
 		String res= userInfoService.parentModify(parent_id, parentInfo);
 		return new ResponseEntity<String>(res, HttpStatus.OK);
+	}
+	
+	@PutMapping("/therapist/{thera_id}")
+	public String theraModify(@PathVariable String thera_id, 
+			@RequestBody TheraModifyTotalRequest tmtr) {
+		userInfoService.theraModify(thera_id, tmtr);
+		return "success";
 	}
 	
 	
