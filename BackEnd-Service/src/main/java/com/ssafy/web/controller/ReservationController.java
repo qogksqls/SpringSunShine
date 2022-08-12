@@ -36,10 +36,19 @@ public class ReservationController {
 	}
 
 	@GetMapping("/reserv-parent/{parent_id}")
-	@ApiOperation(value = "보호자가 예약한 전체 아동의 상담 날짜 조회")
+	@ApiOperation(value = "보호자가 예약한 전체 아동의 예약 날짜 조회")
 	public ResponseEntity<List<ParentReservResponse>> getParentReservation(
 			@PathVariable(value = "parent_id") String parentId) {
 		return new ResponseEntity<List<ParentReservResponse>>(reservService.getReservByParent(parentId), HttpStatus.OK);
+	}
+
+	@GetMapping("/reserv-parent/{parent_id}/{child_id}")
+	@ApiOperation(value = "보호자 아이디와 아동 아이디로 특정 아동의 예약 날짜 조회")
+	public ResponseEntity<List<ParentReservResponse>> getParentAndChildReservation(
+			@PathVariable(value = "parent_id") String parentId, @PathVariable(value = "child_id") String childId) {
+		return new ResponseEntity<List<ParentReservResponse>>(
+				reservService.getReservByParentAndChild(parentId, childId), HttpStatus.OK);
+
 	}
 
 	@GetMapping("/reserv-therapist/{thera_id}")
