@@ -95,7 +95,7 @@ public class ChildServiceImpl implements ChildService {
 	@Override
 	public ChildData getChildData(String child_id) {
 		Child child = childRepository.findByChildId(child_id);
-		int gender = child.getGender();//아이 성별 
+		String gender = child.getGender();//아이 성별 
 		// 아이가 태어난 년도 
 		String date = child.getBirth().toString().substring(0,4);
 		
