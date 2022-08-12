@@ -46,35 +46,33 @@
                 </div>
                 <hr />
                 <div class="schdule_buttons my-3">
-                  <div class="wrap_btn">
-                    <div class="row">
-                      <div
-                        v-for="(time, i) in possibleTimes"
-                        :key="i"
-                        class="col-3"
-                        outline
-                        type="default"
-                      >
-                        <div v-if="time[1] === 1">
-                          <base-button
-                            outline
-                            type="primary"
-                            class="possible_buttons"
-                            @click="possibleButton(time[0])"
-                          >
-                            {{ time[0] }}:00
-                          </base-button>
-                        </div>
-                        <div v-else>
-                          <base-button
-                            disabled
-                            type="secondary"
-                            class="impossible_buttons"
-                            @click="impossibleButton"
-                          >
-                            {{ time[0] }}:00
-                          </base-button>
-                        </div>
+                  <div class="wrap_btn row col-12 px-1">
+                    <div
+                      v-for="(time, i) in possibleTimes"
+                      :key="i"
+                      class="col-3"
+                      outline
+                      type="default"
+                    >
+                      <div v-if="time[1] === 1">
+                        <base-button
+                          outline
+                          type="primary"
+                          class="possible_buttons"
+                          @click="possibleButton(time[0])"
+                        >
+                          {{ time[0] }}:00
+                        </base-button>
+                      </div>
+                      <div v-else>
+                        <base-button
+                          disabled
+                          type="secondary"
+                          class="impossible_buttons"
+                          @click="impossibleButton"
+                        >
+                          {{ time[0] }}:00
+                        </base-button>
                       </div>
                     </div>
                   </div>
@@ -229,5 +227,32 @@ input {
   outline: none;
   padding-left: 15px;
   border: 1px solid #dcdcdc;
+}
+@media (max-width: 1023px) {
+}
+@media (max-width: 767px) {
+  .profile-page .card-profile {
+    height: 100%;
+  }
+  #wrap_content {
+    padding: 0;
+    margin: 0;
+  }
+  .calendar123 {
+    padding: 0;
+  }
+  .schedule123 {
+    padding: 0;
+  }
+  .upper_cont {
+    padding: 0 15px;
+  }
+  .schdule_buttons {
+    overflow-wrap: normal;
+  }
+  .wrap_btn {
+    margin: 0;
+    padding: 0;
+  }
 }
 </style>
