@@ -229,15 +229,10 @@ public class UserServiceImpl implements UserService {
 				StringTokenizer st = new StringTokenizer(licList[i], ",");
 				//[asdf,null,2022-08-23,220720_출결확인서_배한빈[서울_6반]-1.pdf] 
 				Licence licence = new Licence();
-				System.out.println(1);
 				licence.setName(st.nextToken());
-				System.out.println(2);
 				licence.setPlace(st.nextToken());
-				System.out.println(3);
 				licence.setDate(st.nextToken());
-				System.out.println(4);
 				licence.setFile(st.nextToken());
-				System.out.println(5);
 				liclist.add(licence);
 			}
 		}
@@ -255,7 +250,6 @@ public class UserServiceImpl implements UserService {
 			tr.setThera_intro("");
 		}
 		
-		System.out.println("12332");
 		return tr;
 
 	}
