@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,6 @@ import com.ssafy.web.db.repository.QuestionRepository;
 import com.ssafy.web.dto.Question;
 import com.ssafy.web.model.response.ChildAnswerResponse;
 import com.ssafy.web.request.AnswerRequest;
-import com.ssafy.web.request.GetAnswerRequest;
 import com.ssafy.web.service.AnswerService;
 import com.ssafy.web.service.RedisService;
 
@@ -44,9 +44,9 @@ public class AnswerController {
 	}
 	
 	//아동의 문진표 응답 불러오기 
-	@PostMapping("/getAnswer")
-	public ResponseEntity<?> getAnswer(@RequestBody GetAnswerRequest getAnsReq){
-		List<Question> childAns = answerService.getAnswer(getAnsReq);
+	@PostMapping("/getAnswer/{child_id}")
+	public ResponseEntity<?> getAnswer(@PathVariable("child_id") String child_id){
+		List<Question> childAns = answerService.getAnswer(child_id);
 		ChildAnswerResponse car = new ChildAnswerResponse();
 		car.setAnswers(childAns);
 		return new ResponseEntity<ChildAnswerResponse>(car, HttpStatus.OK);
