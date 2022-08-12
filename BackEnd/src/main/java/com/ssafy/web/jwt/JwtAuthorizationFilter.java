@@ -47,6 +47,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		//요청 헤더에서 값 찾기 
 		String header =request.getHeader(JwtTokenUtil.HEADER_STRING);
 		log.debug("test: filter-토큰찾기");
+		log.debug("헤더값 : "+header);
 		//올바른 토큰 형태의 값인지 확인하기 ( 토큰이 아니라면 ? -> 그냥 넘겨 )
 		if(header == null || !header.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
 			chain.doFilter(request, response);
@@ -82,7 +83,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				JwtTokenUtil.handleError(token);
 				//실제 검증 + 복호화(내부적으로 복호화도 해줌)
 				DecodedJWT decodedJWT = verifier.verify(token.replace(JwtTokenUtil.TOKEN_PREFIX, ""));
-				
+				log.debug("decode header : "+decodedJWT);
 				String id = decodedJWT.getSubject(); 
 				
 				if(id != null) {
