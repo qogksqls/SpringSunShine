@@ -1,4 +1,4 @@
-package com.ssafy.web.request.child;
+package com.ssafy.web.request;
 
 import java.util.Date;
 
@@ -27,4 +27,7 @@ public class ChildRegisterRequest {
 	
 	@ApiModelProperty(name = "아동 프로필 사진")
 	String profile_url;
+	
+	@ApiModelProperty(name = "문진표 응답 여부")
+	int survey_flag;
 }

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.ChildResponse;
-import com.ssafy.web.request.child.ChildRegisterRequest;
-import com.ssafy.web.service.child.ChildService;
+import com.ssafy.web.request.ChildRegisterRequest;
+import com.ssafy.web.service.ChildService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
