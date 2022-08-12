@@ -1,4 +1,4 @@
-package com.ssafy.web.service.child;
+package com.ssafy.web.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.model.response.ChildResponse;
-import com.ssafy.web.request.child.ChildRegisterRequest;
+import com.ssafy.web.request.ChildRegisterRequest;
 
 public interface ChildService {
 

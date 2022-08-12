@@ -1,4 +1,4 @@
-package com.ssafy.web.db.entity.child;
+package com.ssafy.web.db.entity;
 
 import java.util.Date;
 
@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.ssafy.web.db.entity.Parent;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,14 +38,16 @@ public class Child {
 	@Column(name = "name", columnDefinition = "VARCHAR(20)", nullable = false, unique = true)
 	private String name;
 
-	
 	@Column(name = "birth", columnDefinition = "DATE", nullable = false)
 	Date birth;
 
-	@Column(name = "gender", nullable = false)
-	private int gender;
+	@Column(name = "gender", columnDefinition = "VARCHAR(10)", nullable = false)
+	private String gender;
 
 	@Column(name = "profile_url", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String profileUrl;
+
+	@Column(name = "survey_flag", columnDefinition = "int default 0")
+	private int surveyFlag;
 
 }

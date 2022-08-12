@@ -19,7 +19,6 @@ import com.ssafy.web.dto.Answerlist;
 import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.dto.Question;
 import com.ssafy.web.request.AnswerRequest;
-import com.ssafy.web.request.GetAnswerRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,11 +44,12 @@ public class AnswerServiceImpl implements AnswerService{
 	
 	@Override
 	public int registAnswer(AnswerRequest answerReq) {
-		String childName = answerReq.getChild_name();
-		String parentId = answerReq.getParent_id();
-		System.out.println(childName+" "+parentId);
-		String childId = webClient.get().uri("/child/"+parentId +"/"+childName).retrieve().bodyToMono(String.class)
-				.block();
+//		String childName = answerReq.getChild_id();
+//		String parentId = answerReq.getParent_id();
+//		System.out.println(childName+" "+parentId);
+//		String childId = webClient.get().uri("/child/"+parentId +"/"+childName).retrieve().bodyToMono(String.class)
+//				.block();
+		String childId = answerReq.getChild_id();
 		log.debug("문진표 저장 아동 아이디 : "+childId);
 		/*등록하지 않은 아동*/
 		if(childId == null) return 0; 
@@ -126,12 +126,8 @@ public class AnswerServiceImpl implements AnswerService{
 	}
 
 	@Override
-	public List<Question> getAnswer(GetAnswerRequest getAnsReq) {
-		String childName= getAnsReq.getChild_name();
-		String parentId= getAnsReq.getParent_id();
-		String childId = webClient.get().uri("/child/"+parentId +"/"+childName).retrieve().bodyToMono(String.class)
-				.block();
-		log.debug("문진표 응답 아동 아이디 : "+childId);
+	public List<Question> getAnswer(String child_id) {
+		log.debug("문진표 응답 아동 아이디 : "+child_id);
 		
 		
 		//레디스에 질문 저장되있는가 ? 
@@ -143,7 +139,7 @@ public class AnswerServiceImpl implements AnswerService{
 		}
 		List<String> questions = redisService.getQuestions();
 		
-		Answer ans = answerRepo.findAnswerByChildId(childId);
+		Answer ans = answerRepo.findAnswerByChildId(child_id);
 		StringTokenizer st= new StringTokenizer(ans.getAnswer(),",");
 		
 		//질문(questions) 과, 응답(st.nextToken) 담을 리스트 

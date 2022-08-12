@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/therapist/recommed")
+@RequestMapping("/therapist/recommend")
 public class BExpertiseThearpistController {
 	private final BExpertiseTherapistService BETService;
 	
@@ -36,10 +36,9 @@ public class BExpertiseThearpistController {
 	}
 	
 	//아동관리페이지에서 상담사 추천 페이지 (아이의 증상으로 추천  상담사 조회 ) 
-	@GetMapping("/{parent_id}/{child_name}")
-	public RecommendTherapistResponse[] childRecommend(@PathVariable("parent_id") String parent_id,
-			@PathVariable("child_name") String child_name) {
-		int childExp_no = BETService.getChildExp(parent_id, child_name); 
+	@GetMapping("/{child_id}")
+	public RecommendTherapistResponse[] childRecommend(@PathVariable("child_id") String child_id) {
+		int childExp_no = BETService.getChildExp(child_id); 
 		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistList(childExp_no);
 		return recommedTheraArr;
 		
