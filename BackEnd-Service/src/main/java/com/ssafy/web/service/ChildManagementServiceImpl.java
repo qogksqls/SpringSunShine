@@ -31,7 +31,7 @@ public class ChildManagementServiceImpl implements ChildManagementService {
 	public void childRegist(ChildRegisterRequest childInfo) {
 //		System.out.println(childInfo.getName());
 
-		webClient.post().uri("/child/register").bodyValue(childInfo).retrieve().bodyToMono(String.class);
+		webClient.post().uri("/child/register").bodyValue(childInfo).retrieve().bodyToMono(String.class).block();
 
 	}
 
