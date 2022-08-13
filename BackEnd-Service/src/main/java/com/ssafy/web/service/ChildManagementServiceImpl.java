@@ -28,13 +28,10 @@ public class ChildManagementServiceImpl implements ChildManagementService {
 
 	/** 아동 등록 */
 	@Override
-	public Mono<ChildRegisterRequest> childRegist(ChildRegisterRequest childInfo) {
-		System.out.println("어디에 저장???");
-		System.out.println(childInfo.getName());
+	public void childRegist(ChildRegisterRequest childInfo) {
+//		System.out.println(childInfo.getName());
 
-		return webClient.post().uri("/child/register").body(Mono.just(childInfo), ChildRegisterRequest.class).retrieve()
-				.bodyToMono(ChildRegisterRequest.class);
-
+		webClient.post().uri("/child/register").bodyValue(childInfo).retrieve().bodyToMono(String.class);
 
 	}
 
