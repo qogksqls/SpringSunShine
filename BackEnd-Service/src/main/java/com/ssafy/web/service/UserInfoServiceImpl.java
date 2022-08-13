@@ -44,10 +44,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 	/* 치료사 정보 조회 */
 	@Override
 	public Map<String, Object> theraInfo(String header, String thera_id) {
-
-		List<Expertise> list = expertiseRep.findByTheraIdjpql(thera_id);
 		TherapistResponse theraInfo = webClient.get().uri("/authentication/therainfo/" + thera_id).header("Authorization", header).retrieve()
 				.bodyToMono(TherapistResponse.class).block();
+		List<Expertise> list = expertiseRep.findByTheraIdjpql(thera_id);
 		TherapistInfoResopnse therapistInfo = new TherapistInfoResopnse(theraInfo, list);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("theraInfo", therapistInfo);
@@ -102,7 +101,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	// 치료사 정보 수정 
 	@Override
 	public void theraModify(String header, String thera_id, TheraModifyTotalRequest tmtr) {
-		webClient.put().uri("/authentication/parent/" + thera_id).bodyValue(tmtr.makeTMR()).header("Authorization", header).retrieve()
+		webClient.put().uri("/authentication/therapist/" + thera_id).bodyValue(tmtr.makeTMR()).header("Authorization", header).retrieve()
 				.bodyToMono(String.class).block();
 		
 		bexpertiseRep.deleteByTheraId(thera_id);
