@@ -19,5 +19,8 @@ public interface ReservService {
 
 	// 상담사 -> 예약된 상담 리스트 가져오기
 	List<TheraReservResponse> getReservByThera(String theraId);
+	
+	// 상담사 + 아동 아이디 -> 예약된 상담 리스트 가져오기
+	List<TheraReservResponse> getReservByTheraAndChild(String theraId, String childId);
 
 }

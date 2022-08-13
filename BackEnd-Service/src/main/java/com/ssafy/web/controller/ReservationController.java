@@ -57,4 +57,12 @@ public class ReservationController {
 		return new ResponseEntity<List<TheraReservResponse>>(reservService.getReservByThera(theraId), HttpStatus.OK);
 	}
 
+	@GetMapping("/reserv-therapist/child/{thera_id}/{child_id}")
+	@ApiOperation(value = "상담사 아이디와 아동 아이디로 특정 아동의 예약 날짜 조회")
+	public ResponseEntity<List<TheraReservResponse>> getReservation(@PathVariable(value = "thera_id") String theraId,
+			@PathVariable(value = "child_id") String childId) {
+		return new ResponseEntity<List<TheraReservResponse>>(reservService.getReservByTheraAndChild(theraId, childId),
+				HttpStatus.OK);
+	}
+
 }
