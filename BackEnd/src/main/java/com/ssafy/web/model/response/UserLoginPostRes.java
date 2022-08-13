@@ -21,30 +21,26 @@ public class UserLoginPostRes {
 
 	public UserLoginPostRes() {}
 	
+	public UserLoginPostRes(String message) {
+		this.message = message;
+	}
+	
+	public UserLoginPostRes(String message, String accessToken ,String refreshToken) {
+		this.message = message;
+		this.accessToken= accessToken;
+		this.refreshToken= refreshToken;
+	}
+	
 	public UserLoginPostRes(String message, String userid, String accessToken ,String refreshToken) {
 		this.message = message;
 		this.userid = userid;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 	}
-	public static UserLoginPostRes offail(String userid, String message) {
-		UserLoginPostRes res= new UserLoginPostRes() ;
-		res.setUserid(userid);
-		res.setMessage(message);
-		return res;
-	}
-//	public static UserLoginPostRes ofsuccess(String userid, String message, String accessToken, String refreshToken) {
-//		UserLoginPostRes res= new UserLoginPostRes() ;
-//		res.setUserid(userid);
-//		res.setAccessToken(accessToken);
-//		res.setMessage(message);
-//		res.setRefreshToken(refreshToken);
-//		return res;
-//	}
-	
 	// 재발급 할 때 줄 정보 
-	public static UserLoginPostRes ofrefresh(String accessToken, String refreshToken) {
-		UserLoginPostRes res= new UserLoginPostRes();
+	public static UserLoginPostRes ofrefresh(String message, String accessToken, String refreshToken) {
+		UserLoginPostRes res= new UserLoginPostRes(message, accessToken, refreshToken);
+		res.setMessage(message);
 		res.setAccessToken(accessToken);
 		res.setRefreshToken(refreshToken);
 		return res; 
