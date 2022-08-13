@@ -13,5 +13,5 @@ public interface ChildManagementService {
 	List<ChildResponse> getChildList(String parentId);
 	
 	// 아동 등록
-	Mono<ChildRegisterRequest> childRegist(ChildRegisterRequest childInfo);
+	void childRegist(ChildRegisterRequest childInfo);
 }
