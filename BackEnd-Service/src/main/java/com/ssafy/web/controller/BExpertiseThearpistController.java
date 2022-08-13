@@ -35,12 +35,12 @@ public class BExpertiseThearpistController {
 		return recommedTheraArr;
 	}
 	
-//	//아동관리페이지에서 상담사 추천 페이지 (아이의 증상으로 추천  상담사 조회 ) 
-//	@GetMapping("/{child_id}")
-//	public RecommendTherapistResponse[] childRecommend(@PathVariable("child_id") String child_id) {
-//		int childExp_no = BETService.getChildExp(child_id); 
-//		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistList(childExp_no);
-//		return recommedTheraArr;
-//		
-//	}
+	//아동관리페이지에서 상담사 추천 페이지 (아이의 증상으로 추천  상담사 조회 ) 
+	@GetMapping("/child/{child_id}")
+	public RecommendTherapistResponse[] childRecommend(@PathVariable("child_id") String child_id) {
+		int childExp_no = BETService.getChildExp(child_id); 
+		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistList(childExp_no);
+		return recommedTheraArr;
+		
+	}
 }
