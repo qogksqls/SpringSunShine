@@ -129,4 +129,30 @@ public class ReservServiceImpl implements ReservService {
 		return reservList;
 	}
 
+	@Override
+	public List<TheraReservResponse> getReservByTheraAndChild(String theraId, String childId) {
+		List<Reservation> list = reservRepository.findByTheraIdAndChildId(theraId, childId);
+		List<TheraReservResponse> reservList = new ArrayList<TheraReservResponse>();
+		
+		for (Reservation reserv : list) {
+			String parentId = reserv.getParentId();
+			Date reservTime = reserv.getReservTime();
+
+			String childName = webClient.get().uri("/info/child/" + childId).retrieve().bodyToMono(String.class)
+					.block();
+			String parentName = webClient.get().uri("/info/parent/" + parentId).retrieve().bodyToMono(String.class)
+					.block();
+
+			TheraReservResponse tReservResponse = new TheraReservResponse();
+			tReservResponse.setChildId(childId);
+			tReservResponse.setChildName(childName);
+			tReservResponse.setParentName(parentName);
+			tReservResponse.setReservTime(reservTime);
+
+			reservList.add(tReservResponse);
+		}
+
+		return reservList;
+	}
+
 }
