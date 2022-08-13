@@ -39,7 +39,7 @@ public class ChildController {
 	@ApiOperation(value = "아동 등록")
 	public ResponseEntity<?> childRegist(@RequestBody ChildRegisterRequest childInfo) {
 		childManagementService.childRegist(childInfo);
-//		System.out.println("아동 등록 service-api");
+		System.out.println("아동 등록 service-api");
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 
 	}
