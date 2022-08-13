@@ -81,7 +81,7 @@ public class AuthController {
 	/**토큰 재발급 */
 	// front 에서는 기존 accessToken 을 버리고 새로 발급받아준걸로 사용해야함 
 	@GetMapping("/refresh/{id}")
-	public ResponseEntity<?> refreshToken(@PathVariable String id, 
+	public UserLoginPostRes refreshToken(@PathVariable String id, 
 			@RequestHeader("Authorization") String refreshToken){
 		// id : 사용자 아이디 
 		String refreshTokens = refreshToken.replace("Bearer ", "");

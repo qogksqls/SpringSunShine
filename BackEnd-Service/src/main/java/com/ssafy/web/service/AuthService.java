@@ -40,4 +40,15 @@ public class AuthService {
 		}
 	}
 
+	/**토큰 재발급 */
+	public UserLoginPostRes refreshToken(String header, String id) {
+		return webClient.get()
+				.uri("/auth/refresh/"+id)
+				.header("Authorization", header)
+				.retrieve()
+				.bodyToMono(UserLoginPostRes.class).block();
+				
+	}
+	
+
 }

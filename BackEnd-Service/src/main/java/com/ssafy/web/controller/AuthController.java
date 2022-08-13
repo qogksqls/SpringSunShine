@@ -1,7 +1,11 @@
 package com.ssafy.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,4 +36,14 @@ public class AuthController {
 		return authService.userLogout(logoutInfo);
 	}
 
+	/**토큰 재발급 */
+	//accesstoken 을 재발급 
+	@GetMapping("/refresh/{id}")
+	public UserLoginPostRes refreshToken(HttpServletRequest request, @PathVariable String id){
+		//헤더에 담겨 온 refreshToken
+		String header = request.getHeader("Authorization");
+		return authService.refreshToken(header, id);
+	}
+	
+	
 }
