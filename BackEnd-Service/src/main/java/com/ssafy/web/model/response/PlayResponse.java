@@ -4,7 +4,7 @@ import java.util.Date;
 
 import lombok.Data;
 
-/** 보호자가 아동의 놀이 기록을 조회할 때 주는 정보 */
+/** 보호자가 아동의 혼자놀기 기록을 조회할 때 주는 정보 */
 @Data
 public class PlayResponse {
 
