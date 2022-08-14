@@ -1,8 +1,6 @@
 package com.ssafy.web.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.ChildRegisterRequest;
 import com.ssafy.web.service.ChildService;
@@ -75,4 +74,11 @@ public class ChildController {
 		else return "success";
 		
 	}
+	
+	/** 상담사 -> 예약한 아동 정보 조회 */
+	@GetMapping("/reserv-therapist-child/{child_id}")
+	public ChildReservResponse getChildInfo(@PathVariable String childId) {
+		return childService.getChildInfo(childId);
+	}
+
 }
