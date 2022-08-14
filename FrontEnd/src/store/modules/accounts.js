@@ -1,5 +1,4 @@
 import axios from "axios"
-import router from "../../router"
 
 export default {
   state: {
@@ -33,10 +32,12 @@ export default {
       localStorage.setItem('accessToken', accessToken)
       // console.log(localStorage)
     },
-    saveRefreshToken({ commit }, refreshToken) {
-      commit('SET_Refresh_TOKEN', refreshToken)
-      localStorage.setItem('refreshToken', refreshToken)
-      // console.log(localStorage)
+    getters: {
+        isLoggedIn: state => !!state.token,
+        currentUser: state => state.currentUser,
+        profile: state => state.profile,
+        authError: state => state.authError,
+        // authHeader: state => ({ Authorization: `Token ${state.token}`}),
     },
     saveUserid({ commit }, userid) {
       commit('SET_USERID', userid)
@@ -103,40 +104,51 @@ export default {
           console.log(err.response)
         })
     },
-    fetchCurrentUser({ commit, getters, dispatch }) {
-      if (getters.isLoggedIn) {
-        axios({
-          url: `https://i7a606.q.ssafy.io/service-api/user/${this.userid}`,
-          method: 'get',
-        })
-          .then(res => {
-            console.log(res.data)
-            commit('SET_CURRENT_USER', res.data)
-          })
-          .catch(err => {
-            console.log(err.response)
-            if (err.response.status === 401) {
-              dispatch('removeToken')
-              router.push({ name: 'components' })
+    actions: {
+        saveToken({ commit }, token) {
+            commit('SET_TOKEN', token)
+            localStorage.setItem('token', token)
+        },
+        removeToken({ commit }) {
+            commit('SET_TOKEN', '')
+            localStorage.setItem('token', '')
+        },
+
+        login({ commit, dispatch }, credentials) {
+            axios({
+                url: `${state.host}/auth-api/auth/login`,
+                method: 'post',
+                data: credentials
+            })
+            .then(res => {
+                const token = res.data.key
+                console.log(token)
+                dispatch('saveToken', token)
+                dispatch('fetchCurrentUser')
+                router.push({ name: 'components' })
+            })
+            .catch(err => {
+                console.log(err.response.data)
+                commit('SET_AUTH_ERROR', err.response.data)
+            })
+        },
+
+        fetchCurrentUser({ commit, getters, dispatch }) {
+            if (getters.isLoggedIn) {
+              axios({
+                url: `${state.host}/auth-api/user/${state.userid}`,
+                method: 'get',
+              })
+                .then(res => commit('SET_CURRENT_USER', res.data, console.log(res)))
+                .catch(err => {
+                  if (err.response.status === 401) {
+                    dispatch('removeToken')
+                    router.push({ name: 'login' })
+                  }
+                })
             }
-          })
-      }
+        },
     },
-    // signup({ commit, dispatch }, credentials) {
-    //   console.log(credentials)
-    //   axios({
-    //     url: `${this.$store.state.host}/auth-api/user/therapist`,
-    //     method: 'post',
-    //     data: credentials
-    //   })
-    //     .then(res => {
-    //       console.log(res.data)
-    //       router.push({ name: 'login' })
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //       commit('SET_AUTH_ERROR', err.response.data)
-    //     })
-    // },
-  }
 }
+  
+  export default userStore

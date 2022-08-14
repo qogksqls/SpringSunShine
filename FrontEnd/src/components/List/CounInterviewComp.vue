@@ -9,7 +9,8 @@
       :current-page="currentPage"
       small
       :fields="fields"
-      ><router-link to="/counReview"></router-link>
+      @row-clicked="counReview"
+    >
     </b-table>
     <b-pagination
       v-model="currentPage"
@@ -65,6 +66,11 @@ export default {
   computed: {
     rows() {
       return this.items.length;
+    },
+  },
+  methods: {
+    counReview(item) {
+      this.$router.push({ name: "counReview" });
     },
   },
 };
