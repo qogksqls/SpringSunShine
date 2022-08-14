@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,5 +65,14 @@ public class ChildController {
 	public ChildData getChildData(@PathVariable String child_id){
 		return childService.getChildData(child_id);
 	
+	}
+	
+	/**아동 문진표 surveryFlag 1로 수정  */
+	@PutMapping("/surveyFlag/{child_id}")
+	public String surveyFlag(@PathVariable("child_id") String child_id) {
+		int res = childService.surveyFlag(child_id);
+		if(res==0) return "fail";
+		else return "success";
+		
 	}
 }

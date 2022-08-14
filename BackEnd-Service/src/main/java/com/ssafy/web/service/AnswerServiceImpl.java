@@ -18,6 +18,7 @@ import com.ssafy.web.db.repository.ExpertiseRepository;
 import com.ssafy.web.dto.Answerlist;
 import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.dto.Question;
+import com.ssafy.web.model.response.ChildAnswerResponse;
 import com.ssafy.web.request.AnswerRequest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,23 +45,21 @@ public class AnswerServiceImpl implements AnswerService{
 	
 	@Override
 	public int registAnswer(AnswerRequest answerReq) {
-//		String childName = answerReq.getChild_id();
-//		String parentId = answerReq.getParent_id();
-//		System.out.println(childName+" "+parentId);
-//		String childId = webClient.get().uri("/child/"+parentId +"/"+childName).retrieve().bodyToMono(String.class)
-//				.block();
 		String childId = answerReq.getChild_id();
 		log.debug("문진표 저장 아동 아이디 : "+childId);
 		/*등록하지 않은 아동*/
 		if(childId == null) {
-			log.debug("등록하지않은 아동");
+			log.debug("아동 아이디 없음");
 			return 0; 
 		}
-		/*문진 기록 존재*/
-		if(answerRepo.findAnswerByChildId(childId)!=null) {
-			log.debug("이미 응답한 아동");
-			return 0;
-		}
+		String res = webClient.put().uri("/child/surveyFlag/"+childId).retrieve().bodyToMono(String.class)
+				.block();
+		
+		if(res.equals("fail")) { // 없는 아동 or 이미 응답한 아동
+			log.debug("아동 아이디 오류");
+			return 0; }
+		
+		
 		Answer ans = new Answer();
 		ans.setChildId(childId);
 		//응답문항, 점수 
@@ -87,7 +86,6 @@ public class AnswerServiceImpl implements AnswerService{
 		
 		//점수 합산하여, b_expertise_child 테이블에 데이터 저장 
 		int expNo = registChildExp(childId, score1, score2, score3);
-		if(expNo==0) return 2; // 정상
 		Expertise childE = expertise.findByExpertiseNo(expNo);
 		Expertise exp = new Expertise(); 
 		exp.setExpertiseNo(expNo);
@@ -116,7 +114,7 @@ public class AnswerServiceImpl implements AnswerService{
 		if(score1 > 60) {
 			return 1; // 60점 이상, 자폐증 
 		}
-		if(score1 < 40) return 0; // 정상
+		if(score1 < 40) return 6; // 정상
 		if(age<=3) return 5; //아동기 붕괴성 
 		else if(score1 >=40 && score3 >= 10 && gender.equals("여자")) { // 총합 40점 이상, 21~ 10점이상, 여자아이 
 			return 4;
@@ -127,16 +125,14 @@ public class AnswerServiceImpl implements AnswerService{
 			}
 			else return 3; //전반적 발달장애 
 		}
-		else return 0; //특이사항 없음 컬럼 추가 
+		else return 6; //특이사항 없음 컬럼 추가 
 		
 		
 	}
 
 	@Override
-	public List<Question> getAnswer(String child_id) {
+	public ChildAnswerResponse getAnswer(String child_id) {
 		log.debug("문진표 응답 아동 아이디 : "+child_id);
-		
-		
 		//레디스에 질문 저장되있는가 ? 
 		//레디스에 질문 저장 안되있으면 , 저장해주어야 해 
 		if(redisService.getQuestions().size() == 0) {
@@ -145,6 +141,7 @@ public class AnswerServiceImpl implements AnswerService{
 			redisService.setQuestions();
 		}
 		List<String> questions = redisService.getQuestions();
+		
 		
 		Answer ans = answerRepo.findAnswerByChildId(child_id);
 		StringTokenizer st= new StringTokenizer(ans.getAnswer(),",");
@@ -159,8 +156,14 @@ public class AnswerServiceImpl implements AnswerService{
 			answer.add(q);
 		}
 		
-		return answer;
+		ChildAnswerResponse car = new ChildAnswerResponse();
+		car.setAnswers(answer);
 		
+		BExpertiseChild bexp = childExp.findByChildId(child_id);
+		Expertise bexpchild = bexp.getExpertise();
+		car.setExpertise(bexpchild.getIsKind());
+		
+		return car;
 		
 		
 	}
