@@ -1,29 +1,17 @@
 <template>
   <div id="webCam">
     <div id="join" v-if="!session">
-			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
+			
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
 					</p>
-				</div>
-			</div>
+
 		</div>
 
     <div class="container" v-if="session">
       <div class="wrap_content row col-md-12 p-4">
         <!--상담사 얼굴 들어갈 자리 start-->
-        <div class="col-md-12 counselorFace">
+        <div class="col-md-12 counselorFace" v-if="!playingNow">
           <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
         </div>
         <!--상담사 얼굴 들어갈 자리 end-->
@@ -34,13 +22,13 @@
 
           <!--소리-->
           <div class="iconbtn">
-            <i class="fa fa-volume-up fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-volume-up fa-2x" aria-hidden="true" @click="muteMySound"></i>
           </div>
           <!--카메라-->
-
           <div class="iconbtn">
-            <i class="fa fa-video-camera fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-video-camera fa-2x" aria-hidden="true" @click="openCamera"></i>
           </div>
+
           <!--버튼 누르고 닫으면 학생(본인)얼굴 보였다가 안보였다가~-->
           <base-button
             type="primary"
@@ -54,16 +42,26 @@
               class="fa fa-times fa-2x"
               aria-hidden="true"
               style="color:#fff"
+              @click="leaveSession"
             ></i>
           </div>
           <!--걍 빈공간 제공한거-->
-          <div class="col-md-1"></div>
+          <div class="col-md-1">
+						<button @click="shareScreen">playing game</button>
+					</div>
 
           <!--학생 얼굴 들어갈 자리 start-->
-          <div class="col-md-3 studentFace" v-if="!isFaceShow">
+          <div class="col-md-3 studentFace" v-if="isFaceShow">
           <main-video-comp :mainStreamManager="mainStreamManager"></main-video-comp></div>
           <!--학생 얼굴 들어갈 자리 end-->
         </div>
+				
+				<div id='cardGameDiv' v-if="playingNow">
+
+						<cards-comp></cards-comp>
+
+				</div>
+
       </div>
     </div>
   </div>
@@ -76,46 +74,130 @@ import { OpenVidu } from 'openvidu-browser';
 import MainVideoComp from './MainVideoComp.vue'
 import SubVideoComp from './SubVideoComp.vue'
 
+import CardsComp from '@/components/webRtcComp/CardsComp.vue'
+
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "i7a606.q.ssafy.io:8443" ;
 
-const OPENVIDU_SERVER_SECRET = "A606";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
 
   components: {
 		MainVideoComp,
 		SubVideoComp,
+		CardsComp,
 	},
+	computed: {
+		changePlayingNow () {
+			let playingNow = this.playingNow
+			if (this.$store.state.cardGame.playingNow !== playingNow) {
+				playingNow = this.$store.state.cardGame.playingNow
+			}
+			return playingNow
+		},
 
+		changeEndGame () {
+			let endGame = this.endGame
+			if (this.$store.state.cardGame.endGame !== endGame) {
+				endGame = this.$store.state.cardGame.endGame
+			}
+			return endGame
+		}
+	},
+	watch: {
+		changePlayingNow (val) {
+			this.playingNow = val
+		},
+		changeEndGame (val) {
+			if (!val) return;
+			this.shareScreen()
+			this.$store.state.cardGame.endGame = false
+		}
+	},
   data() {
     return {
-      isFaceShow: false,
+      isFaceShow: true,
 
       OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
+			sessionScreen: undefined,
 
 			mySessionId: 'SessionA',
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
 
 			mute: false,
 			closecamera: false,
-      active: false,
+
+			sharedScreen: false,
+
+			playingNow: false,
+			endGame: false,
     };
   },
   methods: {
+		shareScreen () {
+			if (this.sharedScreen) {
+				this.$store.state.cardGame.playingNow = false
+				this.session.unpublish(this.sessionScreen);
+				this.session.publish(this.publisher);
+			} else {
+				this.$store.state.cardGame.playingNow = true
+
+				this.isFaceShow = false
+				let publisher = this.OV.initPublisher("html-element-id", {
+							audioSource: undefined, // The source of audio. If undefined default microphone // The source of video. If undefined default webcam
+							publishAudio: !this.mute,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: !this.closecamera,  	// Whether you want to start publishing with your video enabled or not
+							resolution: '640x480',  // The resolution of your video
+							frameRate: 30,			// The frame rate of your video
+							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+							mirror: false,       	// Whether to mirror your local video or not 
+              videoSource: "screen" ,
+							//openCard: false,
+            });
+            this.sessionScreen = publisher
+            
+            this.sessionScreen.once('accessAllowed', (event) => {
+                this.sessionScreen.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+                    console.log('User pressed the "Stop sharing" button');
+                  });
+              });
+
+            publisher.once('accessDenied', (event) => {
+                console.warn('ScreenShare: Access Denied');
+            });
+				this.session.unpublish(this.publisher);
+				this.session.publish(this.sessionScreen);
+			}
+			this.sharedScreen = !this.sharedScreen
+		},
     ShowMe: function() {
       this.isFaceShow = !this.isFaceShow;
     },
-
     joinSession () {
+      let tempSessionId = ''
+			let tempUserName = ''
+      this.$store.state.teacher.teacher.name.split('').forEach(element => {
+          tempSessionId += element.charCodeAt(0).toString(16)
+        });
+			this.$store.state.children.children[0].이름.split('').forEach(element => {
+					tempUserName += element.charCodeAt(0).toString(16)
+        });
+      this.mySessionId = 'Session_' + tempSessionId
+
+			this.myUserName = tempUserName
+
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
+      this.sessionScreen = this.OV.initSession();
 
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
@@ -159,7 +241,7 @@ export default {
 					});
 			});
 
-			window.addEventListener('beforeunload', this.leaveSession)
+    window.addEventListener('beforeunload', this.leaveSession)
 		},
 
 		leaveSession () {
@@ -226,33 +308,25 @@ export default {
 			});
 		},
 
-		hoverToolbar () {
-			this.active = true
-		},
-
-		leaveToolbar () {
-			this.active = false
-		},
-
 		muteMySound () {
-			this.publisher.publishAudio(false)
-			this.mute = !this.mute
-		},
-
-		unmuteMySound () {
-			this.publisher.publishAudio(true)
-			this.mute = !this.mute
+			if (this.sharedScreen) {
+				this.sessionScreen.publishAudio(this.mute)
+				this.mute = !this.mute
+			} else {
+				this.publisher.publishAudio(this.mute)
+				this.mute = !this.mute
+			}
 		},
 
 		openCamera () {
-			this.publisher.publishVideo(true)
-			this.closecamera = !this.closecamera
+			if (this.sharedScreen) {
+				this.sessionScreen.publishVideo(this.closecamera)
+				this.closecamera = !this.closecamera
+			} else {
+				this.publisher.publishVideo(this.closecamera)
+				this.closecamera = !this.closecamera
+			}
 		},
-
-		closeCamera () {
-			this.publisher.publishVideo(false)
-			this.closecamera = !this.closecamera
-		},    
   },
 
   
@@ -314,5 +388,19 @@ button {
 .fa {
   padding: 4px;
   color: rgb(255, 255, 255);
+}
+
+#cardGameDiv {
+	position: absolute;
+	width: 100%;
+	height: 80%;
+	bottom: 40%;
+}
+
+#cardGameInnerDiv {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #dcdcdc;
 }
 </style>

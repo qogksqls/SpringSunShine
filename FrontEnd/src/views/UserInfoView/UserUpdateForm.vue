@@ -32,7 +32,6 @@
                   <label for="name" class="col col-sm-4 mt-2">이름</label>
                   <input
                     type="text"
-                    placeholder="이름을 적어주세요"
                     class="col-sm-6  form-control"
                     id="name"
                     v-model="name"
@@ -48,7 +47,6 @@
                     type="text"
                     class="col-sm-6  form-control"
                     id="id"
-                    placeholder="아이디를 적어주세요"
                     v-model="id"
                     disabled
                   />
@@ -153,13 +151,13 @@
                 <!--회원가입 폼 학력 end-->
               </div>
               <div v-if="$route.params.isTherapist" class="mt-2 text-center">
-                <base-button type="primary" class="py-1" @click="signinTeacher"
-                  >상담사 회원가입</base-button
+                <base-button type="primary" class="py-1" @click="modifyTeacher"
+                  >상담사 정보수정</base-button
                 >
               </div>
               <div v-else class="mt-2 text-center">
-                <base-button type="primary" class="py-1" @click="signinParent"
-                  >보호자 회원가입</base-button
+                <base-button type="primary" class="py-1" @click="modifyParent"
+                  >보호자 정보수정</base-button
                 >
               </div>
             </template>
@@ -286,7 +284,10 @@ export default {
       this.careers = inputDatas.careers;
       this.licences = inputDatas.licences;
     },
+    modifyTeacher() {},
+    modifyParent() {},
   },
+  created() {},
 };
 </script>
 
