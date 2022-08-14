@@ -64,22 +64,19 @@ import survey from "./survey.json";
 import axios from 'axios'
 
 const data = survey;
-const answer = [];
-// for (let index = 0; index < survey.length; index++) {
-//   answer.push([])
-// }
 
 export default {
   data() {
     return {
       data,
-      answer,
-      result: [0, 0, 0]
+      answer: [],
+      // result: [0, 0, 0]
     };
   },
   methods: {
     onSubmit() {
-      if (answer.length === 23) {
+      const newAnswer = this.answer.filter((x, i) => x != null)
+      if (newAnswer.length === 23) {
         // for (let i = 0; i < 23; i++) {
         //   if (i < 13) {
         //     result[0] += Number(this.answer[i][2]);
@@ -104,9 +101,7 @@ export default {
           .catch(err => {
             console.log(err.response)
           })
-
-        this.$router.push({ name: "children", params: { answer } });
-
+        this.$router.push({ name: "children" });
       } else {
         alert("작성 안된 항목이 있습니다.");
       }
@@ -114,7 +109,6 @@ export default {
   },
   created() {
     console.log(this.$route.params.childId)
-    this.answer = []
   }
 };
 </script>

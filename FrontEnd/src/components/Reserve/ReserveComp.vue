@@ -10,7 +10,7 @@
             <!--상담사 스케쥴 -->
             <h3>
               <div class="top_naming text-left mb-5">
-                <b>{{ teacher.name }} 교사님의 스케줄</b>
+                <b>{{ counselorInfo.name }} 상담사의 스케줄</b>
               </div>
             </h3>
             <!--본문 시작-->
@@ -77,13 +77,10 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="문진표유무" class="mt-3">
+                <div class="mt-3">
                   <div v-if="hour !== '몇'">
-                    <ReserveConfirm />
+                    <ReserveConfirm :result="result" />
                   </div>
-                </div>
-                <div v-else>
-                  <GoToSurvey />
                 </div>
               </div>
             </div>
@@ -95,14 +92,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 import ReserveConfirm from "./ReserveConform.vue";
-import GoToSurvey from "./GoToSurvey.vue";
 import flatPicker from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 //import "flatpickr/dist/themes/confetti.css";
 import { Korean } from "flatpickr/dist/l10n/ko.js";
+
+import axios from 'axios'
 
 var today = new Date();
 var year = today.getFullYear();
@@ -114,73 +110,77 @@ export default {
   components: {
     flatPicker,
     ReserveConfirm,
-    GoToSurvey,
   },
   data() {
     return {
+      childInfo: this.$route.params.childInfo,
+      counselorInfo: this.$route.params.counselorInfo,
+
+      reserveTimes: {},
       date: dateString,
-      now: [],
       times: [9, 10, 11, 13, 14, 15, 16, 17],
       possibleTimes: [],
       impossibleTimes: [],
-
       hour: "몇",
-      value: dateString,
-      context: null,
-      showDecadeNav: false,
-      hideHeader: true,
-
-      isCompleteSurvey: "",
-      문진표유무: "",
+      
+      result: ''
     };
   },
-  computed: {
-    ...mapState({
-      teacher: (state) => state.teacher.teacher,
-      children: (state) => state.children.children,
-    }),
-    asdf() {
-      return this.possibleTimes;
-    },
-  },
   created() {
-    if (this.$route.params) {
-      console.log(this.$route.params)
-    }
+    console.log(this.$route.params)
+    console.log('예약하기 페이지')
+    console.log(this.counselorInfo.thera_id)
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/reserv-therapist/${this.counselorInfo.thera_id}`,
+      method: 'get'
+    })
+      .then(res => {
+        console.log(res.data)
+        for (let i = 0; i < res.data.length; i++) {
+          const date = res.data[i]["reservTime"].slice(0, 10)
+          const hour = Number(res.data[i]["reservTime"].slice(11, 13)) + 9
+          if (date in this.reserveTimes) {
+            this.reserveTimes[date].push(hour)
+          } else {
+            this.reserveTimes[date] = [hour]
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
   },
   methods: {
     dateSelected() {
       console.log(this.date);
-      let impossibleTimes = [];
-      this.value = this.date;
-      this.month = this.value.slice(5, 7);
-      this.day = this.value.slice(8, 10);
-      if (this.teacher.reserveTime[this.value]) {
-        impossibleTimes = this.teacher.reserveTime[this.value];
-      }
-      this.possibleTimes = [];
-      for (const time of this.times) {
-        let check = 1;
-        for (let i = 0; i < impossibleTimes.length; i++) {
-          if (impossibleTimes[i] === time) {
-            check = 0;
-            break;
+      this.possibleTimes = []
+      if (this.date in this.reserveTimes) {
+        for (const time of this.times) {
+          let check = 1;
+          for (let i = 0; i < this.reserveTimes[this.date].length; i++) {
+            if (this.reserveTimes[this.date][i] === time) {
+              check = 0;
+              break;
+            }
+          }
+          if (check) {
+            this.possibleTimes.push([time, 1]);
+          } else {
+            this.possibleTimes.push([time, 0]);
           }
         }
-        if (check) {
-          this.possibleTimes.push([time, 1]);
-        } else {
-          this.possibleTimes.push([time, 0]);
-        }
+      } else {
+        this.possibleTimes = [[9, 1], [10, 1], [11, 1], [13, 1], [14, 1], [15, 1], [16, 1], [17, 1]]
       }
       this.hour = "몇";
-      return this.possibleTimes;
     },
     impossibleButton() {
       alert("이미 예약된 시간입니다. 다른 시간을 선택해 주세요.");
     },
     possibleButton(t) {
-      this.hour = t;
+      // "2022-09-04T04:30:00.000+00:00"
+      this.hour = t-9;
+      this.result = `${this.date}T0${this.hour}:30:00.000+00:00`
     },
   },
 };
