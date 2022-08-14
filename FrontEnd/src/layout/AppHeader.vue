@@ -20,7 +20,7 @@
       </div>
 
       <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-lg-auto">
-        <base-dropdown tag="li" class="nav-item">
+        <base-dropdown tag="li" class="nav-item" v-if="isLoggedIn">
           <a
             slot="title"
             href="#"
@@ -41,7 +41,7 @@
             >혼자놀기</router-link
           >
         </base-dropdown>
-        <base-dropdown tag="li" class="nav-item">
+        <base-dropdown tag="li" class="nav-item" v-if="isLoggedIn">
           <a
             slot="title"
             href="#"
@@ -55,15 +55,17 @@
           <router-link to="/children" class="dropdown-item"
             >자녀관리</router-link
           >
-          <router-link to="/update" class="dropdown-item">내프로필</router-link>
-          <router-link to="/" class="dropdown-item">로그아웃</router-link>
+          <router-link to="/profile" class="dropdown-item"
+            >내프로필</router-link
+          >
+          <!-- <router-link to="/register" class="dropdown-item"
+            >회원가입</router-link
+          > -->
         </base-dropdown>
 
         <!--전문가는 해당 페이지만 보게함-->
-        <li class="nav-link">
-          <router-link
-            to="/counSchedule"
-            class="nav-link-inner--text navbar p-0"
+        <li class="nav-link" v-if="isLoggedIn">
+          <router-link to="/" class="nav-link-inner--text navbar p-0"
             ><b>예약관리</b></router-link
           >
         </li>
@@ -76,9 +78,14 @@
             ><b>상담사보기</b></router-link
           >
         </li>
-        <li class="nav-link">
+        <li class="nav-link" v-if="!isLoggedIn">
           <router-link to="/login" class="nav-link-inner--text navbar p-0"
             ><b>로그인</b></router-link
+          >
+        </li>
+        <li class="nav-link" v-else>
+          <a class="nav-link-inner--text navbar p-0" style="cursor:pointer;" @click="logout()"
+            ><b>로그아웃</b></a
           >
         </li>
       </ul>
@@ -89,6 +96,7 @@
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
+import { mapGetters, mapActions } from "vuex"
 
 export default {
   components: {
@@ -96,6 +104,12 @@ export default {
     CloseButton,
     BaseDropdown,
   },
+  computed: {
+    ...mapGetters(["isLoggedIn"])
+  },
+  methods: {
+    ...mapActions(['logout'])
+  }
 };
 </script>
 <style>
