@@ -24,7 +24,7 @@
       <div class="wrap_content row col-md-12 p-4">
         <!--상담사 얼굴 들어갈 자리 start-->
         <div class="col-md-12 counselorFace" v-if="!playingNow">
-          <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
+          <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]" :key="sub.stream.connection.connectionId"></sub-video-comp>
         </div>
         <!--상담사 얼굴 들어갈 자리 end-->
         <div
