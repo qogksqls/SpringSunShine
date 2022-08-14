@@ -11,7 +11,7 @@
             <upper />
 
             <div class="mt-5 py-5 border-top text-center">
-              <showTab />
+              <showTab :counselors="counselors" />
             </div>
             <circle />
           </div>
@@ -24,8 +24,43 @@
 import upper from "../../components/RecommendComp/CounselorUpper.vue";
 import showTab from "../../components/RecommendComp/CounselorTab.vue";
 import circle from "../../components/RecommendComp/CircleProfile.vue";
+import axios from 'axios'
+
 export default {
   components: { upper, showTab, circle },
+  data() {
+    return {
+      counselors: []
+    }
+  },
+  created() {
+    if (this.$route.params.childId) {
+      console.log(this.$route.params.childId)
+      axios({
+        url: `https://i7a606.q.ssafy.io/service-api/therapist/recommend/child/${this.$route.params.childId}`,
+        method: 'get',
+      })
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    } else {
+      console.log("전체 상담사")
+      axios({
+        url: `https://i7a606.q.ssafy.io/service-api/therapist/recommend/all`,
+        method: 'get',
+      })
+        .then(res => {
+          console.log(res.data)
+          this.counselors = res.data
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    }
+  }
 };
 </script>
 <style scoped>

@@ -204,14 +204,14 @@ export default {
       address: "",
       thera_intro: "",
       profile_url: "",
-      expertises: [],
+      expertise: [],
       academicCareers: [],
       careers: [],
       licences: [],
 
       checkid: false,
 
-      checkEmail: false,
+      checkEmail: true,
       emailCode1: '',
       emailCode2: ''
     };
@@ -253,15 +253,15 @@ export default {
     counselor_data(inputDatas) {
       // console.log(inputDatas)
       this.profile_url = inputDatas.profile_url;
-      this.expertises = inputDatas.expertise_no;
+      this.expertise = inputDatas.expertise_no;
       this.academicCareers = inputDatas.academicCareers;
       this.careers = inputDatas.careers;
       this.licences = inputDatas.licences;
       this.thera_intro = inputDatas.thera_intro
       // console.log(this.profile_url)
-      // console.log(this.expertise)
+      console.log(this.expertise)
       // console.log(this.academicCareers)
-      // console.log(this.careers)
+      console.log(this.careers)
       // console.log(this.licences)
       // console.log(this.thera_intro)
     },
@@ -288,7 +288,7 @@ export default {
             phone: this.phone,
             address: this.address,
             profile_url: this.profile_url,
-            expertises: this.expertises,
+            expertise: this.expertise,
             academicCareers: this.academicCareers,
             careers: this.careers,
             licences: this.licences,

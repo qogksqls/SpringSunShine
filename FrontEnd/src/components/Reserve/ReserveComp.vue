@@ -146,7 +146,9 @@ export default {
     },
   },
   created() {
-    this.문진표유무 = this.children[1]["문진표"];
+    if (this.$route.params) {
+      console.log(this.$route.params)
+    }
   },
   methods: {
     dateSelected() {

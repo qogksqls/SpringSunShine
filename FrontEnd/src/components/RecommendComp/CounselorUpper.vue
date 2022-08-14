@@ -9,7 +9,6 @@
     </h3>
     <div class="row justify-content-center mt-4 text-center">
       <!--몇개 들어갈지 안정함 -> 전문가 수에 따라 달라지게 할듯?-->
-
       <!--전문가 한명-->
       <circleProfile />
       <circleProfile />
@@ -24,9 +23,6 @@ import circleProfile from "./CircleProfile.vue";
 
 export default {
   components: { circleProfile },
-  data() {
-    return {};
-  },
 };
 </script>
 
