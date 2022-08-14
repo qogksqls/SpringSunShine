@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ssafy.web.dto.ChildData;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.ChildRegisterRequest;
 
@@ -27,5 +28,9 @@ public interface ChildService {
 
 	//아동 문진표 등록 flag update
 	int surveyFlag(String child_id);
+	
+	// 상담사 -> 예약한 아동 정보 조회
+	ChildReservResponse getChildInfo(String childId);
+
 }
 

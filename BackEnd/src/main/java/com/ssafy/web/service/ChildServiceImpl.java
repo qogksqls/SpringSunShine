@@ -19,6 +19,7 @@ import com.ssafy.web.db.repository.ChildRepository;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.dto.ChildData;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.ChildRegisterRequest;
 
@@ -126,7 +127,23 @@ public class ChildServiceImpl implements ChildService {
 		
 	}
 	
-	
+	/** 상담사 -> 예약한 아동 정보 조회 */
+	@Override
+	public ChildReservResponse getChildInfo(String childId) {
+		Child child = childRepository.findByChildId(childId);
+		ChildReservResponse childInfo = new ChildReservResponse();
+		
+		childInfo.setChildId(childId);
+		childInfo.setName(child.getName());
+		childInfo.setBirth(child.getBirth());
+		childInfo.setGender(child.getGender());
+		childInfo.setProfileUrl(child.getProfileUrl());
+		childInfo.setSurveyFlag(child.getSurveyFlag());
+		childInfo.setParentName(child.getParent().getName());
+
+		return childInfo;
+	}
+
 	
 
 }
