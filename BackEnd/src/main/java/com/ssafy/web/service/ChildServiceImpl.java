@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.web.RandomUserId;
 import com.ssafy.web.db.entity.Child;
@@ -111,6 +112,18 @@ public class ChildServiceImpl implements ChildService {
 		
 		return data;
 	
+	}
+
+	@Override
+	@Transactional
+	public int surveyFlag(String child_id) {
+		Child child = childRepository.findByChildId(child_id);
+		if(child==null) return 0;
+		int flag= child.getSurveyFlag();
+		if(flag == 1) return 0; //이미 응답한 아동 
+		
+		child.update(1); return 1;
+		
 	}
 	
 	

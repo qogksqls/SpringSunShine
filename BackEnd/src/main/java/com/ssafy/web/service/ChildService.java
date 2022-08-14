@@ -24,5 +24,8 @@ public interface ChildService {
 
 	//아동 나이, 성별 반환 
 	ChildData getChildData(String child_id);
+
+	//아동 문진표 등록 flag update
+	int surveyFlag(String child_id);
 }
 
