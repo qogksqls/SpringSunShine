@@ -95,17 +95,17 @@
           >
           <!--             @click="ShowMe" -->
           <!--소리-->
-          <div class="iconbtn">
+          <div :class="[color ? 'on' : 'off']">
             <i
-              class="fa fa-volume-up fa-2x"
+              class="bx bx-volume-full bx-tada-hover bx-md bx-border-circle"
               aria-hidden="true"
               @click="muteMySound"
             ></i>
           </div>
           <!--카메라-->
-          <div class="iconbtn">
+          <div :class="[color ? 'on' : 'off']">
             <i
-              class="fa fa-video-camera fa-2x"
+              class="bx bxs-video-off bx-tada-hover bx-md bx-border-circle"
               aria-hidden="true"
               @click="openCamera"
             ></i>
@@ -113,7 +113,7 @@
           <!--닫기-->
           <div class="iconbtn2">
             <i
-              class="fa fa-times fa-2x"
+              class="bx bx-exit bx-lg bx-tada-hover bx-md bx-border-circle"
               aria-hidden="true"
               style="color:#fff"
               @click="leaveSession"
@@ -184,6 +184,8 @@ export default {
 
       mute: false,
       closecamera: false,
+
+      color: "on",
     };
   },
   // watch: {
@@ -352,11 +354,17 @@ export default {
     muteMySound() {
       this.publisher.publishAudio(this.mute);
       this.mute = !this.mute;
+      if (this.color === "on") {
+        this.color = "off";
+      } else if (this.color === "off") {
+        this.color = "on";
+      }
     },
 
     openCamera() {
       this.publisher.publishVideo(this.closecamera);
       this.closecamera = !this.closecamera;
+      this.color = !this.color;
     },
   },
 };
@@ -426,22 +434,40 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 15px;
   width: 200px;
 }
-.iconbtn {
-  text-align: center;
-  width: 80px;
-  border: 2px solid rgb(255, 255, 255);
-  background-color: #bcbcbc;
-  border-radius: 50px;
-  margin: 0 5px;
-}
 .iconbtn2 {
   text-align: center;
-  width: 80px;
   border: 2px solid rgb(255, 255, 255);
   background-color: brown;
   border-radius: 50px;
   margin: 0 5px;
+  cursor: pointer;
 }
+#iconbtn {
+  text-align: center;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 50px;
+  margin: 0 5px;
+  cursor: pointer;
+  background: brown;
+}
+.on {
+  text-align: center;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 50px;
+  margin: 0 5px;
+  cursor: pointer;
+  background: #dcdcdc;
+}
+.off {
+  text-align: center;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 50px;
+  margin: 0 5px;
+  cursor: pointer;
+  background: brown;
+  content: "\00d7";
+}
+
 .fa {
   padding: 4px;
   color: rgb(255, 255, 255);
