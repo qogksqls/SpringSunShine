@@ -206,7 +206,7 @@ export default {
   methods: {
     checkId() {
       this.$axios
-        .get(`${this.$store.state.host}/auth-api/user/checkid/${this.id}`)
+        .get(`${this.$store.state.host}/service-api/user/checkid/${this.id}`)
         .then((res) => {
           if (res.data === "success") {
             alert("사용 가능한 아이디입니다.")
@@ -221,7 +221,7 @@ export default {
     getEmailCode() {
       console.log("이메일 인증")
       this.$axios
-        .post(`${this.$store.state.host}/auth-api/mail`, {
+        .post(`${this.$store.state.host}/service-api/mail`, {
           email: this.email
         })
         .then((res) => {
@@ -246,14 +246,15 @@ export default {
       this.licences = inputDatas.licences;
       this.thera_intro = inputDatas.thera_intro
       // console.log(this.profile_url)
-      console.log(this.expertise)
+      // console.log(this.expertise)
       // console.log(this.academicCareers)
-      console.log(this.careers)
+      // console.log(this.careers)
       // console.log(this.licences)
       // console.log(this.thera_intro)
     },
     signinTeacher() {
       console.log("상담사 회원가입");
+      console.log(`${this.$store.state.host}/service-api/user/therapist`)
       if (
         this.id &&
         this.password1 &&
@@ -264,7 +265,7 @@ export default {
         this.email
       ) {
         this.$axios
-          .post(`${this.$store.state.host}/auth-api/user/therapist`, {
+          .post('https://i7a606.q.ssafy.io/service-api/user/therapist', {
             id: this.id,
             password: this.password1,
             name: this.name,
@@ -312,7 +313,7 @@ export default {
         this.email
       ) {
         this.$axios
-          .post(`${this.$store.state.host}/auth-api/user/parent`, {
+          .post(`${this.$store.state.host}/service-api/user/parent`, {
             id: this.id,
             password: this.password1,
             name: this.name,

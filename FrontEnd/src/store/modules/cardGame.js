@@ -3,6 +3,9 @@ import _ from 'lodash'
 export default {
   state: {
 
+  playingNow: false,
+  endGame: false,
+
   cardsName: [
     '사자',
     '호랑이',
