@@ -3,6 +3,7 @@ package com.ssafy.web.service;
 import java.util.List;
 
 import com.ssafy.web.dto.Question;
+import com.ssafy.web.model.response.ChildAnswerResponse;
 import com.ssafy.web.request.AnswerRequest;
 
 public interface AnswerService {
@@ -10,7 +11,7 @@ public interface AnswerService {
 	int registAnswer(AnswerRequest answerReq);
 
 	//아동의 응답 및 질문 불러오기
-	List<Question> getAnswer(String child_id);
+	ChildAnswerResponse getAnswer(String child_id);
 
 
 }

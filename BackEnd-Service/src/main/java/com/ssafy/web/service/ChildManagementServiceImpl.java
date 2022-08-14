@@ -7,6 +7,7 @@ import org.springframework.cglib.core.Block;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.ChildRegisterRequest;
 
@@ -33,6 +34,15 @@ public class ChildManagementServiceImpl implements ChildManagementService {
 
 		webClient.post().uri("/child/register").bodyValue(childInfo).retrieve().bodyToMono(String.class).block();
 
+	}
+
+	/** 상담사 -> 예약한 아동 정보 조회 */
+	@Override
+	public ChildReservResponse getChildInfo(String childId) {
+		ChildReservResponse childInfo = webClient.get().uri("/child/reserv-therapist-child/" + childId).retrieve()
+				.bodyToMono(ChildReservResponse.class).block();
+
+		return childInfo;
 	}
 
 }

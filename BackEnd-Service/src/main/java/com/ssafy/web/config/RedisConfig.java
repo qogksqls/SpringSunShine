@@ -40,7 +40,8 @@ public class RedisConfig {
 			
 		return redisTemplate;
 	}
-
+	
+	@SuppressWarnings("deprecation")
 	@Bean
     public CacheManager cacheManager() {
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory());

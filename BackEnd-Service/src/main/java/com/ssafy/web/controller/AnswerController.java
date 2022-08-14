@@ -40,18 +40,13 @@ public class AnswerController {
 		if(res==1) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);			
 		}
-		if(res==2) {
-			return new ResponseEntity<String>("정상아동", HttpStatus.OK);
-		}
 		return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 	
 	//아동의 문진표 응답 불러오기 
 	@GetMapping("/getAnswer/{child_id}")
 	public ResponseEntity<?> getAnswer(@PathVariable("child_id") String child_id){
-		List<Question> childAns = answerService.getAnswer(child_id);
-		ChildAnswerResponse car = new ChildAnswerResponse();
-		car.setAnswers(childAns);
+		ChildAnswerResponse car = answerService.getAnswer(child_id);
 		return new ResponseEntity<ChildAnswerResponse>(car, HttpStatus.OK);
 	}
 	

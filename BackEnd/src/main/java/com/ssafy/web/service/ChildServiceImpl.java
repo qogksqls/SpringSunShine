@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.web.RandomUserId;
 import com.ssafy.web.db.entity.Child;
@@ -18,6 +19,7 @@ import com.ssafy.web.db.repository.ChildRepository;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.dto.ChildData;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.ChildRegisterRequest;
 
@@ -112,8 +114,37 @@ public class ChildServiceImpl implements ChildService {
 		return data;
 	
 	}
+
+	@Override
+	@Transactional
+	public int surveyFlag(String child_id) {
+		Child child = childRepository.findByChildId(child_id);
+		if(child==null) return 0;
+		int flag= child.getSurveyFlag();
+		if(flag == 1) return 0; //이미 응답한 아동 
+		
+		child.update(1); return 1;
+		
+	}
 	
-	
+	/** 상담사 -> 예약한 아동 정보 조회 */
+	@Override
+	public ChildReservResponse getChildInfo(String childId) {
+		Child child = childRepository.findByChildId(childId);
+		ChildReservResponse childInfo = new ChildReservResponse();
+		
+		System.out.println("예약한 아동 정보 조회");
+		childInfo.setChildId(childId);
+		childInfo.setName(child.getName());
+		childInfo.setBirth(child.getBirth());
+		childInfo.setGender(child.getGender());
+		childInfo.setProfileUrl(child.getProfileUrl());
+		childInfo.setSurveyFlag(child.getSurveyFlag());
+		childInfo.setParentName(child.getParent().getName());
+
+		return childInfo;
+	}
+
 	
 
 }

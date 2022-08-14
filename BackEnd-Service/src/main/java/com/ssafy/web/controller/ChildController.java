@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.ChildRegisterRequest;
 import com.ssafy.web.service.ChildManagementService;
@@ -20,20 +21,20 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(value = "아동 관리 API", tags = {"Child"})
+@Api(value = "아동 관리 API", tags = { "Child" })
 @RequestMapping("/child")
 public class ChildController {
-	
+
 	@Autowired
 	ChildManagementService childManagementService;
-	
+
 	/** 아동 목록 조회 */
 	@GetMapping("/{parent_id}")
 	@ApiOperation(value = "아동 목록 조회")
-	public List<ChildResponse> getChildList(@PathVariable(value = "parent_id") String parentId){
+	public List<ChildResponse> getChildList(@PathVariable(value = "parent_id") String parentId) {
 		return childManagementService.getChildList(parentId);
 	}
-	
+
 	/** 아동 등록 */
 	@PostMapping("/register")
 	@ApiOperation(value = "아동 등록")
@@ -42,6 +43,12 @@ public class ChildController {
 		System.out.println("아동 등록 service-api");
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 
+	}
+
+	/** 상담사 -> 예약한 아동 정보 조회 */
+	@GetMapping("/reserv-therapist/{child_id}")
+	public ChildReservResponse getChildInfo(@PathVariable("child_id") String childId) {
+		return childManagementService.getChildInfo(childId);
 	}
 
 }
