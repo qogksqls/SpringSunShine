@@ -46,8 +46,8 @@ public class ChildController {
 	}
 
 	/** 상담사 -> 예약한 아동 정보 조회 */
-	@GetMapping("/reserv-therapist-child/{child_id}")
-	public ChildReservResponse getChildInfo(@PathVariable String childId) {
+	@GetMapping("/reserv-therapist/{child_id}")
+	public ChildReservResponse getChildInfo(@PathVariable("child_id") String childId) {
 		return childManagementService.getChildInfo(childId);
 	}
 

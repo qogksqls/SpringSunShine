@@ -133,6 +133,7 @@ public class ChildServiceImpl implements ChildService {
 		Child child = childRepository.findByChildId(childId);
 		ChildReservResponse childInfo = new ChildReservResponse();
 		
+		System.out.println("예약한 아동 정보 조회");
 		childInfo.setChildId(childId);
 		childInfo.setName(child.getName());
 		childInfo.setBirth(child.getBirth());
