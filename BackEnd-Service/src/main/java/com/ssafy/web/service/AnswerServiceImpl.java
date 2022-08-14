@@ -52,13 +52,17 @@ public class AnswerServiceImpl implements AnswerService{
 		String childId = answerReq.getChild_id();
 		log.debug("문진표 저장 아동 아이디 : "+childId);
 		/*등록하지 않은 아동*/
-		if(childId == null) return 0; 
+		if(childId == null) {
+			log.debug("등록하지않은 아동");
+			return 0; 
+		}
 		/*문진 기록 존재*/
-		if(answerRepo.findAnswerByChildId(childId)!=null) return 0;
-		
+		if(answerRepo.findAnswerByChildId(childId)!=null) {
+			log.debug("이미 응답한 아동");
+			return 0;
+		}
 		Answer ans = new Answer();
 		ans.setChildId(childId);
-		
 		//응답문항, 점수 
 		List<Answerlist> ansLis = answerReq.getAnswer();
 		String str="";
@@ -83,6 +87,7 @@ public class AnswerServiceImpl implements AnswerService{
 		
 		//점수 합산하여, b_expertise_child 테이블에 데이터 저장 
 		int expNo = registChildExp(childId, score1, score2, score3);
+		if(expNo==0) return 2; // 정상
 		Expertise childE = expertise.findByExpertiseNo(expNo);
 		Expertise exp = new Expertise(); 
 		exp.setExpertiseNo(expNo);
@@ -103,15 +108,17 @@ public class AnswerServiceImpl implements AnswerService{
 	private int registChildExp(String childId, int score1, int score2, int score3) {
 		ChildData res = webClient.get().uri("/child/getchild/"+childId).retrieve().bodyToMono(ChildData.class)
 				.block();
+		System.out.println(res);
 		int age= res.getAge(); // 아이 나이 
-		int gender=  res.getGender(); // 아이 성별 
+		String gender=  res.getGender(); // 아이 성별 
 		System.out.println("나이 : "+age+" , 성별 :"+gender);
 		//치료사 추천을 위한 점수 로직 
 		if(score1 > 60) {
 			return 1; // 60점 이상, 자폐증 
 		}
+		if(score1 < 40) return 0; // 정상
 		if(age<=3) return 5; //아동기 붕괴성 
-		else if(score1 >=40 && score3 >= 10 && gender == 2) { // 총합 40점 이상, 21~ 10점이상, 여자아이 
+		else if(score1 >=40 && score3 >= 10 && gender.equals("여자")) { // 총합 40점 이상, 21~ 10점이상, 여자아이 
 			return 4;
 		}
 		else if(score1 >=40 &&  score1<=60) { //40점 이상 60점 이하 
@@ -120,7 +127,7 @@ public class AnswerServiceImpl implements AnswerService{
 			}
 			else return 3; //전반적 발달장애 
 		}
-		else return 3; //특이사항 없음 컬럼 추가 
+		else return 0; //특이사항 없음 컬럼 추가 
 		
 		
 	}
