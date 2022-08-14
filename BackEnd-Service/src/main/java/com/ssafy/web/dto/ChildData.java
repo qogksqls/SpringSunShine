@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class ChildData {
 	int age;
-	int gender;
+	String gender;
 }

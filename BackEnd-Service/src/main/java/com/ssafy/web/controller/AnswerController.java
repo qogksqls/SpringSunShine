@@ -40,6 +40,9 @@ public class AnswerController {
 		if(res==1) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);			
 		}
+		if(res==2) {
+			return new ResponseEntity<String>("정상아동", HttpStatus.OK);
+		}
 		return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 	
