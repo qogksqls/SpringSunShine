@@ -19,18 +19,20 @@ public interface TheraRepository extends JpaRepository<Therapist, Integer> {
 	@Nullable
 	Therapist findByUser(User user);
 	
-    @Query(value = "select "
-            + "new com.ssafy.web.model.response.RecommendTherapistResponse"
-            + "(t.user.userId as thera_id, t.name as name, t.email as email, t.profileUrl as profile_url, t.theraIntro as thera_intro) "
-            + "from Therapist t "
-            + "where t.user.userId in :thera_id")
-    List<RecommendTherapistResponse> findByUser_UserIdIn(@Param(value = "thera_id") String[] thera_id);
+//    @Query(value = "select "
+//            + "new com.ssafy.web.model.response.RecommendTherapistResponse"
+//            + "(t.user.userId as thera_id, t.name as name, t.email as email, t.profileUrl as profile_url, t.theraIntro as thera_intro) "
+//            + "from Therapist t "
+//            + "where t.user.userId in :thera_id")
+//    List<RecommendTherapistResponse> findByUser_UserIdIn(@Param(value = "thera_id") String[] thera_id);
 
-    @Query(value = "select "
-    		+ "new com.ssafy.web.model.response.RecommendTherapistResponse"
-    		+ "(t.user.userId as thera_id, t.name as name, t.email as email, t.profileUrl as profile_url, t.theraIntro as thera_intro) "
-    		+ "from Therapist t ")
-    List<RecommendTherapistResponse> findAlljpql();
+//    @Query(value = "select "
+//    		+ "new com.ssafy.web.model.response.RecommendTherapistResponse"
+//    		+ "(t.user.userId as thera_id, t.name as name, t.email as email, t.profileUrl as profile_url, t.theraIntro as thera_intro) "
+//    		+ "from Therapist t ")
+//    List<RecommendTherapistResponse> findAlljpql();
 
+    List<Therapist> findByUser_UserIdIn(String[] thera_id);
+    List<Therapist> findAll();
     
 }

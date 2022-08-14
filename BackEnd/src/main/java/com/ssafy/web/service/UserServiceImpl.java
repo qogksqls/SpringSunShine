@@ -58,7 +58,11 @@ public class UserServiceImpl implements UserService {
 		thera.setEmail(theraInfo.getEmail());
 		thera.setPhone(theraInfo.getPhone());
 		thera.setAddress(theraInfo.getAddress());
-		thera.setProfileUrl(theraInfo.getProfile_url());
+		if(theraInfo.getThera_intro().isEmpty()) {
+			thera.setTheraIntro(null);
+		}else {
+			thera.setProfileUrl(theraInfo.getProfile_url());
+		}
 		if(theraInfo.getThera_intro().isEmpty()) {
 			thera.setTheraIntro(null);
 		}else {
