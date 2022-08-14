@@ -1,19 +1,26 @@
 package com.ssafy.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-import com.ssafy.web.jwt.JwtAuthenticationFilter;
+import com.ssafy.web.db.repository.UserRepository;
+import com.ssafy.web.jwt.JwtAuthorizationFilter;
 import com.ssafy.web.jwt.SssUserDetailService;
 import com.ssafy.web.service.AuthService;
 @Configuration
@@ -25,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private SssUserDetailService sssUserDetailService;
 	
 	@Autowired
-	private AuthService authService;
+	private UserRepository userRepo;
 	 
 	
 	@Bean
@@ -48,14 +55,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception{
 		 http.httpBasic().disable()
-		 .csrf().disable() // 세션 사용하지 않고 jwt 토큰 사용함 
-		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용 X 
+		 .formLogin().disable()
+		 .csrf().disable()
+		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		 .and()
-		 .addFilter(new JwtAuthenticationFilter(authenticationManager(), authService))
-		 .authorizeRequests() // 인증절차에 대한 설정 시작 
-		 .antMatchers("/server/**").authenticated() // 특정 url 에 대하여 인증이 완료되어야 api 사용 가능
-		 .anyRequest().permitAll().and().cors();
+		 .addFilter(corsFilter());		 
+//		 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepo)).authorizeRequests() // 인증절차에 대한 설정 시작 
+//		 .antMatchers("/auth/login","/user/therapist" , "/user/parent" ).permitAll() // 로그인, 회원가입은 누구나 접근 가능 
+//		 .anyRequest().authenticated();
+//		 .anyRequest().permitAll();
 	    }
-	 
+
+		@Bean
+		public CorsFilter corsFilter() {
+			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+			CorsConfiguration configuration = new CorsConfiguration();
+			configuration.addAllowedOriginPattern("*");
+	        configuration.addAllowedMethod("*");
+	        configuration.addAllowedHeader("*");
+	        configuration.addExposedHeader("*");
+	        configuration.setAllowCredentials(true);
+	        configuration.setMaxAge(3600L);
+	        source.registerCorsConfiguration("/**", configuration);
+	        return new CorsFilter(source);
+
+		}
+//		
+//		// 다른 곳에서 AuthenticationManager 를 사용하기 위한 bean 등록 
+//		@Bean
+//		public void configure(WebSecurity web) throws Exception{
+//			web.ignoring()
+//			.requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//		}
 
 }

@@ -12,7 +12,7 @@
             <div class="col-lg-12 row mb-2">
               <h3 class="col-lg-10">
                 <div class="text-muted text-left mb-3">
-                  <b style="color:#8898aa;">상담받을 아이를 선택하세요</b>
+                  <b style="color:#8898aa;">자녀관리</b>
                 </div>
               </h3>
 
@@ -38,27 +38,20 @@
               >
                 <div class="child py-3">
                   <h4 class="col col-md-12">
-                    <p>이름: <nbsp></nbsp>{{ child[0] }}</p>
-                    <p>생년월일: {{ child[1] }}</p>
-                    <p v-if="child[2] === 'male'">
-                      성별: 남자
-                    </p>
-                    <p v-else>성별: 여자</p>
-                    <input type="file" />
+                    <!-- <p>{{child["profileUrl"].slice(5, child["profileUrl"].length)}}</p> -->
+                    <p>이름: <nbsp></nbsp>{{ child["name"] }}</p>
+                    <p>생년월일: {{ child["birth"].slice(0, 10) }}</p>
+                    <p>성별: {{ child["gender"]}}</p>
                   </h4>
                   <div
                     class="row text-center justify-content-center col-lg-12 mx-0"
                   >
-                    <router-link to="/survey" class="col-lg-6 px-0">
-                      <base-button type="default" class="childbutton"
-                        >문진표작성</base-button
-                      >
-                    </router-link>
-                    <router-link to="/counselorRecommend" class="col-lg-6 px-0">
-                      <base-button type="default" class="childbutton"
-                        >상담사추천</base-button
-                      >
-                    </router-link>
+                    <base-button type="default" class="childbutton" @click="moveSurvey(i)">
+                      문진표작성
+                    </base-button>
+                    <base-button type="default" class="childbutton" @click="moveCounselorRecom(i)">
+                      상담사추천
+                    </base-button>
                     <router-link to="/childReserveShow" class="col-lg-6 px-0">
                       <base-button type="default" class="childbutton">
                         상담 내역
@@ -72,9 +65,24 @@
                   </div>
                 </div>
               </div>
-              <!-- <child-comp></child-comp> -->
               <div class="childcard col-lg-4 mb-5 py-3" v-if="아동추가 == true">
                 <div class="col-md-12">
+                  <div>
+                    <p class="col-md-6">프로필</p>
+                    <img
+                      v-if="image"
+                      :src="image"
+                      width="100"
+                      height="100">
+                    <input
+                      ref="image"
+                      @change="uploadImg()"
+                      type="file"
+                      id="chooseFile"
+                      name="chooseFile"
+                      accept="image/*"
+                    >
+                  </div>
                   <div class="row">
                     <p class="col-md-5">이름</p>
                     <base-input
@@ -86,12 +94,12 @@
                   </div>
 
                   <div for="cer_get" class="row">
-                    <p class="col-md-5">생년월일</p>
+                    <p class="col-md-8">생년월일</p>
                     <base-input
                       type="date"
                       id="cer_get"
                       v-model="birth"
-                      class="col-md-7"
+                      class="col-md-12"
                     />
                   </div>
                   <div class="row">
@@ -105,21 +113,19 @@
                       class="ml-3 col-md-6 form-control"
                     >
                       <option value="" selected>선택</option>
-                      <option value="male">남</option>
-                      <option value="female">여</option>
+                      <option value="남자">남</option>
+                      <option value="여자">여</option>
                     </select>
                   </div>
                 </div>
                 <div class="text-center justify-content-center my-3">
-                  <base-button type="primary" @click="addChild">
-                    <b>
-                      완료
-                    </b>
+                  <base-button
+                    type="primary"
+                    @click="addChild">
+                    <b>완료</b>
                   </base-button>
                   <base-button type="primary" @click="아동추가 = false">
-                    <b>
-                      취소
-                    </b>
+                    <b>취소</b>
                   </base-button>
                 </div>
               </div>
@@ -132,39 +138,94 @@
 </template>
 
 <script>
-// import childComp from '@/components/childComp.vue'
-import { mapState, mapMutations } from "vuex";
+import axios from 'axios'
+
+// var frm = new FormData();
 
 export default {
-  // components: { childComp },
   data() {
     return {
       아동추가: false,
       name: "",
       birth: "",
       gender: "",
+      image: "",
+      children: []
     };
   },
-  computed: {
-    ...mapState({
-      children: (state) => state.children.children,
-    }),
-  },
   methods: {
-    ...mapMutations(["ADD_CHILD"]),
     addChild() {
+      console.log("아동추가")
       if (
-        this.name.length == 0 ||
-        this.birth.length == 0 ||
-        this.gender.length == 0
+        this.name.length == 0 ||        this.birth.length == 0 ||
+        this.gender.length == 0 ||
+        this.image == ""
       ) {
         alert("빈칸을 채워주세요");
         return;
+      } else {
+        // axios.post('https://i7a606.q.ssafy.io/auth-api/child/register', frm, {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data'
+        //   }
+        // })
+        axios({
+          url: 'https://i7a606.q.ssafy.io/service-api/child/register',
+          method: 'post',
+          data: {
+            "parent_id": this.$store.state.accounts.userid,
+            "name": this.name,
+            "birth": this.birth,
+            "gender": this.gender,
+            "profile_url": this.image,
+            "survey_flag": 0
+          }
+        })
+          .then(res => {
+            console.log(res.data)
+            router.push({ name: 'children' })
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
+          this.아동추가 = false;
+          this.name = "",
+          this.birth = "",
+          this.gender = "",
+          this.image = ""
       }
-      this.ADD_CHILD([this.name, this.birth, this.gender]);
-      this.아동추가 = false;
+    },
+    uploadImg() {
+      var image = this.$refs['image'].files[0]
+      // this.image = image
+      const url = URL.createObjectURL(image)
+      this.image = url
+      console.log(this.image)
+    },
+    // filePreview() {
+    //   return "data:image/jpeg;base64," + this.empPhoto;
+    // },
+    moveSurvey(index) {
+      this.$router.push({ name: "survey", params: this.children[index] });
+    },
+    moveCounselorRecom(index) {
+      this.$router.push({ name: "counselorRecommend", params: this.children[index] });
     },
   },
+  created() {
+    console.log(`userid: ${this.$store.state.accounts.userid}`)
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/child/${this.$store.state.accounts.userid}`,
+      method: 'get',
+    })
+      .then(res => {
+        console.log(res.data)
+        this.children = res.data
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+  }
 };
 </script>
 
@@ -172,8 +233,6 @@ export default {
 .child {
   border: 1px solid #dcdcdc;
   border-radius: 15px;
-}
-.children {
 }
 .childbutton {
   margin: 20px 10px 20px 10px;

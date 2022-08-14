@@ -191,13 +191,67 @@ export default {
       address: "",
       thera_intro: "",
       profile_url: "",
-      expertise_no: [],
-      academicCareers: {},
-      careers: {},
-      licences: {},
+      expertise: [],
+      academicCareers: [],
+      careers: [],
+      licences: [],
+
+      checkid: false,
+
+      checkEmail: true,
+      emailCode1: '',
+      emailCode2: ''
     };
   },
   methods: {
+    checkId() {
+      this.$axios
+        .get(`${this.$store.state.host}/auth-api/user/checkid/${this.id}`)
+        .then((res) => {
+          if (res.data === "success") {
+            alert("사용 가능한 아이디입니다.")
+            this.checkid = true
+          } else {
+            alert("이미 사용된 아이디입니다.")
+            this.id = ''
+            this.checkid = false
+          }
+        });
+    },
+    getEmailCode() {
+      console.log("이메일 인증")
+      this.$axios
+        .post(`${this.$store.state.host}/auth-api/mail`, {
+          email: this.email
+        })
+        .then((res) => {
+          this.emailCode2 = res.data
+        });
+    },
+    checkEamilCode() {
+      if (this.emailCode1 === this.emailCode2) {
+        this.checkEmail = true
+        alert("이메일 인증이 완료되었습니다.")
+      } else {
+        this.emailCode1 = ''
+        alert("인증번호가 불일치합니다. 다시 입력해주세요.")
+      }
+    },
+    counselor_data(inputDatas) {
+      // console.log(inputDatas)
+      this.profile_url = inputDatas.profile_url;
+      this.expertise = inputDatas.expertise_no;
+      this.academicCareers = inputDatas.academicCareers;
+      this.careers = inputDatas.careers;
+      this.licences = inputDatas.licences;
+      this.thera_intro = inputDatas.thera_intro
+      // console.log(this.profile_url)
+      console.log(this.expertise)
+      // console.log(this.academicCareers)
+      console.log(this.careers)
+      // console.log(this.licences)
+      // console.log(this.thera_intro)
+    },
     signinTeacher() {
       console.log("상담사 회원가입");
       if (
@@ -218,8 +272,11 @@ export default {
             phone: this.phone,
             address: this.address,
             profile_url: this.profile_url,
-            file_url: this.file_url,
-            thera_intro: this.thera_intro,
+            expertise: this.expertise,
+            academicCareers: this.academicCareers,
+            careers: this.careers,
+            licences: this.licences,
+            thera_intro: this.thera_intro
           })
           .then((res) => {
             console.log(res.data);
