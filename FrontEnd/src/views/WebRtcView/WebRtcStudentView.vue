@@ -1,23 +1,11 @@
 <template>
   <div id="webCam">
     <div id="join" v-if="!session">
-			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
+			
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
 					</p>
-				</div>
-			</div>
+
 		</div>
 
     <div class="container" v-if="session">
@@ -194,6 +182,18 @@ export default {
       this.isFaceShow = !this.isFaceShow;
     },
     joinSession () {
+      let tempSessionId = ''
+			let tempUserName = ''
+      this.$store.state.teacher.teacher.name.split('').forEach(element => {
+          tempSessionId += element.charCodeAt(0).toString(16)
+        });
+			this.$store.state.children.children[0].이름.split('').forEach(element => {
+					tempUserName += element.charCodeAt(0).toString(16)
+        });
+      this.mySessionId = 'Session_' + tempSessionId
+
+			this.myUserName = tempUserName
+
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
