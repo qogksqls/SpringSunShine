@@ -93,6 +93,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
 
+
 const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
