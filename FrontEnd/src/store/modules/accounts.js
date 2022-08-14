@@ -59,7 +59,7 @@ export default {
       //   this.$cookies.set("idCookie", credentials.id);
       // }
       axios({
-        url: 'https://i7a606.q.ssafy.io/auth-api/auth/login',
+        url: 'https://i7a606.q.ssafy.io/service-api/auth/login',
         method: 'post',
         data: credentials
       })
@@ -85,7 +85,7 @@ export default {
         router.push({ name: 'login' })
       }
       axios({
-        url: 'https://i7a606.q.ssafy.io/auth-api/auth/logout',
+        url: 'https://i7a606.q.ssafy.io/service-api/auth/logout',
         method: 'post',
         data: {
           "accessToken": this.state.accounts.accessToken,
@@ -125,7 +125,7 @@ export default {
     // signup({ commit, dispatch }, credentials) {
     //   console.log(credentials)
     //   axios({
-    //     url: `${this.$store.state.host}/auth-api/user/therapist`,
+    //     url: `${this.$store.state.host}/service-api/user/therapist`,
     //     method: 'post',
     //     data: credentials
     //   })
