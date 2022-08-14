@@ -10,8 +10,10 @@ import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name ="expertise")
@@ -21,13 +23,13 @@ public class Expertise {
 	@Column(name ="expertise_no")
 	private int expertiseNo;
 	
-	@Column(name="kind", nullable=false)
-	private String kind;
+	@Column(name="is_kind", nullable=false)
+	private String isKind;
 
 	@Builder
-	public Expertise(int expertiseNo, String kind) {
+	public Expertise(int expertiseNo, String isKind) {
 		this.expertiseNo = expertiseNo;
-		this.kind = kind;
+		this.isKind = isKind;
 	}
 	
 	

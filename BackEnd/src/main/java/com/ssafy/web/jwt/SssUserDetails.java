@@ -15,11 +15,6 @@ public class SssUserDetails implements UserDetails {
 
 	@Autowired
 	User user;
-	boolean accountNonExpired; 
-	boolean accountNonLocked;
-	boolean credentialNonExpired;
-	boolean enabled = false;
-	List<GrantedAuthority> roles = new ArrayList<>();
 
 	public SssUserDetails(User user) {
 		super();
@@ -33,13 +28,12 @@ public class SssUserDetails implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles;
+		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		String roleName= user.getRole();
+		authorities.add(()->roleName);
+		
+		return authorities;
 	}
-	
-	public void setAuthorities(List<GrantedAuthority> roles) {
-		this.roles = roles;
-	}
-
 
 	@Override
 	public String getPassword() {
@@ -53,22 +47,22 @@ public class SssUserDetails implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return this.accountNonExpired;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return this.accountNonLocked;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return this.credentialNonExpired;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return this.enabled;
+		return true;
 	}
 	
 }

@@ -24,7 +24,7 @@
               </h3>
               <br /><br />
               <div
-                class="wrap_content row justify-content-center align-self-center"
+                class="register_wrap_content row justify-content-center align-self-center"
               >
                 <!--회원가입 폼 이름 작성 start-->
 
@@ -57,7 +57,6 @@
                     type="primary"
                     size="sm"
                     class="my-1 col col-lg-1 p-1"
-                    @click="checkId"
                     >중복검사</base-button
                   >
                 </div>
@@ -104,40 +103,28 @@
                   <label for="email" class="col col-lg-4 mt-2">이메일</label>
                   <input
                     type="email"
-                    class="col-lg-7 form-control"
+                    class="col-lg-8 form-control"
                     id="email"
                     placeholder="이메일을 입력해 주세요"
                     v-model="email"
                   />
+                </div>
+                <div class="col-lg-12 row mb-2">
+                  <label for="email" class="col col-lg-4 mt-2"></label>
                   <base-button
                     outline
                     type="primary"
                     size="sm"
                     class="mt-2 mr-0 col col-lg-1 p-1"
-                    @click="getEmailCode"
                     >인증받기</base-button
                   >
-                </div>
-                <div class="col-lg-12 row mb-2">
-                  <label for="email" class="col col-lg-4 mt-2"></label>
                   <div class="col-lg-1"></div>
                   <input
                     type="text"
                     class="col-lg-6 form-control"
                     id="email"
                     placeholder="인증번호 입력"
-                    v-model="emailCode1"
                   />
-                  <div v-if="emailCode1 !== ''">
-                    <base-button
-                      outline
-                      type="primary"
-                      size="sm"
-                      @click="checkEamilCode"
-                    >
-                      확인
-                    </base-button>
-                  </div>
                 </div>
                 <!--회원가입 폼 이메일 end-->
 
@@ -204,14 +191,14 @@ export default {
       address: "",
       thera_intro: "",
       profile_url: "",
-      expertises: [],
+      expertise: [],
       academicCareers: [],
       careers: [],
       licences: [],
 
       checkid: false,
 
-      checkEmail: false,
+      checkEmail: true,
       emailCode1: '',
       emailCode2: ''
     };
@@ -253,34 +240,31 @@ export default {
     counselor_data(inputDatas) {
       // console.log(inputDatas)
       this.profile_url = inputDatas.profile_url;
-      this.expertises = inputDatas.expertise_no;
+      this.expertise = inputDatas.expertise_no;
       this.academicCareers = inputDatas.academicCareers;
       this.careers = inputDatas.careers;
       this.licences = inputDatas.licences;
       this.thera_intro = inputDatas.thera_intro
       // console.log(this.profile_url)
-      // console.log(this.expertise)
+      console.log(this.expertise)
       // console.log(this.academicCareers)
-      // console.log(this.careers)
+      console.log(this.careers)
       // console.log(this.licences)
       // console.log(this.thera_intro)
     },
     signinTeacher() {
       console.log("상담사 회원가입");
-      console.log(`${this.$store.state.host}/auth-api/user/therapist`)
       if (
         this.id &&
-        this.checkid === true &&
         this.password1 &&
         this.password2 &&
         this.name &&
         this.phone &&
         this.address &&
-        this.email &&
-        this.checkEmail === true
+        this.email
       ) {
         this.$axios
-          .post('https://i7a606.q.ssafy.io/auth-api/user/therapist', {
+          .post(`${this.$store.state.host}/auth-api/user/therapist`, {
             id: this.id,
             password: this.password1,
             name: this.name,
@@ -288,33 +272,27 @@ export default {
             phone: this.phone,
             address: this.address,
             profile_url: this.profile_url,
-            expertises: this.expertises,
+            expertise: this.expertise,
             academicCareers: this.academicCareers,
             careers: this.careers,
             licences: this.licences,
             thera_intro: this.thera_intro
           })
           .then((res) => {
+            console.log(res.data);
             this.$router.push("/login");
-          })
-          .catch((err) => {
-            console.log(err.response)
-          })
+          });
       } else {
         if (!this.name) {
           alert("성함을 입력해주세요.");
         } else if (!this.id) {
           alert("아이디를 입력해주세요.");
-        } else if (this.checkid === false) {
-          alert("아이디 중복체크를 진행해주세요")
         } else if (!this.password1) {
           alert("비밀번호를 입력해주세요.");
         } else if (!this.password2) {
           alert("비밀번호 확인을 진행해주세요.");
         } else if (!this.email) {
           alert("이메일을 입력해주세요.");
-        } else if (this.checkEmail === false) {
-          alert("이메일 인증번호 확인을 진행해주세요.")
         } else if (!this.phone) {
           alert("연락처를 입력해주세요.");
         } else if (!this.address) {
@@ -326,14 +304,12 @@ export default {
       console.log("보호자 회원가입");
       if (
         this.id &&
-        this.checkid === true &&
         this.password1 &&
         this.password2 &&
         this.name &&
         this.phone &&
         this.address &&
-        this.email &&
-        this.checkEmail === true
+        this.email
       ) {
         this.$axios
           .post(`${this.$store.state.host}/auth-api/user/parent`, {
@@ -343,6 +319,7 @@ export default {
             email: this.email,
             phone: this.phone,
             address: this.address,
+            expertise_no: [],
           })
           .then((res) => {
             console.log(res.data);
@@ -353,22 +330,25 @@ export default {
           alert("보호자님의 성함을 입력해주세요.");
         } else if (!this.id) {
           alert("아이디를 입력해주세요.");
-        } else if (this.checkid === false) {
-          alert("아이디 중복체크를 진행해주세요")
         } else if (!this.password1) {
           alert("비밀번호를 입력해주세요.");
         } else if (!this.password2) {
           alert("비밀번호 확인을 진행해주세요.");
         } else if (!this.email) {
           alert("이메일을 입력해주세요.");
-        } else if (this.checkEmail === false) {
-          alert("이메일 인증번호 확인을 진행해주세요.")
         } else if (!this.phone) {
           alert("연락처를 입력해주세요.");
         } else if (!this.address) {
           alert("주소를 입력해주세요.");
         }
       }
+    },
+    counselor_data(inputDatas) {
+      this.profile_url = inputDatas.profile_url;
+      this.expertise_no = inputDatas.expertise_no;
+      this.academicCareers = inputDatas.academicCareers;
+      this.careers = inputDatas.careers;
+      this.licences = inputDatas.licences;
     },
   },
 };
@@ -388,5 +368,10 @@ input {
 button {
   height: 30px;
   border-radius: 10px;
+}
+@media (max-width: 767px) {
+  .register_wrap_content {
+    padding: 8px !important;
+  }
 }
 </style>

@@ -16,21 +16,56 @@
     </div>
     <div v-show="currentTab == 0" class="tab-cont col-lg-12">
       <div class="row justify-content-center mt-4 text-center">
-        <circleProfile />
-        <circleProfile />
-        <circleProfile />
-        <circleProfile />
-        <circleProfile />
-        <circleProfile />
-        <circleProfile />
+        <div v-for="(counselor, i) in counselors" :key="i">
+          <div v-for="(expertise, i) in counselor['expertises']" :key="i">
+            <div v-if="expertise['expertiseNo'] == 1">
+              <circleProfile :counselor="counselor" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div v-show="currentTab == 1" class="tab-cont col-lg-12">
-      1111111
+      <div class="row justify-content-center mt-4 text-center">
+        <div v-for="(counselor, i) in counselors" :key="i">
+          <div v-for="(expertise, i) in counselor['expertises']" :key="i">
+            <div v-if="expertise['expertiseNo'] == 2">
+              <circleProfile :counselor="counselor" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div v-show="currentTab == 2" class="tab-cont col-lg-12">333333333333</div>
-    <div v-show="currentTab == 3" class="tab-cont col-lg-12">4444ㅋ44444</div>
-    <div v-show="currentTab == 4" class="tab-cont col-lg-12">4444ㅋ44444</div>
+    <div v-show="currentTab == 2" class="tab-cont col-lg-12">
+      <div class="row justify-content-center mt-4 text-center">
+        <div v-for="(counselor, i) in counselors" :key="i">
+          <div v-for="(expertise, i) in counselor['expertises']" :key="i">
+            <div v-if="expertise['expertiseNo'] == 3">
+              <circleProfile :counselor="counselor" />
+            </div>
+          </div>
+        </div>
+      </div></div>
+    <div v-show="currentTab == 3" class="tab-cont col-lg-12">
+      <div class="row justify-content-center mt-4 text-center">
+        <div v-for="(counselor, i) in counselors" :key="i">
+          <div v-for="(expertise, i) in counselor['expertises']" :key="i">
+            <div v-if="expertise['expertiseNo'] == 4">
+              <circleProfile :counselor="counselor" />
+            </div>
+          </div>
+        </div>
+      </div></div>
+    <div v-show="currentTab == 4" class="tab-cont col-lg-12">
+      <div class="row justify-content-center mt-4 text-center">
+        <div v-for="(counselor, i) in counselors" :key="i">
+          <div v-for="(expertise, i) in counselor['expertises']" :key="i">
+            <div v-if="expertise['expertiseNo'] == 5">
+              <circleProfile :counselor="counselor" />
+            </div>
+          </div>
+        </div>
+      </div></div>
   </div>
 </template>
 
@@ -38,19 +73,26 @@
 import circleProfile from "./CircleProfile.vue";
 
 export default {
+  name: 'CounselorTab',
   components: { circleProfile },
   data() {
     return {
       currentTab: 0,
       tabList: [
-        "자폐장애",
-        "아스퍼거증후군",
-        "렛트증후군",
-        "소아기붕괴성장애",
-        "기타발달장애",
+        "자폐증",
+        "아스퍼거 증후군",
+        "전반적 발달 장애",
+        "레트 증후군",
+        "아동기 붕괴성 장애",
       ],
     };
   },
+  props: [
+    'counselors'
+  ],
+  created() {
+    console.log()
+  }
 };
 </script>
 

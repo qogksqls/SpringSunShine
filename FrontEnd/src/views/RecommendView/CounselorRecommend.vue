@@ -8,10 +8,12 @@
         <card shadow class=" px-lg-5 card-profile mt--300" no-body>
           <!--상담사 추천 page start-->
           <div class="px-4 wrap_cont">
-            <upper />
+            <div v-if="this.$route.params.childId">
+              <upper :childsCounselors="childsCounselors" />
+            </div>
 
             <div class="mt-5 py-5 border-top text-center">
-              <showTab />
+              <showTab :counselors="counselors" />
             </div>
             <circle />
           </div>
@@ -24,8 +26,45 @@
 import upper from "../../components/RecommendComp/CounselorUpper.vue";
 import showTab from "../../components/RecommendComp/CounselorTab.vue";
 import circle from "../../components/RecommendComp/CircleProfile.vue";
+import axios from 'axios'
+
 export default {
+  name: 'CounselorRecommend',
   components: { upper, showTab, circle },
+  data() {
+    return {
+      counselors: [],
+      childsCounselors: []
+    }
+  },
+  created() {
+    if (this.$route.params.childId) {
+      console.log(this.$route.params.childId)
+      axios({
+        url: `https://i7a606.q.ssafy.io/service-api/therapist/recommend/child/${this.$route.params.childId}`,
+        method: 'get',
+      })
+        .then(res => {
+          console.log(res.data)
+          this.childsCounselors = res.data
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    }
+    console.log("전체 상담사")
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/therapist/recommend/all`,
+      method: 'get',
+    })
+      .then(res => {
+        console.log(res.data)
+        this.counselors = res.data
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+  }
 };
 </script>
 <style scoped>

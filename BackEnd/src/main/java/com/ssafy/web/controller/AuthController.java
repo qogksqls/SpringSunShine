@@ -26,6 +26,8 @@ import com.ssafy.web.request.UserLogoutRequest;
 import com.ssafy.web.service.AuthService;
 import com.ssafy.web.service.RedisService;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
@@ -97,12 +99,17 @@ public class AuthController {
 
 	/* 로그아웃 */
 	@PostMapping("/logout")
-	public ResponseEntity<?>  userLogout(@RequestBody UserLogoutRequest logoutInfo){
+	public ResponseEntity<?>  userLogout(@RequestBody UserLogoutRequest logoutInfo) throws Exception{
 		// redis 에서 refresh token 값 삭제 
 		String token = logoutInfo.getAccessToken();
 		log.debug("test: 컨트롤러2입니다");
-		JwtTokenUtil.handleError(token);
-		log.debug("test: 컨트롤러3입니다");
+		try{
+			JwtTokenUtil.handleError(token);
+		}catch(ExpiredJwtException e) {
+			throw new JwtException("토큰기한이 만료되었습니다.");
+		}catch(Exception e) {
+			throw new Exception("올바르지 않은 토큰 입니다.");
+		}
 		//토큰으로부터 얻은 사용자의 아이디
 		String id = jwtTokenUtil.getAuth(token);
 		

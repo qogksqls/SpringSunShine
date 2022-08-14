@@ -1,5 +1,11 @@
 package com.ssafy.web.model.response;
 
+import java.util.List;
+
+import com.ssafy.web.dto.Academy;
+import com.ssafy.web.dto.Career;
+import com.ssafy.web.dto.Licence;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +28,10 @@ public class TherapistResponse {
 	String profile_url;
 	//자기소개
 	String thera_intro;
+	//학력
+	List<Academy> academy;
+	//경력
+	List<Career> careers;
+	//자격증
+	List<Licence> licence;
 }
