@@ -19,7 +19,7 @@ public class Object {
 	@Column(name = "image", columnDefinition = "VARCHAR(255)", nullable = false)
 	private String image;
 
-	@Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false, unique = true)
 	private String name;
 
 	@Column(name = "question", columnDefinition = "VARCHAR(255)", nullable = false)
