@@ -50,4 +50,7 @@ public class Child {
 	@Column(name = "survey_flag", columnDefinition = "int default 0")
 	private int surveyFlag;
 
+	public void update(int surveyFlag) {
+		this.surveyFlag = surveyFlag;
+	}
 }
