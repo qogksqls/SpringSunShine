@@ -39,7 +39,7 @@ public class ChildManagementServiceImpl implements ChildManagementService {
 	/** 상담사 -> 예약한 아동 정보 조회 */
 	@Override
 	public ChildReservResponse getChildInfo(String childId) {
-		ChildReservResponse childInfo = webClient.get().uri("/reserv-therapist-child/" + childId).retrieve()
+		ChildReservResponse childInfo = webClient.get().uri("/child/reserv-therapist-child/" + childId).retrieve()
 				.bodyToMono(ChildReservResponse.class).block();
 
 		return childInfo;

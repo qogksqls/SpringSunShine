@@ -77,7 +77,8 @@ public class ChildController {
 	
 	/** 상담사 -> 예약한 아동 정보 조회 */
 	@GetMapping("/reserv-therapist-child/{child_id}")
-	public ChildReservResponse getChildInfo(@PathVariable String childId) {
+	public ChildReservResponse getChildInfo(@PathVariable("child_id") String childId) {
+		System.out.println("예약한 아동 정보 조회");
 		return childService.getChildInfo(childId);
 	}
 
