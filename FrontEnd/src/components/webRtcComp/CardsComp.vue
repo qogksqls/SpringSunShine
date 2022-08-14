@@ -40,6 +40,8 @@
               >
                 게임시작하기
               </base-button>
+
+              <button v-if="!gameSet" @click="endGame">게임 종료하기</button>
             </div>
           </div>
 
@@ -95,6 +97,9 @@ export default {
     };
   },
   methods: {
+    endGame() {
+      this.$store.state.cardGame.endGame = true
+    },
     getTimeNow() {
       let timeNow = new Date();
       let timeNowMilSec = timeNow.getTime();
@@ -104,6 +109,7 @@ export default {
 
     createCards() {
       this.gameSet = true;
+
       console.log(`올바른 카드를 고르세요`);
       this.$store.commit("sampleCards");
       this.solution = this.$store.state.cardGame.solutionCard[0];
@@ -139,7 +145,8 @@ export default {
         }
         this.dialog1 = "false";
 
-        if (this.gameCount === 10) {
+        if (this.gameCount === 3) {
+          //this.$store.state.cardGame.playingNow = false
           console.log(this.successCount);
           this.gameSet = false;
           this.gameCountPerGame = 0;

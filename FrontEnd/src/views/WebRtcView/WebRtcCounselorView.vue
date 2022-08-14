@@ -22,10 +22,12 @@
 		</div>
 
     <div class="container" v-if="session">
+
       <div class="wrap_content row col-md-12 p-4">
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
           <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
+          <!-- <screen-share-comp v-if="sessionScreen" :sessionScreen="sessionScreen"></screen-share-comp> -->
         </div>
         <!--학생 얼굴 들어갈 자리 end-->
 
@@ -61,7 +63,7 @@
                 <b class="col-sm-4">게임결과</b>
               </div>
             </h3>
-            <div class="game_result col-md-12" v-if="!isCardGame">
+            <div class="game_result col-md-12" v-if="isCardGame">
               클릭시에 나오게 할껀가여 아니면 걍 계속 보이게 할껀가여
             </div>
           </div>
@@ -71,10 +73,12 @@
           class="col-md-12 row RtcFunction justify-content-start m-0 p-0 align-self-center"
         >
           <class class="col-md-3"></class>
-          <!-- @click="ShowCardGame" -->
+         
           <base-button
+            data-toggle="modal"
+            data-target="#exampleModal"
             type="success"
-            
+            @click="ShowCardGame"
             class="col-md-1 align-self-center"
             >사물게임</base-button
           ><base-button
@@ -104,7 +108,8 @@
 
           <!--상담사 얼굴 들어갈 자리 start-->
           <div class="counselorFace">
-            <main-video-comp :widthOfVideo="widthOfVideo" :heightOfVideo="heightOfVideo" :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
+            <!-- <main-video-comp :widthOfVideo="widthOfVideo" :heightOfVideo="heightOfVideo" :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp> -->
+            <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp>
           </div>
           <!--상담사 얼굴 들어갈 자리 end-->
         </div>
@@ -112,6 +117,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { mapMutations } from "vuex";
 import axios from 'axios';
@@ -122,31 +128,33 @@ import SubVideoComp from './SubVideoComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+
 // const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
 
 const OPENVIDU_SERVER_SECRET = "A606";
 
+
 export default {
-  watch: {
-    widthOfVideo () {
-      if (this.widthOfVideo) {
-        widthOfVideo = window.outerWidth
-      }
-      console.log(this.widthOfVideo)
-    },
-    heightOfVideo () {
-      if (this.heightOfVideo) {
-        heightOfVideo = window.outerHeight
-      }
-      console.log(this.heightOfVideo)
-    }
-  },
+  name: 'CounselorView',
+  // watch: {
+  //   widthOfVideo () {
+  //     if (this.widthOfVideo) {
+  //       widthOfVideo = window.outerWidth
+  //     }
+  //     console.log(this.widthOfVideo)
+  //   },
+  //   heightOfVideo () {
+  //     if (this.heightOfVideo) {
+  //       heightOfVideo = window.outerHeight
+  //     }
+  //     console.log(this.heightOfVideo)
+  //   }
+  // },
   data() {
     return {
-      widthOfVideo: window.outerWidth,
-      heightOfVideo: window.outerHeight,
-
+      // widthOfVideo: window.outerWidth,
+      // heightOfVideo: window.outerHeight,
 
       newMemo: "",
       isCardGame: false,
@@ -156,6 +164,7 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
+      // sessionScreen: undefined,
 
 			mySessionId: 'SessionA',
 			myUserName: 'Participant' + Math.floor(Math.random() * 100),
@@ -180,6 +189,8 @@ export default {
   methods: {
     ShowCardGame: function() {
       this.isCardGame = !this.isCardGame;
+      this.publisher.openCard = !this.publisher.openCard
+      console.log(this.publisher.openCard);
     },
     ...mapMutations(["ADD_MEMO"]),
     addMemo() {
@@ -198,6 +209,7 @@ export default {
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
+      // this.sessionScreen = this.OV.initSession();
 
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
@@ -224,12 +236,11 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480', // The resolution// The resolution of your video
-							// resolution: `${widthOfDiv}x${heightOfDiv}`,  // The resolution of your video
+							resolution: '640x480',  // The resolution of your video
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not
-						});
+            });
 
 						this.mainStreamManager = publisher;
 						this.publisher = publisher;
@@ -237,12 +248,33 @@ export default {
 
 						this.session.publish(this.publisher);
 					})
+          // .then(() => {
+          //   let publisher = this.OV.initPublisher("html-element-id", { 
+          //     videoSource: "screen" 
+          //   });
+          //   this.sessionScreen = publisher
+            
+          //   this.sessionScreen.once('accessAllowed', (event) => {
+          //       this.sessionScreen.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+          //           console.log('User pressed the "Stop sharing" button');
+          //         });
+          //         this.session.publish(this.sessionScreen);
+
+          //     });
+
+          //   publisher.once('accessDenied', (event) => {
+          //       console.warn('ScreenShare: Access Denied');
+          //   });
+
+          // })
 					.catch(error => {
 						console.log('There was an error connecting to the session:', error.code, error.message);
 					});
 			});
 
-			window.addEventListener('beforeunload', this.leaveSession)
+    window.addEventListener('beforeunload', this.leaveSession)
+			
+
 		},
 
 		leaveSession () {
@@ -384,7 +416,7 @@ textarea::-webkit-scrollbar-thumb {
   top: -85px;
   height: 140px;
   border-radius: 15px;
-  width: 1000px;
+  width: 200px;
 }
 .iconbtn {
   text-align: center;
@@ -407,8 +439,4 @@ textarea::-webkit-scrollbar-thumb {
   color: rgb(255, 255, 255);
 }
 
-video {
-  width: 100%;
-  height: 100%;
-}
 </style>

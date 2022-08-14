@@ -1,5 +1,8 @@
 <template>
-	<video :style="styleObject" autoplay/>
+
+	<video autoplay />
+	<!-- <video :style="styleObject" autoplay/> -->
+
 </template>
 
 <script>
@@ -7,18 +10,18 @@
 export default {
 	name: 'OvVideo',
 
-	data () {
-		return {
-			styleObject: {
-				widthOfVideo: this.sizeOfVideo.widthOfVideo,
-				heightOfVideo: this.sizeOfVideo.heightOfVideo,
-			}
-		}
-	},
+	// data () {
+	// 	return {
+	// 		styleObject: {
+	// 			widthOfVideo: this.sizeOfVideo.widthOfVideo,
+	// 			heightOfVideo: this.sizeOfVideo.heightOfVideo,
+	// 		}
+	// 	}
+	// },
 	props: {
 		streamManager: Object,
-    widthOfVideo: Number,
-    heightOfVideo: Number,
+    // widthOfVideo: Number,
+    // heightOfVideo: Number,
 	},
 
 	mounted () {
@@ -28,5 +31,8 @@ export default {
 </script>
 
 <style scoped>
-
+	video{
+		width: 100%;
+		border-radius: 15px;
+	}
 </style>

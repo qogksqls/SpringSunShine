@@ -5,9 +5,10 @@
   border: none;
 }
 .flatpickr-calendar {
+  margin: 10px 0;
   @include box-shadow($dropdown-box-shadow);
   padding: $datepicker-dropdown-padding;
-  width: 347px;
+  width: 100%;
   color: $gray-700;
 
   .flatpickr-weekday {
@@ -28,7 +29,19 @@
       @extend %active-day;
     }
   }
-
+  .flatpickr-calendar.inline{
+    margin: 10px 0;
+  }
+  .flatpickr-innerContainer{
+    
+    place-content: center;
+  }
+  .flatpickr-prev-month {
+    position: relative;
+  }
+  .flatpickr-next-month{
+    position: relative;
+  }
   .flatpickr-day.today {
     border: 1px solid $datepicker-active-background;
     &:hover {

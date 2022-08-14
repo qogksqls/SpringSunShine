@@ -9,7 +9,10 @@ import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import SigninSelect from "./views/components/Signin/SigninSelect.vue";
 import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
+
+//상담관련
 import ChildReserveShow from "./views/ReserveView/ChildReserveShowView.vue";
+import CounSchedule from "./views/ReserveView/ConsultationSchedule.vue";
 
 //아동추가 목록
 import ChildListView from "./views/ChildPlusView/ChildListView.vue";
@@ -20,7 +23,9 @@ import SurveyResultView from "./views/survey/SurveyResultView";
 import WebStudent from "./views/WebRtcView/WebRtcStudentView.vue";
 import WebCounselor from "./views/WebRtcView/WebRtcCounselorView.vue";
 //cardGame
-import playAlone from "./views/playAloneView/playAlone.vue"
+import playAlone from "./views/playAloneView/playAlone.vue";
+
+import reserve from "./views/Reserve/ReserveView.vue";
 
 Vue.use(Router);
 
@@ -88,6 +93,8 @@ export default new Router({
         default: CounselorRecommend,
       },
     },
+
+    //상담예약 관련
     {
       path: "/childReserveShow",
       name: "childReserveShow",
@@ -96,6 +103,15 @@ export default new Router({
         default: ChildReserveShow,
       },
     },
+    {
+      path: "/counSchedule",
+      name: "counSchedule",
+      components: {
+        header: AppHeader,
+        default: CounSchedule,
+      },
+    },
+
     //아동추가페이지
     {
       path: "/children",
@@ -134,12 +150,27 @@ export default new Router({
       name: "webCounselor",
       component: WebCounselor,
     },
-    //cardGame
+
+    //혼자놀기
     {
       path: "/playAlone",
       name: "playAlone",
-      component: playAlone,
-    }
+      components: {
+        header: AppHeader,
+        default: playAlone,
+      },
+    },
+
+    //reserve
+    {
+      path: "/resev-parent",
+      name: "reserve",
+      components: {
+        header: AppHeader,
+        default: reserve,
+      },
+      props: true,
+    },
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
