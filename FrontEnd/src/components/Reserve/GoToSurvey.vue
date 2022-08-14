@@ -1,10 +1,8 @@
 <template>
-  <div class="m-3">
-    <a href="#/resev-parent" @click="modals.modal1 = true">
-      <div class="card_about text-center">
-        <p class="reserve_confirm">예약완료</p>
-      </div>
-    </a>
+  <div>
+    <base-button type="default" class="childbutton" @click="modals.modal1 = true">
+      상담사추천
+    </base-button>
     <modal :show.sync="modals.modal1">
       <h6 slot="header" class="modal-title" id="modal-title-default">
         <h4 class="display-4">
@@ -21,11 +19,13 @@
 
 <script>
 import Modal from "@/components/Modal.vue";
+import BaseButton from '../BaseButton.vue';
 export default {
   components: {
     Modal,
   },
   data() {
+    BaseButton
     return {
       modals: {
         modal1: false,

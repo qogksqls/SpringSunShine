@@ -19,8 +19,7 @@
         <div v-for="(counselor, i) in counselors" :key="i">
           <div v-for="(expertise, i) in counselor['expertises']" :key="i">
             <div v-if="expertise['expertiseNo'] == 1">
-              {{counselor}}
-              <!-- <circleProfile :counselor="counselor" /> -->
+              <circleProfile :counselor="counselor" />
             </div>
           </div>
         </div>
@@ -31,8 +30,7 @@
         <div v-for="(counselor, i) in counselors" :key="i">
           <div v-for="(expertise, i) in counselor['expertises']" :key="i">
             <div v-if="expertise['expertiseNo'] == 2">
-              {{counselor}}
-              <!-- <circleProfile :counselor="counselor" /> -->
+              <circleProfile :counselor="counselor" />
             </div>
           </div>
         </div>
@@ -43,8 +41,7 @@
         <div v-for="(counselor, i) in counselors" :key="i">
           <div v-for="(expertise, i) in counselor['expertises']" :key="i">
             <div v-if="expertise['expertiseNo'] == 3">
-              {{counselor}}
-              <!-- <circleProfile :counselor="counselor" /> -->
+              <circleProfile :counselor="counselor" />
             </div>
           </div>
         </div>
@@ -54,7 +51,7 @@
         <div v-for="(counselor, i) in counselors" :key="i">
           <div v-for="(expertise, i) in counselor['expertises']" :key="i">
             <div v-if="expertise['expertiseNo'] == 4">
-              <!-- <circleProfile :counselor="counselor" /> -->
+              <circleProfile :counselor="counselor" />
             </div>
           </div>
         </div>
@@ -64,8 +61,7 @@
         <div v-for="(counselor, i) in counselors" :key="i">
           <div v-for="(expertise, i) in counselor['expertises']" :key="i">
             <div v-if="expertise['expertiseNo'] == 5">
-              {{counselor}}
-              <!-- <circleProfile :counselor="counselor" /> -->
+              <circleProfile :counselor="counselor" />
             </div>
           </div>
         </div>
@@ -77,6 +73,7 @@
 import circleProfile from "./CircleProfile.vue";
 
 export default {
+  name: 'CounselorTab',
   components: { circleProfile },
   data() {
     return {

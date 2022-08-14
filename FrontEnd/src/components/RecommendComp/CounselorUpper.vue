@@ -2,27 +2,45 @@
   <div id="wrap">
     <h3>
       <div class="top_naming text-left mb-5">
-        <b>추천</b>
-        <b id="disease_name">"병명"</b>
-        <b>증상분야상담사</b>
+        <h1>"{{ this.$route.params.name }}" 아동</h1>
+        <b id="disease_name">"{{ name }}"</b>
+        담당 상담사들입니다.
       </div>
     </h3>
     <div class="row justify-content-center mt-4 text-center">
-      <!--몇개 들어갈지 안정함 -> 전문가 수에 따라 달라지게 할듯?-->
-      <!--전문가 한명-->
-      <circleProfile />
-      <circleProfile />
-      <circleProfile />
-      <circleProfile />
+      <div v-for="(counselor, i) in childsCounselors" :key="i">
+        <circleProfile :counselor="counselor" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import circleProfile from "./CircleProfile.vue";
 
 export default {
+  name: 'CounselorUpper',
   components: { circleProfile },
+  props: ['childsCounselors'],
+  data() {
+    return {
+      name: ''
+    }
+  },
+  created() {
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/answer/getAnswer/${this.$route.params.childId}`,
+      method: 'get',
+    })
+      .then(res => {
+        // console.log(res.data)
+        this.name = res.data['expertise']
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+  }
 };
 </script>
 

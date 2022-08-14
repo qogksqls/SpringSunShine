@@ -46,17 +46,31 @@
                   <div
                     class="row text-center justify-content-center col-lg-12 mx-0"
                   >
-                    <base-button type="default" class="childbutton" @click="moveSurvey(i)">
-                      문진표작성
-                    </base-button>
-                    <base-button type="default" class="childbutton" @click="moveCounselorRecom(i)">
-                      상담사추천
-                    </base-button>
+                    <div class="col-lg-6 px-0" v-if="child['surveyFlag']">
+                      <base-button type="default" class="childbutton" @click="moveSurveyResult(i)">
+                        문진표보기
+                      </base-button>
+                    </div>
+                    <div class="col-lg-6 px-0" v-else>
+                      <base-button type="default" class="childbutton" @click="moveSurvey(i)">
+                        문진표작성
+                      </base-button>
+                    </div>
+                    <div class="col-lg-6 px-0" v-if="child['surveyFlag']">
+                      <base-button type="default" class="childbutton" @click="moveCounselorRecom(i)">
+                        상담사추천
+                      </base-button>
+                    </div>
+                    <div class="col-lg-6 px-0" v-else>
+                      <go-to-survey></go-to-survey>
+                    </div>
+
                     <router-link to="/childReserveShow" class="col-lg-6 px-0">
                       <base-button type="default" class="childbutton">
                         상담 내역
                       </base-button>
                     </router-link>
+
                     <router-link to="/survey" class="col-lg-6 px-0">
                       <base-button type="default" class="childbutton">
                         놀이 기록
@@ -139,10 +153,13 @@
 
 <script>
 import axios from 'axios'
+import GoToSurvey from '../../components/Reserve/GoToSurvey.vue';
 
 // var frm = new FormData();
 
 export default {
+  name: 'ChildListView',
+  components: { GoToSurvey },
   data() {
     return {
       아동추가: false,
@@ -150,7 +167,7 @@ export default {
       birth: "",
       gender: "",
       image: "",
-      children: []
+      children: [],
     };
   },
   methods: {
@@ -211,6 +228,9 @@ export default {
     moveCounselorRecom(index) {
       this.$router.push({ name: "counselorRecommend", params: this.children[index] });
     },
+    moveSurveyResult(index) {
+      this.$router.push({ name: "surveyresult", params: this.children[index] });
+    }
   },
   created() {
     console.log(`userid: ${this.$store.state.accounts.userid}`)
