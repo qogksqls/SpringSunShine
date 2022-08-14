@@ -5,13 +5,16 @@ export default {
   state: {
     accessToken: localStorage.getItem('accessToken') || '',
     refreshToken: localStorage.getItem('refreshToken') || '',
+    userid: localStorage.getItem('userid') || '',
+    // accessToken: '',
+    // refreshToken: '',
+    // userid: '',
     currentUser: {},
     profile: {},
     authError: null,
-    userid: ''
   },
   getters: {
-    isLoggedIn: state => !!state.accessToken,
+    isLoggedIn: state => !!state.refreshToken,
     currentUser: state => state.currentUser,
     profile: state => state.profile,
     authError: state => state.authError
@@ -19,6 +22,7 @@ export default {
   mutations: {
     SET_Access_TOKEN: (state, accessToken) => state.accessToken = accessToken,
     SET_Refresh_TOKEN: (state, refreshToken) => state.refreshToken = refreshToken,
+    SET_USERID: (state, userid) => state.userid = userid,
     SET_CURRENT_USER: (state, user) => state.currentUser = user,
     SET_PROFILE: (state, profile) => state.profile = profile,
     SET_AUTH_ERROR: (state, error) => state.authError = error,
@@ -34,11 +38,19 @@ export default {
       localStorage.setItem('refreshToken', refreshToken)
       // console.log(localStorage)
     },
+    saveUserid({ commit }, userid) {
+      commit('SET_USERID', userid)
+      localStorage.setItem('userid', userid)
+    },
     removeToken({ commit }) {
       commit('SET_Access_TOKEN', '')
       commit('SET_Refresh_TOKEN', '')
       localStorage.setItem('accessToken', '')
       localStorage.setItem('refreshToken', '')
+    },
+    removeUserid({ commit }) {
+      commit('SET_USERID', '')
+      localStorage.setItem('userid', '')
     },
     login({ commit, dispatch }, credentials) {
       console.log("로그인")
@@ -55,9 +67,10 @@ export default {
           console.log(res.data)
           const accessToken = res.data.accessToken
           const refreshToken = res.data.refreshToken
-          this.userid = res.data.userid
+          const userid = res.data.userid
           dispatch('saveAccessToken', accessToken)
           dispatch('saveRefreshToken', refreshToken)
+          dispatch('saveUserid', userid)
           dispatch('fetchCurrentUser')
           router.push({ name: 'components' })
         })
@@ -67,6 +80,10 @@ export default {
         })
     },
     logout({ dispatch }) {
+      // console.log(this.state.accounts.accessToken)
+      if (!this.state.accounts.accessToken) {
+        router.push({ name: 'login' })
+      }
       axios({
         url: 'https://i7a606.q.ssafy.io/auth-api/auth/logout',
         method: 'post',
@@ -77,6 +94,7 @@ export default {
       })
         .then(res => {
           dispatch('removeToken')
+          dispatch('removeUserid')
           alert("로그아웃 되었습니다.")
           router.push({ name: 'login' })
         })

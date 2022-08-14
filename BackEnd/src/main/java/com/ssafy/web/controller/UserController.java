@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.ParentResponse;
 import com.ssafy.web.model.response.TherapistResponse;
+import com.ssafy.web.request.FindPwRequest;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraModifyRequest;
@@ -28,12 +28,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Api(value="회원관리 API", tags={"User"})
 @RequestMapping("/user")
 @CrossOrigin("*")
+@Slf4j
 public class UserController {
+	
+
 	
 	@Autowired
 	UserService userService;
@@ -46,10 +50,10 @@ public class UserController {
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?>  theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
-		System.out.println(theraInfo.getAcademicCareers());
-		userService.theraRegist(theraInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	public String theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
+		log.debug("user controller-상담사회원가입");
+		String userId =userService.theraRegist(theraInfo);
+		return userId;
 	}
 	
 	/*부모 회원가입*/
@@ -60,10 +64,8 @@ public class UserController {
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public ResponseEntity<?>  parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
+	public void parentRegist(@RequestBody @ApiParam(value="부모 회원가입 요청 정보", required=true) ParentRegisterRequest parentInfo){
 		userService.parentRegist(parentInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
-		
 	}
 	
 	/*아이디 중복검사*/
@@ -85,22 +87,19 @@ public class UserController {
 		else return "fail";
 	}
 	
-	/*회원정보 조회*/
-	@GetMapping("/{user_id}")
-	public ResponseEntity<?> userInfo(@PathVariable String user_id){
-		/*부모 회원정보 조회*/
-		if(user_id.charAt(0)=='p'){
-			ParentResponse presult = userService.getParentInfo(user_id);	
-			return new ResponseEntity<ParentResponse>(presult, HttpStatus.OK);		
-			
-			
-		}
-		/*치료사 회원정보 조회*/
-		else if(user_id.charAt(0)=='t'){
-			TherapistResponse tresult= userService.getTheraInfo(user_id);
-			return new ResponseEntity<TherapistResponse>(tresult, HttpStatus.OK);
-		}
-			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+	/*치료사 회원정보 조회*/
+	@GetMapping("/therainfo/{user_id}")
+	public TherapistResponse theraInfo(@PathVariable String user_id){
+		TherapistResponse tresult= userService.getTheraInfo(user_id);
+		return tresult;
+	}
+	
+	/*부모 회원정보 조회*/
+	@GetMapping("/parentinfo/{user_id}")
+	public ParentResponse parentInfo(@PathVariable String user_id){
+		
+		ParentResponse presult = userService.getParentInfo(user_id);	
+		return presult;
 	}
 	
 	/*부모 회원정보 수정*/
@@ -140,6 +139,24 @@ public class UserController {
 	})
 	public ResponseEntity<?>  userDelete(){
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+	}
+	
+	/**비밀번호 찾기*/
+	@PostMapping("/findpw")
+	public ResponseEntity<?> findPass(@RequestBody FindPwRequest findpw){
+		String id = findpw.getId(); //13자리 난수 아님 
+		String email = findpw.getEmail();
+		try {
+			int res = userService.findPass(id, email);
+			if(res==0) {
+				return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+			//프론트와 상의 후 어떻게 할건지 결정 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		} 
 	}
 	
 }

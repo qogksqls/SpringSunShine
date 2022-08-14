@@ -41,18 +41,18 @@ public class Therapist {
 	String profileUrl;
 	
 	
-	@Column(name = "academicCareers", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "academicCareers", columnDefinition = "VARCHAR(255) ")
 	String academicCareers;
 	
-	@Column(name = "careers", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "careers", columnDefinition = "VARCHAR(255)")
 	String careers;
 	
-	@Column(name = "licences", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "licences", columnDefinition = "VARCHAR(255)")
 	String licences;
 	
 	
 	
-	@Column(name = "thera_intro", columnDefinition = "TEXT", nullable = false)
+	@Column(name = "thera_intro", columnDefinition = "TEXT")
 	String theraIntro;
 	@Column(name = "approve_flag", columnDefinition = "int default 0", nullable = false)
 //	@ColumnDefault("0")
@@ -67,9 +67,8 @@ public class Therapist {
 	private User user;
 
 	// 영속성 컨텍스트가 유지되어있기 때문에 Entity의 데이터 값이 변경 되면 자동으로 update 
-		public void update(String name, String email, String phone, String address , String profileUrl, String theraIntro, User user) {
+		public void update(String name, String phone, String address , String profileUrl, String theraIntro, User user) {
 			this.name= name ;
-			this.email=email;
 			this.phone= phone;
 			this.address=address;
 			this.profileUrl = profileUrl;
