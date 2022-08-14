@@ -64,7 +64,7 @@
 
           <!--학생 얼굴 들어갈 자리 start-->
           <div class="col-md-3 studentFace" v-if="isFaceShow">
-          <main-video-comp :mainStreamManager="mainStreamManager"></main-video-comp></div>
+          <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp></div>
           <!--학생 얼굴 들어갈 자리 end-->
         </div>
 				
