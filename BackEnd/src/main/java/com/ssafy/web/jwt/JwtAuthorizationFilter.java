@@ -8,27 +8,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.web.db.entity.User;
 import com.ssafy.web.db.repository.UserRepository;
-import com.ssafy.web.service.AuthService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -61,14 +57,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
             Authentication authentication = getAuthentication(request);
             // jwt 토큰으로 부터 획득한 인증 정보(authentication) 설정.
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        }catch(ExpiredJwtException e){ 
-        	throw new JwtException("토큰기한 만료되었습니다.");
+        }catch(TokenExpiredException e){ 
+        	log.debug("filter-유효기간만료");
+//        	throw new JwtException("Expired token");
+        	request.setAttribute("exception", ErrorCode.EXPIRED_TOKEN.getErrorCode());
         }catch(Exception ex) {
-            ResponseBodyWriteUtil.sendError(request, response, ex);
-            return;
+        	log.debug("filter-유효하지않은토큰");
+//        	throw new IOException("wrong token");
+//        	sendErrorResponse(response, "올바르지 않은 형식의 토큰입니다.");
+        	request.setAttribute("exception", ErrorCode.INVALID_TOKEN.getErrorCode());
         }
 		
-        
+		
+      
         chain.doFilter(request, response);
 	}
 
@@ -97,6 +98,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				}
 				
 				return null ;
+		}
+		
+		private void sendErrorResponse(HttpServletResponse response, String message) throws IOException{
+			response.setCharacterEncoding("utf-8");
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.getWriter().println(message);
 		}
 	
 
