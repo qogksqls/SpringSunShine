@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -67,6 +69,28 @@ export default {
       return this.items.length;
     },
   },
+  created() {
+    console.log('특정아동 상담내역')
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/consult/parent/${this.$store.state.accounts.userid}/${this.$route.params.childId}/1/5`,
+      method: 'get'
+    })
+      .then(res => {
+        console.log(res.data)
+        // this.items = res.data
+        // for (let i = 0; i < this.items.length; i++) {
+        //   this.items[i]["No"] = i + 1
+        //   // const date = this.items[i]["reservTime"].slice(0, 10)
+        //   // const time = this.items[i]["reservTime"].slice(11, 16)
+        //   // this.items[i]["date"] = date
+        //   // this.items[i]["time"] = time
+        // }
+        // console.log(this.items)
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+  }
 };
 </script>
 <style scoped>

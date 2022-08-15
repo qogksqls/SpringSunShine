@@ -59,7 +59,7 @@ export default {
       //   this.$cookies.set("idCookie", credentials.id);
       // }
       axios({
-        url: 'https://i7a606.q.ssafy.io/service-api/auth/login',
+        url: 'https://i7a606.q.ssafy.io/auth-api/auth/login',
         method: 'post',
         data: credentials
       })
@@ -85,7 +85,7 @@ export default {
         router.push({ name: 'login' })
       }
       axios({
-        url: 'https://i7a606.q.ssafy.io/service-api/auth/logout',
+        url: 'https://i7a606.q.ssafy.io/auth-api/auth/logout',
         method: 'post',
         data: {
           "accessToken": this.state.accounts.accessToken,
@@ -106,7 +106,7 @@ export default {
     fetchCurrentUser({ commit, getters, dispatch }) {
       if (getters.isLoggedIn) {
         axios({
-          url: `https://i7a606.q.ssafy.io/service-api/user/${this.userid}`,
+          url: `https://i7a606.q.ssafy.io/auth-api/user/${this.userid}`,
           method: 'get',
         })
           .then(res => {

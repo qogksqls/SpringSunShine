@@ -65,11 +65,11 @@
                       <go-to-survey></go-to-survey>
                     </div>
 
-                    <router-link to="/childReserveShow" class="col-lg-6 px-0">
-                      <base-button type="default" class="childbutton">
-                        상담 내역
-                      </base-button>
-                    </router-link>
+                    <!-- <router-link to="/childReserveShow" class="col-lg-6 px-0"> -->
+                    <base-button type="default" class="childbutton" @click="moveHistory(i)">
+                      상담일정
+                    </base-button>
+                    <!-- </router-link> -->
 
                     <router-link to="/survey" class="col-lg-6 px-0">
                       <base-button type="default" class="childbutton">
@@ -230,6 +230,9 @@ export default {
     },
     moveSurveyResult(index) {
       this.$router.push({ name: "surveyresult", params: this.children[index] });
+    },
+    moveHistory(index) {
+      this.$router.push({ name: "childReserveShow", params: this.children[index] });
     }
   },
   created() {

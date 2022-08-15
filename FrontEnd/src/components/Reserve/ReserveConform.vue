@@ -26,6 +26,7 @@
 <script>
 import Modal from "@/components/Modal.vue";
 import axios from 'axios';
+
 export default {
   components: {
     Modal,
@@ -40,23 +41,27 @@ export default {
   props: ['result'],
   methods: {
     reserve() {
+      // console.log(this.$store.state.accounts.userid)
+      // console.log(this.$route.params.childInfo.name)
+      // console.log(this.$route.params.counselorInfo.thera_id)
+      console.log(this.result)
       axios({
         url: 'https://i7a606.q.ssafy.io/service-api/reserv-parent',
         method: 'post',
         data: {
-          "parent_id": this.$store.state.accounts.userid,
           "child_name": this.$route.params.childInfo.name,
+          "parent_id": this.$store.state.accounts.userid,
           "thera_id": this.$route.params.counselorInfo.thera_id,
           "reserv_time": this.result
         }
       })
         .then(res => {
           console.log(res.data)
+          this.modals.modalFlag = true
         })
         .catch(err => {
           console.log(err.response)
         })
-      this.modalFlag = true
     }
   }
 };
