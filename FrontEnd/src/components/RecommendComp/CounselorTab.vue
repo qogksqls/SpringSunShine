@@ -3,7 +3,7 @@
     <div class="tab-box nav justify-content-start">
       <ul class="row col-lg-12 tab-btn-list m-0 p-0">
         <li
-          class="col-lg-2 nav-item tabstyle"
+          class="col nav-item tabstyle"
           v-for="(tab, index) in tabList"
           :key="index"
           :class="{ active: currentTab === index }"
@@ -45,7 +45,8 @@
             </div>
           </div>
         </div>
-      </div></div>
+      </div>
+    </div>
     <div v-show="currentTab == 3" class="tab-cont col-lg-12">
       <div class="row justify-content-center mt-4 text-center">
         <div v-for="(counselor, i) in counselors" :key="i">
@@ -55,7 +56,8 @@
             </div>
           </div>
         </div>
-      </div></div>
+      </div>
+    </div>
     <div v-show="currentTab == 4" class="tab-cont col-lg-12">
       <div class="row justify-content-center mt-4 text-center">
         <div v-for="(counselor, i) in counselors" :key="i">
@@ -65,7 +67,8 @@
             </div>
           </div>
         </div>
-      </div></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -73,7 +76,7 @@
 import circleProfile from "./CircleProfile.vue";
 
 export default {
-  name: 'CounselorTab',
+  name: "CounselorTab",
   components: { circleProfile },
   data() {
     return {
@@ -87,29 +90,48 @@ export default {
       ],
     };
   },
-  props: [
-    'counselors'
-  ],
+  props: ["counselors"],
   created() {
-    console.log()
-  }
+    console.log();
+  },
 };
 </script>
 
 <style scoped>
 .tabstyle {
+  font-weight: bold;
   padding: 10px 5px;
   border: 1px solid #dcdcdc;
+  border-radius: 50px;
+  margin-bottom: 15px;
+}
+.tabstyle:hover {
+  background-color: #ffdcb8;
+  border: 2px solid #989898;
+}
+.tabstyle > a:hover {
+  color: #989898;
+  font-weight: bold;
+  border: 0;
+}
+.tabstyle:target {
+  background-color: #ffdcb8;
 }
 li {
   display: inline-block;
 }
 .tab-cont {
+  border-radius: 15px;
   margin-bottom: 30px;
   padding: 20px;
   text-align: left;
   border: 1px solid #dcdcdc;
   float: left;
   padding: 10px;
+}
+@media (max-width: 767px) {
+  .profile-page .card-profile {
+    margin-top: -400px;
+  }
 }
 </style>
