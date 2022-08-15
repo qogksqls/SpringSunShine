@@ -70,7 +70,6 @@ export default {
       return this.items.length;
     },
   },
-<<<<<<< HEAD
   created() {
     console.log('특정아동 상담내역')
     axios({
@@ -92,14 +91,12 @@ export default {
       .catch(err => {
         console.log(err.response)
       })
-  }
-=======
+  },
   methods: {
     counReview(item) {
       this.$router.push({ name: "counReview" });
     },
   },
->>>>>>> 98f6caa4ce3558450691373ab82d47ca44571311
 };
 </script>
 <style scoped>

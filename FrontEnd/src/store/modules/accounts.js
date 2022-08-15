@@ -107,13 +107,8 @@ export default {
     fetchCurrentUser({ commit, getters, dispatch }) {
       if (getters.isLoggedIn) {
         axios({
-<<<<<<< HEAD
           url: `https://i7a606.q.ssafy.io/auth-api/user/${this.userid}`,
           method: 'get',
-=======
-          url: `https://i7a606.q.ssafy.io/service-api/user/${this.userid}`,
-          method: "get",
->>>>>>> 98f6caa4ce3558450691373ab82d47ca44571311
         })
           .then((res) => {
             console.log(res.data);
