@@ -1,14 +1,14 @@
 <template>
   <section class="section section-shaped section-lg my-0">
     <div class="shape shape-style-1 bg-gradient-default"></div>
-    <div class="container pt-lg-md">
+    <div class="container pt-lg-md py-lg-5">
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <card
             type="secondary"
             shadow
             header-classes="bg-white pb-5"
-            body-classes="px-lg-5 py-lg-5"
+            body-classes="p-lg-5"
             class="border-0"
           >
             <template>
@@ -18,7 +18,7 @@
                 </div>
               </h3>
               <h3 v-else>
-                <div class="text-muted text-left mb-3">
+                <div class="text-muted text-left my-lg-4">
                   <b>보호자 회원가입</b>
                 </div>
               </h3>
@@ -199,8 +199,8 @@ export default {
       checkid: false,
 
       checkEmail: true,
-      emailCode1: '',
-      emailCode2: ''
+      emailCode1: "",
+      emailCode2: "",
     };
   },
   methods: {
@@ -209,32 +209,32 @@ export default {
         .get(`${this.$store.state.host}/service-api/user/checkid/${this.id}`)
         .then((res) => {
           if (res.data === "success") {
-            alert("사용 가능한 아이디입니다.")
-            this.checkid = true
+            alert("사용 가능한 아이디입니다.");
+            this.checkid = true;
           } else {
-            alert("이미 사용된 아이디입니다.")
-            this.id = ''
-            this.checkid = false
+            alert("이미 사용된 아이디입니다.");
+            this.id = "";
+            this.checkid = false;
           }
         });
     },
     getEmailCode() {
-      console.log("이메일 인증")
+      console.log("이메일 인증");
       this.$axios
         .post(`${this.$store.state.host}/service-api/mail`, {
-          email: this.email
+          email: this.email,
         })
         .then((res) => {
-          this.emailCode2 = res.data
+          this.emailCode2 = res.data;
         });
     },
     checkEamilCode() {
       if (this.emailCode1 === this.emailCode2) {
-        this.checkEmail = true
-        alert("이메일 인증이 완료되었습니다.")
+        this.checkEmail = true;
+        alert("이메일 인증이 완료되었습니다.");
       } else {
-        this.emailCode1 = ''
-        alert("인증번호가 불일치합니다. 다시 입력해주세요.")
+        this.emailCode1 = "";
+        alert("인증번호가 불일치합니다. 다시 입력해주세요.");
       }
     },
     counselor_data(inputDatas) {
@@ -244,7 +244,7 @@ export default {
       this.academicCareers = inputDatas.academicCareers;
       this.careers = inputDatas.careers;
       this.licences = inputDatas.licences;
-      this.thera_intro = inputDatas.thera_intro
+      this.thera_intro = inputDatas.thera_intro;
       // console.log(this.profile_url)
       // console.log(this.expertise)
       // console.log(this.academicCareers)
@@ -254,7 +254,7 @@ export default {
     },
     signinTeacher() {
       console.log("상담사 회원가입");
-      console.log(`${this.$store.state.host}/service-api/user/therapist`)
+      console.log(`${this.$store.state.host}/service-api/user/therapist`);
       if (
         this.id &&
         this.password1 &&
@@ -265,7 +265,7 @@ export default {
         this.email
       ) {
         this.$axios
-          .post('https://i7a606.q.ssafy.io/service-api/user/therapist', {
+          .post("https://i7a606.q.ssafy.io/service-api/user/therapist", {
             id: this.id,
             password: this.password1,
             name: this.name,
@@ -277,7 +277,7 @@ export default {
             academicCareers: this.academicCareers,
             careers: this.careers,
             licences: this.licences,
-            thera_intro: this.thera_intro
+            thera_intro: this.thera_intro,
           })
           .then((res) => {
             console.log(res.data);
@@ -356,6 +356,9 @@ export default {
 </script>
 
 <style scoped>
+body {
+  background: linear-gradient(87deg, #ffdcb8 0, #fffab8 100%) !important;
+}
 input {
   height: 40px;
   border: 1px solid #bebebe;
@@ -370,9 +373,14 @@ button {
   height: 30px;
   border-radius: 10px;
 }
+
 @media (max-width: 767px) {
   .register_wrap_content {
     padding: 8px !important;
+  }
+
+  .section {
+    height: 100%;
   }
 }
 </style>

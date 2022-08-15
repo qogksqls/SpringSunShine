@@ -28,7 +28,7 @@
               >
                 <!--회원가입 폼 이름 작성 start-->
 
-                <div class="row col-lg-12">
+                <div class="col-lg-12">
                   <div class="p-0 my-3 col-lg-12">
                     <small><strong>서비스를 의뢰하고 싶다면</strong></small>
                     <!--링크 넘어가기-->
@@ -108,5 +108,15 @@ border: 1px solid #dcdcdc;
 .go_to:hover{
     background-color: #FDFFDC;
     border: 1px solid #ffdcb8;
+    cursor: pointer;
+}
+
+ .section{
+  height: 100vh;
+ }
+@media (max-width: 767px) {
+.section {
+  height: 100%;
+}
 }
 </style>
