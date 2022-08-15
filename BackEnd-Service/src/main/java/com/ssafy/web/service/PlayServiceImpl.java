@@ -2,13 +2,17 @@ package com.ssafy.web.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.ssafy.web.db.entity.play.ObjectCard;
 import com.ssafy.web.db.entity.play.Play;
+import com.ssafy.web.db.repository.ObjectCardRepository;
 import com.ssafy.web.db.repository.PlayRepository;
+import com.ssafy.web.dto.ObjectDto;
 import com.ssafy.web.model.response.PlayResponse;
 import com.ssafy.web.request.PlayRequest;
 
@@ -17,6 +21,9 @@ public class PlayServiceImpl implements PlayService {
 
 	@Autowired
 	PlayRepository playRepository;
+	
+	@Autowired
+	ObjectCardRepository objcetCardRepository;
 
 	@Autowired
 	WebClient webClient;
@@ -56,6 +63,39 @@ public class PlayServiceImpl implements PlayService {
 		play.setTotalTime(playRequest.getTotalTime());
 		
 		playRepository.save(play);
+	}
+
+	/** 사물 카드 놀이 3장씩 카드 보내기 */
+	@Override
+	public List<ObjectDto> objectCardPlay() {
+		int totalCard = objcetCardRepository.findAll().size();
+		int arr[] = new int[3]; // 카드 아이디 3개 저장
+		
+		Random random = new Random();
+		for(int i=0; i<3; i++) {
+			arr[i] = random.nextInt(totalCard)+1;
+			for(int j=0; j<i; j++) {
+				if(arr[i]  == arr[j]) {
+					i--;
+				}
+			}
+		}
+		
+		System.out.printf("카드 아이디: %d %d %d",arr[0], arr[1], arr[2]);
+	
+		List<ObjectDto> objectList = new ArrayList<ObjectDto>();
+		for(int i=0; i<3; i++) {
+			ObjectCard card = objcetCardRepository.findByCardId(arr[i]);
+			ObjectDto objectCard = new ObjectDto();
+			
+			objectCard.setImage(card.getImage());
+			objectCard.setName(card.getName());
+			objectCard.setQuestion(card.getQuestion());
+			
+			objectList.add(objectCard);
+		}
+		
+		return objectList;
 	}
 
 }
