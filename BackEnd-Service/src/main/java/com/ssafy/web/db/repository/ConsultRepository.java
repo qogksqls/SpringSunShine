@@ -60,4 +60,16 @@ public interface ConsultRepository extends JpaRepository<Consult , Integer>{
 			Pageable pageable);
 	
 	
+	
+	@Query(value ="select count(c) from Consult c "
+			+ "where c.theraId = :theraId " 
+			+ "and c.childId = :childId")
+	int countAllByTheraIdAndChildId(
+			@Param("theraId") String theraId,@Param("childId") String childId);
+	
+	@Query(value ="select count(c) from Consult c "
+			+ "where c.parentId = :parentId " 
+			+ "and c.childId = :childId")
+	int countAllByParentIdAndChildId(
+			@Param("parentId") String parentId, @Param("childId") String childId);
 }
