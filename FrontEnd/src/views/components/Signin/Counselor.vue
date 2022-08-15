@@ -9,45 +9,40 @@
       <input
         type="checkbox"
         id="자폐증"
-        :value=1
+        value="1"
         v-model="datas.expertise_no"
-        @change="counselor"
       />
       <label for="자폐증">자폐증</label>
       <label for="file" class="col col-lg-2 mt-3 "></label>
       <input
         type="checkbox"
         id="아스퍼거"
-        :value=2
+        value="2"
         v-model="datas.expertise_no"
-        @change="counselor"
       />
       <label for="아스퍼거 증후군">아스퍼거 증후군</label>
       <label for="file" class="col col-lg-2 mt-3 "></label>
       <input
         type="checkbox"
         id="전반적 발달 장애"
-        :value=3
+        value="3"
         v-model="datas.expertise_no"
-        @change="counselor"
       />
       <label for="전반적 발달 장애">전반적 발달 장애</label>
       <label for="file" class="col col-lg-2 mt-3 "></label>
       <input
         type="checkbox"
         id="레트 증후군"
-        :value=4
+        value="4"
         v-model="datas.expertise_no"
-        @change="counselor"
       />
       <label for="레트 증후군">레트 증후군</label>
       <label for="file" class="col col-lg-2 mt-3 "></label>
       <input
         type="checkbox"
         id="아동기 붕괴성 장애"
-        :value=5
+        value="5"
         v-model="datas.expertise_no"
-        @change="counselor"
       />
       <label for="아동기 붕괴성 장애">아동기 붕괴성 장애</label>
     </div>
@@ -57,15 +52,15 @@
       <label for="profile_photo" class="col col-lg-2 pr-1 mt-2"
         >프로필사진</label
       >
-      <img v-if="img_src" :src="img_src" width="128" height="128">
       <label for="file" class="col col-lg-2 mt-3 "></label>
       <input
         type="file"
         class="col-lg-8 form-control mt-2 form-control p-2"
         id="file"
-        placeholder="프로필사진"
-        @change="addProfilePicture"
+        placeholder="담당업무"
+        :v-model="datas.profile_url"
       />
+      asdf: {{datas.profile_url}}
     </div>
     <!--상담사 폼 학력 start-->
     <hr />
@@ -112,7 +107,7 @@
         />
 
         <p>
-          <button @click="addAcademicCareer">완료</button>
+          <button @click="addAcadimicCareer">완료</button>
         </p>
         <p>
           <button @click="학력추가 = false">취소</button>
@@ -124,21 +119,21 @@
     <div v-for="(academicCareer, i) in datas.academicCareers" :key="i">
       <div class="col-lg-12 row teach py-3 m-0">
         <label for="school" class="col col-lg-2 mt-2"
-          >학교명: {{ academicCareer["name"] }}</label
+          >학교명: {{ academicCareer[0] }}</label
         >
         <div class="col-lg-1"></div>
         <label for="major" class="col col-lg-2 mt-2"
-          >전공: {{ academicCareer["major"] }}</label
+          >전공: {{ academicCareer[1] }}</label
         >
         <label for="inyear" class="col col-lg-2 mt-3 "
-          >입학일: {{ academicCareer["admin"] }}</label
+          >입학일: {{ academicCareer[2] }}</label
         >
         <div class="col-lg-1"></div>
         <label for="year" class="col col-lg-2 mt-3 "
-          >졸업일: {{ academicCareer["gradu"] }}</label
+          >졸업일: {{ academicCareer[3] }}</label
         >
         <p>
-          <button @click="deleteAcademicCareer(i)">삭제</button>
+          <button>삭제</button>
         </p>
       </div>
       <hr />
@@ -213,24 +208,24 @@
     </div>
     <hr />
 
-    <div v-for="(career, idx) in datas.careers" :key="idx">
+    <div v-for="(career, i) in datas.careers" :key="i">
       <div class="col-lg-12 row teach py-3 m-0">
         <label for="school" class="col col-lg-2 mt-2"
-          >회사명: {{ career["name"] }}</label
+          >회사명: {{ career[0] }}</label
         >
         <div class="col-lg-1"></div>
         <label for="major" class="col col-lg-2 mt-2"
-          >직급: {{ career["level"] }}</label
+          >직급: {{ career[1] }}</label
         >
         <label for="inyear" class="col col-lg-2 mt-3 "
-          >재직기간: {{ career["date"].range }}</label
+          >재직기간: {{ career[2].range }}</label
         >
         <div class="col-lg-1"></div>
         <label for="year" class="col col-lg-2 mt-3 "
-          >담당업무: {{ career["role"] }}</label
+          >담당업무: {{ career[3] }}</label
         >
         <p>
-          <button @click="deleteCareer(idx)">삭제</button>
+          <button>삭제</button>
         </p>
       </div>
       <hr />
@@ -279,11 +274,10 @@
           type="file"
           class="ex_file col-lg-9 form-control mt-2 form-control p-2"
           id="file"
-          placeholder="자격증파일"
-          @change="addLicenceFile"
+          placeholder="담당업무"
         />
         <p>
-          <button @click="addLicence">완료</button>
+          <button @click="addlicence">완료</button>
         </p>
         <p>
           <button @click="자격증추가 = false">취소</button>
@@ -296,21 +290,21 @@
     <div v-for="(licence, i) in datas.licences" :key="i">
       <div class="col-lg-12 row teach py-3 m-0">
         <label for="school" class="col col-lg-2 mt-2"
-          >자격증명: {{ licence["name"] }}</label
+          >자격증명: {{ licence[0] }}</label
         >
         <div class="col-lg-1"></div>
         <label for="major" class="col col-lg-2 mt-2"
-          >발행처/기관: {{ licence["place"] }}</label
+          >발행처/기관: {{ licence[1] }}</label
         >
         <label for="inyear" class="col col-lg-2 mt-3 "
-          >취득일: {{ licence["date"] }}</label
+          >취득일: {{ licence[2] }}</label
         >
         <div class="col-lg-1"></div>
         <label for="year" class="col col-lg-2 mt-3 "
-          >첨부파일: {{ licence["file"] }}</label
+          >첨부파일: {{ licence[3] }}</label
         >
         <p>
-          <button @click="deleteLicence(i)">삭제</button>
+          <button>삭제</button>
         </p>
       </div>
       <hr />
@@ -346,11 +340,6 @@ export default {
         licences: [],
         thera_intro: "",
       },
-      file_name: "파일을 선택하세요.",
-      file: "",
-      img_src: '',
-
-      학력추가: false,
       경력추가: false,
       자격증추가: false,
 
@@ -366,109 +355,71 @@ export default {
       licence_name: "",
       licence_publication: "",
       acquisition_date: "",
-      licence_file_name: "",
-      licence_file_url: "",
+      licence_file: {},
     };
   },
   methods: {
-    addProfilePicture(e) {
-      let file = e.target.files[0];
-      let name = file.name;
-      this.file_name = file.name;
-      this.file = file;
-      if(name.endsWith('.jpg') || name.endsWith('.jpeg') || 
-        name.endsWith('.png') || name.endsWith('.gif'))
-        this.img_src = URL.createObjectURL(file);
-      else
-        this.img_src = ""
-      this.datas.profile_url = this.img_src
-      this.counselor()
-    },
-    addLicenceFile(e) {
-      let file = e.target.files[0];
-      let name = file.name;
-      this.licence_file_name = file.name;
-      this.file = file;
-      if(name.endsWith('.pdf') || name.endsWith('.docx') || 
-        name.endsWith('.hwp') || name.endsWith('.md') || name.endsWith('.ppt'))
-        this.licence_file_url = URL.createObjectURL(file);
-      else
-        alert("pdf, docx, hwp의 파일로 올려주세요.")
-        this.licence_file_url = ""
-    },
-    addAcademicCareer() {
+    addAcadimicCareer() {
       if (this.university && this.major && this.admission && this.graduation) {
-        this.datas.academicCareers.push({
-          "name": this.university,
-          "major": this.major,
-          "admin": this.admission,
-          "gradu": this.graduation
-        });
-        this.counselor()
-        this.university = ""
-        this.major = ""
-        this.admission = ""
-        this.graduation = ""
-        this.학력추가 = false;
-    } else {
+        this.datas.academicCareers.push([
+          this.university,
+          this.major,
+          this.admission,
+          this.graduation,
+        ]);
+        (this.university = ""),
+          (this.major = ""),
+          (this.admission = ""),
+          (this.graduation = ""),
+          (this.학력추가 = false);
+      } else {
         alert("모두 정확하게 입력하시오.");
       }
-    },
-    deleteAcademicCareer(index) {
-      this.datas.academicCareers.splice(index, 1)
-      this.counselor()
     },
     addCareer() {
       if (this.company && this.position && this.dates && this.part) {
-        this.datas.careers.push({
-          "name": this.company,
-          "level": this.position,
-          "date": this.dates.range,
-          "role": this.part,
-      });
-        this.counselor()
-        this.company = ""
-        this.position = ""
-        this.dates = ""
-        this.part = ""
-        this.경력추가 = false;
+        this.datas.careers.push([
+          this.company,
+          this.position,
+          this.dates,
+          this.part,
+        ]);
+        (this.company = ""),
+          (this.position = ""),
+          (this.dates = ""),
+          (this.part = ""),
+          (this.경력추가 = false);
       } else {
         alert("모두 정확하게 입력하시오.");
       }
     },
-    deleteCareer(index) {
-      this.datas.careers.splice(index, 1)
-      this.counselor()
-    },
-    addLicence() {
+    addlicence() {
       if (
         this.licence_name &&
         this.licence_publication &&
-        this.acquisition_date &&
-        this.licence_file_name
+        this.acquisition_date
       ) {
-        this.datas.licences.push({
-          "name": this.licence_name,
-          "place": this.licence_publication,
-          "date": this.acquisition_date,
-          "file": this.licence_file_name,
-        });
-        this.counselor()
-        this.licence_name = "",
-        this.licence_publication = "",
-        this.acquisition_date = "",
-        this.licence_file_name = "",
-        this.자격증추가 = false;
+        this.datas.licences.push([
+          this.licence_name,
+          this.licence_publication,
+          this.acquisition_date,
+          this.licence_file,
+        ]);
+        (this.licence_name = ""),
+          (this.licence_publication = ""),
+          (this.acquisition_date = ""),
+          (this.licence_file = ""),
+          (this.자격증추가 = false);
       } else {
         alert("모두 정확하게 입력하시오.");
       }
     },
-    deleteLicence(index) {
-      this.datas.licences.splice(index, 1)
-      this.counselor()
-    },
     counselor() {
-      this.$emit("counselor", this.datas);
+      this.$emit("counselor", this.datas.academicCareers, this.datas.careers);
+      this.$emit("counselor", this.datas.careers);
+      this.$emit("counselor", this.datas.licences);
+      this.$emit("counselor", this.datas.expertise_no);
+      this.$emit("counselor", this.datas.profile_url);
     },
   },
 };

@@ -30,7 +30,7 @@ import reserve from "./views/Reserve/ReserveView.vue";
 
 import memo from "./views/consult/MemoView.vue";
 
-//마이페이지 _ 해당페이지에서 회원정보수정도 가능하게 ㅇㅇ
+//회원정보수정
 import update from "./views/UserInfoView/UserUpdateForm.vue";
 
 Vue.use(Router);
