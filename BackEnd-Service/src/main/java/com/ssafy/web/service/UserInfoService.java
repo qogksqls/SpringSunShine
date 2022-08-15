@@ -2,6 +2,10 @@ package com.ssafy.web.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.ResponseEntity;
+
 import com.ssafy.web.request.FindPwRequest;
 import com.ssafy.web.request.ParentModifyRequest;
 import com.ssafy.web.request.ParentRegisterRequest;
@@ -14,7 +18,7 @@ public interface UserInfoService {
 	void theraJoin(TheraRegisterInfo theraInfo);
 	void parentJoin(ParentRegisterRequest parentInfo);
 	String checkId(String id);
-	String findPass(String header, FindPwRequest findpw);
-	String parentModify(String header, String parent_id, ParentModifyRequest parentInfo);
-	void theraModify(String header, String thera_id, TheraModifyTotalRequest tmtr);
+	ResponseEntity<?> findPass(String header, FindPwRequest findpw);
+	ResponseEntity<?> parentModify(String header, String parent_id, ParentModifyRequest parentInfo);
+	ResponseEntity<?> theraModify(String header, String thera_id, TheraModifyTotalRequest tmtr);
 }

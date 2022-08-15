@@ -41,7 +41,6 @@ public class AuthenticationController {
 	/*부모 회원정보 조회*/
 	@GetMapping("/parentinfo/{user_id}")
 	public ParentResponse parentInfo(@PathVariable String user_id){
-		
 		ParentResponse presult = userService.getParentInfo(user_id);	
 		return presult;
 	}
