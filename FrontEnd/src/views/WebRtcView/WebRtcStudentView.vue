@@ -193,18 +193,24 @@ export default {
     ShowMe: function() {
       this.isFaceShow = !this.isFaceShow;
     },
-    joinSession() {
-      let tempSessionId = "";
-      let tempUserName = "";
-      this.$store.state.teacher.teacher.name.split("").forEach((element) => {
-        tempSessionId += element.charCodeAt(0).toString(16);
-      });
-      this.$store.state.children.children[0].이름
-        .split("")
-        .forEach((element) => {
-          tempUserName += element.charCodeAt(0).toString(16);
+    joinSession () {
+      let tempSessionId = ''
+			let tempUserName = ''
+
+      this.$store.state.teacher.teacher.name.split('').forEach(element => {
+					console.log(element)
+					console.log(element.charCodeAt(0).toString(16))
+          tempSessionId += element.charCodeAt(0).toString(16)
         });
-      this.mySessionId = "Session_" + tempSessionId;
+			// this.$store.state.children.children[0].이름.split('').forEach(element => {
+			'우영우'.split('').forEach(element => {
+					console.log(element)
+					console.log(element.charCodeAt(0).toString(16))
+					tempUserName += element.charCodeAt(0).toString(16)
+        });
+			console.log(tempSessionId);
+			console.log(tempUserName);
+      this.mySessionId = 'Session_' + tempSessionId
 
       this.myUserName = tempUserName;
 

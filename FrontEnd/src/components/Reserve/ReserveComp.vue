@@ -26,7 +26,7 @@
                     class="datepicker col-md-12"
                     v-model="date"
                   >
-                  </flat-picker>
+                  </flat-picker>`4`
                 </base-input>
               </div>
               <!--시간 선택-->
@@ -34,8 +34,14 @@
               <div class="schedule123  col-md-5">
                 <div class="upper_cont row">
                   <h3 class="col-md-9">
-                    {{ date.slice(5, 7) }}월 {{ date.slice(8, 10) }}일
-                    {{ hour }} 시
+                    <div v-if="hour === '몇'">
+                      {{ date.slice(5, 7) }}월 {{ date.slice(8, 10) }}일
+                      {{ hour }} 시
+                    </div>
+                    <div v-else>
+                      {{ date.slice(5, 7) }}월 {{ date.slice(8, 10) }}일
+                      {{ hour + 9 }} 시
+                    </div>
                   </h3>
                   <base-button
                     @click="dateSelected"
@@ -180,7 +186,7 @@ export default {
     possibleButton(t) {
       // "2022-09-04T04:30:00.000+00:00"
       this.hour = t-9;
-      this.result = `${this.date}T0${this.hour}:30:00.000+00:00`
+      this.result = `${this.date}T0${this.hour}:00:00`
     },
   },
 };
