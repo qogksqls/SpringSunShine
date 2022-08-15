@@ -108,6 +108,21 @@ public class ConsultServiceImpl implements ConsultService{
 		}
 		return ctrList;
 	}
+
+
+
+	@Override
+	public int countByTheraIdBychildId(String theraId, String childId) {
+		int res= conrepo.countAllByTheraIdAndChildId(theraId, childId);
+		return res;
+	}
+
+	@Override
+	public int countByParentIdBychildId(String parentId, String childId) {
+		// TODO Auto-generated method stub
+		int res= conrepo.countAllByParentIdAndChildId(parentId, childId);
+		return res;
+	}
 	
 	
 
