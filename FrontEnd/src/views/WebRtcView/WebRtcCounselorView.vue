@@ -26,7 +26,7 @@
       <div class="wrap_content row col-md-12 p-4">
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
-          <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
+          <sub-video-comp :key='subscribers[0].stream.connection.connectionId' v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
           <!-- <screen-share-comp v-if="sessionScreen" :sessionScreen="sessionScreen"></screen-share-comp> -->
         </div>
         <!--학생 얼굴 들어갈 자리 end-->
@@ -128,11 +128,11 @@ import SubVideoComp from './SubVideoComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
 
-// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-const OPENVIDU_SERVER_SECRET = "A606";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
   name: 'CounselorView',
