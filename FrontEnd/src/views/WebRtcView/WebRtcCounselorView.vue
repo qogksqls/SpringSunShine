@@ -14,7 +14,7 @@
       <div class="wrap_content row col-md-12 p-4">
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
-          <sub-video-comp v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
+          <sub-video-comp :key="subscribers[0].stream.connection.connectionId" v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
           <!-- <screen-share-comp v-if="sessionScreen" :sessionScreen="sessionScreen"></screen-share-comp> -->
         </div>
         <!--학생 얼굴 들어갈 자리 end-->
