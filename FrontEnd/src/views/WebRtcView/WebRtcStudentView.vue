@@ -1,30 +1,18 @@
 <template>
   <div id="webCam">
     <div id="join" v-if="!session">
-			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
+			
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
 					</p>
-				</div>
-			</div>
+
 		</div>
 
     <div class="container" v-if="session">
       <div class="wrap_content row col-md-12 p-4">
         <!--상담사 얼굴 들어갈 자리 start-->
         <div class="col-md-12 counselorFace" v-if="!playingNow">
-          <sub-video-comp :key='subscribers[0].stream.connection.connectionId' v-if="subscribers.length > 0" :subStreamManager="subscribers[0]" ></sub-video-comp>
+          <sub-video-comp :key="subscribers[0].stream.connection.connectionId" v-if="subscribers.length > 0" :subStreamManager="subscribers[0]"></sub-video-comp>
         </div>
         <!--상담사 얼굴 들어갈 자리 end-->
         <div
@@ -64,7 +52,7 @@
 
           <!--학생 얼굴 들어갈 자리 start-->
           <div class="col-md-3 studentFace" v-if="isFaceShow">
-          <main-video-comp :mainStreamManager="mainStreamManager" class="col-md-12"></main-video-comp></div>
+          <main-video-comp :mainStreamManager="mainStreamManager"></main-video-comp></div>
           <!--학생 얼굴 들어갈 자리 end-->
         </div>
 				
@@ -91,7 +79,7 @@ import CardsComp from '@/components/webRtcComp/CardsComp.vue'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
+// const OPENVIDU_SERVER_URL = "i7a606.q.ssafy.io:8443" ;
 
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 // const OPENVIDU_SERVER_SECRET = "A606";
@@ -194,6 +182,18 @@ export default {
       this.isFaceShow = !this.isFaceShow;
     },
     joinSession () {
+      let tempSessionId = ''
+			let tempUserName = ''
+      this.$store.state.teacher.teacher.name.split('').forEach(element => {
+          tempSessionId += element.charCodeAt(0).toString(16)
+        });
+			this.$store.state.children.children[0].이름.split('').forEach(element => {
+					tempUserName += element.charCodeAt(0).toString(16)
+        });
+      this.mySessionId = 'Session_' + tempSessionId
+
+			this.myUserName = tempUserName
+
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
