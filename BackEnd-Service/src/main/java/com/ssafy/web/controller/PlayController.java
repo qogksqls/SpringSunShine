@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.dto.ObjectDto;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.PlayResponse;
 import com.ssafy.web.request.PlayRequest;
@@ -26,6 +27,12 @@ public class PlayController {
 
 	@Autowired
 	PlayService playService;
+	
+	@GetMapping("/objectcard")
+	@ApiOperation(value = "사물 카드 목록 조회")
+	public List<ObjectDto> getObjectCardList(){
+		return playService.objectCardPlay();
+	}
 
 	@GetMapping("/list/{child_id}")
 	@ApiOperation(value = "아동 놀이 기록 조회")
