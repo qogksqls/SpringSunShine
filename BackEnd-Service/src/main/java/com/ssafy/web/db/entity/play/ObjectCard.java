@@ -7,9 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "object")
-public class Object {
+public class ObjectCard {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +22,7 @@ public class Object {
 	@Column(name = "image", columnDefinition = "VARCHAR(255)", nullable = false)
 	private String image;
 
-	@Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false, unique = true)
 	private String name;
 
 	@Column(name = "question", columnDefinition = "VARCHAR(255)", nullable = false)

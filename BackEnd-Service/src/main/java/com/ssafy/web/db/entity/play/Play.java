@@ -33,7 +33,7 @@ public class Play {
 	private Date createTime;
 
 	// 총 풀이시간
-	@Column(name = "total_time", columnDefinition = "DATETIME(6)")
+	@Column(name = "total_time", columnDefinition = "TIME(6)")
 	private Date totalTime;
 
 	// 점수
