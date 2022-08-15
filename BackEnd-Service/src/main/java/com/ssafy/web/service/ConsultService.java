@@ -17,4 +17,6 @@ public interface ConsultService {
 	List<ConsultTotalResponse> findByTheraId(String theraId, Pageable pageable);
 	List<ConsultTotalResponse> findByParentIdAndChildId(String parentId, String childId, Pageable pageable);
 	List<ConsultTotalResponse> findByParentId(String parentId, Pageable pageable);
+	int countByTheraIdBychildId(String theraId, String childid);
+	int countByParentIdBychildId(String parentId, String childid);
 }

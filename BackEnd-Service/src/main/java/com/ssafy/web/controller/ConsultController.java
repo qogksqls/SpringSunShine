@@ -83,4 +83,15 @@ public class ConsultController {
 		return list;
 	}
 	
+	@GetMapping("/therapistcount/{theraId}/{childId}")
+	public int countByTherapistAndChild(@PathVariable("theraId") String theraId, @PathVariable("childId") String childId){
+		return conService.countByTheraIdBychildId(theraId, childId);
+	}
+	
+	@GetMapping("/parentcount/{parentId}/{childId}")
+	public int countByParentAndChild(@PathVariable("parentId") String parentId ,@PathVariable("childId") String childId){
+		return conService.countByTheraIdBychildId(parentId, childId);
+	}
+	
+	
 }
