@@ -62,6 +62,10 @@
                                 </div>
                             </div>
                             <h1>hello</h1>
+                            
+                            <h1>
+                              {{ userInfo }}
+                            </h1>
                         </div>
                     </div>
                 </card>
@@ -70,7 +74,30 @@
     </div>
 </template>
 <script>
-export default {};
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      userInfo: {}
+    }
+  },
+  created() {
+    console.log("프로필 페이지")
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/user/${this.$store.state.accounts.userid}`,
+      method: 'get',
+      headers: { Authorization: `Bearer ${this.$store.state.accounts.accessToken}`}
+    })
+      .then((res) => {
+        console.log(res.data)
+        this.userInfo = res.data
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+  }
+};
 </script>
 <style>
 </style>

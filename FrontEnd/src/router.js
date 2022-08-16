@@ -12,6 +12,7 @@ import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
 
 //상담관련
 import ChildReserveShow from "./views/ReserveView/ChildReserveShowView.vue";
+import ChildReserveShowCounselor from "./views/ReserveView/ChildReserveShowCounselor.vue";
 import CounSchedule from "./views/ReserveView/ConsultationSchedule.vue";
 //상담 후기 작성
 import CounReview from "./views/ConsultReview/MemoReview.vue";
@@ -114,6 +115,14 @@ export default new Router({
       components: {
         header: AppHeader,
         default: ChildReserveShow,
+      },
+    },
+    {
+      path: "/childReserveShowCounselor",
+      name: "childReserveShowCounselor",
+      components: {
+        header: AppHeader,
+        default: ChildReserveShowCounselor,
       },
     },
     //상담사 상담 후기 작성하는 곳
