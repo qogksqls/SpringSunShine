@@ -15,8 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.UnknownHttpStatusCodeException;
+
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.UnknownHttpStatusCodeException;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -102,6 +103,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 			parentInfo= webClient.get().uri("/authentication/parentinfo/"+parent_id)
 			.header("Authorization", header)
 			.retrieve().bodyToMono(ParentResponse.class).block();
+			//토큰사용자가 틀림 
+			if(parentInfo.getId().equals("wrong-token")) {
+				er.setStatusCode(1000);
+				er.setMessage("토큰 사용자 오류");
+				data.put("errorInfo", er);
+				return data;
+			}
 			data.put("parentInfo", parentInfo);
 		}catch(UnknownHttpStatusCodeException e) {
 			int status = e.getRawStatusCode();
@@ -135,6 +143,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 			theraInfo = webClient.get().uri("/authentication/therainfo/" + thera_id)
 				.header("Authorization", header).retrieve()
 				.bodyToMono(TherapistResponse.class).block();
+			//토큰사용자가 틀림 
+			if(theraInfo.getId().equals("wrong-token")) {
+				er.setStatusCode(1000);
+				er.setMessage("토큰 사용자 오류");
+				data.put("errorInfo", er);
+				return data;
+			}
 			List<Expertise> list = expertiseRep.findByTheraIdjpql(thera_id);
 			TherapistInfoResopnse therapistInfo = new TherapistInfoResopnse(theraInfo, list);
 			data.put("theraInfo", therapistInfo);
@@ -167,6 +182,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 		try{
 			String res = webClient.post().uri("/authentication/findpw").bodyValue(findpw).header("Authorization", header)
 					.retrieve().bodyToMono(String.class).block();
+			//토큰사용자가 틀림 
+			if(res.equals("wrong-token")) {
+				er.setStatusCode(1000);
+				er.setMessage("토큰 사용자 오류");
+				return new ResponseEntity<TokenErrorResponse>(er, HttpStatus.BAD_REQUEST);
+			}
 			return new ResponseEntity<String>(res, HttpStatus.ACCEPTED);
 		}catch(UnknownHttpStatusCodeException e) {
 			int status = e.getRawStatusCode();
@@ -197,6 +218,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 		try {
 		String res= webClient.put().uri("/authentication/parent/" + parent_id).bodyValue(parentInfo).header("Authorization", header).retrieve()
 				.bodyToMono(String.class).block();
+		//토큰사용자가 틀림 
+		if(res.equals("wrong-token")) {
+			er.setStatusCode(1000);
+			er.setMessage("토큰 사용자 오류");
+			return new ResponseEntity<TokenErrorResponse>(er, HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<String>(res, HttpStatus.ACCEPTED);
 		}catch(UnknownHttpStatusCodeException e) {
 			int status = e.getRawStatusCode();
@@ -225,8 +252,18 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public ResponseEntity<?> theraModify(String header, String thera_id, TheraModifyTotalRequest tmtr) {
 		TokenErrorResponse er = new TokenErrorResponse();
 		try{
-			webClient.put().uri("/authentication/therapist/" + thera_id).bodyValue(tmtr.makeTMR()).header("Authorization", header).retrieve()
+			String res =webClient.put().uri("/authentication/therapist/" + thera_id).bodyValue(tmtr.makeTMR()).header("Authorization", header).retrieve()
 				.bodyToMono(String.class).block();
+			if(res.equals("fail")) {
+				return new ResponseEntity<String>(res, HttpStatus.ACCEPTED);
+			}
+			//토큰사용자가 틀림 
+			if(res.equals("wrong-token")) {
+				er.setStatusCode(1000);
+				er.setMessage("토큰 사용자 오류");
+				return new ResponseEntity<TokenErrorResponse>(er, HttpStatus.BAD_REQUEST);
+			}
+			
 			bexpertiseRep.deleteByTheraId(thera_id);
 			List<BExpertiseTherapist> bextList = new ArrayList<BExpertiseTherapist>();
 			for (int i = 0; i < tmtr.getExpertise().length; i++) {
@@ -234,7 +271,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			bextList.add(bext);
 			}
 			bexpertiseRep.saveAll(bextList);
-			return new ResponseEntity<String>("success", HttpStatus.ACCEPTED);
+			return new ResponseEntity<String>(res, HttpStatus.ACCEPTED);
 		}catch(UnknownHttpStatusCodeException e) {
 			int status = e.getRawStatusCode();
 			//유효기간 만료 된 토큰 

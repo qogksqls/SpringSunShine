@@ -1,6 +1,11 @@
 package com.ssafy.web.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -21,8 +26,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/therapist/recommend")
 public class BExpertiseThearpistController {
 	private final BExpertiseTherapistService BETService;
+	private final ServletContext servletContext;
 	
-	@Cacheable(value="recommendThera", cacheManager = "cacheManager")
+	@Cacheable(value="recommendThera", key="#expertise_no", cacheManager = "cacheManager")
 	@GetMapping("/{expertise_no}")
 	public List<RecommendTherapistTotalResponse> recommed(@PathVariable int expertise_no){
 		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistList(expertise_no);
@@ -37,12 +43,29 @@ public class BExpertiseThearpistController {
 	}
 	
 	//아동관리페이지에서 상담사 추천 페이지 (아이의 증상으로 추천  상담사 조회 ) 
-	@Cacheable(value="recommendTheraByChildId", cacheManager = "cacheManager")
+	@Cacheable(value="recommendTheraByChildId", key="#child_id", cacheManager = "cacheManager")
 	@GetMapping("/child/{child_id}")
 	public List<RecommendTherapistTotalResponse> childRecommend(@PathVariable("child_id") String child_id) {
 		int childExp_no = BETService.getChildExp(child_id); 
 		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistList(childExp_no);
 		return recommedTheraList;
 		
+	}
+	
+	@GetMapping("/test")
+	public String test() {
+		String str = servletContext.getRealPath("/profile/");
+//		String url = str+"3DDD-1.png";
+		String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+"profile/3DDD-1.png";
+		try {
+			InputStream imageIS = new FileInputStream(url);
+			imageIS.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return url;
+		}
+		
+		return "sdf";
 	}
 }
