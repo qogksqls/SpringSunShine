@@ -11,8 +11,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "object_card")
-public class ObjectCard {
+@Table(name = "feeling_card")
+public class FeelingCard {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
