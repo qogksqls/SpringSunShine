@@ -32,7 +32,7 @@ export default {
 
       axios.get('https://i7a606.q.ssafy.io/service-api/play/objectcard')
       .then( res => {
-        for (data of res.data) {
+        for (let data of res.data) {
           state.cardsName.push(data.name)
           state.cardsImage.push(data.image)
         }
