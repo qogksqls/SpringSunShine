@@ -9,7 +9,7 @@ public interface FeelingCardRepository extends JpaRepository<FeelingCard, Intege
 	
 	FeelingCard findByCardId(int cardId);
 	
-	@Query(value = "select count(*) from object", nativeQuery = true)
+	@Query(value = "select count(*) from feeling_card", nativeQuery = true)
 	int countAll();
 
 }

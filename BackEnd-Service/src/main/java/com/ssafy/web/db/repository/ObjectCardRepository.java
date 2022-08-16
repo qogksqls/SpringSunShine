@@ -13,7 +13,7 @@ public interface ObjectCardRepository extends JpaRepository<ObjectCard, Integer>
 	
 	List<ObjectCard> findAll();
 	
-	@Query(value = "select count(*) from object", nativeQuery = true)
+	@Query(value = "select count(*) from object_card", nativeQuery = true)
 	int countAll();
 	
 }
