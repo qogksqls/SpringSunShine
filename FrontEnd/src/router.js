@@ -39,6 +39,7 @@ import video from "./components/subMain/subMain.vue";
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   linkExactActiveClass: "active",
   routes: [
     {
