@@ -1,11 +1,19 @@
 package com.ssafy.web.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ssafy.web.db.entity.BExpertiseTherapist;
@@ -23,6 +31,7 @@ import com.ssafy.web.request.TheraRegisterInfo;
 import com.ssafy.web.request.TheraRegisterRequest;
 
 import lombok.RequiredArgsConstructor;
+import reactor.util.IoUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -55,9 +64,22 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	/** 치료사 회원가입 */
 	@Override
-	public void theraJoin(TheraRegisterInfo info) {
+	public void theraJoin(MultipartFile profile, TheraRegisterInfo info) {
 		TheraRegisterRequest theraInfo = info.makeTheraRegisterRequest();
-		String userId = webClient.post().uri("/user/therapist").bodyValue(theraInfo).retrieve().bodyToMono(String.class)
+		MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<String, Object>();
+		multiValueMap.add("theraInfo", theraInfo);
+		try {
+			Resource r = new FileSystemResource(profile.getBytes(), profile.getOriginalFilename());
+			multiValueMap.add("profile", r);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		String userId = webClient.post().uri("/user/therapist")
+				.contentType(MediaType.MULTIPART_FORM_DATA)
+		        .accept(MediaType.APPLICATION_JSON)
+				.bodyValue(multiValueMap).retrieve().bodyToMono(String.class)
 				.block();
 		List<BExpertiseTherapist> bextList = new ArrayList<BExpertiseTherapist>();
 
@@ -115,4 +137,22 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	}
 
+	
+	public static class FileSystemResource extends ByteArrayResource {
+
+	    private String fileName;
+
+	    public FileSystemResource(byte[] byteArray, String filename) {
+	        super(byteArray);
+	        this.fileName = filename;
+	    }
+
+	    public String getFilename() {
+	        return fileName;
+	    }
+
+	    public void setFilename(String fileName) {
+	        this.fileName = fileName;
+	    }
+	}
 }

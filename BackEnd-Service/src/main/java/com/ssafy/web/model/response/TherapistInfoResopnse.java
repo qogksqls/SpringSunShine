@@ -16,7 +16,7 @@ public class TherapistInfoResopnse {
 	private String email;
 	private String phone;
 	private String address;
-	private String profile_url;
+	private byte[] profile_url;
 	private String thera_intro;
 	private List<Academy> academy;
 	private List<Career> careers;
