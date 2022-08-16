@@ -2,7 +2,8 @@
   <header class="header-global">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
       <router-link slot="brand" class="navbar-brand mr-lg-5" to="/">
-        <img src="img/brand/white.png" alt="logo" />
+        <img src="/img/brand/blue.png" alt="logo" />
+
       </router-link>
 
       <div class="row" slot="content-header" slot-scope="{ closeMenu }">
@@ -19,7 +20,7 @@
       </div>
 
       <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-lg-auto">
-        <base-dropdown tag="li" class="nav-item" v-if="isLoggedIn">
+        <base-dropdown tag="li" class="nav-item" v-if="isLoggedIn && this.$store.state.accounts.userid.slice(0, 1) === 'p'">
           <a
             slot="title"
             href="#"
@@ -51,7 +52,7 @@
             <i class="ni ni-collection d-lg-none"></i>
             <span class="nav-link-inner--text"><b>프로필보기</b></span>
           </a>
-          <router-link to="/children" class="dropdown-item"
+          <router-link to="/children" class="dropdown-item" v-if="this.$store.state.accounts.userid.slice(0, 1) === 'p'"
             >자녀관리</router-link
           >
           <router-link to="/profile" class="dropdown-item"
@@ -63,8 +64,8 @@
         </base-dropdown>
 
         <!--전문가는 해당 페이지만 보게함-->
-        <li class="nav-link" v-if="isLoggedIn">
-          <router-link to="/" class="nav-link-inner--text navbar p-0"
+        <li class="nav-link" v-if="isLoggedIn && this.$store.state.accounts.userid.slice(0, 1) === 't'">
+          <router-link to="/counSchedule" class="nav-link-inner--text navbar p-0"
             ><b>예약관리</b></router-link
           >
         </li>
@@ -108,7 +109,7 @@ export default {
   },
   methods: {
     ...mapActions(['logout'])
-  }
+  },
 };
 </script>
 <style>

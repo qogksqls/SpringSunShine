@@ -22,4 +22,18 @@ public class WebClientConfig {
 
 		return webClient;
 	}
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        source.registerCorsConfiguration("/**", configuration);
+        return new CorsFilter(source);
+
+	}
 }
