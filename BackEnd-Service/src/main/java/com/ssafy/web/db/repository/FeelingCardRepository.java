@@ -1,19 +1,15 @@
 package com.ssafy.web.db.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ssafy.web.db.entity.play.ObjectCard;
+import com.ssafy.web.db.entity.play.FeelingCard;
 
-public interface ObjectCardRepository extends JpaRepository<ObjectCard, Integer> {
-
-	ObjectCard findByCardId(int cardId);
+public interface FeelingCardRepository extends JpaRepository<FeelingCard, Integer> {
 	
-	List<ObjectCard> findAll();
+	FeelingCard findByCardId(int cardId);
 	
 	@Query(value = "select count(*) from object", nativeQuery = true)
 	int countAll();
-	
+
 }
