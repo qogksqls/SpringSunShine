@@ -3,6 +3,7 @@ package com.ssafy.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class ChildController {
 	ChildManagementService childManagementService;
 
 	/** 아동 목록 조회 */
+	@Cacheable(value = "childList", key = "#parent_id", cacheManager = "cacheManager")
 	@GetMapping("/{parent_id}")
 	@ApiOperation(value = "아동 목록 조회")
 	public List<ChildResponse> getChildList(@PathVariable(value = "parent_id") String parentId) {
@@ -50,6 +52,7 @@ public class ChildController {
 	}
 
 	/** 상담사 -> 예약한 아동 정보 조회 */
+	@Cacheable(value = "reservChildInfo", key = "#child_id", cacheManager = "cacheManager")
 	@GetMapping("/reserv-therapist/{child_id}")
 	public ChildReservResponse getChildInfo(@PathVariable("child_id") String childId) {
 		return childManagementService.getChildInfo(childId);
