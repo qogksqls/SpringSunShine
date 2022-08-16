@@ -97,7 +97,10 @@ public class ChildServiceImpl implements ChildService {
 				childResponse.setProfileUrl(null);
 			} else {
 				String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
-				String url = str + child.getProfileUrl();
+//				String url = str + child.getProfileUrl();
+
+				String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"
+						+ PathUtil.PROFILE_PATH + child.getProfileUrl();
 
 				InputStream imageIS = new FileInputStream(url);
 				byte[] imageByteArray = IOUtils.toByteArray(imageIS);
