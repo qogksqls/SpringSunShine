@@ -78,11 +78,11 @@ import CardsComp from '@/components/webRtcComp/CardsComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "i7a606.q.ssafy.io:8443" ;
+//const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
 
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-// const OPENVIDU_SERVER_SECRET = "A606";
+//const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
 
@@ -187,22 +187,29 @@ export default {
       this.$store.state.teacher.teacher.name.split('').forEach(element => {
           tempSessionId += element.charCodeAt(0).toString(16)
         });
-			this.$store.state.children.children[0].이름.split('').forEach(element => {
+			'우영우'.split('').forEach(element => {
 					tempUserName += element.charCodeAt(0).toString(16)
         });
       this.mySessionId = 'Session_' + tempSessionId
 
 			this.myUserName = tempUserName
-
+			console.log('----------------');
+			console.log(this.mySessionId)
+			console.log(this.myUserName)
+			console.log('----------------')
+			
 			this.OV = new OpenVidu();
 
 			this.session = this.OV.initSession();
-      this.sessionScreen = this.OV.initSession();
+      //this.sessionScreen = this.OV.initSession();
 
 			this.session.on('streamCreated', ({ stream }) => {
 				const subscriber = this.session.subscribe(stream);
 				this.subscribers.push(subscriber);
 			});
+			console.log('--------------------');
+			console.log(this.subscribers);
+			console.log('--------------------');
 
 			this.session.on('streamDestroyed', ({ stream }) => {
 				const index = this.subscribers.indexOf(stream.streamManager, 0);
@@ -229,7 +236,9 @@ export default {
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not
 						});
-
+						console.log('--------------------');
+						console.log(publisher);
+						console.log('--------------------');
 						this.mainStreamManager = publisher;
 						this.publisher = publisher;
 
