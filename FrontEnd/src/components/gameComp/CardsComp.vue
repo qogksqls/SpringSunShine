@@ -57,8 +57,8 @@
               >
                 <img
                   id="cardImg"
-                  :src="require(`@/assets/${card[1]}.jpg`)"
-                  alt="Raised image"
+                  :src='card[1]'
+                  alt="nothing"
                   class="img-fluid rounded shadow-lg"
                 />
               </div>
@@ -104,13 +104,17 @@ export default {
 
     createCards() {
       this.gameSet = true;
+      this.$store.commit("sampleCards")
+
       console.log(`올바른 카드를 고르세요`);
-      this.$store.commit("sampleCards");
+
       this.solution = this.$store.state.cardGame.solutionCard[0];
+      
+
+
       console.log(this.solution);
-      setTimeout(() => {
-        this.selectedCards = this.$store.state.cardGame.selectedCards;
-      }, 1000);
+      this.selectedCards = this.$store.state.cardGame.selectedCards;
+
 
       this.timeStart = this.getTimeNow();
       console.log(this.timeStart);
@@ -146,6 +150,7 @@ export default {
           this.successCount = 0;
           this.gameCount = 0;
           this.timeSequence = [];
+          
         } else {
           this.gameSet = true;
           this.gameCountPerGame = 0;
@@ -168,7 +173,6 @@ export default {
   watch: {
     dialog0(val) {
       if (!val) return;
-
       setTimeout(() => (this.dialog0 = false), 1000);
     },
 

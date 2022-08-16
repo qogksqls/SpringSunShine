@@ -59,7 +59,7 @@
               >
                 <img
                   id="cardImg"
-                  :src="require(`@/assets/${card[1]}.jpg`)"
+                  :src='card[1]'
                   alt="Raised image"
                   class="img-fluid rounded shadow-lg"
                 />
