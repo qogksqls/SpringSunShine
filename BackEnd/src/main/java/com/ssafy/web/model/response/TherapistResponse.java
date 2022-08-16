@@ -25,7 +25,7 @@ public class TherapistResponse {
 	//주소
 	String address;
 	//프로필주소
-	String profile_url;
+	byte[] profile_url;
 	//자기소개
 	String thera_intro;
 	//학력

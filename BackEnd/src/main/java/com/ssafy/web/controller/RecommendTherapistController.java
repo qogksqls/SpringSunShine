@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.web.db.entity.Therapist;
 import com.ssafy.web.model.response.RecommendTherapistResponse;
 import com.ssafy.web.service.RecommendService;
 import lombok.RequiredArgsConstructor;
@@ -37,13 +38,15 @@ public class RecommendTherapistController {
 	
 	@GetMapping("/recommed")
 	public List<RecommendTherapistResponse> recommendTherapist(@RequestParam String[] betmList){
+//		List<RecommendTherapistResponse> list = recoService.findByUser_UserIdIn(betmList);
 		List<RecommendTherapistResponse> list = recoService.findByUser_UserIdIn(betmList);
 		return list;
 	}
 	
 	@GetMapping("/recommedall")
 	public List<RecommendTherapistResponse> recommendTherapistAll(){
-		List<RecommendTherapistResponse> list = recoService.findAlljpql();
+//		List<RecommendTherapistResponse> list = recoService.findAlljpql();
+		List<RecommendTherapistResponse> list = recoService.findAll();
 		return list;
 	}
 

@@ -25,7 +25,7 @@ public class MailController {
 	UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<?> sendEmail(@RequestBody EmailRequest email) throws Exception{
+	public String sendEmail(@RequestBody EmailRequest email) throws Exception{
 		String myemail = email.getEmail();
 		System.out.println("메일 보낼 이메일 : "+myemail);
 		String re ="fail";
@@ -33,16 +33,16 @@ public class MailController {
 		//이메일 중복 검사 하기 
 		int isEmail = userService.checkEmail(myemail);
 		if(isEmail == 0) {
-			return new ResponseEntity<String>(re, HttpStatus.OK);
+			return "fail"; // 이미 사용중인 이메일 
 		}
 		
 		try{
 			re = mailService.sendSimpleMessage(myemail);
 		}catch(Exception e) {
-			return new ResponseEntity<String>("fail", HttpStatus.NO_CONTENT);
+			return "fail";
 		}
 		
-		return new ResponseEntity<String>(re, HttpStatus.OK);
+		return re; // 이메일로 보낸 인증번호 
 	}
 	
 //	@PostMapping("/verify")

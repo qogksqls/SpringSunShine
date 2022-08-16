@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.service.ChildService;
 import com.ssafy.web.service.UserService;
-import com.ssafy.web.service.child.ChildService;
 
 import io.swagger.annotations.Api;
 

@@ -1,47 +1,48 @@
 package com.ssafy.web.controller;
 
-import java.lang.ProcessBuilder.Redirect;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.ssafy.web.model.response.RecommendTherapistResponse;
+import com.ssafy.web.model.response.RecommendTherapistTotalResponse;
 import com.ssafy.web.service.BExpertiseTherapistService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/therapist/recommed")
+@RequestMapping("/therapist/recommend")
 public class BExpertiseThearpistController {
 	private final BExpertiseTherapistService BETService;
 	
-	@Autowired
-	WebClient webClient; 
-	
+	@Cacheable(value="recommendThera", cacheManager = "cacheManager")
 	@GetMapping("/{expertise_no}")
-	public RecommendTherapistResponse[] recommed(@PathVariable int expertise_no){
-		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistList(expertise_no);
-		return recommedTheraArr;
+	public List<RecommendTherapistTotalResponse> recommed(@PathVariable int expertise_no){
+		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistList(expertise_no);
+		return recommedTheraList;
 	}
 	
+	@Cacheable(value="recommendThera", cacheManager = "cacheManager")
 	@GetMapping("/all")
-	public RecommendTherapistResponse[] recommedAll(){
-		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistAll();
-		return recommedTheraArr;
+	public List<RecommendTherapistTotalResponse> recommedAll(){
+		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistAll();
+		return recommedTheraList;
 	}
 	
 	//아동관리페이지에서 상담사 추천 페이지 (아이의 증상으로 추천  상담사 조회 ) 
-	@GetMapping("/{parent_id}/{child_name}")
-	public RecommendTherapistResponse[] childRecommend(@PathVariable("parent_id") String parent_id,
-			@PathVariable("child_name") String child_name) {
-		int childExp_no = BETService.getChildExp(parent_id, child_name); 
-		RecommendTherapistResponse[] recommedTheraArr = BETService.recommendTherapistList(childExp_no);
-		return recommedTheraArr;
+	@Cacheable(value="recommendTheraByChildId", cacheManager = "cacheManager")
+	@GetMapping("/child/{child_id}")
+	public List<RecommendTherapistTotalResponse> childRecommend(@PathVariable("child_id") String child_id) {
+		int childExp_no = BETService.getChildExp(child_id); 
+		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistList(childExp_no);
+		return recommedTheraList;
 		
 	}
 }

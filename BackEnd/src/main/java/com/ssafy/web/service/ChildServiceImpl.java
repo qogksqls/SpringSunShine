@@ -1,4 +1,4 @@
-package com.ssafy.web.service.child;
+package com.ssafy.web.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,17 +9,19 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.web.RandomUserId;
+import com.ssafy.web.db.entity.Child;
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.User;
-import com.ssafy.web.db.entity.child.Child;
 import com.ssafy.web.db.repository.ChildRepository;
 import com.ssafy.web.db.repository.ParentRepository;
 import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.dto.ChildData;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
-import com.ssafy.web.request.child.ChildRegisterRequest;
+import com.ssafy.web.request.ChildRegisterRequest;
 
 @Service
 public class ChildServiceImpl implements ChildService {
@@ -44,6 +46,7 @@ public class ChildServiceImpl implements ChildService {
 		child.setBirth(childInfo.getBirth());
 		child.setGender(childInfo.getGender());
 		child.setProfileUrl(childInfo.getProfile_url());
+		child.setSurveyFlag(childInfo.getSurvey_flag());
 
 		childRepository.save(child);
 	}
@@ -64,6 +67,7 @@ public class ChildServiceImpl implements ChildService {
 			childResponse.setBirth(child.getBirth());
 			childResponse.setGender(child.getGender());
 			childResponse.setProfileUrl(child.getProfileUrl());
+			childResponse.setSurveyFlag(child.getSurveyFlag());
 			
 			childList.add(childResponse);
 		}
@@ -93,7 +97,7 @@ public class ChildServiceImpl implements ChildService {
 	@Override
 	public ChildData getChildData(String child_id) {
 		Child child = childRepository.findByChildId(child_id);
-		int gender = child.getGender();//아이 성별 
+		String gender = child.getGender();//아이 성별 
 		// 아이가 태어난 년도 
 		String date = child.getBirth().toString().substring(0,4);
 		
@@ -110,8 +114,38 @@ public class ChildServiceImpl implements ChildService {
 		return data;
 	
 	}
+
+	@Override
+	@Transactional
+	public int surveyFlag(String child_id) {
+		Child child = childRepository.findByChildId(child_id);
+		if(child==null) return 0;
+		int flag= child.getSurveyFlag();
+		if(flag == 1) return 0; //이미 응답한 아동 
+		
+		child.update(1); return 1;
+		
+	}
 	
-	
+	/** 상담사 -> 예약한 아동 정보 조회 */
+	@Override
+	public ChildReservResponse getChildInfo(String childId) {
+		Child child = childRepository.findByChildId(childId);
+		ChildReservResponse childInfo = new ChildReservResponse();
+		
+		System.out.println("예약한 아동 정보 조회");
+		childInfo.setChildId(childId);
+		childInfo.setName(child.getName());
+		childInfo.setBirth(child.getBirth());
+		childInfo.setGender(child.getGender());
+		childInfo.setProfileUrl(child.getProfileUrl());
+		childInfo.setSurveyFlag(child.getSurveyFlag());
+		childInfo.setParentName(child.getParent().getName());
+		childInfo.setParentPhone(child.getParent().getPhone());
+
+		return childInfo;
+	}
+
 	
 
 }
