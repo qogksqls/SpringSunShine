@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.ssafy.web.common.PathUtil;
 import com.ssafy.web.model.response.RecommendTherapistTotalResponse;
 import com.ssafy.web.service.BExpertiseTherapistService;
 
