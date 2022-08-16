@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.web.db.entity.Expertise;
 import com.ssafy.web.model.response.BaseResponseBody;
@@ -82,8 +85,8 @@ public class UserController {
 	
 	/*상담사 회원가입*/
 	@PostMapping("/therapist")
-	public ResponseEntity<?>  theraRegist(@RequestBody TheraRegisterInfo theraInfo){
-		userInfoService.theraJoin(theraInfo);
+	public ResponseEntity<?>  theraRegist(@RequestParam MultipartFile profile ,@RequestPart(value = "theraInfo") TheraRegisterInfo theraInfo){
+		userInfoService.theraJoin(profile, theraInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}
 	

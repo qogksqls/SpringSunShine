@@ -1,5 +1,6 @@
 package com.ssafy.web.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.ssafy.web.db.entity.Therapist;
@@ -11,4 +12,4 @@ public interface RecommendService {
 //	List<RecommendTherapistResponse> findAlljpql();
 	List<RecommendTherapistResponse> findByUser_UserIdIn(String[] thera_id);
 	List<RecommendTherapistResponse> findAll();
-}
+} 

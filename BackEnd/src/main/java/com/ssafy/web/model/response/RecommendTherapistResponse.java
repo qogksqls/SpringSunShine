@@ -1,10 +1,16 @@
 package com.ssafy.web.model.response;
 
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.io.IOUtils;
+
+import com.ssafy.web.common.PathUtil;
 import com.ssafy.web.db.entity.Therapist;
 import com.ssafy.web.dto.Academy;
 import com.ssafy.web.dto.Career;
@@ -23,17 +29,17 @@ public class RecommendTherapistResponse {
         String thera_id;
         String name;
         String email;
-        String profile_url;
+        byte[] profile_url;
         String thera_intro;
         List<Academy> academy;
     	List<Career> careers;
     	List<Licence> licence;
     	
-    	public RecommendTherapistResponse(Therapist tr) {
+    	public RecommendTherapistResponse(Therapist tr) throws IOException {
     		thera_id = tr.getUser().getUserId();
     		name = tr.getName();
     		email = tr.getEmail();
-    		profile_url = tr.getProfileUrl();
+    		
     		thera_intro = tr.getTheraIntro();
     		
     		// -----------경력 불러와서 리스트 설정
@@ -79,6 +85,8 @@ public class RecommendTherapistResponse {
     				liclist.add(licence);
     			}
     		}
+    		
+    		
     		
     		academy = acalist;
     		careers = carlist;

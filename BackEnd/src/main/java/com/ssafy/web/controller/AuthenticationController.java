@@ -1,5 +1,7 @@
 package com.ssafy.web.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +35,7 @@ public class AuthenticationController {
 
 	/*치료사 회원정보 조회*/
 	@GetMapping("/therainfo/{user_id}")
-	public TherapistResponse theraInfo(@PathVariable String user_id){
+	public TherapistResponse theraInfo(@PathVariable String user_id) throws IOException{
 		TherapistResponse tresult= userService.getTheraInfo(user_id);
 		return tresult;
 	}

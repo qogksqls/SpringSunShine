@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.ParentResponse;
@@ -50,9 +52,14 @@ public class UserController {
 		@ApiResponse(code=401, message="실패"),
 		@ApiResponse(code=500, message="서버오류")
 	})
-	public String theraRegist(@RequestBody @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
+	public String theraRegist(
+			@RequestPart(required = false) MultipartFile profile,
+			@RequestPart @ApiParam(value="상담사 회원가입 요청 정보", required=true) TheraRegisterRequest theraInfo){
 		log.debug("user controller-상담사회원가입");
-		String userId =userService.theraRegist(theraInfo);
+		log.debug(profile.getOriginalFilename());
+		log.debug(theraInfo.toString());
+		
+		String userId =userService.theraRegist(profile,theraInfo);
 		return userId;
 	}
 	
