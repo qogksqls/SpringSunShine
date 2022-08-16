@@ -3,9 +3,9 @@ import router from "../../router";
 
 export default {
   state: {
-    accessToken: localStorage.getItem("accessToken") || "",
-    refreshToken: localStorage.getItem("refreshToken") || "",
-    userid: localStorage.getItem("userid") || "",
+    accessToken: localStorage.getItem("accessToken"),
+    refreshToken: localStorage.getItem("refreshToken"),
+    userid: localStorage.getItem("userid"),
     // accessToken: '',
     // refreshToken: '',
     // userid: '',
@@ -14,7 +14,7 @@ export default {
     authError: null,
   },
   getters: {
-    isLoggedIn: (state) => !!state.refreshToken,
+    isLoggedIn: (state) => !!state.accessToken,
     currentUser: (state) => state.currentUser,
     profile: (state) => state.profile,
     authError: (state) => state.authError,
@@ -60,9 +60,9 @@ export default {
       //   this.$cookies.set("idCookie", credentials.id);
       // }
       axios({
-        url: "https://i7a606.q.ssafy.io/auth-api/auth/login",
-        method: "post",
-        data: credentials,
+        url: 'https://i7a606.q.ssafy.io/service-api/auth/login',
+        method: 'post',
+        data: credentials
       })
         .then((res) => {
           console.log(res.data);
@@ -84,31 +84,32 @@ export default {
       // console.log(this.state.accounts.accessToken)
       if (!this.state.accounts.accessToken) {
         router.push({ name: "login" });
-      }
-      axios({
-        url: "https://i7a606.q.ssafy.io/auth-api/auth/logout",
-        method: "post",
-        data: {
-          accessToken: this.state.accounts.accessToken,
-          refreshToken: this.state.accounts.refreshToken,
-        },
-      })
-        .then((res) => {
-          dispatch("removeToken");
-          dispatch("removeUserid");
-          alert("로그아웃 되었습니다.");
-          router.push({ name: "login" });
+      } else {
+        axios({
+          url: 'https://i7a606.q.ssafy.io/auth-api/auth/logout',
+          method: 'post',
+          data: {
+            accessToken: this.state.accounts.accessToken,
+            refreshToken: this.state.accounts.refreshToken,
+          },
         })
-        .catch((err) => {
-          console.log("로그아웃 실패!");
-          console.log(err.response);
-        });
+          .then((res) => {
+            dispatch("removeToken");
+            dispatch("removeUserid");
+            alert("로그아웃 되었습니다.");
+            router.push({ name: "login" });
+          })
+          .catch((err) => {
+            console.log("로그아웃 실패!");
+            console.log(err.response);
+          });
+      }
     },
     fetchCurrentUser({ commit, getters, dispatch }) {
       if (getters.isLoggedIn) {
         axios({
           url: `https://i7a606.q.ssafy.io/service-api/user/${this.userid}`,
-          method: "get",
+          method: 'get',
         })
           .then((res) => {
             console.log(res.data);
