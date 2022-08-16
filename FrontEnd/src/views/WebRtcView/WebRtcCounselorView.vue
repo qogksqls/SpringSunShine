@@ -116,10 +116,10 @@ import SubVideoComp from './SubVideoComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-//const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
 
-//const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
@@ -193,6 +193,11 @@ export default {
     // open vidu
     
     joinSession () {
+      axios.post('https://i7a606.q.ssafy.io/service-api/consult/room', {
+        theraId:'theraId',
+        childId:'childId',
+        parentId:'parentId'
+      })
       let tempSessionId = ''
 
       this.$store.state.teacher.teacher.name.split('').forEach(element => {
@@ -275,7 +280,10 @@ export default {
 		},
 
 		leaveSession () {
-
+      axios.put('https://i7a606.q.ssafy.io/service-api/consult/memo', {
+        consultNo :consultNo,
+        memo: this.$store.state.memos.list.toString()
+      })
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;
