@@ -18,7 +18,7 @@ public class RecommendTherapistTotalResponse {
 	private String thera_id;
 	private String name;
 	private String email;
-	private String profile_url;
+	private byte[] profile_url;
 	private String thera_intro;
 	private List<Academy> academy;
 	private List<Career> careers;
