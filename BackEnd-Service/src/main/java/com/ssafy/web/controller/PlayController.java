@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.dto.FeelingDto;
 import com.ssafy.web.dto.ObjectDto;
 import com.ssafy.web.model.response.BaseResponseBody;
 import com.ssafy.web.model.response.PlayResponse;
@@ -27,11 +28,17 @@ public class PlayController {
 
 	@Autowired
 	PlayService playService;
-	
+
 	@GetMapping("/objectcard")
-	@ApiOperation(value = "사물 카드 목록 조회")
-	public List<ObjectDto> getObjectCardList(){
+	@ApiOperation(value = "사물 카드 3장씩 조회")
+	public List<ObjectDto> getObjectCardList() {
 		return playService.objectCardPlay();
+	}
+
+	@GetMapping("/feelingcard")
+	@ApiOperation(value = "감정 카드 3장씩 조회")
+	public List<FeelingDto> getFeelingCardList() {
+		return playService.feelingCardPlay();
 	}
 
 	@GetMapping("/list/{child_id}")
@@ -39,10 +46,10 @@ public class PlayController {
 	public List<PlayResponse> getChildPlaylist(@PathVariable(value = "child_id") String childId) {
 		return playService.getChildPlaylist(childId);
 	}
-	
+
 	@PostMapping("/result")
 	@ApiOperation(value = "아동 놀이 기록 저장")
-	public ResponseEntity<?> savePlayResult(@RequestBody PlayRequest playRequest){
+	public ResponseEntity<?> savePlayResult(@RequestBody PlayRequest playRequest) {
 		playService.savePlayResult(playRequest);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 	}

@@ -141,6 +141,7 @@ public class ChildServiceImpl implements ChildService {
 		childInfo.setProfileUrl(child.getProfileUrl());
 		childInfo.setSurveyFlag(child.getSurveyFlag());
 		childInfo.setParentName(child.getParent().getName());
+		childInfo.setParentPhone(child.getParent().getPhone());
 
 		return childInfo;
 	}

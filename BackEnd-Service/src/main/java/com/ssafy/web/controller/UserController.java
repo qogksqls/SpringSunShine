@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class UserController {
 		
 		/*부모 회원정보 조회*/
 		if(user_id.charAt(0)=='p'){
-			data = userInfoService.parentInfo(header, user_id);
+			data = userInfoService.parentInfo( header, user_id);
 			return data;
 		}
 		
@@ -68,17 +69,17 @@ public class UserController {
 	public ResponseEntity<?> parentModify(HttpServletRequest request, @PathVariable String parent_id , @RequestBody ParentModifyRequest parentInfo){
 		System.out.println(request.getHeader("Authorization"));
 		String header= request.getHeader("Authorization");
-		String res= userInfoService.parentModify(header, parent_id, parentInfo);
-		return new ResponseEntity<String>(res, HttpStatus.OK);
+		return userInfoService.parentModify(header, parent_id, parentInfo);
+		
 	}
-	
+	/**치료사 회원정보 수정 */
 	@PutMapping("/therapist/{thera_id}")
-	public String theraModify(HttpServletRequest request, @PathVariable String thera_id, 
+	public ResponseEntity<?> theraModify(HttpServletRequest request, @PathVariable String thera_id, 
 			@RequestBody TheraModifyTotalRequest tmtr) {
 		System.out.println(request.getHeader("Authorization"));
 		String header= request.getHeader("Authorization");
-		userInfoService.theraModify(header, thera_id, tmtr);
-		return "success";
+		return userInfoService.theraModify(header, thera_id, tmtr);
+		
 	}
 	
 	
@@ -101,8 +102,7 @@ public class UserController {
 	public ResponseEntity<?> findPass(HttpServletRequest request, @RequestBody FindPwRequest findpw){
 		System.out.println(request.getHeader("Authorization"));
 		String header= request.getHeader("Authorization");
-		String res = userInfoService.findPass(header,findpw);
-		return new ResponseEntity<String>(res, HttpStatus.OK);
+		return userInfoService.findPass(header,findpw);
 	}
 	
 	/**아이디 중복검사 */
