@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import axios from 'axios'
+
 export default {
   state: {
 
@@ -14,8 +15,8 @@ export default {
 
   ],
   
-    selectedCards: [],
-    solutionCard: [],
+  selectedCards: [],
+  solutionCard: [],
   },
   getters: {
   },
@@ -24,12 +25,23 @@ export default {
 
       axios.get('https://i7a606.q.ssafy.io/service-api/play/objectcard')
       .then( res => {
+        let tempName = []
+        let tempImage = []
+        let tempSelectedCards = []
+
         for (let data of res.data) {
-          state.cardsName.push(data.name)
-          state.cardsImage.push(data.image)
-      .catch( err => console.log(err))
+          console.log(data);
+          tempName.push(data.name)
+          tempImage.push(data.image)
+
+          tempSelectedCards.push([data.name, data.image, data.question])
         }
+        state.cardsName = tempName
+        state.cardsImage = tempImage
+        state.selectedCards = tempSelectedCards
+        state.solutionCard = _.sample(state.selectedCards)
       })
+      .catch( err => console.log(err))
     }
   },
   actions: {

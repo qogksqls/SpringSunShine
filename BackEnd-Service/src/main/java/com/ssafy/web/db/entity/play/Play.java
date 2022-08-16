@@ -1,6 +1,6 @@
 package com.ssafy.web.db.entity.play;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
 
@@ -34,7 +32,7 @@ public class Play {
 
 	// 총 풀이시간
 	@Column(name = "total_time", columnDefinition = "TIME(6)")
-	private Date totalTime;
+	private LocalTime totalTime;
 
 	// 점수
 	@Column(name = "score")
