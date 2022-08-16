@@ -15,7 +15,6 @@
             <div class="mt-5 py-5 border-top text-center">
               <showTab :counselors="counselors" />
             </div>
-            <circle />
           </div>
         </card>
       </div>
@@ -25,46 +24,47 @@
 <script>
 import upper from "../../components/RecommendComp/CounselorUpper.vue";
 import showTab from "../../components/RecommendComp/CounselorTab.vue";
-import circle from "../../components/RecommendComp/CircleProfile.vue";
-import axios from 'axios'
+import axios from "axios";
 
 export default {
-  name: 'CounselorRecommend',
-  components: { upper, showTab, circle },
+  name: "CounselorRecommend",
+  components: { upper, showTab },
   data() {
     return {
       counselors: [],
-      childsCounselors: []
-    }
+      childsCounselors: [],
+    };
   },
   created() {
     if (this.$route.params.childId) {
-      console.log(this.$route.params.childId)
+      console.log(this.$route.params.childId);
       axios({
-        url: `https://i7a606.q.ssafy.io/service-api/therapist/recommend/child/${this.$route.params.childId}`,
-        method: 'get',
+        url: `https://i7a606.q.ssafy.io/service-api/therapist/recommend/child/${
+          this.$route.params.childId
+        }`,
+        method: "get",
       })
-        .then(res => {
-          console.log(res.data)
-          this.childsCounselors = res.data
+        .then((res) => {
+          console.log(res.data);
+          this.childsCounselors = res.data;
         })
-        .catch(err => {
-          console.log(err.response)
-        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     }
-    console.log("전체 상담사")
+    console.log("전체 상담사");
     axios({
       url: `https://i7a606.q.ssafy.io/service-api/therapist/recommend/all`,
-      method: 'get',
+      method: "get",
     })
-      .then(res => {
-        console.log(res.data)
-        this.counselors = res.data
+      .then((res) => {
+        console.log(res.data);
+        this.counselors = res.data;
       })
-      .catch(err => {
-        console.log(err.response)
-      })
-  }
+      .catch((err) => {
+        console.log(err.response);
+      });
+  },
 };
 </script>
 <style scoped>
