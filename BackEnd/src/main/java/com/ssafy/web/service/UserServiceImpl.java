@@ -292,16 +292,16 @@ public class UserServiceImpl implements UserService {
 			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
 			String url = str+t.getProfileUrl();
 //			String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+PathUtil.PROFILE_PATH+t.getProfileUrl();
-			String sss = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_PATH+t.getProfileUrl();
+//			String sss = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_PATH+t.getProfileUrl();
 //			System.out.println(sss);
 //			System.out.println(url);
 //			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/"+t.getProfileUrl());
-//			InputStream resourceAsStream = this.getClass().getResourceAsStream("/webapp/"+PathUtil.PROFILE_PATH + t.getProfileUrl());
+			InputStream resourceAsStream = this.getClass().getResourceAsStream("/"+PathUtil.PROFILE_PATH+t.getProfileUrl());
 //			InputStream inputStream = new ClassPathResource(t.getProfileUrl()).getInputStream();
-			InputStream imageIS = new FileInputStream(sss);
-			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
+//			InputStream imageIS = new FileInputStream(sss);
+			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
 			tr.setProfile_url(imageByteArray);
-			imageIS.close();
+			resourceAsStream.close();
 
 		}
 		
