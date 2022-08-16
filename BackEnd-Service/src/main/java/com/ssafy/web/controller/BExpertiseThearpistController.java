@@ -1,9 +1,13 @@
 package com.ssafy.web.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.ssafy.web.common.PathUtil;
 import com.ssafy.web.model.response.RecommendTherapistTotalResponse;
 import com.ssafy.web.service.BExpertiseTherapistService;
 
@@ -51,7 +56,18 @@ public class BExpertiseThearpistController {
 	
 	@GetMapping("/test")
 	public String test() {
-		String str = servletContext.getRealPath("");
+		String str = servletContext.getRealPath("/profile/");
+		String url = str+"3DDD-1.png";
+//		String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+PathUtil.PROFILE_PATH+t.getProfileUrl();
+		try {
+			InputStream imageIS = new FileInputStream(url);
+			imageIS.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "asdf";
+		}
+		
 		return str;
 	}
 }
