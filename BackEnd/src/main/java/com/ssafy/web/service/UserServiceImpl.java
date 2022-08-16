@@ -287,9 +287,9 @@ public class UserServiceImpl implements UserService {
 		if (t.getProfileUrl() == null) {
 			tr.setProfile_url(null);
 		} else {
-//			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
-//			String url = str+t.getProfileUrl();
-			String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+PathUtil.PROFILE_PATH+t.getProfileUrl();
+			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
+			String url = str+t.getProfileUrl();
+//			String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+PathUtil.PROFILE_PATH+t.getProfileUrl();
 			InputStream imageIS = new FileInputStream(url);
 			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
 			tr.setProfile_url(imageByteArray);
