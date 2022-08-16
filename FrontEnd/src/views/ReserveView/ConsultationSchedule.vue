@@ -9,26 +9,28 @@
           <!--상담사 상담할 아이들 일정 시작-->
           <div class="wrap_content col col-sm-12 p-5">
             <h3 class="mb-5">
-              <b>"{{ teacher.name }}"님의 활동조회</b>
+              <b>{{ theraInfo["name"] }} 상담사의 스케쥴</b>
             </h3>
-            나를 거쳐간/새로생긴 아이들 관리 페이지임
             <div class="col-sm-12 takecare row">
               <table class="table table-hover">
                 <thead>
-                  <th v-for="item in header" v-bind:key="header">{{ item }}</th>
+                  <th v-for="(item, i) in header" :key="i">{{ item }}</th>
                 </thead>
                 <tbody>
-                  <tr v-for="play in care" v-bind:key="care">
-                    <td v-for="item in play" v-bind:key="play">
-                      {{ item }}
+                  <tr v-for="(schedule, i) in schedules" :key="i">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ schedule["reservTime"].slice(0, 4) }}년
+                      {{ schedule["reservTime"].slice(5, 7) }}월
+                      {{ schedule["reservTime"].slice(8, 10) }}일
+                      {{ Number(schedule["reservTime"].slice(11, 13)) + 9 }}시
                     </td>
+                    <td>{{ schedule["parentName"] }}</td>
+                    <td>{{ schedule["childName"] }}</td>
 
                     <div class="detail">
-                      <router-link to="/childReserveShow">
-                        <base-button class="rounded my-1"
-                          >상담하기</base-button
-                        ></router-link
-                      >
+                      <base-button class="rounded my-1" @click="moveChildInfo(schedule)">
+                        상담하기
+                      </base-button>
                     </div>
                   </tr>
                 </tbody>
@@ -43,24 +45,50 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+var today = new Date();
+var year = today.getFullYear();
+var month = ("0" + (today.getMonth() + 1)).slice(-2);
+var day = ("0" + today.getDate()).slice(-2);
+var dateString = year + "-" + month + "-" + day;
+
 export default {
-  components: {},
   data() {
     return {
       header: ["NO.", "예약시간", "부모이름", "아동이름", "입장버튼"],
-      care: [
-        [1, "20220810 오후7시", "강하다", "강후후"],
-        [2, "20220810 오후3시", "강하다", "강후후"],
-        [3, "20220610 오후7시", "기다", "공후후"],
-      ],
+      theraInfo: {},
+      schedules: []
     };
   },
-  computed: {
-    ...mapState({
-      teacher: (state) => state.teacher.teacher,
-    }),
+  methods: {
+    moveChildInfo(schedule) {
+      this.$router.push({ name: 'childReserveShowCounselor', params: schedule })
+    }
   },
+  created() {
+    this.$axios({
+      url: `https://i7a606.q.ssafy.io/service-api/user/${this.$store.state.accounts.userid}`,
+      method: 'get',
+      headers : { Authorization : `Bearer ${ this.$store.state.accounts.accessToken }` },
+    })
+      .then((res) => {
+        console.log(res.data);
+        this.theraInfo = res.data.theraInfo
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+    this.$axios({
+      url: `https://i7a606.q.ssafy.io/service-api/reserv-therapist/${this.$store.state.accounts.userid}`,
+      method: 'get',
+    })
+      .then((res) => {
+        console.log(res.data);
+        this.schedules = res.data
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }
 };
 </script>
 
