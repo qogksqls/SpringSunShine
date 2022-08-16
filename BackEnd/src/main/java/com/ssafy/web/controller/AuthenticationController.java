@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,20 +60,26 @@ public class AuthenticationController {
 		if(res==0) {
 			return "fail";
 		}
+		if(res==2) {
+			return "wrong-token";
+		}
 		return "success";
 	}
 	
 	/*치료사 회원정보 수정*/
 	@PutMapping("/therapist/{user_id}")
-	public ResponseEntity<?> theraModify(@PathVariable String user_id, @RequestBody TheraModifyRequest theraInfo){
+	public String theraModify(@PathVariable String user_id, @RequestBody TheraModifyRequest theraInfo){
 		//theraInfo : 수정할 치료사 정보 
 		if(user_id.charAt(0) != 't') 
-			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+			return "fail";
 		int res = userService.theraModify(user_id, theraInfo);
 		if(res==0) {
-			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "유효하지 않은 사용자"));
+			return "fail";
 		}
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		if(res==2) {
+			return "wrong-token";
+		}
+		return "success";
 	}
 	
 	/**회원탈퇴*/
@@ -96,6 +103,9 @@ public class AuthenticationController {
 			int res = userService.findPass(id, email);
 			if(res==0) {
 				return "fail";
+			}
+			if(res==2) {
+				return "wrong-token";
 			}
 			return "success";
 			//프론트와 상의 후 어떻게 할건지 결정 
