@@ -2,6 +2,8 @@ package com.ssafy.web.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
 import com.ssafy.web.request.ChildRegisterRequest;
@@ -14,7 +16,7 @@ public interface ChildManagementService {
 	List<ChildResponse> getChildList(String parentId);
 
 	// 아동 등록
-	void childRegist(ChildRegisterRequest childInfo);
+	void childRegist(MultipartFile profile, ChildRegisterRequest childInfo);
 
 	// 상담사 -> 예약한 아동 정보 조회
 	ChildReservResponse getChildInfo(String childId);
