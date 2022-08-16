@@ -3,7 +3,7 @@ import router from "../../router";
 
 export default {
   state: {
-    accessToken: localStorage.getItem("accessToken"),
+    accessToken: localStorage.getItem("accessToken"),  // 수정
     refreshToken: localStorage.getItem("refreshToken"),
     userid: localStorage.getItem("userid"),
     // accessToken: '',
