@@ -36,7 +36,7 @@ public class ReservationController {
 
 	}
 
-	@Cacheable(value = "parentAllReserv", key = "#parent_id", cacheManager = "cacheManager")
+	@Cacheable(value = "parentAllReserv", key = "#parentId", cacheManager = "cacheManager")
 	@GetMapping("/reserv-parent/{parent_id}")
 	@ApiOperation(value = "보호자가 예약한 전체 아동의 예약 날짜 조회")
 	public ResponseEntity<List<ParentReservResponse>> getParentReservation(
@@ -44,7 +44,7 @@ public class ReservationController {
 		return new ResponseEntity<List<ParentReservResponse>>(reservService.getReservByParent(parentId), HttpStatus.OK);
 	}
 
-	@Cacheable(value = "parentAndChildReserv", key = "#parent_id.concat(:).concat(#child_id)", cacheManager = "cacheManager")
+	@Cacheable(value = "parentAndChildReserv", key = "#parentId + #childId", cacheManager = "cacheManager")
 	@GetMapping("/reserv-parent/{parent_id}/{child_id}")
 	@ApiOperation(value = "보호자 아이디와 아동 아이디로 특정 아동의 예약 날짜 조회")
 	public ResponseEntity<List<ParentReservResponse>> getParentAndChildReservation(
@@ -54,14 +54,14 @@ public class ReservationController {
 
 	}
 
-	@Cacheable(value = "theraAllReserv", key = "#thera_id", cacheManager = "cacheManager")
+	@Cacheable(value = "theraAllReserv", key = "#theraId", cacheManager = "cacheManager")
 	@GetMapping("/reserv-therapist/{thera_id}")
 	@ApiOperation(value = "상담사에게 예약된 상담 내역 조회")
 	public ResponseEntity<List<TheraReservResponse>> getReservation(@PathVariable(value = "thera_id") String theraId) {
 		return new ResponseEntity<List<TheraReservResponse>>(reservService.getReservByThera(theraId), HttpStatus.OK);
 	}
 
-	@Cacheable(value = "theraAndChildReserv", key = "#thera_id.concat(:).concat(#child_id)", cacheManager = "cacheManager")
+	@Cacheable(value = "theraAndChildReserv", key = "#theraId + #childId", cacheManager = "cacheManager")
 	@GetMapping("/reserv-therapist/child/{thera_id}/{child_id}")
 	@ApiOperation(value = "상담사 아이디와 아동 아이디로 특정 아동의 예약 날짜 조회")
 	public ResponseEntity<List<TheraReservResponse>> getReservation(@PathVariable(value = "thera_id") String theraId,
