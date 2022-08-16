@@ -19,4 +19,6 @@ public class ChildReservResponse {
 	int surveyFlag;
 
 	String parentName;
+	
+	String parentPhone;
 }
