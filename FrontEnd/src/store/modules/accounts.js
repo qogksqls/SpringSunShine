@@ -3,9 +3,9 @@ import router from "../../router";
 
 export default {
   state: {
-    accessToken: localStorage.getItem("accessToken") || "",
-    refreshToken: localStorage.getItem("refreshToken") || "",
-    userid: localStorage.getItem("userid") || "",
+    accessToken: localStorage.getItem("accessToken"),
+    refreshToken: localStorage.getItem("refreshToken"),
+    userid: localStorage.getItem("userid"),
     // accessToken: '',
     // refreshToken: '',
     // userid: '',
