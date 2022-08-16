@@ -103,6 +103,8 @@ export default {
           console.log("로그아웃 실패!");
           console.log(this.state.accounts.accessToken);
           console.log(this.state.accounts.refreshToken);
+          dispatch("removeToken");
+          dispatch("removeUserid");
         });
     },
     fetchCurrentUser({ commit, getters, dispatch }) {
