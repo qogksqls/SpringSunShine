@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraModifyRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 
+import io.swagger.models.Path;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -290,7 +292,13 @@ public class UserServiceImpl implements UserService {
 			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
 			String url = str+t.getProfileUrl();
 //			String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+PathUtil.PROFILE_PATH+t.getProfileUrl();
-			InputStream imageIS = new FileInputStream(url);
+			String sss = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_PATH+t.getProfileUrl();
+//			System.out.println(sss);
+//			System.out.println(url);
+//			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/"+t.getProfileUrl());
+//			InputStream resourceAsStream = this.getClass().getResourceAsStream("/webapp/"+PathUtil.PROFILE_PATH + t.getProfileUrl());
+//			InputStream inputStream = new ClassPathResource(t.getProfileUrl()).getInputStream();
+			InputStream imageIS = new FileInputStream(sss);
 			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
 			tr.setProfile_url(imageByteArray);
 			imageIS.close();
