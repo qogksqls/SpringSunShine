@@ -35,7 +35,7 @@ public class RecommendTherapistResponse {
     	List<Career> careers;
     	List<Licence> licence;
     	
-    	public RecommendTherapistResponse(Therapist tr) throws IOException {
+    	public RecommendTherapistResponse(Therapist tr)  {
     		thera_id = tr.getUser().getUserId();
     		name = tr.getName();
     		email = tr.getEmail();
@@ -85,7 +85,16 @@ public class RecommendTherapistResponse {
     				liclist.add(licence);
     			}
     		}
-    		
+    		if(tr.getProfileUrl() !=null && "".equals(tr.getProfileUrl())) {
+    			try {
+    				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+tr.getProfileUrl());
+					profile_url = IOUtils.toByteArray(resourceAsStream);
+					resourceAsStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
     		
     		
     		academy = acalist;

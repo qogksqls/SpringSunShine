@@ -57,7 +57,7 @@ public class ChildServiceImpl implements ChildService {
 		child.setSurveyFlag(childInfo.getSurvey_flag());
 
 //		child.setProfileUrl(childInfo.getProfile_url());
-		if (profile != null && profile.getOriginalFilename() != "") {
+		if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
 			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
 			String fileName = child.getChildId() + profile.getOriginalFilename();
@@ -96,16 +96,11 @@ public class ChildServiceImpl implements ChildService {
 			if (child.getProfileUrl() == null) {
 				childResponse.setProfileUrl(null);
 			} else {
-				String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
-//				String url = str + child.getProfileUrl();
-
-				String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"
-						+ PathUtil.PROFILE_PATH + child.getProfileUrl();
-
-				InputStream imageIS = new FileInputStream(url);
-				byte[] imageByteArray = IOUtils.toByteArray(imageIS);
+				
+				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
+				byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
 				childResponse.setProfileUrl(imageByteArray);
-				imageIS.close();
+				resourceAsStream.close();
 
 			}
 
@@ -188,14 +183,11 @@ public class ChildServiceImpl implements ChildService {
 		if (child.getProfileUrl() == null) {
 			childInfo.setProfileUrl(null);
 		} else {
-			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
-			String url = str + child.getProfileUrl();
-
-			InputStream imageIS = new FileInputStream(url);
-			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
+			InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
+			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
 			childInfo.setProfileUrl(imageByteArray);
-			imageIS.close();
-
+			resourceAsStream.close();
+			
 		}
 
 		childInfo.setSurveyFlag(child.getSurveyFlag());
