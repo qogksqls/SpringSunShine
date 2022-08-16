@@ -2,6 +2,8 @@ package com.ssafy.web.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/therapist/recommend")
 public class BExpertiseThearpistController {
 	private final BExpertiseTherapistService BETService;
+	private final ServletContext servletContext;
 	
 	@Cacheable(value="recommendThera", key="#expertise_no", cacheManager = "cacheManager")
 	@GetMapping("/{expertise_no}")
@@ -44,5 +47,11 @@ public class BExpertiseThearpistController {
 		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistList(childExp_no);
 		return recommedTheraList;
 		
+	}
+	
+	@GetMapping("/test")
+	public String test() {
+		String str = servletContext.getRealPath("");
+		return str;
 	}
 }
