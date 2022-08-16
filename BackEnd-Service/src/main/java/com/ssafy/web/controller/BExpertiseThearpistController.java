@@ -55,17 +55,17 @@ public class BExpertiseThearpistController {
 	@GetMapping("/test")
 	public String test() {
 		String str = servletContext.getRealPath("/profile/");
-		String url = str+"3DDD-1.png";
-//		String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+PathUtil.PROFILE_PATH+t.getProfileUrl();
+//		String url = str+"3DDD-1.png";
+		String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+"profile/3DDD-1.png";
 		try {
 			InputStream imageIS = new FileInputStream(url);
 			imageIS.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "asdf";
+			return url;
 		}
 		
-		return str;
+		return "sdf";
 	}
 }
