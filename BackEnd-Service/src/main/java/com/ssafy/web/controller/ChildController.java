@@ -33,7 +33,7 @@ public class ChildController {
 	ChildManagementService childManagementService;
 
 	/** 아동 목록 조회 */
-	@Cacheable(value = "childList", key = "#parent_id", cacheManager = "cacheManager")
+	@Cacheable(value = "childList", key = "#parentId", cacheManager = "cacheManager")
 	@GetMapping("/{parent_id}")
 	@ApiOperation(value = "아동 목록 조회")
 	public List<ChildResponse> getChildList(@PathVariable(value = "parent_id") String parentId) {
@@ -52,7 +52,7 @@ public class ChildController {
 	}
 
 	/** 상담사 -> 예약한 아동 정보 조회 */
-	@Cacheable(value = "reservChildInfo", key = "#child_id", cacheManager = "cacheManager")
+	@Cacheable(value = "reservChildInfo", key = "#childId", cacheManager = "cacheManager")
 	@GetMapping("/reserv-therapist/{child_id}")
 	public ChildReservResponse getChildInfo(@PathVariable("child_id") String childId) {
 		return childManagementService.getChildInfo(childId);
