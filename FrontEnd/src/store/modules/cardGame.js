@@ -1,5 +1,5 @@
 import _ from 'lodash'
-
+import axios from 'axios'
 export default {
   state: {
 
@@ -30,15 +30,13 @@ export default {
   mutations: {
     sampleCards (state) {
 
-      let tempList = []
-      let sampledIndex = _.sampleSize(_.range(state.cardsName.length), 3)
-      
-      for (let index of sampledIndex) {
-        tempList.push([state.cardsName[index], state.cardsImage[index]])
-        state.selectedCards = tempList
-      }
-      
-      state.solutionCard = _.sample(state.selectedCards)
+      axios.get('https://i7a606.q.ssafy.io/service-api/play/objectcard')
+      .then( res => {
+        for (data of res.data) {
+          state.cardsName.push(data.name)
+          state.cardsImage.push(data.image)
+        }
+      })
     }
   },
   actions: {

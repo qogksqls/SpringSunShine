@@ -78,11 +78,11 @@ import CardsComp from '@/components/webRtcComp/CardsComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
 
-// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-const OPENVIDU_SERVER_SECRET = "A606";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
 
@@ -203,6 +203,9 @@ export default {
 				const subscriber = this.session.subscribe(stream);
 				this.subscribers.push(subscriber);
 			});
+			console.log('--------------------');
+			console.log(this.subscribers);
+			console.log('--------------------');
 
 			this.session.on('streamDestroyed', ({ stream }) => {
 				const index = this.subscribers.indexOf(stream.streamManager, 0);
@@ -229,7 +232,9 @@ export default {
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false,       	// Whether to mirror your local video or not
 						});
-
+						console.log('--------------------');
+						console.log(publisher);
+						console.log('--------------------');
 						this.mainStreamManager = publisher;
 						this.publisher = publisher;
 
