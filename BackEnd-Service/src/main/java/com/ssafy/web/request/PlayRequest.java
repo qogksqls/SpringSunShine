@@ -1,5 +1,6 @@
 package com.ssafy.web.request;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModel;
@@ -18,7 +19,7 @@ public class PlayRequest {
 	Date createTime;
 	
 	@ApiModelProperty(name = "풀이 시간")
-	Date totalTime;
+	LocalTime totalTime;
 	
 	@ApiModelProperty(name = "점수")
 	int score;
