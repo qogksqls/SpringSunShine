@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class BExpertiseThearpistController {
 	private final BExpertiseTherapistService BETService;
 	
-	@Cacheable(value="recommendThera", cacheManager = "cacheManager")
+	@Cacheable(value="recommendThera", key="#expertise_no", cacheManager = "cacheManager")
 	@GetMapping("/{expertise_no}")
 	public List<RecommendTherapistTotalResponse> recommed(@PathVariable int expertise_no){
 		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistList(expertise_no);
@@ -37,7 +37,7 @@ public class BExpertiseThearpistController {
 	}
 	
 	//아동관리페이지에서 상담사 추천 페이지 (아이의 증상으로 추천  상담사 조회 ) 
-	@Cacheable(value="recommendTheraByChildId", cacheManager = "cacheManager")
+	@Cacheable(value="recommendTheraByChildId", key="#child_id", cacheManager = "cacheManager")
 	@GetMapping("/child/{child_id}")
 	public List<RecommendTherapistTotalResponse> childRecommend(@PathVariable("child_id") String child_id) {
 		int childExp_no = BETService.getChildExp(child_id); 
