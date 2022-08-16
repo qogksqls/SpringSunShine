@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   data() {
@@ -71,13 +71,15 @@ export default {
     },
   },
   created() {
-    console.log('특정아동 상담내역')
+    console.log("특정아동 상담내역");
     axios({
-      url: `https://i7a606.q.ssafy.io/service-api/consult/parent/${this.$store.state.accounts.userid}/${this.$route.params.childId}/1/5`,
-      method: 'get'
+      url: `https://i7a606.q.ssafy.io/service-api/consult/parent/${
+        this.$store.state.accounts.userid
+      }/${this.$route.params.childId}/1/5`,
+      method: "get",
     })
-      .then(res => {
-        console.log(res.data)
+      .then((res) => {
+        console.log(res.data);
         // this.items = res.data
         // for (let i = 0; i < this.items.length; i++) {
         //   this.items[i]["No"] = i + 1
