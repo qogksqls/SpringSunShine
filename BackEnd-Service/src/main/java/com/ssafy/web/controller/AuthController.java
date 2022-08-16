@@ -38,11 +38,11 @@ public class AuthController {
 
 	/**토큰 재발급 */
 	//accesstoken 을 재발급 
-	@GetMapping("/refresh/{id}")
-	public UserLoginPostRes refreshToken(HttpServletRequest request, @PathVariable String id){
+	@GetMapping("/refresh/{user_id}")
+	public UserLoginPostRes refreshToken(HttpServletRequest request, @PathVariable String user_id){
 		//헤더에 담겨 온 refreshToken
 		String header = request.getHeader("Authorization");
-		return authService.refreshToken(header, id);
+		return authService.refreshToken(header, user_id);
 	}
 	
 	
