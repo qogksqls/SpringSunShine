@@ -75,9 +75,6 @@ public class ChildManagementServiceImpl implements ChildManagementService {
 	/** 상담사 -> 예약한 아동 정보 조회 */
 	@Override
 	public ChildReservResponse getChildInfo(String childId) {
-		ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
-			     .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(-1)) // to unlimited memory size
-			     .build();
 		
 		ChildReservResponse childInfo = webClient.get().uri("/child/reserv-therapist-child/" + childId).retrieve()
 				.bodyToMono(ChildReservResponse.class).block();
