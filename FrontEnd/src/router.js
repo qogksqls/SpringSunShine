@@ -12,8 +12,10 @@ import CounselorRecommend from "./views/RecommendView/CounselorRecommend.vue";
 
 //상담관련
 import ChildReserveShow from "./views/ReserveView/ChildReserveShowView.vue";
+import ChildReserveShowCounselor from "./views/ReserveView/ChildReserveShowCounselor.vue";
 import CounSchedule from "./views/ReserveView/ConsultationSchedule.vue";
-
+//상담 후기 작성
+import CounReview from "./views/ConsultReview/MemoReview.vue";
 //아동추가 목록
 import ChildListView from "./views/ChildPlusView/ChildListView.vue";
 //문진표
@@ -27,9 +29,17 @@ import playAlone from "./views/playAloneView/playAlone.vue";
 
 import reserve from "./views/Reserve/ReserveView.vue";
 
+import memo from "./views/consult/MemoView.vue";
+
+//회원정보수정
+import update from "./views/UserInfoView/UserUpdateForm.vue";
+
+//mainpage
+import video from "./components/subMain/subMain.vue";
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   linkExactActiveClass: "active",
   routes: [
     {
@@ -47,7 +57,14 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Landing,
-        footer: AppFooter,
+      },
+    },
+    {
+      path: "/video",
+      name: "video",
+      components: {
+        header: AppHeader,
+        default: video,
       },
     },
     {
@@ -56,16 +73,24 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Login,
-        footer: AppFooter,
       },
     },
+    //회원가입
     {
       path: "/register",
       name: "register",
       components: {
         header: AppHeader,
         default: Register,
-        footer: AppFooter,
+      },
+    },
+    //회원정보수정
+    {
+      path: "/update",
+      name: "update",
+      components: {
+        header: AppHeader,
+        default: update,
       },
     },
     {
@@ -74,7 +99,6 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Profile,
-        footer: AppFooter,
       },
     },
     {
@@ -103,6 +127,24 @@ export default new Router({
         default: ChildReserveShow,
       },
     },
+    {
+      path: "/childReserveShowCounselor",
+      name: "childReserveShowCounselor",
+      components: {
+        header: AppHeader,
+        default: ChildReserveShowCounselor,
+      },
+    },
+    //상담사 상담 후기 작성하는 곳
+    {
+      path: "/counReview",
+      name: "counReview",
+      components: {
+        header: AppHeader,
+        default: CounReview,
+      },
+    },
+    //상담사 예약 일정
     {
       path: "/counSchedule",
       name: "counSchedule",
@@ -170,6 +212,16 @@ export default new Router({
         default: reserve,
       },
       props: true,
+    },
+
+    //메모
+    {
+      path: "/memo",
+      name: "memo",
+      components: {
+        header: AppHeader,
+        default: memo,
+      },
     },
   ],
   scrollBehavior: (to) => {

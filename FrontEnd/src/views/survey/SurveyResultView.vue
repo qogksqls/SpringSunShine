@@ -11,18 +11,18 @@
             <div class="survey-card">
               <h3 class="col-lg-10">
                 <div class="text-muted text-left mb-3">
-                  <b>문진표 결과 : {{ totalScore }}</b>
+                  <b>문진표 결과 : {{ name }}</b>
                 </div>
               </h3>
               <div class="surveyresult">
                 <hr />
                 <div
-                  v-for="(ans, i) in $route.params.answer"
+                  v-for="(ans, i) in answers"
                   :key="i"
                   style="padding: 15px;"
                 >
-                  <h6>Q. {{ ans[0] }}</h6>
-                  <h6>{{ ans[2] }}. {{ ans[1] }}</h6>
+                  <h5>Q. {{ ans['question'] }}</h5>
+                  <h6>{{ ans['answer'] }}</h6>
                   <hr />
                 </div>
               </div>
@@ -35,17 +35,40 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "SurveyResultView",
-  computed: {
-    totalScore() {
-      let total = 0;
-      for (let i = 0; i < this.$route.params.answer.length; i++) {
-        total += Number(this.$route.params.answer[i][2]);
-      }
-      return total;
-    },
+  data() {
+    return {
+      child_id: this.$route.params.childId,
+      name: '',
+      answers: []
+    }
   },
+  // computed: {
+  //   totalScore() {
+  //     let total = 0;
+  //     for (let i = 0; i < this.$route.params.answer.length; i++) {
+  //       total += Number(this.$route.params.answer[i][2]);
+  //     }
+  //     return total;
+  //   },
+  // },
+  created() {
+    console.log(this.$route.params.childId)
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/answer/getAnswer/${this.$route.params.childId}`,
+      method: 'get',
+    })
+      .then(res => {
+        // console.log(res.data)
+        this.name = res.data['expertise']
+        this.answers = res.data['answers']
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+  }
 };
 </script>
 

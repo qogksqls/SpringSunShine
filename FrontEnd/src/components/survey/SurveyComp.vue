@@ -15,7 +15,7 @@
                 </div>
               </h3>
 
-              <!--문단표 start-->
+              <!--문진표 start-->
               <div class="question-card" v-for="(question, i) in data" :key="i">
                 <div class="question">
                   <b> Q{{ question.number }}. {{ question.title }} </b>
@@ -31,11 +31,10 @@
                           type="radio"
                           id="radio"
                           v-model="answer[i]"
-                          :value="[
-                            question.title,
-                            object_answer[0],
-                            object_answer[1],
-                          ]"
+                          :value="{
+                            'options': object_answer[0],
+                            'score': Number(object_answer[1])
+                          }"
                         />
                         <label for="radio" class="score">
                           {{ object_answer[1] }}</label
@@ -62,30 +61,55 @@
 
 <script>
 import survey from "./survey.json";
+import axios from 'axios'
 
 const data = survey;
-const answer = [];
-// for (let index = 0; index < survey.length; index++) {
-//   answer.push([])
-// }
 
 export default {
   data() {
     return {
       data,
-      answer,
+      answer: [],
+      // result: [0, 0, 0]
     };
   },
   methods: {
     onSubmit() {
-      if (answer.length === 23) {
+      const newAnswer = this.answer.filter((x, i) => x != null)
+      if (newAnswer.length === 23) {
+        // for (let i = 0; i < 23; i++) {
+        //   if (i < 13) {
+        //     result[0] += Number(this.answer[i][2]);
+        //   } else if (i < 21) {
+        //     result[1] += Number(this.answer[i][2]);
+        //   } else {
+        //     result[2] += Number(this.answer[i][2]);
+        //   }
+        // }
         alert("문진표가 제출되었습니다.");
-        this.$router.push({ name: "surveyresult", params: { answer } });
+        axios({
+          url: 'https://i7a606.q.ssafy.io/service-api/answer',
+          method: 'post',
+          data: {
+            child_id: this.$route.params.childId,
+            answer: this.answer
+          }
+        })
+          .then(res => {
+            console.log(res.data)
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
+        this.$router.push({ name: "children" });
       } else {
         alert("작성 안된 항목이 있습니다.");
       }
     },
   },
+  created() {
+    console.log(this.$route.params.childId)
+  }
 };
 </script>
 
