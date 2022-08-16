@@ -27,9 +27,9 @@ export default {
         for (let data of res.data) {
           state.cardsName.push(data.name)
           state.cardsImage.push(data.image)
-      .catch( err => console.log(err))
         }
       })
+      .catch( err => console.log(err))
     }
   },
   actions: {
