@@ -101,7 +101,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}catch(WebClientResponseException e) {
 			int status = e.getRawStatusCode();
 			er.setStatusCode(status);
-			er.setMessage("토큰 값 헤더 확인 !!");
+			er.setMessage("토큰 값 없음 or 서버 오류");
 			data.put("errorInfo", er);
 		}
 		return data;
@@ -137,7 +137,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}catch(WebClientResponseException e) {
 			int status = e.getRawStatusCode();
 			er.setStatusCode(status);
-			er.setMessage("토큰 값 헤더 확인 !!");
+			er.setMessage("토큰 값 없음 or 서버 오류");
 			data.put("errorInfo", er);
 		}
 		return data;
@@ -167,7 +167,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}catch(WebClientResponseException e) {
 			int status = e.getRawStatusCode();
 			er.setStatusCode(status);
-			er.setMessage("토큰 값 헤더 확인 !!");
+			er.setMessage("토큰 값 없음 or 서버 오류");
 			return new ResponseEntity<TokenErrorResponse>(er, HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -197,7 +197,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}catch(WebClientResponseException e) {
 			int status = e.getRawStatusCode();
 			er.setStatusCode(status);
-			er.setMessage("토큰 값 헤더 확인 !!");
+			er.setMessage("토큰 값 없음 or 서버 오류");
 			return new ResponseEntity<TokenErrorResponse>(er, HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -234,7 +234,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}catch(WebClientResponseException e) {
 			int status = e.getRawStatusCode();
 			er.setStatusCode(status);
-			er.setMessage("토큰 값 헤더 확인 !!");
+			er.setMessage("토큰 값 없음 or 서버 오류");
 			return new ResponseEntity<TokenErrorResponse>(er, HttpStatus.BAD_REQUEST);
 		}
 	}
