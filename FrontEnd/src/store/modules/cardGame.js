@@ -25,6 +25,7 @@ export default {
       axios.get('https://i7a606.q.ssafy.io/service-api/play/objectcard')
       .then( res => {
         for (let data of res.data) {
+          console.log(data);
           state.cardsName.push(data.name)
           state.cardsImage.push(data.image)
         }
