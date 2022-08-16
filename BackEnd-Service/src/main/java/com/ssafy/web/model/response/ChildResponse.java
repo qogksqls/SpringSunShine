@@ -14,8 +14,9 @@ public class ChildResponse {
 
 	Date birth;
 
-	int gender;
+	String gender;
 
 	String profileUrl;
 
+	int surveyFlag;
 }

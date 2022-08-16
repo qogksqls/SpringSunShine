@@ -1,23 +1,23 @@
 package com.ssafy.web.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.dto.ChildData;
 import com.ssafy.web.model.response.BaseResponseBody;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
-import com.ssafy.web.request.child.ChildRegisterRequest;
-import com.ssafy.web.service.child.ChildService;
+import com.ssafy.web.request.ChildRegisterRequest;
+import com.ssafy.web.service.ChildService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -65,4 +65,21 @@ public class ChildController {
 		return childService.getChildData(child_id);
 	
 	}
+	
+	/**아동 문진표 surveryFlag 1로 수정  */
+	@PutMapping("/surveyFlag/{child_id}")
+	public String surveyFlag(@PathVariable("child_id") String child_id) {
+		int res = childService.surveyFlag(child_id);
+		if(res==0) return "fail";
+		else return "success";
+		
+	}
+	
+	/** 상담사 -> 예약한 아동 정보 조회 */
+	@GetMapping("/reserv-therapist-child/{child_id}")
+	public ChildReservResponse getChildInfo(@PathVariable("child_id") String childId) {
+		System.out.println("예약한 아동 정보 조회");
+		return childService.getChildInfo(childId);
+	}
+
 }

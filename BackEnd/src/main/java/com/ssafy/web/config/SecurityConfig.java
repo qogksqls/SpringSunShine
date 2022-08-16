@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import com.ssafy.web.db.repository.UserRepository;
+import com.ssafy.web.jwt.CustomAuthenticationEntryPoint;
 import com.ssafy.web.jwt.JwtAuthorizationFilter;
 import com.ssafy.web.jwt.SssUserDetailService;
 import com.ssafy.web.service.AuthService;
@@ -58,12 +59,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 .formLogin().disable()
 		 .csrf().disable()
 		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		  .and()
+          .exceptionHandling()
+          .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
 		 .and()
-		 .addFilter(corsFilter());		 
-//		 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepo)).authorizeRequests() // 인증절차에 대한 설정 시작 
-//		 .antMatchers("/auth/login","/user/therapist" , "/user/parent" ).permitAll() // 로그인, 회원가입은 누구나 접근 가능 
+		 .addFilter(corsFilter())		 
+		 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepo)).authorizeRequests() // 인증절차에 대한 설정 시작 
+//		 .antMatchers("/auth/**","/user/*" , "/child/**" , "/mail/**", "/info/**", "/therapist/recommed", "/therapist/recommedall" ).permitAll() // 로그인, 회원가입은 누구나 접근 가능 
+		 .antMatchers("/authentication/**").authenticated()
 //		 .anyRequest().authenticated();
-//		 .anyRequest().permitAll();
+		 .anyRequest().permitAll();
+//		 .and()
+//		 .exceptionHandling()
+//         .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
 	    }
 
 		@Bean

@@ -56,7 +56,7 @@ public class JwtTokenUtil {
 	 //accessToken 설정 
 	 public String createAccessToken(String id) {
 		 log.debug("test: jwt-crateToken입니다");
-		 Long tokenInvalidTime = 1000L * 60 * 30; // 30분
+		 Long tokenInvalidTime = 1000L * 60 * 60; // 60분
 		 return this.getToken(id, tokenInvalidTime);
 	 }
 	 

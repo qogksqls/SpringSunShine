@@ -8,6 +8,7 @@ drop table sss_service.`feeling_card` cascade;
 drop table sss_service.`answer` cascade;
 drop table sss_service.`options` cascade;
 drop table sss_service.`consult` cascade;
+drop table sss_service.`consult_person_name` cascade;
 drop table sss_service.`reservation` cascade;
 drop table sss_service.`question` cascade;
 drop table sss_service.`survery_question` cascade;
@@ -132,6 +133,17 @@ CREATE TABLE IF NOT exists sss_service.`consult` (
 	`record`	VARCHAR(255)	NULL
 );
 
+-- 상담방 사용자 이름 정보
+CREATE TABLE sss_service.`consult_person_name`(
+    consult_person_name_no INT auto_increment not null primary key,
+    consult_no int not null,
+    thera_name varchar(255) not null,
+    child_name varchar(255) not null,
+    parent_name varchar(255) not null,
+    foreign key(consult_no)
+    references consult(consult_no) on update cascade on delete cascade
+);
+
 -- 상담 예약 정보
 CREATE TABLE IF NOT exists sss_service.`reservation` (
 	`reserv_no`	INT auto_increment	NOT NULL PRIMARY KEY,
@@ -246,17 +258,17 @@ values
 ('남궁호','010-2222-1115','parent005@gmail.com','서울특별시 강남구 역삼동 테헤란로 212','pDj2dJd220805');
 
 -- 아이 정보
-insert into sss_auth.child(name, birth, gender, profile_url, child_id, parent_id)
+insert into sss_auth.child(name, birth, gender, profile_url, child_id, parent_id, survey_flag)
 values
-('신진욱', '2015-07-23', 1, '프로필명', 'cMJwqp1220804', 'p0SAddT220804'),
-('정세혁', '2015-07-23', 1, '프로필명', 'cMJwqp2220804', 'p0SAddT220804'),
-('안영석', '2015-07-23', 1, '프로필명', 'cMJwqp3220804', 'p3IsNnN220804'),
-('이한길', '2015-07-23', 1, '프로필명', 'cMJwqp4220804', 'p3IsNnN220804'),
-('양빛가람', '2015-07-23', 1, '프로필명', 'cMJwq53220804', 'p9wj92M220803'),
-('문성주', '2015-07-23', 1, '프로필명', 'cMJwqp6220804', 'p9wj92M220803'),
-('탁미숙', '2015-07-23', 2, '프로필명', 'cMJwqp7220804', 'p9wj92M220803'),
-('하우람', '2015-07-23', 2, '프로필명', 'cMJwqp8220804', 'pcdHKGY220804'),
-('정단비', '2015-07-23', 2, '프로필명', 'cMJwqp9220804', 'pcdHKGY220804'),
-('노라온', '2015-07-23', 2, '프로필명', 'cMJwq10220804', 'pDj2dJd220805'); 
+('신진욱', '2015-07-23', '여자', '프로필명', 'cMJwqp1220804', 'p0SAddT220804', 0),
+('정세혁', '2015-07-23', '여자', '프로필명', 'cMJwqp2220804', 'p0SAddT220804', 0),
+('안영석', '2015-07-23', '여자', '프로필명', 'cMJwqp3220804', 'p3IsNnN220804', 0),
+('이한길', '2015-07-23', '여자', '프로필명', 'cMJwqp4220804', 'p3IsNnN220804', 0),
+('양빛가람', '2015-07-23', '여자', '프로필명', 'cMJwq53220804', 'p9wj92M220803', 0),
+('문성주', '2015-07-23', '여자', '프로필명', 'cMJwqp6220804', 'p9wj92M220803', 0),
+('탁미숙', '2015-07-23', '남자', '프로필명', 'cMJwqp7220804', 'p9wj92M220803', 0),
+('하우람', '2015-07-23', '남자', '프로필명', 'cMJwqp8220804', 'pcdHKGY220804', 0),
+('정단비', '2015-07-23', '남자', '프로필명', 'cMJwqp9220804', 'pcdHKGY220804', 0),
+('노라온', '2015-07-23', '남자', '프로필명', 'cMJwq10220804', 'pDj2dJd220805', 0); 
 
 -- ------------------------------------------------------------- DUMMY DATE END-----------------------------------------------------------

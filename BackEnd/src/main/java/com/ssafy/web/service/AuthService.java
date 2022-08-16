@@ -9,8 +9,8 @@ public interface AuthService {
 
 	User getUserById(String id);
 
-	public ResponseEntity<UserLoginPostRes> login(String id, String password);
+	public UserLoginPostRes login(String id, String password);
 
-	public ResponseEntity<UserLoginPostRes> refreshToken(String id, String refreshToken);
+	public UserLoginPostRes refreshToken(String id, String refreshToken);
 
 }

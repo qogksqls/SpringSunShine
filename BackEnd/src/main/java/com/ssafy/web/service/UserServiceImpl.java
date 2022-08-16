@@ -1,15 +1,25 @@
 package com.ssafy.web.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.servlet.ServletContext;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.web.RandomUserId;
+import com.ssafy.web.common.PathUtil;
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.Therapist;
 import com.ssafy.web.db.entity.User;
@@ -42,12 +52,15 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	MailService mailService;
-
+	
+	@Autowired
+	ServletContext servletContext;
+	
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	// 치료사 회원가입
 	@Override
-	public String theraRegist(TheraRegisterRequest theraInfo) {
+	public String theraRegist(MultipartFile profile,TheraRegisterRequest theraInfo) {
 		User user = new User();
 		user.setUserId(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
@@ -58,14 +71,29 @@ public class UserServiceImpl implements UserService {
 		thera.setEmail(theraInfo.getEmail());
 		thera.setPhone(theraInfo.getPhone());
 		thera.setAddress(theraInfo.getAddress());
-		thera.setProfileUrl(theraInfo.getProfile_url());
 		if(theraInfo.getThera_intro().isEmpty()) {
 			thera.setTheraIntro(null);
 		}else {
 			thera.setTheraIntro(theraInfo.getThera_intro());
 		}
 		// 파일 넣기
+		if (profile.getOriginalFilename() != "") {
 
+			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
+			String fileName = user.getUserId()+profile.getOriginalFilename();
+
+			try {
+				profile.transferTo(new File(str + fileName));
+				thera.setProfileUrl(fileName);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+
+		}else {
+			thera.setProfileUrl(null);
+		}
+		
+		
 		List<Academy> academy = theraInfo.getAcademicCareers();
 		List<Career> career = theraInfo.getCareers();
 		List<Licence> licence = theraInfo.getLicences();
@@ -185,7 +213,7 @@ public class UserServiceImpl implements UserService {
 
 	// 치료사 정보 조회
 	@Override
-	public TherapistResponse getTheraInfo(String user_id) {
+	public TherapistResponse getTheraInfo(String user_id) throws IOException {
 		User u = userRepository.findByUserId(user_id);
 		Therapist t = theraRepository.findByUser(u);
 
@@ -229,33 +257,40 @@ public class UserServiceImpl implements UserService {
 				StringTokenizer st = new StringTokenizer(licList[i], ",");
 				//[asdf,null,2022-08-23,220720_출결확인서_배한빈[서울_6반]-1.pdf] 
 				Licence licence = new Licence();
-				System.out.println(1);
 				licence.setName(st.nextToken());
-				System.out.println(2);
 				licence.setPlace(st.nextToken());
-				System.out.println(3);
 				licence.setDate(st.nextToken());
-				System.out.println(4);
 				licence.setFile(st.nextToken());
-				System.out.println(5);
 				liclist.add(licence);
 			}
 		}
 		tr.setLicence(liclist);
 
+		
+		if (t.getProfileUrl() == null) {
+			tr.setProfile_url(null);
+		} else {
+			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
+			String url = str+t.getProfileUrl();
+
+			InputStream imageIS = new FileInputStream(url);
+			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
+			tr.setProfile_url(imageByteArray);
+			imageIS.close();
+
+		}
+		
 		tr.setId(u.getId());
 		tr.setName(t.getName());
 		tr.setEmail(t.getEmail());
 		tr.setPhone(t.getPhone());
 		tr.setAddress(t.getAddress());
-		tr.setProfile_url(t.getProfileUrl());
 		if(stringCheck(t.getTheraIntro())){
 			tr.setThera_intro(t.getTheraIntro());
 		}else {
 			tr.setThera_intro("");
 		}
 		
-		System.out.println("12332");
 		return tr;
 
 	}

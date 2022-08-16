@@ -1,12 +1,13 @@
-package com.ssafy.web.service.child;
+package com.ssafy.web.service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ssafy.web.dto.ChildData;
+import com.ssafy.web.model.response.ChildReservResponse;
 import com.ssafy.web.model.response.ChildResponse;
-import com.ssafy.web.request.child.ChildRegisterRequest;
+import com.ssafy.web.request.ChildRegisterRequest;
 
 public interface ChildService {
 
@@ -24,5 +25,12 @@ public interface ChildService {
 
 	//아동 나이, 성별 반환 
 	ChildData getChildData(String child_id);
+
+	//아동 문진표 등록 flag update
+	int surveyFlag(String child_id);
+	
+	// 상담사 -> 예약한 아동 정보 조회
+	ChildReservResponse getChildInfo(String childId);
+
 }
 
