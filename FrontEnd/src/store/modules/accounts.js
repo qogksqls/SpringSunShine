@@ -101,7 +101,8 @@ export default {
         })
         .catch((err) => {
           console.log("로그아웃 실패!");
-          console.log(err.response);
+          console.log(this.state.accounts.accessToken);
+          console.log(this.state.accounts.refreshToken);
         });
     },
     fetchCurrentUser({ commit, getters, dispatch }) {
