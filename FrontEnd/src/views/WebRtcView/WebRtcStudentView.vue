@@ -11,8 +11,9 @@
     <div class="container" v-if="session">
       <div class="wrap_content row col-md-12 p-4">
         <!--상담사 얼굴 들어갈 자리 start-->
-        <div class="col-md-12 p-0 counselorFace" v-if="!playingNow">
+        <div class="col-md-12 counselorFace" v-if="!playingNow">
           <sub-video-comp
+            :key="subscribers[0].stream.connection.connectionId"
             v-if="subscribers.length > 0"
             :subStreamManager="subscribers[0]"
           ></sub-video-comp>
@@ -58,11 +59,11 @@
           </div>
           <!--걍 빈공간 제공한거-->
           <div class="col-md-1">
-            <base-button @click="shareScreen">카드게임</base-button>
+            <button @click="shareScreen">playing game</button>
           </div>
 
           <!--학생 얼굴 들어갈 자리 start-->
-          <div class="col-md-3 p-0 studentFace" v-if="isFaceShow">
+          <div class="col-md-3 studentFace" v-if="isFaceShow">
             <main-video-comp
               :mainStreamManager="mainStreamManager"
             ></main-video-comp>
@@ -88,11 +89,11 @@ import CardsComp from "@/components/webRtcComp/CardsComp.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "i7a606.q.ssafy.io:8443" ;
+//const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443";
 
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-// const OPENVIDU_SERVER_SECRET = "A606";
+//const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
   components: {
@@ -193,36 +194,36 @@ export default {
     ShowMe: function() {
       this.isFaceShow = !this.isFaceShow;
     },
-    joinSession () {
-      let tempSessionId = ''
-			let tempUserName = ''
+    joinSession() {
+      let tempSessionId = "";
+      let tempUserName = "";
+      this.$store.state.teacher.teacher.name.split("").forEach((element) => {
+        tempSessionId += element.charCodeAt(0).toString(16);
+      });
+      "우영우".split("").forEach((element) => {
+        tempUserName += element.charCodeAt(0).toString(16);
+      });
 
-      this.$store.state.teacher.teacher.name.split('').forEach(element => {
-					console.log(element)
-					console.log(element.charCodeAt(0).toString(16))
-          tempSessionId += element.charCodeAt(0).toString(16)
-        });
-			// this.$store.state.children.children[0].이름.split('').forEach(element => {
-			'우영우'.split('').forEach(element => {
-					console.log(element)
-					console.log(element.charCodeAt(0).toString(16))
-					tempUserName += element.charCodeAt(0).toString(16)
-        });
-			console.log(tempSessionId);
-			console.log(tempUserName);
-      this.mySessionId = 'Session_' + tempSessionId
+      this.mySessionId = "Session_" + tempSessionId;
 
       this.myUserName = tempUserName;
+      console.log("----------------");
+      console.log(this.mySessionId);
+      console.log(this.myUserName);
+      console.log("----------------");
 
       this.OV = new OpenVidu();
 
       this.session = this.OV.initSession();
-      this.sessionScreen = this.OV.initSession();
+      //this.sessionScreen = this.OV.initSession();
 
       this.session.on("streamCreated", ({ stream }) => {
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
       });
+      console.log("--------------------");
+      console.log(this.subscribers);
+      console.log("--------------------");
 
       this.session.on("streamDestroyed", ({ stream }) => {
         const index = this.subscribers.indexOf(stream.streamManager, 0);
@@ -249,7 +250,9 @@ export default {
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: false, // Whether to mirror your local video or not
             });
-
+            console.log("--------------------");
+            console.log(publisher);
+            console.log("--------------------");
             this.mainStreamManager = publisher;
             this.publisher = publisher;
 
@@ -369,9 +372,10 @@ export default {
 };
 </script>
 <style scoped>
+/* html,
 body {
-  line-height: 0;
-}
+  height: 100%;
+} */
 #webCam {
   background: #fdffbc;
   background: -webkit-linear-gradient(right, #fdffbc, #ffeebb, #ffdcb8);
@@ -389,9 +393,6 @@ button {
 .wrap_content {
   height: 100vh;
 }
-.wrap_cont {
-  height: 100%;
-}
 .counselorFace {
   border: 2px solid #fbfbfb;
   height: 80vh;
@@ -404,6 +405,7 @@ button {
   position: absolute;
   right: 0;
   top: -170px;
+  height: 200px;
   border-radius: 15px;
 }
 .iconbtn {
