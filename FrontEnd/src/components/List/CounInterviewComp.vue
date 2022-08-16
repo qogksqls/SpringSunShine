@@ -90,9 +90,12 @@ export default {
         // }
         // console.log(this.items)
       })
-      .catch(err => {
-        console.log(err.response)
+      .catch((err) => {
+        console.log(err.response);
       })
+      .catch((err) => {
+        console.log(err.response);
+      });
   },
   methods: {
     counReview(item) {

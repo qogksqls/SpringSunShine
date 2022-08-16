@@ -34,6 +34,8 @@ import memo from "./views/consult/MemoView.vue";
 //회원정보수정
 import update from "./views/UserInfoView/UserUpdateForm.vue";
 
+//mainpage
+import video from "./components/subMain/subMain.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -55,6 +57,14 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Landing,
+      },
+    },
+    {
+      path: "/video",
+      name: "video",
+      components: {
+        header: AppHeader,
+        default: video,
       },
     },
     {
