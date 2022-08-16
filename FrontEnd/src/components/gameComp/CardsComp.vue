@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   components: {},
 
@@ -104,27 +105,24 @@ export default {
 
     createCards() {
       this.gameSet = true;
-      this.$store.commit("sampleCards")
 
       console.log(`올바른 카드를 고르세요`);
-
-      this.solution = this.$store.state.cardGame.solutionCard[0];
-      
-
-
-      console.log(this.solution);
-      this.selectedCards = this.$store.state.cardGame.selectedCards;
-
+      this.$store.commit("sampleCards")
+      setTimeout(() => {
+        this.solution = this.$store.state.cardGame.solutionCard[0];
+        console.log(`solution : ${this.solution}`);
+        this.selectedCards = this.$store.state.cardGame.selectedCards;
+        this.dialog0 = true;
+      }, 1000);
 
       this.timeStart = this.getTimeNow();
       console.log(this.timeStart);
-      this.dialog0 = true;
     },
     reserve1(index) {
       this.loading[index] = true;
 
       console.log(this.selectedCards[index][0]);
-      console.log(this.solution);
+      console.log(`solution : ${this.solution}`);
 
       if (this.solution === this.selectedCards[index][0]) {
         this.timeEnd = this.getTimeNow();
@@ -144,7 +142,15 @@ export default {
         this.dialog1 = "false";
 
         if (this.gameCount === 10) {
+          let totalTime = timeSequence.reduce((a,b) => a + b, 0)
+
           console.log(this.successCount);
+          axios.post('https://i7a606.q.ssafy.io/service-api/play/result', {
+            score: this.successCount,
+            totalTime: totalTime,
+            childId: 'childId',
+            createTime: new Date(),
+          })
           this.gameSet = false;
           this.gameCountPerGame = 0;
           this.successCount = 0;

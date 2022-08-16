@@ -193,6 +193,11 @@ export default {
     // open vidu
     
     joinSession () {
+      axios.post('https://i7a606.q.ssafy.io/service-api/consult/room', {
+        theraId:'theraId',
+        childId:'childId',
+        parentId:'parentId'
+      })
       let tempSessionId = ''
 
       this.$store.state.teacher.teacher.name.split('').forEach(element => {
@@ -275,7 +280,10 @@ export default {
 		},
 
 		leaveSession () {
-
+      axios.put('https://i7a606.q.ssafy.io/service-api/consult/memo', {
+        consultNo :consultNo,
+        memo: this.$store.state.memos.list.toString()
+      })
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;
