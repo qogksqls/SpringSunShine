@@ -173,13 +173,13 @@ export default {
             score: this.successCount,
             totalTime: this.totalTime,
             childId: 'childId',
-            createTime: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate}`
+            createTime: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
           }
           
           console.log(dataSend);
           
           axios.post('https://i7a606.q.ssafy.io/service-api/play/result', dataSend)
-          
+
           this.gameSet = false;
           this.gameCountPerGame = 0; 
           this.successCount = 0;
