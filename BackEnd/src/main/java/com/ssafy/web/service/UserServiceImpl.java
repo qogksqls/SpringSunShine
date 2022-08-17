@@ -81,13 +81,14 @@ public class UserServiceImpl implements UserService {
 				thera.setTheraIntro(theraInfo.getThera_intro());
 			}
 			// 파일 넣기
+			String gfg="";
 			try {
 			if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
 				String fileName = user.getUserId() + profile.getOriginalFilename();
 				String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()
 						+ PathUtil.PROFILE_UPLOAD_PATH + fileName;
-
+				gfg = url;
 				profile.transferTo(new File(url));
 				thera.setProfileUrl(fileName);
 
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
 			} catch (Exception e) {
 	            String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
-				return e.toString();
+				return gfg;
 			}
 			List<Academy> academy = theraInfo.getAcademicCareers();
 			List<Career> career = theraInfo.getCareers();
