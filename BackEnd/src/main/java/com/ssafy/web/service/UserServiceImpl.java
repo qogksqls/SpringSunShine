@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 			}
 
 			} catch (Exception e) {
-				return "aaa";
+				return e.getMessage();
 			}
 			List<Academy> academy = theraInfo.getAcademicCareers();
 			List<Career> career = theraInfo.getCareers();
