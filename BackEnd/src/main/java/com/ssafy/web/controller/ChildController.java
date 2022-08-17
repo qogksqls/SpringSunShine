@@ -81,7 +81,6 @@ public class ChildController {
 	}
 
 	/** 아동 문진표 surveryFlag 1로 수정 */
-	@CacheEvict(value="childList", allEntries=true )
 	@PutMapping("/surveyFlag/{child_id}")
 	public String surveyFlag(@PathVariable("child_id") String child_id) {
 		int res = childService.surveyFlag(child_id);

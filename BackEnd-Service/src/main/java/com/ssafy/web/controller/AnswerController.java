@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,11 @@ public class AnswerController {
 
 	//문진표 응답 저장
 	@PostMapping
+	@Caching(evict= {
+			@CacheEvict(value="childList", allEntries=true ),
+			@CacheEvict(value="reservChildInfo", allEntries=true)
+			
+	})
 	public ResponseEntity<?> registAnswer(@RequestBody AnswerRequest answerReq){
 		int res = answerService.registAnswer(answerReq);
 		if(res==1) {
