@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
 		user.setId(theraInfo.getId());
 		user.setPassword(encoder.encode(theraInfo.getPassword()));
 
+		try {
 		Therapist thera = new Therapist();
 		thera.setName(theraInfo.getName());
 		thera.setEmail(theraInfo.getEmail());
@@ -86,12 +87,8 @@ public class UserServiceImpl implements UserService {
 			String fileName = user.getUserId()+profile.getOriginalFilename();
 			String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_UPLOAD_PATH+fileName;
 			
-			try {
 				profile.transferTo(new File(url));
 				thera.setProfileUrl(fileName);
-			} catch (IllegalStateException | IOException e) {
-				return e.getMessage();
-			}
 
 		}else {
 			thera.setProfileUrl(null);
@@ -107,6 +104,10 @@ public class UserServiceImpl implements UserService {
 
 		thera.setUser(user);
 		theraRepository.save(thera);
+		
+		} catch (IllegalStateException | IOException e) {
+			return e.getMessage();
+		}
 		
 		return user.getUserId();
 
