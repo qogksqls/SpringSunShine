@@ -164,7 +164,7 @@
 import axios from "axios";
 import GoToSurvey from "../../components/Reserve/GoToSurvey.vue";
 
-// var frm = new FormData();
+var frm = new FormData();
 
 export default {
   name: "ChildListView",
@@ -182,31 +182,31 @@ export default {
   methods: {
     addChild() {
       console.log("아동추가");
+      const childInfo = {
+        parent_id: this.$store.state.accounts.userid,
+        name: this.name,
+        birth: this.birth,
+        gender: this.gender,
+        profile_url: this.image,
+        survey_flag: 0,
+      }
+      frm.append("childInfo", childInfo.files[0])
+      frm.append("profile", childInfo.files[0])
       if (
         this.name.length == 0 ||
         this.birth.length == 0 ||
-        this.gender.length == 0 ||
-        this.image == ""
+        this.gender.length == 0
       ) {
         alert("빈칸을 채워주세요");
         return;
       } else {
-        // axios.post('https://i7a606.q.ssafy.io/auth-api/child/register', frm, {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data'
-        //   }
-        // })
         axios({
           url: "https://i7a606.q.ssafy.io/service-api/child/register",
           method: "post",
-          data: {
-            parent_id: this.$store.state.accounts.userid,
-            name: this.name,
-            birth: this.birth,
-            gender: this.gender,
-            profile_url: this.image,
-            survey_flag: 0,
-          },
+          frm,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         })
           .then((res) => {
             console.log(res.data);
@@ -224,9 +224,10 @@ export default {
     },
     uploadImg() {
       var image = this.$refs["image"].files[0];
-      // this.image = image
-      const url = URL.createObjectURL(image);
-      this.image = url;
+      this.image = image
+      // const url = URL.createObjectURL(image);
+      // this.image = url;
+      frm.append("profile", image.files[0])
       console.log(this.image);
     },
     // filePreview() {

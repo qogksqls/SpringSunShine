@@ -3,18 +3,18 @@ import router from "../../router";
 
 export default {
   state: {
-    accessToken: localStorage.getItem("accessToken"),
-    refreshToken: localStorage.getItem("refreshToken"),
-    userid: localStorage.getItem("userid"),
-    // accessToken: '',
-    // refreshToken: '',
-    // userid: '',
+    accessToken: localStorage.getItem("accessToken") || '',
+    refreshToken: localStorage.getItem("refreshToken") || '',
+    userid: localStorage.getItem("userid") || '',
+    childInfo: {},
+    parentInfo: {},
+    theraInfo: {},
     currentUser: {},
     profile: {},
     authError: null,
   },
   getters: {
-    isLoggedIn: (state) => !!state.refreshToken,
+    isLoggedIn: (state) => !!state.accessToken,
     currentUser: (state) => state.currentUser,
     profile: (state) => state.profile,
     authError: (state) => state.authError,
@@ -72,7 +72,7 @@ export default {
           dispatch("saveAccessToken", accessToken);
           dispatch("saveRefreshToken", refreshToken);
           dispatch("saveUserid", userid);
-          dispatch("fetchCurrentUser");
+          // dispatch("fetchCurrentUser", userid);
           router.push({ name: "components" });
         })
         .catch((err) => {
@@ -101,14 +101,19 @@ export default {
         })
         .catch((err) => {
           console.log("로그아웃 실패!");
-          console.log(err.response);
+          console.log(this.state.accounts.accessToken);
+          console.log(this.state.accounts.refreshToken);
+          dispatch("removeToken");
+          dispatch("removeUserid");
         });
     },
-    fetchCurrentUser({ commit, getters, dispatch }) {
+    fetchCurrentUser({ commit, getters, dispatch }, userid) {
       if (getters.isLoggedIn) {
+        console.log("currentUser: ")
         axios({
-          url: `https://i7a606.q.ssafy.io/service-api/user/${this.userid}`,
-          method: "get",
+          url: `https://i7a606.q.ssafy.io/service-api/user/${userid}`,
+          method: 'get',
+          headers: { Authorization: `Bearer ${this.$store.state.accounts.accessToken}`}
         })
           .then((res) => {
             console.log(res.data);

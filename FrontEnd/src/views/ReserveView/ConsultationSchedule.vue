@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 var today = new Date();
 var year = today.getFullYear();
 var month = ("0" + (today.getMonth() + 1)).slice(-2);
@@ -65,10 +67,11 @@ export default {
     }
   },
   created() {
-    this.$axios({
-      url: `https://i7a606.q.ssafy.io/service-api/user/${this.$store.state.accounts.userid}`,
-      method: 'get',
-      headers : { Authorization : `Bearer ${ this.$store.state.accounts.accessToken }` },
+    console.log(this.$store.state.accounts.accessToken)
+    axios.get(`https://i7a606.q.ssafy.io/service-api/user/${this.$store.state.accounts.userid}`, {
+      headers : {
+        Authorization: `Bearer ${ this.$store.state.accounts.accessToken }`
+      },
     })
       .then((res) => {
         console.log(res.data);
@@ -78,7 +81,7 @@ export default {
         console.log(err.response);
       });
     this.$axios({
-      url: `https://i7a606.q.ssafy.io/service-api/reserv-therapist/${this.$store.state.accounts.userid}`,
+      url: `https://i7a606.q.ssafy.io/service-api/reserv-therapist/${this.$store.state.accounts.userid}`,  // 예약조회
       method: 'get',
     })
       .then((res) => {

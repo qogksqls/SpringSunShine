@@ -38,5 +38,22 @@ export default {
     Examples,
     DownloadSection,
   },
+  created() {
+    if (this.$store.state.accounts.refreshToken && !this.$store.state.accounts.accessToken) {
+      axios({
+        url: `https://i7a606.q.ssafy.io/service-api/auth/refresh/${this.$store.state.accounts.userid}`,
+        method: 'get'
+      })
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    }
+    // else { // 로그인이 안되어 있다면 Login페이지로 이동
+    //   this.$router.push({name : 'login'})
+    // }
+  }
 };
 </script>
