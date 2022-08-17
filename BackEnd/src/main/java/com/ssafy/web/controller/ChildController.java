@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,6 +81,7 @@ public class ChildController {
 	}
 
 	/** 아동 문진표 surveryFlag 1로 수정 */
+	@CacheEvict(value="childList", allEntries=true )
 	@PutMapping("/surveyFlag/{child_id}")
 	public String surveyFlag(@PathVariable("child_id") String child_id) {
 		int res = childService.surveyFlag(child_id);
