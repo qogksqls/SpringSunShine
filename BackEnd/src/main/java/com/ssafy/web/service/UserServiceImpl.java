@@ -56,59 +56,59 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	MailService mailService;
-	
+
 	@Autowired
 	ServletContext servletContext;
-	
+
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	// 치료사 회원가입
 	@Override
-	public String theraRegist(MultipartFile profile,TheraRegisterRequest theraInfo) {
+	public String theraRegist(MultipartFile profile, TheraRegisterRequest theraInfo) {
 		try {
-		User user = new User();
-		user.setUserId(RandomUserId.makeTheraId());
-		user.setId(theraInfo.getId());
-		user.setPassword(encoder.encode(theraInfo.getPassword()));
+			User user = new User();
+			user.setUserId(RandomUserId.makeTheraId());
+			user.setId(theraInfo.getId());
+			user.setPassword(encoder.encode(theraInfo.getPassword()));
 
-		Therapist thera = new Therapist();
-		thera.setName(theraInfo.getName());
-		thera.setEmail(theraInfo.getEmail());
-		thera.setPhone(theraInfo.getPhone());
-		thera.setAddress(theraInfo.getAddress());
-		if(theraInfo.getThera_intro().isEmpty()) {
-			thera.setTheraIntro(null);
-		}else {
-			thera.setTheraIntro(theraInfo.getThera_intro());
-		}
-		// 파일 넣기
-		if (profile != null && !"".equals(profile.getOriginalFilename())) {
+			Therapist thera = new Therapist();
+			thera.setName(theraInfo.getName());
+			thera.setEmail(theraInfo.getEmail());
+			thera.setPhone(theraInfo.getPhone());
+			thera.setAddress(theraInfo.getAddress());
+			if (theraInfo.getThera_intro().isEmpty()) {
+				thera.setTheraIntro(null);
+			} else {
+				thera.setTheraIntro(theraInfo.getThera_intro());
+			}
+			// 파일 넣기
+			if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
-			String fileName = user.getUserId()+profile.getOriginalFilename();
-			String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_UPLOAD_PATH+fileName;
-			
+				String fileName = user.getUserId() + profile.getOriginalFilename();
+				String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()
+						+ PathUtil.PROFILE_UPLOAD_PATH + fileName;
+
 				profile.transferTo(new File(url));
 				thera.setProfileUrl(fileName);
 
-		}else {
-			thera.setProfileUrl(null);
-		}
-		
-		
-		List<Academy> academy = theraInfo.getAcademicCareers();
-		List<Career> career = theraInfo.getCareers();
-		List<Licence> licence = theraInfo.getLicences();
-		thera.setAcademicCareers(getAcademy(academy));
-		thera.setCareers(getCareer(career));
-		thera.setLicences(getLicence(licence));
+			} else {
+				thera.setProfileUrl(null);
+			}
 
-		thera.setUser(user);
-		theraRepository.save(thera);
-		
+			List<Academy> academy = theraInfo.getAcademicCareers();
+			List<Career> career = theraInfo.getCareers();
+			List<Licence> licence = theraInfo.getLicences();
+			thera.setAcademicCareers(getAcademy(academy));
+			thera.setCareers(getCareer(career));
+			thera.setLicences(getLicence(licence));
+
+			thera.setUser(user);
+			theraRepository.save(thera);
+
 		} catch (Exception e) {
-			return e.getMessage();
+			return e.getLocalizedMessage();
 		}
-		
+
 //		return user.getUserId();
 		return "sds";
 
@@ -116,7 +116,8 @@ public class UserServiceImpl implements UserService {
 
 	public String getAcademy(List<Academy> academy) {
 		int size = academy.size(); // 몇개의 학력
-		if(size==0) return null;
+		if (size == 0)
+			return null;
 		String str = "";
 		for (int i = 0; i < size; i++) {
 			str += "[";
@@ -130,7 +131,8 @@ public class UserServiceImpl implements UserService {
 
 	public String getCareer(List<Career> career) {
 		int size = career.size(); // 몇개의 학력
-		if(size==0) return null;
+		if (size == 0)
+			return null;
 		String str = "";
 		for (int i = 0; i < size; i++) {
 			str += "[";
@@ -144,7 +146,8 @@ public class UserServiceImpl implements UserService {
 
 	public String getLicence(List<Licence> licence) {
 		int size = licence.size(); // 몇개의 학력
-		if(size==0) return null;
+		if (size == 0)
+			return null;
 		String str = "";
 		for (int i = 0; i < size; i++) {
 			str += "[";
@@ -208,15 +211,15 @@ public class UserServiceImpl implements UserService {
 		Parent p = parentRepository.findByUser(u);
 
 		ParentResponse pr = new ParentResponse();
-		
-		String s= SecurityContextHolder.getContext().getAuthentication().getName();
-		log.debug("해당 토큰의 사용자 아이디 : "+s);
+
+		String s = SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : " + s);
 		// 해당 사용자의 아이디가 아님
-		if(!u.getId().equals(s)) {
+		if (!u.getId().equals(s)) {
 			pr.setId("wrong-token");
 			return pr;
 		}
-		
+
 		pr.setId(u.getId());
 		pr.setName(p.getName());
 		pr.setPhone(p.getPhone());
@@ -233,11 +236,11 @@ public class UserServiceImpl implements UserService {
 		Therapist t = theraRepository.findByUser(u);
 
 		TherapistResponse tr = new TherapistResponse();
-		
-		String s= SecurityContextHolder.getContext().getAuthentication().getName();
-		log.debug("해당 토큰의 사용자 아이디 : "+s);
+
+		String s = SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : " + s);
 		// 해당 사용자의 아이디가 아님
-		if(!u.getId().equals(s)) {
+		if (!u.getId().equals(s)) {
 			tr.setId("wrong-token");
 			return tr;
 		}
@@ -277,7 +280,7 @@ public class UserServiceImpl implements UserService {
 			String[] licList = getString(t.getLicences());
 			for (int i = 0; i < licList.length; i++) {
 				StringTokenizer st = new StringTokenizer(licList[i], ",");
-				//[asdf,null,2022-08-23,220720_출결확인서_배한빈[서울_6반]-1.pdf] 
+				// [asdf,null,2022-08-23,220720_출결확인서_배한빈[서울_6반]-1.pdf]
 				Licence licence = new Licence();
 				licence.setName(st.nextToken());
 				licence.setPlace(st.nextToken());
@@ -288,7 +291,6 @@ public class UserServiceImpl implements UserService {
 		}
 		tr.setLicence(liclist);
 
-		
 		if (t.getProfileUrl() == null || "".equals(t.getProfileUrl())) {
 			tr.setProfile_url(null);
 		} else {
@@ -301,24 +303,25 @@ public class UserServiceImpl implements UserService {
 //			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/"+t.getProfileUrl());
 //			InputStream inputStream = new ClassPathResource(t.getProfileUrl()).getInputStream();
 //			InputStream imageIS = new FileInputStream(sss);
-			InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+t.getProfileUrl());
+			InputStream resourceAsStream = this.getClass()
+					.getResourceAsStream(PathUtil.PROFILE_PATH + t.getProfileUrl());
 			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
 			tr.setProfile_url(imageByteArray);
 			resourceAsStream.close();
 
 		}
-		
+
 		tr.setId(u.getId());
 		tr.setName(t.getName());
 		tr.setEmail(t.getEmail());
 		tr.setPhone(t.getPhone());
 		tr.setAddress(t.getAddress());
-		if(stringCheck(t.getTheraIntro())){
+		if (stringCheck(t.getTheraIntro())) {
 			tr.setThera_intro(t.getTheraIntro());
-		}else {
+		} else {
 			tr.setThera_intro("");
 		}
-		
+
 		return tr;
 
 	}
@@ -347,10 +350,10 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByUserId(user_id);
 		if (user == null)
 			return 0;
-		String s= SecurityContextHolder.getContext().getAuthentication().getName();
-		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		String s = SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : " + s);
 		// 해당 사용자의 아이디가 아님
-		if(!user.getId().equals(s)) {
+		if (!user.getId().equals(s)) {
 			return 2;
 		}
 		// 정보를 수정하려는 부모 회원
@@ -369,10 +372,10 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByUserId(user_id);
 		if (user == null)
 			return 0;
-		String s= SecurityContextHolder.getContext().getAuthentication().getName();
-		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		String s = SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : " + s);
 		// 해당 사용자의 아이디가 아님
-		if(!user.getId().equals(s)) {
+		if (!user.getId().equals(s)) {
 			return 2;
 		}
 		// 정보수정하려는 치료사 회원
@@ -391,10 +394,10 @@ public class UserServiceImpl implements UserService {
 			System.out.println("user--null");
 			return 0; // id 오류
 		}
-		String s= SecurityContextHolder.getContext().getAuthentication().getName();
-		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		String s = SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : " + s);
 		// 해당 사용자의 아이디가 아님
-		if(!user.getId().equals(s)) {
+		if (!user.getId().equals(s)) {
 			return 2;
 		}
 		Parent p = parentRepository.findByUser(user);
@@ -410,12 +413,10 @@ public class UserServiceImpl implements UserService {
 		}
 		log.debug("임시비밀번호 이메일 발송 및 업데이트");
 		// 이메일 발송
-		String code=mailService.sendPwMessage(email);
-		//임시 비밀번호로 비밀번호 업데이트
+		String code = mailService.sendPwMessage(email);
+		// 임시 비밀번호로 비밀번호 업데이트
 		user.update(encoder.encode(code));
 		return 1;
-		
-		
 
 	}
 
@@ -433,11 +434,8 @@ public class UserServiceImpl implements UserService {
 	public String getTheraName(String theraId) {
 		User user = userRepository.findByUserId(theraId);
 		Therapist thera = theraRepository.findByUser(user);
-		
+
 		return thera.getName();
 	}
-
-
-
 
 }
