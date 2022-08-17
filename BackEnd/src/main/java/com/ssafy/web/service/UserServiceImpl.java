@@ -65,12 +65,12 @@ public class UserServiceImpl implements UserService {
 	// 치료사 회원가입
 	@Override
 	public String theraRegist(MultipartFile profile,TheraRegisterRequest theraInfo) {
+		try {
 		User user = new User();
 		user.setUserId(RandomUserId.makeTheraId());
 		user.setId(theraInfo.getId());
 		user.setPassword(encoder.encode(theraInfo.getPassword()));
 
-		try {
 		Therapist thera = new Therapist();
 		thera.setName(theraInfo.getName());
 		thera.setEmail(theraInfo.getEmail());
@@ -105,11 +105,12 @@ public class UserServiceImpl implements UserService {
 		thera.setUser(user);
 		theraRepository.save(thera);
 		
-		} catch (IllegalStateException | IOException e) {
+		} catch (Exception e) {
 			return e.getMessage();
 		}
 		
-		return user.getUserId();
+//		return user.getUserId();
+		return "sds";
 
 	}
 
