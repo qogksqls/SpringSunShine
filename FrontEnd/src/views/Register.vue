@@ -191,6 +191,7 @@
 </template>
 <script>
 import Counselor from "./components/Signin/Counselor.vue";
+
 export default {
   components: { Counselor },
   data() {
@@ -211,7 +212,7 @@ export default {
 
       checkid: false,
 
-      checkEmail: false,
+      checkEmail: true,
       emailCode1: '',
       emailCode2: ''
     };
@@ -258,7 +259,7 @@ export default {
       this.careers = inputDatas.careers;
       this.licences = inputDatas.licences;
       this.thera_intro = inputDatas.thera_intro;
-      // console.log(this.profile_url)
+      // console.log(this.profile_url.files[0])
       // console.log(this.expertise)
       // console.log(this.academicCareers)
       // console.log(this.careers)
@@ -268,6 +269,23 @@ export default {
     signinTeacher() {
       console.log("상담사 회원가입");
       console.log(`${this.$store.state.host}/service-api/user/therapist`);
+      var frm = new FormData();
+      const theraInfo = JSON.stringify({
+        id: this.id,
+        password: this.password1,
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        address: this.address,
+        profile_url: 'null',
+        expertise: this.expertises,
+        academicCareers: this.academicCareers,
+        careers: this.careers,
+        licences: this.licences,
+        thera_intro: this.thera_intro,
+      })
+      frm.append("theraInfo", new Blob([theraInfo], { type: "application/json" }));
+      frm.append("profile", this.profile_url.files[0])
       if (
         this.id &&
         this.checkid === true &&
@@ -279,22 +297,16 @@ export default {
         this.email &&
         this.checkEmail === true
       ) {
-        this.$axios
-          .post("https://i7a606.q.ssafy.io/service-api/user/therapist", {
-            id: this.id,
-            password: this.password1,
-            name: this.name,
-            email: this.email,
-            phone: this.phone,
-            address: this.address,
-            profile_url: this.profile_url,
-            expertises: this.expertises,
-            academicCareers: this.academicCareers,
-            careers: this.careers,
-            licences: this.licences,
-            thera_intro: this.thera_intro,
-          })
+        this.$axios({
+          url: 'https://i7a606.q.ssafy.io/service-api/user/therapist',
+          method: 'post',
+          data: frm,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
           .then((res) => {
+            console.log(res.data)
             this.$router.push("/login");
           })
           .catch((err) => {

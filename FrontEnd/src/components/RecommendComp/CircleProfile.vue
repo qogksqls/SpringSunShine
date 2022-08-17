@@ -2,9 +2,9 @@
   <div class="m-3">
     <a href="#" @click="modals.modal1 = true" class="c_profile">
       <img
-        v-lazy="'img/theme/team-4-800x800.jpg'"
+        :src="`data:image/png;base64,${counselor['profile_url']}`"
         class="rounded-circle img-fluid shadow-lg"
-      />
+      >
       <div class="card_about text-center">
         <h5 class="pt-2">
           <b>{{ counselor["name"] }} 상담사</b>

@@ -17,7 +17,7 @@
       </div>
       <div class="ChildInfo col-sm-6 row">
         <div class="col-sm-4 text-muted">전화번호</div>
-        <!-- <div class="col-sm-8 text-muted">{{ parentInfo['phone'] }}</div> -->
+        <div class="col-sm-8 text-muted">{{ childInfo2['parentPhone'] }}</div>
       </div>
     </div>
     <div class="row col-sm-12 mt-2 ">
@@ -28,14 +28,13 @@
     </div>
     <div class="col-sm-12 text-right col">
       <base-button type="primary" class="col-sm-2" @click="moveSurveyResult">문진표</base-button>
-      <!--학생일 시 student-->
-      <!-- <router-link to="/webStudent" class="col-sm-2" v-if="parent">
-        <base-button type="primary">상담방</base-button></router-link
-      > -->
-      <!--상담사일 시 counselor-->
-      <!-- <router-link to="/webCounselor" class="col-sm-2" v-else>
-        <base-button type="primary">상담방</base-button></router-link
-      > -->
+      <router-link to="/webCounselor" :ids="{
+        child_id: childInfo['childId'],
+        parent_id: childInfo2['parentId'],
+        thera_id: this.$store.state.accounts.userid
+        }" class="col-sm-2">
+        <base-button type="primary">상담방</base-button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -48,6 +47,7 @@ export default {
     return {
       childInfo: this.$route.params,
       childInfo2: {},
+      theraInfo: {}
     };
   },
   methods: {
@@ -69,6 +69,20 @@ export default {
       .then(res => {
         console.log(res.data)
         this.childInfo2 = res.data
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+    axios({
+      url: `https://i7a606.q.ssafy.io/service-api/user/${this.$store.state.accounts.userid}`,
+      method: 'get',
+      headers: {
+        Authorization: `Bearer ${this.$store.state.accounts.accessToken}`
+      }
+    })
+      .then(res => {
+        console.log(res.data)
+        this.theraInfo = res.data
       })
       .catch(err => {
         console.log(err.response)

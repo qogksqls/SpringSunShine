@@ -38,7 +38,7 @@
               >
                 <div class="child py-3">
                   <h4 class="col col-sm-12">
-                    <!-- <p>{{child["profileUrl"].slice(5, child["profileUrl"].length)}}</p> -->
+                    <img :src="`data:image/png;base64,${child['profileUrl']}`" style="width: 150px; height: 150px">
                     <p>이름: <nbsp></nbsp>{{ child["name"] }}</p>
                     <p>생년월일: {{ child["birth"].slice(0, 10) }}</p>
                     <p>성별: {{ child["gender"] }}</p>
@@ -95,16 +95,14 @@
                 <div class="col-sm-12">
                   <div class="row mb-4">
                     <p class="col-sm-5 m-0">프로필사진</p>
-
-                    <input
-                      ref="image"
-                      @change="uploadImg()"
-                      type="file"
-                      id="chooseFile"
-                      name="chooseFile"
-                      accept="image/*"
-                      class="col-sm-7 text-right align-self-end"
-                    />
+                    <form>
+                      <input
+                        type="file"
+                        id="photo"
+                        name="photo"
+                        class="col-sm-7 text-right align-self-end"
+                      />
+                    </form>
                     <div class="col-sm-5"></div>
                     <img v-if="image" :src="image" width="100" height="100" />
                   </div>
@@ -164,8 +162,6 @@
 import axios from "axios";
 import GoToSurvey from "../../components/Reserve/GoToSurvey.vue";
 
-// var frm = new FormData();
-
 export default {
   name: "ChildListView",
   components: { GoToSurvey },
@@ -182,31 +178,36 @@ export default {
   methods: {
     addChild() {
       console.log("아동추가");
+      var frm = new FormData()
+      var photoFile = document.getElementById("photo")
+      console.log(photoFile)
+      const childInfo = JSON.stringify({
+        parent_id: this.$store.state.accounts.userid,
+        name: this.name,
+        birth: this.birth,
+        gender: this.gender,
+        profile_url: '',
+        survey_flag: 0,
+      })
+      // console.log(childInfo)
+      // console.log(photoFile.files[0])
+      frm.append('childInfo', new Blob([childInfo], { type: "application/json" }));
+      frm.append('profile', photoFile.files[0]);
       if (
         this.name.length == 0 ||
         this.birth.length == 0 ||
-        this.gender.length == 0 ||
-        this.image == ""
+        this.gender.length == 0
       ) {
-        alert("빈칸을 채워주세요");
+        alert("아동정보를 모두 채워주세요");
         return;
       } else {
-        // axios.post('https://i7a606.q.ssafy.io/auth-api/child/register', frm, {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data'
-        //   }
-        // })
         axios({
           url: "https://i7a606.q.ssafy.io/service-api/child/register",
           method: "post",
-          data: {
-            parent_id: this.$store.state.accounts.userid,
-            name: this.name,
-            birth: this.birth,
-            gender: this.gender,
-            profile_url: this.image,
-            survey_flag: 0,
-          },
+          data: frm,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         })
           .then((res) => {
             console.log(res.data);
@@ -222,16 +223,6 @@ export default {
           (this.image = "");
       }
     },
-    uploadImg() {
-      var image = this.$refs["image"].files[0];
-      // this.image = image
-      const url = URL.createObjectURL(image);
-      this.image = url;
-      console.log(this.image);
-    },
-    // filePreview() {
-    //   return "data:image/jpeg;base64," + this.empPhoto;
-    // },
     moveSurvey(index) {
       this.$router.push({ name: "survey", params: this.children[index] });
     },
@@ -263,6 +254,19 @@ export default {
       .catch((err) => {
         console.log(err.response);
       });
+
+    axios({  // accessToken 재발급
+      url: `https://i7a606.q.ssafy.io/service-api/auth/refresh/${this.$store.state.accounts.userid}`,
+      method: 'get',
+      headers: { Authorization: `Bearer ${this.$store.state.accounts.refreshToken}`}
+    })
+      .then(res => {
+        console.log(res.data)
+        this.$store.state.accounts.accessToken = res.data.accessToken
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
   },
 };
 </script>
