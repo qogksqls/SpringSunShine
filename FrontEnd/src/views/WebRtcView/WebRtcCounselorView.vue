@@ -1,13 +1,13 @@
 <template>
   <div id="webCam">
-
+<!-- 
     <div id="join" v-if="!session">
 
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
 					</p>
 
-		</div>
+		</div> -->
 
     <div class="container" v-if="session">
 
@@ -124,6 +124,9 @@ const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
   name: 'CounselorView',
+  mounted () {
+    this.joinSession()
+  },
   props: {
     ids: Object,
   },
