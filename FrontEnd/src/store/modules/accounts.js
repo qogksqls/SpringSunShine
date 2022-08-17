@@ -107,6 +107,20 @@ export default {
           dispatch("removeUserid");
         });
     },
+    updateToken({ commit, dispatch }) {
+      axios({  // accessToken 체크
+        url: `https://i7a606.q.ssafy.io/service-api/auth/refresh/${this.$store.state.accounts.userid}`,
+        method: 'get',
+        headers: { Authorization: `Bearer ${this.$store.state.accounts.refreshToken}`}
+      })
+        .then(res => {
+          console.log(res.data)
+          this.$store.state.accounts.accessToken = res.data.accessToken
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    },
     fetchCurrentUser({ commit, getters, dispatch }, userid) {
       if (getters.isLoggedIn) {
         console.log("currentUser: ")

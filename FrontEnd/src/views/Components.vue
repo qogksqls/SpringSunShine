@@ -39,21 +39,20 @@ export default {
     DownloadSection,
   },
   created() {
-    if (this.$store.state.accounts.refreshToken && !this.$store.state.accounts.accessToken) {
-      axios({
-        url: `https://i7a606.q.ssafy.io/service-api/auth/refresh/${this.$store.state.accounts.userid}`,
-        method: 'get'
+  if (!this.$store.state.accounts.accessToken) {
+    this.$axios({  // accessToken 재발급
+      url: `https://i7a606.q.ssafy.io/service-api/auth/refresh/${this.$store.state.accounts.userid}`,
+      method: 'get',
+      headers: { Authorization: `Bearer ${this.$store.state.accounts.refreshToken}`}
+    })
+      .then(res => {
+        console.log(res.data)
+        this.$store.state.accounts.accessToken = res.data.accessToken
       })
-        .then(res => {
-          console.log(res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
+      .catch(err => {
+        console.log(err.response)
+      })
     }
-    // else { // 로그인이 안되어 있다면 Login페이지로 이동
-    //   this.$router.push({name : 'login'})
-    // }
   }
 };
 </script>
