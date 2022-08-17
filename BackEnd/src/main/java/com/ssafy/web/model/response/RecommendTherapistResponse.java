@@ -86,6 +86,7 @@ public class RecommendTherapistResponse {
     			}
     		}
     		if(tr.getProfileUrl() !=null && !"".equals(tr.getProfileUrl())) {
+    			System.out.println("asdf");
     			try {
 //    				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+tr.getProfileUrl());
 //					profile_url = IOUtils.toByteArray(resourceAsStream);
@@ -110,7 +111,7 @@ public class RecommendTherapistResponse {
     	}
     	// 약력 : 띄어쓰기 분리하고, [ ] 빼는 과정
     	public String[] getString(String data) {
-    		String[] list = data.split(" ");
+    		String[] list = data.split("=");
     		String[] res = new String[list.length];
     		for (int i = 0; i < list.length; i++) {
     			res[i] = list[i].replace("[", "").replace("]", "");
@@ -119,7 +120,7 @@ public class RecommendTherapistResponse {
     	}
 
     	public boolean stringCheck(String data) {
-    		if (data != null) {
+    		if (data != null && !"".equals(data)) {
     			return true;
     		}
     		return false;
