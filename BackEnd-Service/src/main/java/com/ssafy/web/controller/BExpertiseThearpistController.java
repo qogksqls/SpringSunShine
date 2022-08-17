@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,7 @@ public class BExpertiseThearpistController {
 		return recommedTheraList;
 	}
 	
-	@Cacheable(value="recommendThera", cacheManager = "cacheManager")
+	@Cacheable(value="recommendTheraAll", cacheManager = "cacheManager")
 	@GetMapping("/all")
 	public List<RecommendTherapistTotalResponse> recommedAll(){
 		List<RecommendTherapistTotalResponse> recommedTheraList = BETService.recommendTherapistAll();

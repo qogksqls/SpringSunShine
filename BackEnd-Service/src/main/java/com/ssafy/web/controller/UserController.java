@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,9 +64,15 @@ public class UserController {
 		
 		data.put("message","fail");
 		return null;
-	}
+	}	
 	
 	/**부모 회원정보 수정 */
+	@Caching(evict= {
+			@CacheEvict(value="consultTherapist", allEntries=true),
+			@CacheEvict(value="consultTherapistAndChildId", allEntries=true),
+			@CacheEvict(value="consultParentAndChildId", allEntries=true),
+			@CacheEvict(value="consultParent", allEntries=true)
+	})
 	@PutMapping("/parent/{parent_id}")
 	public ResponseEntity<?> parentModify(HttpServletRequest request, @PathVariable String parent_id , @RequestBody ParentModifyRequest parentInfo){
 		System.out.println(request.getHeader("Authorization"));
@@ -72,7 +80,17 @@ public class UserController {
 		return userInfoService.parentModify(header, parent_id, parentInfo);
 		
 	}
+	
 	/**치료사 회원정보 수정 */
+	@Caching(evict= {
+			@CacheEvict(value="recommendThera", allEntries=true),
+			@CacheEvict(value="recommendTheraAll", allEntries=true),
+			@CacheEvict(value="recommendTheraByChildId", allEntries=true),
+			@CacheEvict(value="consultTherapist", allEntries=true),
+			@CacheEvict(value="consultTherapistAndChildId", allEntries=true),
+			@CacheEvict(value="consultParentAndChildId", allEntries=true),
+			@CacheEvict(value="consultParent", allEntries=true)
+	})
 	@PutMapping("/therapist/{thera_id}")
 	public ResponseEntity<?> theraModify(HttpServletRequest request, @PathVariable String thera_id, 
 			@RequestBody TheraModifyTotalRequest tmtr) {
@@ -82,8 +100,12 @@ public class UserController {
 		
 	}
 	
-	
 	/*상담사 회원가입*/
+	@Caching(evict= {
+			@CacheEvict(value="recommendThera", allEntries=true),
+			@CacheEvict(value="recommendTheraAll", allEntries=true),
+			@CacheEvict(value="recommendTheraByChildId", allEntries=true)
+	})
 	@PostMapping("/therapist")
 	public String  theraRegist(@RequestPart MultipartFile profile ,@RequestPart(value = "theraInfo") TheraRegisterInfo theraInfo){
 		userInfoService.theraJoin(profile, theraInfo);
