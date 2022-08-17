@@ -93,6 +93,7 @@ export default {
       timeStart: 0,
       timeEnd: 0,
       timeSequence: [],
+      totalTime: null,
     };
   },
   methods: {
@@ -145,14 +146,34 @@ export default {
         this.dialog1 = "false";
 
         if (this.gameCount === 10) {
-          let totalTime = this.timeSequence.reduce((a,b) => a + b, 0)
+          let totalTimeMilSec = this.timeSequence.reduce((a,b) => a + b, 0)
+          if (totalTimeMilSec >= 3600000) {
+            let hour = parseInt(totalTimeMilSec / 3600000)
+            if (hour < 10) {
+              hour = '0' + hour
+            }
 
+            let min = parsInt((totalTimeMilSec % 3600000) / 60000)
+            if (min < 10) {
+              min = '0' + min
+            }
+
+            let sec = parsInt(totalTimeMilSec % 60000)
+            if (sec < 10) {
+              sec = '0' + sec
+            }
+            
+            this.totalTime = `${hour}:${min}:${sec}`
+          } 
+          console.log(this.totalTime);
           console.log(this.successCount);
+          let now = new Date()
+
           axios.post('https://i7a606.q.ssafy.io/service-api/play/result', {
             score: this.successCount,
-            totalTime: totalTime,
+            totalTime: this.totalTime,
             childId: 'childId',
-            createTime: new Date(),
+            createTime: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate}`
           })
           this.gameSet = false;
           this.gameCountPerGame = 0;
