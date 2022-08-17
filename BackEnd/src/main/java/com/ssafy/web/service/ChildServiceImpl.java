@@ -59,12 +59,16 @@ public class ChildServiceImpl implements ChildService {
 //		child.setProfileUrl(childInfo.getProfile_url());
 		if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
-			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
+//			String fileName = child.getChildId() + profile.getOriginalFilename();
+//			String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_UPLOAD_PATH+fileName;
+			
 			String fileName = child.getChildId() + profile.getOriginalFilename();
-
+			String url = PathUtil.PROFILE_UPLOAD_PATH+ fileName;
 			try {
-				profile.transferTo(new File(str + fileName));
+				profile.transferTo(new File(url));
 				child.setProfileUrl(fileName);
+				
+				
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
@@ -97,10 +101,16 @@ public class ChildServiceImpl implements ChildService {
 				childResponse.setProfileUrl(null);
 			} else {
 				
-				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
-				byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
+//				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
+//				byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
+//				childResponse.setProfileUrl(imageByteArray);
+//				resourceAsStream.close();
+				
+				String url = PathUtil.PROFILE_UPLOAD_PATH+ child.getProfileUrl();
+				InputStream imageIS = new FileInputStream(url);
+				byte[] imageByteArray = IOUtils.toByteArray(imageIS);
 				childResponse.setProfileUrl(imageByteArray);
-				resourceAsStream.close();
+				imageIS.close();
 
 			}
 
@@ -183,15 +193,21 @@ public class ChildServiceImpl implements ChildService {
 		if (child.getProfileUrl() == null) {
 			childInfo.setProfileUrl(null);
 		} else {
-			InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
-			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
+//			InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
+//			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
+//			childInfo.setProfileUrl(imageByteArray);
+//			resourceAsStream.close();
+			String url = PathUtil.PROFILE_UPLOAD_PATH+ child.getProfileUrl();
+			InputStream imageIS = new FileInputStream(url);
+			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
 			childInfo.setProfileUrl(imageByteArray);
-			resourceAsStream.close();
+			imageIS.close();
 			
 		}
 
 		childInfo.setSurveyFlag(child.getSurveyFlag());
 		childInfo.setParentName(child.getParent().getName());
+		childInfo.setParentId(child.getParent().getUser().getUserId());
 		childInfo.setParentPhone(child.getParent().getPhone());
 
 		return childInfo;

@@ -94,6 +94,14 @@ public class UserController {
 		else return "fail";
 	}
 	
+	/*이메일 중복검사*/
+	@GetMapping("/checkEmail/{email}")
+	public String checkEmail(@PathVariable String email) {
+		int res= userService.checkEmail(email);
+		if(res == 1) return "success";
+		else return "fail";
+	}
+	
 //	/*치료사 회원정보 조회*/
 //	@GetMapping("/therainfo/{user_id}")
 //	public TherapistResponse theraInfo(@PathVariable String user_id){

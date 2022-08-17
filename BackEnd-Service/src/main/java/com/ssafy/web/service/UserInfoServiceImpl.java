@@ -62,7 +62,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			e.printStackTrace();
 		}
 		
-		
+			
 		String userId = webClient.post().uri("/user/therapist")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 		        .accept(MediaType.APPLICATION_JSON)
@@ -88,6 +88,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public String checkId(String id) {
 		String res = webClient.get().uri("/user/checkid/" + id).retrieve().bodyToMono(String.class).block();
+
+		return res;
+	}
+	
+	// 이메일 중복검사
+	@Override
+	public String checkEmail(String email) {
+		String res = webClient.get().uri("/user/checkEmail/" + email).retrieve().bodyToMono(String.class).block();
 
 		return res;
 	}

@@ -33,7 +33,6 @@ public class RecommendServiceImpl implements RecommendService{
 	public List<RecommendTherapistResponse> findAll(){
 		List<Therapist> list = threpo.findAll();
 		List<RecommendTherapistResponse> rlist = new ArrayList<RecommendTherapistResponse>();
-		
 		list.stream().forEach(e->{
 				rlist.add(new RecommendTherapistResponse(e));
 		});
