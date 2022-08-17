@@ -51,7 +51,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	
 	/** 치료사 회원가입 */
 	@Override
-	public String theraJoin(MultipartFile profile, TheraRegisterInfo info) {
+	public void theraJoin(MultipartFile profile, TheraRegisterInfo info) {
 		TheraRegisterRequest theraInfo = info.makeTheraRegisterRequest();
 		MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<String, Object>();
 		multiValueMap.add("theraInfo", theraInfo);
@@ -60,10 +60,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 			multiValueMap.add("profile", r);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return e.getLocalizedMessage();
 		}
 		
-		try {
 			
 		String userId = webClient.post().uri("/user/therapist")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
@@ -77,11 +75,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 			bextList.add(bext);
 		}
 		bexpertiseRep.saveAll(bextList);
-		}catch(Exception e){
-			return e.getLocalizedMessage();
-		}
-		
-		return "asdfa";
 	}
 
 	/** 부모 회원가입 */
