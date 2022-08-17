@@ -72,7 +72,7 @@
             </template>
           </card>
 
-          <!-- 추후 비밀번호 찾기 넣을때 쓸꺼
+          <!-- 추후 비밀번호 찾기 넣을때 쓸꺼 -->
           <div class="row mt-3">
             <div class="col-6">
               <a href="#" class="text-light">
@@ -80,7 +80,7 @@
               </a>
             </div>
           </div>
-          -->
+         
         </div>
       </div>
     </div>

@@ -29,13 +29,9 @@
     <div class="col-sm-12 text-right col">
       <base-button type="primary" class="col-sm-2" @click="moveSurveyResult">문진표</base-button>
       <!--학생일 시 student-->
-      <router-link to="/webStudent" class="col-sm-2" v-if="parent">
-        <base-button type="primary">상담방</base-button></router-link
-      >
-      <!--상담사일 시 counselor-->
-      <router-link to="/webCounselor" class="col-sm-2" v-else>
-        <base-button type="primary">상담방</base-button></router-link
-      >
+      <router-link to="/webStudent" :childName="childInfo['name']" class="col-sm-2">
+        <base-button type="primary">상담방</base-button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -63,7 +59,8 @@ export default {
     console.log(this.$route.params)
     axios({
       url: `https://i7a606.q.ssafy.io/service-api/user/${this.$store.state.accounts.userid}`,
-      method: 'get'
+      method: 'get',
+      headers: { Authorizations: `Bearer ${this.$store.state.accounts.accessToken}`}
     })
       .then(res => {
         console.log(res.data)

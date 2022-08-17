@@ -57,12 +57,13 @@
       <label for="profile_photo" class="col col-lg-2 pr-1 mt-2"
         >프로필사진</label
       >
-      <img v-if="img_src" :src="img_src" width="128" height="128">
+      <!-- <img v-if="URL.createObjectURL(img_src)" :src="img_src" width="128" height="128"> -->
       <label for="file" class="col col-lg-2 mt-3 "></label>
       <input
         type="file"
         class="col-lg-8 form-control mt-2 form-control p-2"
-        id="file"
+        id="profile"
+        name="profile"
         placeholder="프로필사진"
         @change="addProfilePicture"
       />
@@ -372,15 +373,20 @@ export default {
   },
   methods: {
     addProfilePicture(e) {
-      let file = e.target.files[0];
-      let name = file.name;
-      this.file_name = file.name;
-      this.file = file;
-      if(name.endsWith('.jpg') || name.endsWith('.jpeg') || 
-        name.endsWith('.png') || name.endsWith('.gif'))
-        this.img_src = URL.createObjectURL(file);
-      else
-        this.img_src = ""
+      // let file = e.target.files[0];
+      // let name = file.name;
+      // this.file_name = file.name;
+      // this.file = file;
+      // if(name.endsWith('.jpg') || name.endsWith('.jpeg') || 
+      //   name.endsWith('.png') || name.endsWith('.gif'))
+      //   // this.img_src = URL.createObjectURL(file);
+      //   this.img_src = file
+      // else
+      //   this.img_src = ""
+      // this.datas.profile_url = this.img_src
+
+      var photoFile = document.getElementById("photo");
+      this.img_src = photoFile
       this.datas.profile_url = this.img_src
       this.counselor()
     },
