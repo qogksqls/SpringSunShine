@@ -217,6 +217,7 @@ export default {
 
 <style scoped>
 .card-profile {
+  position: relative;
   height: 70vh;
 }
 .start_btn {
@@ -245,9 +246,14 @@ export default {
   font-size: 5rem;
 }
 .card_name {
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  left: 40%;
+  bottom: 45%;
   height: 40vh;
   margin: 20px 0;
-  font-size: 3em;
+  font-size: 7rem;
 }
 #cardsDiv {
   margin-top: 5%;

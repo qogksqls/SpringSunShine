@@ -1,6 +1,7 @@
+
 const memoStore = {
     state: {
-        list: []
+        list: [],
     },
     getters: {
         GET_MEMO: state => state.list,
@@ -11,7 +12,7 @@ const memoStore = {
         },
         DELETE_MEMO: (state, index) => {
             state.list.splice(index, 1)
-        }
+        },
     },
     actions: {
     },

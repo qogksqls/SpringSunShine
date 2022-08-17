@@ -96,6 +96,9 @@ const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443";
 const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
+  props: {
+    child_id: String,
+  },
   components: {
     MainVideoComp,
     SubVideoComp,
@@ -195,18 +198,10 @@ export default {
       this.isFaceShow = !this.isFaceShow;
     },
     joinSession() {
-      let tempSessionId = "";
-      let tempUserName = "";
-      this.$store.state.teacher.teacher.name.split("").forEach((element) => {
-        tempSessionId += element.charCodeAt(0).toString(16);
-      });
-      "우영우".split("").forEach((element) => {
-        tempUserName += element.charCodeAt(0).toString(16);
-      });
 
-      this.mySessionId = "Session_" + tempSessionId;
-
-      this.myUserName = tempUserName;
+      this.mySessionId = 'Session_' + this.child_id
+      this.myUserName = this.child_id
+      
       console.log("----------------");
       console.log(this.mySessionId);
       console.log(this.myUserName);
@@ -280,6 +275,7 @@ export default {
       this.OV = undefined;
 
       window.removeEventListener("beforeunload", this.leaveSession);
+      this.$router.push('/')
     },
 
     updateMainVideoStreamManager(stream) {
