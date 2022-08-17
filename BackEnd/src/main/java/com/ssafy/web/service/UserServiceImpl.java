@@ -65,7 +65,6 @@ public class UserServiceImpl implements UserService {
 	// 치료사 회원가입
 	@Override
 	public String theraRegist(MultipartFile profile, TheraRegisterRequest theraInfo) {
-		try {
 			User user = new User();
 			user.setUserId(RandomUserId.makeTheraId());
 			user.setId(theraInfo.getId());
@@ -82,6 +81,7 @@ public class UserServiceImpl implements UserService {
 				thera.setTheraIntro(theraInfo.getThera_intro());
 			}
 			// 파일 넣기
+			try {
 			if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
 				String fileName = user.getUserId() + profile.getOriginalFilename();
@@ -95,6 +95,9 @@ public class UserServiceImpl implements UserService {
 				thera.setProfileUrl(null);
 			}
 
+			} catch (Exception e) {
+				return "aaa";
+			}
 			List<Academy> academy = theraInfo.getAcademicCareers();
 			List<Career> career = theraInfo.getCareers();
 			List<Licence> licence = theraInfo.getLicences();
@@ -105,9 +108,6 @@ public class UserServiceImpl implements UserService {
 			thera.setUser(user);
 			theraRepository.save(thera);
 
-		} catch (Exception e) {
-			return e.getLocalizedMessage();
-		}
 
 //		return user.getUserId();
 		return "sds";
