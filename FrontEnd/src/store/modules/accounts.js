@@ -3,9 +3,9 @@ import router from "../../router";
 
 export default {
   state: {
-    accessToken: localStorage.getItem("accessToken") || "",
-    refreshToken: localStorage.getItem("refreshToken") || "",
-    userid: localStorage.getItem("userid") || "",
+    accessToken: localStorage.getItem("accessToken") || '',
+    refreshToken: localStorage.getItem("refreshToken") || '',
+    userid: localStorage.getItem("userid") || '',
     // accessToken: '',
     // refreshToken: '',
     // userid: '',
@@ -101,7 +101,10 @@ export default {
         })
         .catch((err) => {
           console.log("로그아웃 실패!");
-          console.log(err.response);
+          console.log(this.state.accounts.accessToken);
+          console.log(this.state.accounts.refreshToken);
+          dispatch("removeToken");
+          dispatch("removeUserid");
         });
     },
     fetchCurrentUser({ commit, getters, dispatch }) {

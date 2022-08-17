@@ -13,6 +13,8 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,7 @@ import com.ssafy.web.request.ParentRegisterRequest;
 import com.ssafy.web.request.TheraModifyRequest;
 import com.ssafy.web.request.TheraRegisterRequest;
 
+import io.swagger.models.Path;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -202,6 +205,15 @@ public class UserServiceImpl implements UserService {
 		Parent p = parentRepository.findByUser(u);
 
 		ParentResponse pr = new ParentResponse();
+		
+		String s= SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		// 해당 사용자의 아이디가 아님
+		if(!u.getId().equals(s)) {
+			pr.setId("wrong-token");
+			return pr;
+		}
+		
 		pr.setId(u.getId());
 		pr.setName(p.getName());
 		pr.setPhone(p.getPhone());
@@ -218,7 +230,14 @@ public class UserServiceImpl implements UserService {
 		Therapist t = theraRepository.findByUser(u);
 
 		TherapistResponse tr = new TherapistResponse();
-
+		
+		String s= SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		// 해당 사용자의 아이디가 아님
+		if(!u.getId().equals(s)) {
+			tr.setId("wrong-token");
+			return tr;
+		}
 		// -----------경력 불러와서 리스트 설정
 		List<Academy> acalist = new ArrayList<Academy>();
 		if (stringCheck(t.getAcademicCareers())) {
@@ -270,13 +289,19 @@ public class UserServiceImpl implements UserService {
 		if (t.getProfileUrl() == null) {
 			tr.setProfile_url(null);
 		} else {
-			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
-			String url = str+t.getProfileUrl();
-
-			InputStream imageIS = new FileInputStream(url);
-			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
+//			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
+//			String url = str+t.getProfileUrl();
+//			String url = "/home/ubuntu/compose/jenkins/workspace/a606-ci-cd/BackEnd/src/main/webapp/"+PathUtil.PROFILE_PATH+t.getProfileUrl();
+//			String sss = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_PATH+t.getProfileUrl();
+//			System.out.println(sss);
+//			System.out.println(url);
+//			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/"+t.getProfileUrl());
+//			InputStream inputStream = new ClassPathResource(t.getProfileUrl()).getInputStream();
+//			InputStream imageIS = new FileInputStream(sss);
+			InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+t.getProfileUrl());
+			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
 			tr.setProfile_url(imageByteArray);
-			imageIS.close();
+			resourceAsStream.close();
 
 		}
 		
@@ -319,6 +344,12 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByUserId(user_id);
 		if (user == null)
 			return 0;
+		String s= SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		// 해당 사용자의 아이디가 아님
+		if(!user.getId().equals(s)) {
+			return 2;
+		}
 		// 정보를 수정하려는 부모 회원
 		Parent parent = parentRepository.findByUser(user);
 
@@ -335,6 +366,12 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findByUserId(user_id);
 		if (user == null)
 			return 0;
+		String s= SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		// 해당 사용자의 아이디가 아님
+		if(!user.getId().equals(s)) {
+			return 2;
+		}
 		// 정보수정하려는 치료사 회원
 		Therapist thera = theraRepository.findByUser(user);
 		user.update(encoder.encode(theraInfo.getPassword()));
@@ -351,7 +388,12 @@ public class UserServiceImpl implements UserService {
 			System.out.println("user--null");
 			return 0; // id 오류
 		}
-
+		String s= SecurityContextHolder.getContext().getAuthentication().getName();
+		log.debug("해당 토큰의 사용자 아이디 : "+s);
+		// 해당 사용자의 아이디가 아님
+		if(!user.getId().equals(s)) {
+			return 2;
+		}
 		Parent p = parentRepository.findByUser(user);
 		if (p != null) { // 이사람은 부모
 			if (!p.getEmail().equals(email)) {

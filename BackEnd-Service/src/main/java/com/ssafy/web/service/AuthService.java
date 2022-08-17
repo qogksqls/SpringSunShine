@@ -41,9 +41,9 @@ public class AuthService {
 	}
 
 	/**토큰 재발급 */
-	public UserLoginPostRes refreshToken(String header, String id) {
+	public UserLoginPostRes refreshToken(String header, String user_id) {
 		return webClient.get()
-				.uri("/auth/refresh/"+id)
+				.uri("/auth/refresh/"+user_id)
 				.header("Authorization", header)
 				.retrieve()
 				.bodyToMono(UserLoginPostRes.class).block();

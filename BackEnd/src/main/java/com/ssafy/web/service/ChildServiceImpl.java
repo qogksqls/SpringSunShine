@@ -1,17 +1,23 @@
 package com.ssafy.web.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.servlet.ServletContext;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.web.RandomUserId;
+import com.ssafy.web.common.PathUtil;
 import com.ssafy.web.db.entity.Child;
 import com.ssafy.web.db.entity.Parent;
 import com.ssafy.web.db.entity.User;
@@ -33,9 +39,12 @@ public class ChildServiceImpl implements ChildService {
 	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
+	ServletContext servletContext;
+
 	/** 아동 등록 */
 	@Override
-	public void childRegist(ChildRegisterRequest childInfo) {
+	public void childRegist(MultipartFile profile, ChildRegisterRequest childInfo) {
 		Child child = new Child();
 
 		User user = userRepository.findByUserId(childInfo.getParent_id());
@@ -45,33 +54,61 @@ public class ChildServiceImpl implements ChildService {
 		child.setName(childInfo.getName());
 		child.setBirth(childInfo.getBirth());
 		child.setGender(childInfo.getGender());
-		child.setProfileUrl(childInfo.getProfile_url());
 		child.setSurveyFlag(childInfo.getSurvey_flag());
+
+//		child.setProfileUrl(childInfo.getProfile_url());
+		if (profile != null && !"".equals(profile.getOriginalFilename())) {
+
+			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
+			String fileName = child.getChildId() + profile.getOriginalFilename();
+
+			try {
+				profile.transferTo(new File(str + fileName));
+				child.setProfileUrl(fileName);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			child.setProfileUrl(null);
+		}
 
 		childRepository.save(child);
 	}
 
 	/** 아동 목록 조회 */
 	@Override
-	public List<ChildResponse> getChildList(String parentId) {
+	public List<ChildResponse> getChildList(String parentId) throws IOException {
 		User user = userRepository.findByUserId(parentId);
 		Parent parent = parentRepository.findByUser(user);
 
 		List<Child> list = childRepository.findByParent(parent);
 		List<ChildResponse> childList = new ArrayList<ChildResponse>();
-		for(Child child : list) {
+		for (Child child : list) {
 			ChildResponse childResponse = new ChildResponse();
-			
+
 			childResponse.setChildId(child.getChildId());
 			childResponse.setName(child.getName());
 			childResponse.setBirth(child.getBirth());
 			childResponse.setGender(child.getGender());
-			childResponse.setProfileUrl(child.getProfileUrl());
+//			childResponse.setProfileUrl(child.getProfileUrl());
+
+			if (child.getProfileUrl() == null) {
+				childResponse.setProfileUrl(null);
+			} else {
+				
+				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
+				byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
+				childResponse.setProfileUrl(imageByteArray);
+				resourceAsStream.close();
+
+			}
+
 			childResponse.setSurveyFlag(child.getSurveyFlag());
-			
+
 			childList.add(childResponse);
 		}
-		
+
 		return childList;
 	}
 
@@ -93,59 +130,71 @@ public class ChildServiceImpl implements ChildService {
 		return child.getName();
 	}
 
-	/**아동 성별, 나이  조회 */
+	/** 아동 성별, 나이 조회 */
 	@Override
 	public ChildData getChildData(String child_id) {
 		Child child = childRepository.findByChildId(child_id);
-		String gender = child.getGender();//아이 성별 
-		// 아이가 태어난 년도 
-		String date = child.getBirth().toString().substring(0,4);
-		
-		 // 현재 년도 
+		String gender = child.getGender();// 아이 성별
+		// 아이가 태어난 년도
+		String date = child.getBirth().toString().substring(0, 4);
+
+		// 현재 년도
 		LocalDate now = LocalDate.now();
-		String no = now.toString().substring(0,4);
-		
-		int age= Integer.parseInt(no)-Integer.parseInt(date) + 1 ;//현재 나이 
-		
-		ChildData data  = new ChildData();
+		String no = now.toString().substring(0, 4);
+
+		int age = Integer.parseInt(no) - Integer.parseInt(date) + 1;// 현재 나이
+
+		ChildData data = new ChildData();
 		data.setAge(age);
 		data.setGender(gender);
-		
+
 		return data;
-	
+
 	}
 
 	@Override
 	@Transactional
 	public int surveyFlag(String child_id) {
 		Child child = childRepository.findByChildId(child_id);
-		if(child==null) return 0;
-		int flag= child.getSurveyFlag();
-		if(flag == 1) return 0; //이미 응답한 아동 
-		
-		child.update(1); return 1;
-		
+		if (child == null)
+			return 0;
+		int flag = child.getSurveyFlag();
+		if (flag == 1)
+			return 0; // 이미 응답한 아동
+
+		child.update(1);
+		return 1;
+
 	}
-	
+
 	/** 상담사 -> 예약한 아동 정보 조회 */
 	@Override
-	public ChildReservResponse getChildInfo(String childId) {
+	public ChildReservResponse getChildInfo(String childId) throws IOException {
 		Child child = childRepository.findByChildId(childId);
 		ChildReservResponse childInfo = new ChildReservResponse();
-		
+
 		System.out.println("예약한 아동 정보 조회");
 		childInfo.setChildId(childId);
 		childInfo.setName(child.getName());
 		childInfo.setBirth(child.getBirth());
 		childInfo.setGender(child.getGender());
-		childInfo.setProfileUrl(child.getProfileUrl());
+//		childInfo.setProfileUrl(child.getProfileUrl());
+
+		if (child.getProfileUrl() == null) {
+			childInfo.setProfileUrl(null);
+		} else {
+			InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+child.getProfileUrl());
+			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
+			childInfo.setProfileUrl(imageByteArray);
+			resourceAsStream.close();
+			
+		}
+
 		childInfo.setSurveyFlag(child.getSurveyFlag());
 		childInfo.setParentName(child.getParent().getName());
 		childInfo.setParentPhone(child.getParent().getPhone());
 
 		return childInfo;
 	}
-
-	
 
 }

@@ -14,7 +14,8 @@ public class ChildReservResponse {
 
 	String gender;
 
-	String profileUrl;
+//	String profileUrl;
+	byte[] profileUrl;
 
 	int surveyFlag;
 

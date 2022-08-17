@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.db.entity.User;
+import com.ssafy.web.db.repository.UserRepository;
 import com.ssafy.web.jwt.JwtTokenUtil;
 import com.ssafy.web.model.response.UserLoginPostRes;
 import com.ssafy.web.request.UserLoginRequest;
@@ -57,6 +58,8 @@ public class AuthController {
 	@Autowired
 	RedisService redis;
 
+	@Autowired
+	UserRepository userRepo; 
 
 	
 	/* 일반로그인 */
@@ -80,13 +83,15 @@ public class AuthController {
 
 	/**토큰 재발급 */
 	// front 에서는 기존 accessToken 을 버리고 새로 발급받아준걸로 사용해야함 
-	@GetMapping("/refresh/{id}")
-	public UserLoginPostRes refreshToken(@PathVariable String id, 
+	@GetMapping("/refresh/{user_id}")
+	public UserLoginPostRes refreshToken(@PathVariable String user_id, 
 			@RequestHeader("Authorization") String refreshToken){
 		// id : 사용자 아이디 
 		String refreshTokens = refreshToken.replace("Bearer ", "");
 		log.debug("리프레시토큰 : " + refreshTokens);
 
+		User user= userRepo.findByUserId(user_id);
+		String id= user.getId();
 		//리프레시 토큰을 재발급 받는다 .
 		return authService.refreshToken(id, refreshTokens); 	
 	}
