@@ -62,7 +62,7 @@ public class ChildServiceImpl implements ChildService {
 //			String fileName = child.getChildId() + profile.getOriginalFilename();
 //			String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_UPLOAD_PATH+fileName;
 			
-			String fileName = user.getUserId() + profile.getOriginalFilename();
+			String fileName = child.getChildId() + profile.getOriginalFilename();
 			String url = PathUtil.PROFILE_UPLOAD_PATH+ fileName;
 			try {
 				profile.transferTo(new File(url));
