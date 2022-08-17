@@ -123,8 +123,8 @@ public class UserController {
 		String email = parentInfo.getEmail();
 		String phone = parentInfo.getPhone();
 		String address =parentInfo.getAddress();
-		if(id == null || pw == null || name == null || email == null 
-				|| phone ==null || address==null ) {
+		if(id.length()==0 || pw.length()==0 || name.length()==0 || email.length()==0 
+				|| phone.length()==0 || address.length()==0 ) {
 			return new ResponseEntity<String>("모든값 입력필요", HttpStatus.BAD_REQUEST);
 		}
 		else if(userInfoService.checkId(id).equals("fail")) {
