@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 			str += academy.get(i).getName() + ",";
 			str += academy.get(i).getMajor() + ",";
 			str += academy.get(i).getAdmin() + ",";
-			str += academy.get(i).getGradu() + "] ";
+			str += academy.get(i).getGradu() + "]=";
 		}
 		return str;
 	}
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 			str += career.get(i).getName() + ",";
 			str += career.get(i).getLevel() + ",";
 			str += career.get(i).getDate() + ",";
-			str += career.get(i).getRole() + "] ";
+			str += career.get(i).getRole() + "]=";
 		}
 		return str;
 	}
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
 			str += licence.get(i).getName() + ",";
 			str += licence.get(i).getPlace() + ",";
 			str += licence.get(i).getDate() + ",";
-			str += licence.get(i).getFile() + "] ";
+			str += licence.get(i).getFile() + "]=";
 		}
 		return str;
 	}
@@ -325,7 +325,7 @@ public class UserServiceImpl implements UserService {
 
 	// 약력 : 띄어쓰기 분리하고, [ ] 빼는 과정
 	public String[] getString(String data) {
-		String[] list = data.split(" ");
+		String[] list = data.split("=");
 		String[] res = new String[list.length];
 		for (int i = 0; i < list.length; i++) {
 			res[i] = list[i].replace("[", "").replace("]", "");
