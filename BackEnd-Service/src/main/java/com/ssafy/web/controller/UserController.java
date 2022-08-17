@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ssafy.web.db.entity.Expertise;
 import com.ssafy.web.model.response.BaseResponseBody;
@@ -115,6 +116,23 @@ public class UserController {
 	/*부모 회원가입*/
 	@PostMapping("/parent")
 	public ResponseEntity<?>  parentRegist(@RequestBody ParentRegisterRequest parentInfo){
+		// 유효성 검사 
+		String id = parentInfo.getId();
+		String pw = parentInfo.getPassword();
+		String name = parentInfo.getName();
+		String email = parentInfo.getEmail();
+		String phone = parentInfo.getPhone();
+		String address =parentInfo.getAddress();
+		if(id == null || pw == null || name == null || email == null 
+				|| phone ==null || address==null ) {
+			return new ResponseEntity<String>("모든값 입력필요", HttpStatus.BAD_REQUEST);
+		}
+		else if(userInfoService.checkId(id).equals("fail")) {
+			return new ResponseEntity<String>("아이디 중복", HttpStatus.BAD_REQUEST);
+		}else if(userInfoService.checkEmail(email).equals("fail")) {
+			return new ResponseEntity<String>("이메일 중복", HttpStatus.BAD_REQUEST);
+		}
+		
 		userInfoService.parentJoin(parentInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));	
 	}

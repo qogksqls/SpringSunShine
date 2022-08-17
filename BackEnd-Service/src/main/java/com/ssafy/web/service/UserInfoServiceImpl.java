@@ -91,6 +91,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 		return res;
 	}
+	
+	// 이메일 중복검사
+	@Override
+	public String checkEmail(String email) {
+		String res = webClient.get().uri("/user/checkEmail/" + email).retrieve().bodyToMono(String.class).block();
+
+		return res;
+	}
 
 	/*======================= 토큰 검사 필요한 api ==========================*/
 	/* 부모 정보 조회 */
