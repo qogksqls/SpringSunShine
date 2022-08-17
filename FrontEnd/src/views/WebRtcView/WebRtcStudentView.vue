@@ -9,9 +9,9 @@
     </div>
 
     <div class="container" v-if="session">
-      <div class="wrap_content row col-md-12 p-4">
+      <div class="wrap_content row col-md-12 p-4 m-0 justify-content-around">
         <!--상담사 얼굴 들어갈 자리 start-->
-        <div class="col-md-12 counselorFace" v-if="!playingNow">
+        <div class="col-md-8 counselorFace p-0" v-if="!playingNow">
           <sub-video-comp
             :key="subscribers[0].stream.connection.connectionId"
             v-if="subscribers.length > 0"
@@ -19,27 +19,30 @@
           ></sub-video-comp>
         </div>
         <!--상담사 얼굴 들어갈 자리 end-->
+
+        <!--학생 얼굴 들어갈 자리 start-->
+        <div class="col-md-3 studentFace align-self-end p-0" v-if="isFaceShow">
+          <main-video-comp
+            :mainStreamManager="mainStreamManager"
+          ></main-video-comp>
+        </div>
+        <!--학생 얼굴 들어갈 자리 end-->
+
+        <div id="cardGameDiv" v-if="playingNow">
+          <cards-comp></cards-comp>
+        </div>
+
         <div
-          class="col-md-12 row RtcFunction justify-content-center m-0 p-0 align-self-center"
+          class="col-md-12 row RtcFunction justify-content-center mt-5 p-0 align-self-center"
         >
           <div class="col-md-1"></div>
-
-          <!--소리-->
-          <div class="iconbtn">
-            <i
-              class="fa fa-volume-up fa-2x"
-              aria-hidden="true"
-              @click="muteMySound"
-            ></i>
-          </div>
-          <!--카메라-->
-          <div class="iconbtn">
-            <i
-              class="fa fa-video-camera fa-2x"
-              aria-hidden="true"
-              @click="openCamera"
-            ></i>
-          </div>
+          <!--카드게임-->
+          <base-button
+            @click="shareScreen"
+            class="col-md-2 align-self-center mx-2"
+            type="success"
+            >카드게임</base-button
+          >
 
           <!--버튼 누르고 닫으면 학생(본인)얼굴 보였다가 안보였다가~-->
           <base-button
@@ -48,31 +51,32 @@
             class="col-md-2 align-self-center mx-2"
             >내 화면 보기</base-button
           >
+          <!--소리-->
+          <base-button type="danger" class="iconbtn">
+            <i
+              class="fa fa-volume-up fa-2x"
+              aria-hidden="true"
+              @click="muteMySound"
+            ></i>
+          </base-button>
+          <!--카메라-->
+          <base-button type="danger" class="iconbtn">
+            <i
+              class="fa fa-video-camera fa-2x"
+              aria-hidden="true"
+              @click="openCamera"
+            ></i>
+          </base-button>
+
           <!--닫기-->
-          <div class="iconbtn2">
+          <base-button type="danger" class="iconbtn2">
             <i
               class="fa fa-times fa-2x"
               aria-hidden="true"
               style="color:#fff"
               @click="leaveSession"
             ></i>
-          </div>
-          <!--걍 빈공간 제공한거-->
-          <div class="col-md-1">
-            <button @click="shareScreen">playing game</button>
-          </div>
-
-          <!--학생 얼굴 들어갈 자리 start-->
-          <div class="col-md-3 studentFace" v-if="isFaceShow">
-            <main-video-comp
-              :mainStreamManager="mainStreamManager"
-            ></main-video-comp>
-          </div>
-          <!--학생 얼굴 들어갈 자리 end-->
-        </div>
-
-        <div id="cardGameDiv" v-if="playingNow">
-          <cards-comp></cards-comp>
+          </base-button>
         </div>
       </div>
     </div>
@@ -372,36 +376,28 @@ export default {
 body {
   height: 100%;
 } */
+.wrap_content {
+  display: flex;
+  align-items: center;
+}
 #webCam {
-  background: #fdffbc;
+  background-size: cover;
   background: -webkit-linear-gradient(right, #fdffbc, #ffeebb, #ffdcb8);
   background: -moz-linear-gradient(right, #fdffbc, #ffeebb, #ffdcb8);
   background: -o-linear-gradient(right, #fdffbc, #ffeebb, #ffdcb8);
   background: linear-gradient(to right, #fdffbc, #ffeebb, #ffdcb8);
+  width: 100%;
+  height: 100%;
+}
+.container {
+  height: 100%;
 }
 button {
   padding: 0;
   height: 2.3rem;
-}
-.container {
-  height: 100vh;
-}
-.wrap_content {
-  height: 100vh;
-}
-.counselorFace {
-  border: 2px solid #fbfbfb;
-  height: 80vh;
-  background-color: #dcdcdc;
-  border-radius: 15px;
+  margin: 5px 0;
 }
 .studentFace {
-  border: 2px solid #fbfbfb;
-  background-color: #dcdcdc;
-  position: absolute;
-  right: 0;
-  top: -170px;
-  height: 200px;
   border-radius: 15px;
 }
 .iconbtn {
@@ -416,7 +412,6 @@ button {
   text-align: center;
   width: 80px;
   border: 2px solid rgb(255, 255, 255);
-  background-color: brown;
   border-radius: 50px;
   margin: 0 5px;
 }
@@ -426,7 +421,6 @@ button {
 }
 
 #cardGameDiv {
-  position: absolute;
   width: 100%;
   height: 80%;
   bottom: 40%;
@@ -437,5 +431,20 @@ button {
   width: 100%;
   height: 100%;
   background-color: #dcdcdc;
+}
+
+@media (min-width: 768px) {
+  .container {
+    height: 100%;
+  }
+  #webCam {
+    padding: 60px 0;
+  }
+}
+@media (min-width: 1200px) and (min-height: 750px) {
+  #webCam {
+    height: 100vh;
+    padding: 50px 0;
+  }
 }
 </style>

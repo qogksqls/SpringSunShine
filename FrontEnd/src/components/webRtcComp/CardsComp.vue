@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     endGame() {
-      this.$store.state.cardGame.endGame = true
+      this.$store.state.cardGame.endGame = true;
     },
     getTimeNow() {
       let timeNow = new Date();
@@ -235,5 +235,8 @@ export default {
 
 #cardImg {
   border-radius: 15px;
+}
+.section-profile-cover {
+  height: 250px;
 }
 </style>
