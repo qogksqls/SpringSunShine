@@ -14,6 +14,7 @@
         <!--학생 얼굴 들어갈 자리 start-->
         <div class="col-md-6 studentFace mt-5">
           <sub-video-comp
+            class="sub_vid"
             :key="subscribers[0].stream.connection.connectionId"
             v-if="subscribers.length > 0"
             :subStreamManager="subscribers[0]"
@@ -32,7 +33,7 @@
         <!--상담사 얼굴 들어갈 자리 end-->
 
         <!--메모장 및 게임 결과 표출-->
-        <div class="col-md-6 my-md-3">
+        <div class="col-md-12 my-md-3">
           <!--메모장 start-->
           <div class="memocard">
             <h4>
@@ -56,20 +57,6 @@
           <!--메모장 end-->
         </div>
 
-        <div class="col-md-6 my-md-3">
-          <!--게임표출start-->
-          <div class="game">
-            <h4>
-              <div class="text-muted text-left my-1 row g_result">
-                <b class="col-md-5">게임결과</b>
-              </div>
-            </h4>
-            <div class="game_result col-md-12" v-if="isCardGame">
-              클릭시에 나오게 할껀가여 아니면 걍 계속 보이게 할껀가여
-            </div>
-          </div>
-          <!--게임표출end-->
-        </div>
         <div
           class="col-md-12 row RtcFunction justify-content-center m-0 p-0 align-items-center"
         >
@@ -79,7 +66,7 @@
             type="success"
             @click="ShowCardGame"
             class="col-sm-2 align-self-center"
-            >사물게임</base-button
+            >카드게임</base-button
           >
 
           <!-- <base-button type="success" class="col-md-1 align-self-center"
@@ -224,7 +211,7 @@ export default {
     },
 
     joinSession() {
-      axios
+      /*       axios
         .post("https://i7a606.q.ssafy.io/service-api/consult/room", {
           theraId: this.ids.thera_Id,
           childId: this.ids.child_Id,
@@ -232,13 +219,13 @@ export default {
         })
         .then((res) => {
           this.consultNo = res.data.consultNo;
-        });
+        }); */
 
-      this.mySessionId = "Session_" + this.ids.child_id;
+      //this.mySessionId = "Session_" + this.ids.child_id;
+      this.mySessionId = "Session_" + "A";
 
-      this.myUserName = this.ids.thera_id;
-
-      this.myUserName = tempSessionId;
+      //this.myUserName = this.ids.thera_id;
+      this.myUserName = "A";
 
       this.OV = new OpenVidu();
 
@@ -483,6 +470,8 @@ textarea::-webkit-scrollbar-thumb {
 }
 .g_result {
   padding-bottom: 5px;
+}
+.sub_vid {
 }
 @media (min-width: 768px) and (min-height: 750px) and (max-width: 1200px) {
   .container {

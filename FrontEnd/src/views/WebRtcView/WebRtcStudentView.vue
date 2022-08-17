@@ -33,7 +33,7 @@
         </div>
 
         <div
-          class="col-md-12 row RtcFunction justify-content-center mt-5 p-0 align-self-center"
+          class="col-md-12 row RtcFunction justify-content-center mt-3 p-0 align-self-center"
         >
           <div class="col-md-1"></div>
           <!--카드게임-->
@@ -202,10 +202,11 @@ export default {
       this.isFaceShow = !this.isFaceShow;
     },
     joinSession() {
+      //this.mySessionId = "Session_" + this.child_id;
+      this.mySessionId = "Session_" + "A";
+      //this.myUserName = this.child_id;
+      this.myUserName = "B";
 
-      this.mySessionId = 'Session_' + this.child_id
-      this.myUserName = this.child_id
-      
       console.log("----------------");
       console.log(this.mySessionId);
       console.log(this.myUserName);
@@ -279,7 +280,7 @@ export default {
       this.OV = undefined;
 
       window.removeEventListener("beforeunload", this.leaveSession);
-      this.$router.push('/')
+      this.$router.push("/");
     },
 
     updateMainVideoStreamManager(stream) {
