@@ -14,7 +14,7 @@ import com.ssafy.web.request.TheraRegisterInfo;
 public interface UserInfoService {
 	Map<String, Object> parentInfo(String header, String parent_id);
 	Map<String,Object> theraInfo(String header, String thera_id);
-	void theraJoin(MultipartFile profile, TheraRegisterInfo theraInfo);
+	String theraJoin(MultipartFile profile, TheraRegisterInfo theraInfo);
 	void parentJoin(ParentRegisterRequest parentInfo);
 	String checkId(String id);
 	ResponseEntity<?> findPass(String header, FindPwRequest findpw);
