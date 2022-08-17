@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
 			} catch (Exception e) {
 	            String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
-				return str;
+				return e.toString();
 			}
 			List<Academy> academy = theraInfo.getAcademicCareers();
 			List<Career> career = theraInfo.getCareers();
