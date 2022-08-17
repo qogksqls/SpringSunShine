@@ -21,5 +21,7 @@ public class ChildReservResponse {
 
 	String parentName;
 	
+	String parentId;
+	
 	String parentPhone;
 }

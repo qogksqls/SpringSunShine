@@ -207,6 +207,7 @@ public class ChildServiceImpl implements ChildService {
 
 		childInfo.setSurveyFlag(child.getSurveyFlag());
 		childInfo.setParentName(child.getParent().getName());
+		childInfo.setParentId(child.getParent().getUser().getUserId());
 		childInfo.setParentPhone(child.getParent().getPhone());
 
 		return childInfo;
