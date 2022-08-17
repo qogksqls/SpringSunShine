@@ -59,11 +59,11 @@ public class ChildServiceImpl implements ChildService {
 //		child.setProfileUrl(childInfo.getProfile_url());
 		if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
-			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
 			String fileName = child.getChildId() + profile.getOriginalFilename();
-
+			String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_UPLOAD_PATH+fileName;
+			
 			try {
-				profile.transferTo(new File(str + fileName));
+				profile.transferTo(new File(url));
 				child.setProfileUrl(fileName);
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();

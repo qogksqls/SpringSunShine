@@ -85,7 +85,7 @@ public class RecommendTherapistResponse {
     				liclist.add(licence);
     			}
     		}
-    		if(tr.getProfileUrl() !=null && "".equals(tr.getProfileUrl())) {
+    		if(tr.getProfileUrl() !=null && !"".equals(tr.getProfileUrl())) {
     			try {
     				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+tr.getProfileUrl());
 					profile_url = IOUtils.toByteArray(resourceAsStream);

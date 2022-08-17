@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -80,13 +81,13 @@ public class UserServiceImpl implements UserService {
 			thera.setTheraIntro(theraInfo.getThera_intro());
 		}
 		// 파일 넣기
-		if (profile.getOriginalFilename() != "") {
+		if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
-			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
 			String fileName = user.getUserId()+profile.getOriginalFilename();
-
+			String url = ClassLoader.getSystemClassLoader().getResource(".").getPath()+PathUtil.PROFILE_UPLOAD_PATH+fileName;
+			
 			try {
-				profile.transferTo(new File(str + fileName));
+				profile.transferTo(new File(url));
 				thera.setProfileUrl(fileName);
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
@@ -286,7 +287,7 @@ public class UserServiceImpl implements UserService {
 		tr.setLicence(liclist);
 
 		
-		if (t.getProfileUrl() == null) {
+		if (t.getProfileUrl() == null || "".equals(t.getProfileUrl())) {
 			tr.setProfile_url(null);
 		} else {
 //			String str = servletContext.getRealPath(PathUtil.PROFILE_PATH);
