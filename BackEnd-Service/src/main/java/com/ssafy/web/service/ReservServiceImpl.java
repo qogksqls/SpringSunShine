@@ -121,6 +121,7 @@ public class ReservServiceImpl implements ReservService {
 			tReservResponse.setChildId(childId);
 			tReservResponse.setChildName(childName);
 			tReservResponse.setParentName(parentName);
+			tReservResponse.setParentId(parentId);
 			tReservResponse.setReservTime(reservTime);
 
 			reservList.add(tReservResponse);
@@ -137,7 +138,7 @@ public class ReservServiceImpl implements ReservService {
 		for (Reservation reserv : list) {
 			String parentId = reserv.getParentId();
 			Date reservTime = reserv.getReservTime();
-
+System.out.println(parentId);
 			String childName = webClient.get().uri("/info/child/" + childId).retrieve().bodyToMono(String.class)
 					.block();
 			String parentName = webClient.get().uri("/info/parent/" + parentId).retrieve().bodyToMono(String.class)
@@ -147,6 +148,7 @@ public class ReservServiceImpl implements ReservService {
 			tReservResponse.setChildId(childId);
 			tReservResponse.setChildName(childName);
 			tReservResponse.setParentName(parentName);
+			tReservResponse.setParentId(parentId);
 			tReservResponse.setReservTime(reservTime);
 
 			reservList.add(tReservResponse);

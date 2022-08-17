@@ -145,41 +145,38 @@ export default {
         }
         this.dialog1 = "false";
 
-        if (this.gameCount === 10) {
+        if (this.gameCount === 1) {
           let totalTimeMilSec = this.timeSequence.reduce((a,b) => a + b, 0)
-          if (totalTimeMilSec >= 3600000) {
-            let hour = parseInt(totalTimeMilSec / 3600000)
-            if (hour < 10) {
-              hour = '0' + hour
-            }
 
-            let min = parsInt((totalTimeMilSec % 3600000) / 60000)
-            if (min < 10) {
-              min = '0' + min
-            }
+          let hour = parseInt(totalTimeMilSec / 3600000)
 
-            let sec = parsInt(totalTimeMilSec % 60000)
-            if (sec < 10) {
-              sec = '0' + sec
-            }
-            
-            this.totalTime = `${hour}:${min}:${sec}`
-          } 
+          let min = parseInt((totalTimeMilSec % 3600000) / 60000)
+
+          let sec = parseInt((totalTimeMilSec % 60000) / 1000)
+          
+          this.totalTime = `${hour.toString().padStart(2, 0)}:${min.toString().padStart(2, 0)}:${sec.toString().padStart(2, 0)}`
+
           console.log(this.totalTime);
           console.log(this.successCount);
           let now = new Date()
 
-          axios.post('https://i7a606.q.ssafy.io/service-api/play/result', {
+          let dataSend = {
             score: this.successCount,
             totalTime: this.totalTime,
             childId: 'childId',
-            createTime: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate}`
-          })
+            createTime: `${now.getFullYear().toString().padStart(2, 0)}-${(now.getMonth() + 1).toString().padStart(2, 0)}-${now.getDate().toString().padStart(2, 0)}T${now.getHours().toString().padStart(2, 0)}:${now.getMinutes().toString().padStart(2, 0)}:${now.getSeconds().toString().padStart(2, 0)}`
+          }
+          
+          console.log(dataSend);
+          
+          axios.post('https://i7a606.q.ssafy.io/service-api/play/result', dataSend)
+
           this.gameSet = false;
-          this.gameCountPerGame = 0;
+          this.gameCountPerGame = 0; 
           this.successCount = 0;
           this.gameCount = 0;
           this.timeSequence = [];
+          
           
         } else {
           this.gameSet = true;

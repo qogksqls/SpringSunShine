@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ssafy.web.db.entity.Expertise;
 import com.ssafy.web.model.response.BaseResponseBody;
@@ -62,9 +65,15 @@ public class UserController {
 		
 		data.put("message","fail");
 		return null;
-	}
+	}	
 	
 	/**부모 회원정보 수정 */
+	@Caching(evict= {
+			@CacheEvict(value="consultTherapist", allEntries=true),
+			@CacheEvict(value="consultTherapistAndChildId", allEntries=true),
+			@CacheEvict(value="consultParentAndChildId", allEntries=true),
+			@CacheEvict(value="consultParent", allEntries=true)
+	})
 	@PutMapping("/parent/{parent_id}")
 	public ResponseEntity<?> parentModify(HttpServletRequest request, @PathVariable String parent_id , @RequestBody ParentModifyRequest parentInfo){
 		System.out.println(request.getHeader("Authorization"));
@@ -72,7 +81,17 @@ public class UserController {
 		return userInfoService.parentModify(header, parent_id, parentInfo);
 		
 	}
+	
 	/**치료사 회원정보 수정 */
+	@Caching(evict= {
+			@CacheEvict(value="recommendThera", allEntries=true),
+			@CacheEvict(value="recommendTheraAll", allEntries=true),
+			@CacheEvict(value="recommendTheraByChildId", allEntries=true),
+			@CacheEvict(value="consultTherapist", allEntries=true),
+			@CacheEvict(value="consultTherapistAndChildId", allEntries=true),
+			@CacheEvict(value="consultParentAndChildId", allEntries=true),
+			@CacheEvict(value="consultParent", allEntries=true)
+	})
 	@PutMapping("/therapist/{thera_id}")
 	public ResponseEntity<?> theraModify(HttpServletRequest request, @PathVariable String thera_id, 
 			@RequestBody TheraModifyTotalRequest tmtr) {
@@ -82,17 +101,54 @@ public class UserController {
 		
 	}
 	
-	
 	/*상담사 회원가입*/
+	@Caching(evict= {
+			@CacheEvict(value="recommendThera", allEntries=true),
+			@CacheEvict(value="recommendTheraAll", allEntries=true),
+			@CacheEvict(value="recommendTheraByChildId", allEntries=true)
+	})
 	@PostMapping("/therapist")
-	public ResponseEntity<?>  theraRegist(@RequestParam MultipartFile profile ,@RequestPart(value = "theraInfo") TheraRegisterInfo theraInfo){
+	public String  theraRegist(@RequestPart MultipartFile profile ,@RequestPart(value = "theraInfo") TheraRegisterInfo theraInfo){
+		// 유효성 검사 
+		String id = theraInfo.getId();
+		String pw = theraInfo.getPassword();
+		String name = theraInfo.getName();
+		String email = theraInfo.getEmail();
+		String phone = theraInfo.getPhone();
+		String address =theraInfo.getAddress();
+		if(id.length()==0 || pw.length()==0 || name.length()==0 || email.length()==0 
+				|| phone.length()==0 || address.length()==0 ) {
+			return "fail";
+		}
+		else if(userInfoService.checkId(id).equals("fail")) {
+			return "fail";
+		}else if(userInfoService.checkEmail(email).equals("fail")) {
+			return "fail";
+			}
 		userInfoService.theraJoin(profile, theraInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		return "success";
 	}
 	
 	/*부모 회원가입*/
 	@PostMapping("/parent")
 	public ResponseEntity<?>  parentRegist(@RequestBody ParentRegisterRequest parentInfo){
+		// 유효성 검사 
+		String id = parentInfo.getId();
+		String pw = parentInfo.getPassword();
+		String name = parentInfo.getName();
+		String email = parentInfo.getEmail();
+		String phone = parentInfo.getPhone();
+		String address =parentInfo.getAddress();
+		if(id.length()==0 || pw.length()==0 || name.length()==0 || email.length()==0 
+				|| phone.length()==0 || address.length()==0 ) {
+			return new ResponseEntity<String>("모든값 입력필요", HttpStatus.BAD_REQUEST);
+		}
+		else if(userInfoService.checkId(id).equals("fail")) {
+			return new ResponseEntity<String>("아이디 중복", HttpStatus.BAD_REQUEST);
+		}else if(userInfoService.checkEmail(email).equals("fail")) {
+			return new ResponseEntity<String>("이메일 중복", HttpStatus.BAD_REQUEST);
+		}
+		
 		userInfoService.parentJoin(parentInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));	
 	}

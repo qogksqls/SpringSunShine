@@ -14,6 +14,8 @@ public class TheraReservResponse {
 
 	private String parentName;
 
+	private String parentId;
+	
 	private Date reservTime;
 
 }

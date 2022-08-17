@@ -17,6 +17,7 @@ public interface UserInfoService {
 	void theraJoin(MultipartFile profile, TheraRegisterInfo theraInfo);
 	void parentJoin(ParentRegisterRequest parentInfo);
 	String checkId(String id);
+	String checkEmail(String email);
 	ResponseEntity<?> findPass(String header, FindPwRequest findpw);
 	ResponseEntity<?> parentModify(String header, String parent_id, ParentModifyRequest parentInfo);
 	ResponseEntity<?> theraModify(String header, String thera_id, TheraModifyTotalRequest tmtr);
