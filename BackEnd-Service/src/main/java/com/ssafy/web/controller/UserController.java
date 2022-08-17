@@ -85,9 +85,9 @@ public class UserController {
 	
 	/*상담사 회원가입*/
 	@PostMapping("/therapist")
-	public ResponseEntity<?>  theraRegist(@RequestPart MultipartFile profile ,@RequestPart(value = "theraInfo") TheraRegisterInfo theraInfo){
+	public String  theraRegist(@RequestPart MultipartFile profile ,@RequestPart(value = "theraInfo") TheraRegisterInfo theraInfo){
 		userInfoService.theraJoin(profile, theraInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+		return "success";
 	}
 	
 	/*부모 회원가입*/

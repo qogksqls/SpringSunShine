@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 				profile.transferTo(new File(url));
 				thera.setProfileUrl(fileName);
 			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
+				return e.getMessage();
 			}
 
 		}else {
