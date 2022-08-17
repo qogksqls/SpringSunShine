@@ -65,30 +65,27 @@ public class UserServiceImpl implements UserService {
 	// 치료사 회원가입
 	@Override
 	public String theraRegist(MultipartFile profile, TheraRegisterRequest theraInfo) {
-			User user = new User();
-			user.setUserId(RandomUserId.makeTheraId());
-			user.setId(theraInfo.getId());
-			user.setPassword(encoder.encode(theraInfo.getPassword()));
+		User user = new User();
+		user.setUserId(RandomUserId.makeTheraId());
+		user.setId(theraInfo.getId());
+		user.setPassword(encoder.encode(theraInfo.getPassword()));
 
-			Therapist thera = new Therapist();
-			thera.setName(theraInfo.getName());
-			thera.setEmail(theraInfo.getEmail());
-			thera.setPhone(theraInfo.getPhone());
-			thera.setAddress(theraInfo.getAddress());
-			if (theraInfo.getThera_intro().isEmpty()) {
-				thera.setTheraIntro(null);
-			} else {
-				thera.setTheraIntro(theraInfo.getThera_intro());
-			}
-			// 파일 넣기
-			String gfg="";
-			try {
+		Therapist thera = new Therapist();
+		thera.setName(theraInfo.getName());
+		thera.setEmail(theraInfo.getEmail());
+		thera.setPhone(theraInfo.getPhone());
+		thera.setAddress(theraInfo.getAddress());
+		if (theraInfo.getThera_intro().isEmpty()) {
+			thera.setTheraIntro(null);
+		} else {
+			thera.setTheraIntro(theraInfo.getThera_intro());
+		}
+		// 파일 넣기
+		try {
 			if (profile != null && !"".equals(profile.getOriginalFilename())) {
 
 				String fileName = user.getUserId() + profile.getOriginalFilename();
-				String url = "/tmp/a606"
-						+ PathUtil.PROFILE_PATH + fileName;
-				gfg = url;
+				String url = PathUtil.PROFILE_UPLOAD_PATH+ fileName;
 				profile.transferTo(new File(url));
 				thera.setProfileUrl(fileName);
 
@@ -96,22 +93,20 @@ public class UserServiceImpl implements UserService {
 				thera.setProfileUrl(null);
 			}
 
-			} catch (Exception e) {
-				return e.getLocalizedMessage();
-			}
-			List<Academy> academy = theraInfo.getAcademicCareers();
-			List<Career> career = theraInfo.getCareers();
-			List<Licence> licence = theraInfo.getLicences();
-			thera.setAcademicCareers(getAcademy(academy));
-			thera.setCareers(getCareer(career));
-			thera.setLicences(getLicence(licence));
+		} catch (Exception e) {
+			return e.getLocalizedMessage();
+		}
+		List<Academy> academy = theraInfo.getAcademicCareers();
+		List<Career> career = theraInfo.getCareers();
+		List<Licence> licence = theraInfo.getLicences();
+		thera.setAcademicCareers(getAcademy(academy));
+		thera.setCareers(getCareer(career));
+		thera.setLicences(getLicence(licence));
 
-			thera.setUser(user);
-			theraRepository.save(thera);
+		thera.setUser(user);
+		theraRepository.save(thera);
 
-
-//		return user.getUserId();
-		return "sds";
+		return user.getUserId();
 
 	}
 
@@ -303,12 +298,13 @@ public class UserServiceImpl implements UserService {
 //			System.out.println(url);
 //			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/"+t.getProfileUrl());
 //			InputStream inputStream = new ClassPathResource(t.getProfileUrl()).getInputStream();
-//			InputStream imageIS = new FileInputStream(sss);
-			InputStream resourceAsStream = this.getClass()
-					.getResourceAsStream(PathUtil.PROFILE_PATH + t.getProfileUrl());
-			byte[] imageByteArray = IOUtils.toByteArray(resourceAsStream);
+//			InputStream resourceAsStream = this.getClass()
+//					.getResourceAsStream(PathUtil.PROFILE_PATH + t.getProfileUrl());
+			String url = PathUtil.PROFILE_UPLOAD_PATH+ t.getProfileUrl();
+			InputStream imageIS = new FileInputStream(url);
+			byte[] imageByteArray = IOUtils.toByteArray(imageIS);
 			tr.setProfile_url(imageByteArray);
-			resourceAsStream.close();
+			imageIS.close();
 
 		}
 

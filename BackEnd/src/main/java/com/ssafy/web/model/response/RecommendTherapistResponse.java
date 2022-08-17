@@ -87,9 +87,15 @@ public class RecommendTherapistResponse {
     		}
     		if(tr.getProfileUrl() !=null && !"".equals(tr.getProfileUrl())) {
     			try {
-    				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+tr.getProfileUrl());
-					profile_url = IOUtils.toByteArray(resourceAsStream);
-					resourceAsStream.close();
+//    				InputStream resourceAsStream = this.getClass().getResourceAsStream(PathUtil.PROFILE_PATH+tr.getProfileUrl());
+//					profile_url = IOUtils.toByteArray(resourceAsStream);
+//					resourceAsStream.close();
+					
+					String url = PathUtil.PROFILE_UPLOAD_PATH+ tr.getProfileUrl();
+					InputStream imageIS = new FileInputStream(url);
+					profile_url = IOUtils.toByteArray(imageIS);
+					
+					imageIS.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
