@@ -3,7 +3,9 @@ package com.ssafy.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,12 @@ public class ReservationController {
 	ReservService reservService;
 
 	@PostMapping("/reserv-parent")
+	@Caching(evict= {
+			@CacheEvict(value="parentAllReserv", allEntries=true),
+			@CacheEvict(value="parentAndChildReserv", allEntries=true),
+			@CacheEvict(value="theraAllReserv", allEntries=true),
+			@CacheEvict(value="theraAndChildReserv", allEntries=true)
+	})
 	@ApiOperation(value = "상담 예약")
 	public ResponseEntity<?> reservRegist(@RequestBody ReservRequest reservInfo) {
 		reservService.reservRegist(reservInfo);
