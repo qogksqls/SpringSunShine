@@ -109,6 +109,22 @@ public class UserController {
 	})
 	@PostMapping("/therapist")
 	public String  theraRegist(@RequestPart MultipartFile profile ,@RequestPart(value = "theraInfo") TheraRegisterInfo theraInfo){
+		// 유효성 검사 
+		String id = theraInfo.getId();
+		String pw = theraInfo.getPassword();
+		String name = theraInfo.getName();
+		String email = theraInfo.getEmail();
+		String phone = theraInfo.getPhone();
+		String address =theraInfo.getAddress();
+		if(id.length()==0 || pw.length()==0 || name.length()==0 || email.length()==0 
+				|| phone.length()==0 || address.length()==0 ) {
+			return "fail";
+		}
+		else if(userInfoService.checkId(id).equals("fail")) {
+			return "fail";
+		}else if(userInfoService.checkEmail(email).equals("fail")) {
+			return "fail";
+			}
 		userInfoService.theraJoin(profile, theraInfo);
 		return "success";
 	}
