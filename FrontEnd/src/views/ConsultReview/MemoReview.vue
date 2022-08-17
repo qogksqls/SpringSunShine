@@ -19,18 +19,16 @@
         <div class="col-md-5 memoReview mb-2 p-2">
           <h3><b>메모장</b></h3>
           <hr />
-          <div class="memodata" v-for="(memo, i) in memolist" :key="i">
+          <div class="memodata">
             <div style="display: flex; justify-content: space-between;">
-              <h3>xx 아동의 o월0일 00시 진료 기록</h3>
-              <button @click="deleteMemo(i)">[x]</button>
+              <p>{{datas.memo}}</p>
             </div>
-            <hr style="margin: 10px" />
-            <p v-html="getMemo(memo)"></p>
           </div>
         </div>
         <div class="col-md-5 CounWrite mb-2 p-2">
           <h3><b>상담일지작성하기</b></h3>
           <textarea
+            v-model = record
             class="form-control"
             id="exampleFormControlTextarea1"
             rows="7"
@@ -40,9 +38,9 @@
 
         <!--버튼-->
         <div class="col-sm-12 row justify-content-center mt-lg-5">
-          <base-button class="col-md-2 mt-2">취소</base-button>
-          <base-button class="col-md-2 mt-2">수정하기</base-button>
-          <base-button class="col-md-2 mt-2">완료</base-button>
+          <base-button @click="this.$router.push('/')" class="col-md-2 mt-2">취소</base-button>
+          <!-- <base-button class="col-md-2 mt-2">수정하기</base-button> -->
+          <base-button @click="saveRecord" class="col-md-2 mt-2">완료</base-button>
         </div>
       </card>
     </div>
@@ -51,17 +49,30 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import axios from 'axios'
 export default {
   data() {
-    return {};
+    return {
+      datas: this.$route.params,
+      record: null,
+    }
   },
   computed: {
     ...mapState({
       teacher: (state) => state.teacher.teacher,
     }),
   },
-  methods: {},
-};
+  methods: {
+    saveRecord () {
+      axios.put('https://i7a606.q.ssafy.io/service-api/consult/record', {
+        consultNo: this.datas.consultNo,
+        record: this.record
+      })
+      this.record = null
+      this.$router.push('/')
+    },
+  },
+}
 </script>
 
 <style scoped>

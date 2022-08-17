@@ -1,13 +1,13 @@
 <template>
   <div id="webCam">
-
+<!-- 
     <div id="join" v-if="!session">
 
 					<p class="text-center">
 						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
 					</p>
 
-		</div>
+		</div> -->
 
     <div class="container" v-if="session">
 
@@ -116,14 +116,20 @@ import SubVideoComp from './SubVideoComp.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-//const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_URL = "https://i7a606.q.ssafy.io:8443" ;
 
-//const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 const OPENVIDU_SERVER_SECRET = "A606";
 
 export default {
   name: 'CounselorView',
+  mounted () {
+    this.joinSession()
+  },
+  props: {
+    ids: Object,
+  },
   // watch: {
   //   widthOfVideo () {
   //     if (this.widthOfVideo) {
@@ -158,6 +164,8 @@ export default {
 
 			mute: false,
 			closecamera: false,
+
+      consultNo: null,
     };
   },
   // watch: {
@@ -191,17 +199,26 @@ export default {
     },
 
     // open vidu
-    
+    getRecordCount () {
+      axios.get(`https://i7a606.q.ssafy.io/service-api/consult/therapistcount/${this.ids.thera_Id}/${this.ids.child_Id}`)
+      .then(res => {
+        return res.data
+      })
+    },
+
     joinSession () {
-      let tempSessionId = ''
+      axios.post('https://i7a606.q.ssafy.io/service-api/consult/room', {
+        theraId: this.ids.thera_Id,
+        childId: this.ids.child_Id,
+        parentId: this.ids.parent_Id
+      })
+      .then(res => {
+        this.consultNo = res.data.consultNo
+      })
 
-      this.$store.state.teacher.teacher.name.split('').forEach(element => {
-          tempSessionId += element.charCodeAt(0).toString(16)
-        });
+      this.mySessionId = 'Session_' + this.ids.child_id
 
-      this.mySessionId = 'Session_' + tempSessionId
-
-      this.myUserName = tempSessionId
+      this.myUserName = this.ids.thera_id
 
 			this.OV = new OpenVidu();
 
@@ -275,7 +292,10 @@ export default {
 		},
 
 		leaveSession () {
-
+      axios.put('https://i7a606.q.ssafy.io/service-api/consult/memo', {
+        consultNo: this.consultNo,
+        memo: this.$store.state.memos.list.toString()
+      })
 			if (this.session) this.session.disconnect();
 
 			this.session = undefined;
@@ -285,6 +305,13 @@ export default {
 			this.OV = undefined;
 
 			window.removeEventListener('beforeunload', this.leaveSession);
+      this.$router.push({name : 'childReserveShowCounselor', params :{
+        reservTime:(datetime),
+        childId:(String),
+        childName:(String),
+        parentName:(String),
+        }
+      })
 		},
 
 		updateMainVideoStreamManager (stream) {

@@ -57,8 +57,8 @@
               >
                 <img
                   id="cardImg"
-                  :src="require(`@/assets/${card[1]}.jpg`)"
-                  alt="Raised image"
+                  :src='card[1]'
+                  alt="nothing"
                   class="img-fluid rounded shadow-lg"
                 />
               </div>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   components: {},
 
@@ -92,6 +93,7 @@ export default {
       timeStart: 0,
       timeEnd: 0,
       timeSequence: [],
+      totalTime: null,
     };
   },
   methods: {
@@ -103,24 +105,28 @@ export default {
     },
 
     createCards() {
+      if (this.gameCount == 0) {
+        this.timeSequence = []
+      }
       this.gameSet = true;
+
       console.log(`올바른 카드를 고르세요`);
-      this.$store.commit("sampleCards");
-      this.solution = this.$store.state.cardGame.solutionCard[0];
-      console.log(this.solution);
+      this.$store.commit("sampleCards")
       setTimeout(() => {
+        this.solution = this.$store.state.cardGame.solutionCard[0];
+        console.log(`solution : ${this.solution}`);
         this.selectedCards = this.$store.state.cardGame.selectedCards;
+        this.dialog0 = true;
       }, 1000);
 
       this.timeStart = this.getTimeNow();
       console.log(this.timeStart);
-      this.dialog0 = true;
     },
     reserve1(index) {
       this.loading[index] = true;
 
       console.log(this.selectedCards[index][0]);
-      console.log(this.solution);
+      console.log(`solution : ${this.solution}`);
 
       if (this.solution === this.selectedCards[index][0]) {
         this.timeEnd = this.getTimeNow();
@@ -140,12 +146,41 @@ export default {
         this.dialog1 = "false";
 
         if (this.gameCount === 10) {
+          let totalTimeMilSec = this.timeSequence.reduce((a,b) => a + b, 0)
+          if (totalTimeMilSec >= 3600000) {
+            let hour = parseInt(totalTimeMilSec / 3600000)
+            if (hour < 10) {
+              hour = '0' + hour
+            }
+
+            let min = parsInt((totalTimeMilSec % 3600000) / 60000)
+            if (min < 10) {
+              min = '0' + min
+            }
+
+            let sec = parsInt(totalTimeMilSec % 60000)
+            if (sec < 10) {
+              sec = '0' + sec
+            }
+            
+            this.totalTime = `${hour}:${min}:${sec}`
+          } 
+          console.log(this.totalTime);
           console.log(this.successCount);
+          let now = new Date()
+
+          axios.post('https://i7a606.q.ssafy.io/service-api/play/result', {
+            score: this.successCount,
+            totalTime: this.totalTime,
+            childId: 'childId',
+            createTime: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate}`
+          })
           this.gameSet = false;
           this.gameCountPerGame = 0;
           this.successCount = 0;
           this.gameCount = 0;
           this.timeSequence = [];
+          
         } else {
           this.gameSet = true;
           this.gameCountPerGame = 0;
@@ -168,7 +203,6 @@ export default {
   watch: {
     dialog0(val) {
       if (!val) return;
-
       setTimeout(() => (this.dialog0 = false), 1000);
     },
 
@@ -183,6 +217,7 @@ export default {
 
 <style scoped>
 .card-profile {
+  position: relative;
   height: 70vh;
 }
 .start_btn {
@@ -211,6 +246,11 @@ export default {
   font-size: 5rem;
 }
 .card_name {
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  left: 40%;
+  bottom: 45%;
   height: 40vh;
   margin: 20px 0;
   font-size: 7rem;

@@ -59,7 +59,7 @@
               >
                 <img
                   id="cardImg"
-                  :src="require(`@/assets/${card[1]}.jpg`)"
+                  :src='card[1]'
                   alt="Raised image"
                   class="img-fluid rounded shadow-lg"
                 />
@@ -111,16 +111,16 @@ export default {
       this.gameSet = true;
 
       console.log(`올바른 카드를 고르세요`);
-      this.$store.commit("sampleCards");
-      this.solution = this.$store.state.cardGame.solutionCard[0];
-      console.log(this.solution);
+      this.$store.commit("sampleCards")
       setTimeout(() => {
+        this.solution = this.$store.state.cardGame.solutionCard[0];
+        console.log(`solution : ${this.solution}`);
         this.selectedCards = this.$store.state.cardGame.selectedCards;
+        this.dialog0 = true;
       }, 1000);
 
       this.timeStart = this.getTimeNow();
       console.log(this.timeStart);
-      this.dialog0 = true;
     },
     reserve1(index) {
       this.loading[index] = true;
@@ -148,6 +148,12 @@ export default {
         if (this.gameCount === 3) {
           //this.$store.state.cardGame.playingNow = false
           console.log(this.successCount);
+          axios.post('https://i7a606.q.ssafy.io/service-api/play/result', {
+            score: this.successCount,
+            totalTime: totalTime,
+            childId: 'childId',
+            createTime: new Date(),
+          })
           this.gameSet = false;
           this.gameCountPerGame = 0;
           this.successCount = 0;
