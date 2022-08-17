@@ -63,7 +63,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 			return e.getLocalizedMessage();
 		}
 		
-		
+		try {
+			
 		String userId = webClient.post().uri("/user/therapist")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 		        .accept(MediaType.APPLICATION_JSON)
@@ -76,8 +77,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 			bextList.add(bext);
 		}
 		bexpertiseRep.saveAll(bextList);
+		}catch(Exception e){
+			return e.getLocalizedMessage();
+		}
 		
-		return userId;
+		return "asdfa";
 	}
 
 	/** 부모 회원가입 */
