@@ -28,6 +28,10 @@
         </div>
         <!--학생 얼굴 들어갈 자리 end-->
 
+        <div id="cardGameDiv" v-if="playingNow">
+          <cards-comp></cards-comp>
+        </div>
+
         <div
           class="col-md-12 row RtcFunction justify-content-center mt-5 p-0 align-self-center"
         >
@@ -73,10 +77,6 @@
               @click="leaveSession"
             ></i>
           </base-button>
-        </div>
-
-        <div id="cardGameDiv" v-if="playingNow">
-          <cards-comp></cards-comp>
         </div>
       </div>
     </div>
@@ -425,7 +425,6 @@ button {
 }
 
 #cardGameDiv {
-  position: absolute;
   width: 100%;
   height: 80%;
   bottom: 40%;

@@ -4,11 +4,11 @@
       <!-- <img src="img/theme/mainbg.jpg" class="bg" alt="" /> -->
       <div class="shape shape-style-1 shape-primary"></div>
       <div class="container">
-        <div id="title" class="col align-items-center">
-          <p id="titleMsg" class="mt-md-5">
-            <!--  <b>☀봄날의햇살☀</b> -->
-          </p>
-          <div id="titleImg" class="col-md-4">
+        <div id="title" class="align-items-center">
+          <!--  <p id="titleMsg" class="mt-md-5">
+              <b>☀봄날의햇살☀</b>
+          </p> -->
+          <div id="titleImg" class="col-md-4 titleImg">
             <img src="/img/main/cloud.png" alt="봄날의햇살" />
             <p id="sun" class="col-md-5">
               <img src="/img/main/sun.png" alt="" />
@@ -84,15 +84,15 @@ export default {};
     margin-top: 5px;
   }
 } */
-#titleImg {
-  margin: 50px 0;
+.titleImg {
+  margin: 10px 0;
   position: absolute;
 }
-#titleImg > img {
+.titleImg > img {
   width: 100%;
   transition: all 0.2s linear;
 }
-#titleImg > img:hover {
+.titleImg > img:hover {
   transform: scale(1.05);
 }
 .btn {
@@ -100,7 +100,7 @@ export default {};
   height: 50px;
 }
 
-@media (max-width: 427px) {
+@media (max-width: 766px) {
   .section-hero {
     height: 100vh;
     width: 100vw;
@@ -114,7 +114,7 @@ export default {};
   #title {
     padding: 0;
   }
-  #titleImg {
+  .titleImg {
     margin: 0;
   }
   #sun > img {
@@ -130,9 +130,14 @@ export default {};
     text-align-last: center;
   }
 }
-@media (min-width: 428px) and (max-width: 1024px) {
-  #titleImg {
-    margin: 50px 0;
+@media (min-width: 767px) and (max-width: 1024px) {
+  .titleImg {
+    margin: 40px 0;
+    width: 300px;
+  }
+
+  #sun {
+    text-align: end;
   }
   .section-hero {
     height: 100vh;
@@ -148,7 +153,11 @@ export default {};
     font-size: 0.9rem;
   }
 }
-@media screen and (min-width: 1025px) {
+@media (min-width: 1025px) {
+  .container {
+    margin: 0 auto;
+  }
+
   .section-hero {
     height: 100vh;
     width: 100vw;
@@ -159,11 +168,13 @@ export default {};
     position: absolute;
     background-size: cover;
   }
-  #title {
-    margin-top: 100px;
-  }
   #titleSub {
     padding: 0 48px;
+  }
+}
+@media (min-heigth: 576px) {
+  .titleImg > img {
+    width: 85%;
   }
 }
 </style>
