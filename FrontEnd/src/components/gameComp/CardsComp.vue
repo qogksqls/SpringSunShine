@@ -104,6 +104,9 @@ export default {
     },
 
     createCards() {
+      if (this.gameCount == 0) {
+        this.timeSequence = []
+      }
       this.gameSet = true;
 
       console.log(`올바른 카드를 고르세요`);
@@ -142,7 +145,7 @@ export default {
         this.dialog1 = "false";
 
         if (this.gameCount === 10) {
-          let totalTime = timeSequence.reduce((a,b) => a + b, 0)
+          let totalTime = this.timeSequence.reduce((a,b) => a + b, 0)
 
           console.log(this.successCount);
           axios.post('https://i7a606.q.ssafy.io/service-api/play/result', {
@@ -223,7 +226,7 @@ export default {
 .card_name {
   height: 40vh;
   margin: 20px 0;
-  font-size: 7rem;
+  font-size: 3em;
 }
 #cardsDiv {
   margin-top: 5%;
